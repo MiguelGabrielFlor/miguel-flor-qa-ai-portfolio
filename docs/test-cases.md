@@ -1,85 +1,112 @@
 # Test Cases
 
-## TC-001 — Validación de campos obligatorios
+## Project
 
-### Objective
+Miguel Flor — QA & AI Portfolio
 
-Verificar que el sistema no permita
-enviar el formulario vacío.
+---
+
+# TC-001 — Empty Registration Form
+
+### Requirement
+
+FR-002
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
 
 ### Preconditions
 
 El usuario se encuentra en la pantalla
-de acceso.
+de registro.
 
 ### Steps
 
-1. Abrir el portfolio.
+1. Abrir la aplicación.
 2. No completar ningún campo.
 3. Presionar "Ingresar al portfolio".
 
 ### Expected Result
 
-El sistema debe mostrar mensajes
-de validación para todos los campos
-obligatorios.
+El sistema debe mostrar mensajes de
+validación para todos los campos obligatorios.
 
-### Actual Result
-
-Los mensajes de validación son mostrados.
-
-### Status
+### Expected Status
 
 PASS
 
 ---
 
-## TC-002 — Acceso exitoso al portfolio
+# TC-002 — Successful Registration
 
-### Objective
+### Requirement
 
-Verificar que un usuario pueda acceder al
-portfolio ingresando datos válidos.
+FR-001
+FR-005
+
+### Priority
+
+High
+
+### Type
+
+Positive Testing
 
 ### Preconditions
 
 El usuario se encuentra en la pantalla
-de acceso.
+de registro.
 
 ### Test Data
 
-- Nombre: Miguel
-- Apellido: Flor
-- Email: email válido
-- Teléfono: 123456789
-- Consentimiento: aceptado
+Nombre: Miguel
+
+Apellido: Flor
+
+Email: valid@example.com
+
+Teléfono: 1123456789
+
+Consentimiento: Accepted
 
 ### Steps
 
-1. Ingresar nombre válido.
-2. Ingresar apellido válido.
-3. Ingresar email válido.
-4. Ingresar teléfono válido.
+1. Ingresar nombre.
+2. Ingresar apellido.
+3. Ingresar email.
+4. Ingresar teléfono.
 5. Aceptar consentimiento.
 6. Presionar "Ingresar al portfolio".
 
 ### Expected Result
 
-El formulario desaparece y se muestra
-el Home del portfolio.
+El sistema debe permitir acceder al
+portfolio y mostrar el Home.
 
-### Status
+### Expected Status
 
 PASS
 
-
 ---
 
-## TC-003 — Nombre obligatorio
+# TC-003 — Required First Name
 
-### Objective
+### Requirement
 
-Verificar que el nombre sea obligatorio.
+FR-002
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
 
 ### Steps
 
@@ -90,23 +117,29 @@ Verificar que el nombre sea obligatorio.
 
 ### Expected Result
 
-Se muestra:
+Debe mostrarse:
 
 "El nombre es obligatorio."
 
-### Status
+### Expected Status
 
 PASS
 
-
 ---
 
-## TC-004 — Validación de email
+# TC-004 — Invalid Email
 
-### Objective
+### Requirement
 
-Verificar que el sistema rechace
-un email inválido.
+FR-003
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
 
 ### Test Data
 
@@ -114,86 +147,291 @@ Email:
 
 miguel@
 
+### Steps
+
+1. Ingresar un email inválido.
+2. Completar los demás campos.
+3. Aceptar consentimiento.
+4. Presionar el botón.
+
 ### Expected Result
 
-Se muestra:
+Debe mostrarse:
 
 "Ingresá un email válido."
 
-### Status
+### Expected Status
 
 PASS
 
-
 ---
 
-## TC-005 — Consentimiento obligatorio
+# TC-005 — Consent Required
 
-### Objective
+### Requirement
 
-Verificar que el usuario no pueda
-acceder sin aceptar el consentimiento.
+FR-004
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
 
 ### Steps
 
 1. Completar todos los campos correctamente.
-2. No seleccionar consentimiento.
+2. No aceptar consentimiento.
 3. Presionar el botón.
 
 ### Expected Result
 
-Se muestra:
+El sistema debe impedir el acceso.
+
+Debe mostrar:
 
 "Debés aceptar el registro de tus datos."
 
-### Status
+### Expected Status
 
 PASS
-
 
 ---
 
-## TC-006 — Navegación a Sobre mí
+# TC-006 — Navigate to About
 
-### Objective
+### Requirement
 
-Verificar que el menú permita navegar
-a la sección Sobre mí.
+FR-006
+
+### Priority
+
+Medium
+
+### Type
+
+Functional Testing
+
+### Preconditions
+
+El usuario accedió al portfolio.
 
 ### Steps
 
-1. Acceder al portfolio.
-2. Presionar "Sobre mí".
+1. Presionar "Sobre mí".
 
 ### Expected Result
 
-La página se desplaza hasta la sección
-"Sobre mí".
+La página debe desplazarse hasta
+la sección "Sobre mí".
 
-### Status
+### Expected Status
 
 PASS
-
 
 ---
 
-## TC-007 — Navegación a QA
+# TC-007 — Navigate to QA
 
-### Objective
+### Requirement
 
-Verificar que el menú permita acceder
-a la sección QA.
+FR-006
+
+### Priority
+
+High
+
+### Type
+
+Functional Testing
+
+### Preconditions
+
+El usuario accedió al portfolio.
 
 ### Steps
 
-1. Acceder al portfolio.
-2. Presionar "QA".
+1. Presionar "QA".
 
 ### Expected Result
 
-La página se desplaza hasta la sección
-"QA Testing".
+La página debe desplazarse hasta
+la sección "QA Testing".
 
-### Status
+### Expected Status
 
 PASS
+
+---
+
+# TC-008 — Mobile Responsive
+
+### Requirement
+
+FR-007
+
+### Priority
+
+High
+
+### Type
+
+Responsive Testing
+
+### Steps
+
+1. Abrir Chrome DevTools.
+2. Activar Device Toolbar.
+3. Seleccionar un dispositivo móvil.
+4. Abrir la aplicación.
+5. Navegar por las diferentes secciones.
+
+### Expected Result
+
+La aplicación debe adaptarse correctamente
+al tamaño de pantalla.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-009 — UI Readability
+
+### Requirement
+
+NFR-001
+
+### Priority
+
+Medium
+
+### Type
+
+UI Testing
+
+### Steps
+
+1. Abrir la aplicación.
+2. Revisar títulos.
+3. Revisar botones.
+4. Revisar formularios.
+5. Revisar navegación.
+
+### Expected Result
+
+Los elementos deben ser claramente visibles
+y comprensibles.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-010 — User Interaction Response
+
+### Requirement
+
+NFR-002
+
+### Priority
+
+Medium
+
+### Type
+
+Functional Testing
+
+### Steps
+
+1. Completar el formulario.
+2. Presionar el botón.
+3. Observar la respuesta.
+
+### Expected Result
+
+La interfaz debe responder correctamente
+a la acción del usuario.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-011 — Browser Compatibility
+
+### Requirement
+
+NFR-003
+
+### Priority
+
+Medium
+
+### Type
+
+Compatibility Testing
+
+### Browsers
+
+- Chrome
+- Firefox
+- Edge
+
+### Expected Result
+
+La aplicación debe permitir utilizar
+las funcionalidades principales.
+
+### Expected Status
+
+NOT EXECUTED
+
+---
+
+# TC-012 — Invalid Phone
+
+### Requirement
+
+FR-008
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
+
+### Test Data
+
+Phone:
+
+abc
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Ingresar "abc" como teléfono.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe rechazar el teléfono
+y mostrar un mensaje de validación.
+
+### Expected Status
+
+FAIL
+
+### Related Bug
+
+BUG-001

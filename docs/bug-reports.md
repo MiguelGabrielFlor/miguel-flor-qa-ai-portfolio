@@ -1,43 +1,96 @@
 # Bug Reports
 
-## BUG-001 — El campo teléfono acepta caracteres no numéricos
-
-### Severity
-Medium
-
-### Priority
-High
-
-### Environment
-
-- Browser: Google Chrome
-- OS: Windows
-- Version: Portfolio v0.1
-
-### Preconditions
-
-El usuario se encuentra en la pantalla
-de acceso al portfolio.
-
-### Steps to reproduce
-
-1. Ingresar nombre válido.
-2. Ingresar apellido válido.
-3. Ingresar email válido.
-4. Ingresar `abc` en el campo teléfono.
-5. Aceptar el registro.
-6. Presionar "Ingresar al portfolio".
-
-### Expected Result
-
-El sistema debe rechazar el teléfono
-y mostrar un mensaje indicando que
-debe ingresar un número válido.
-
-### Actual Result
-
-El sistema permite continuar.
+## BUG-001 — Phone field accepts alphabetic characters
 
 ### Status
 
 OPEN
+
+### Severity
+
+Medium
+
+### Priority
+
+High
+
+### Requirement
+
+FR-008
+
+### Test Case
+
+TC-012
+
+---
+
+### Environment
+
+Operating System:
+
+Windows
+
+Browser:
+
+Google Chrome
+
+Application:
+
+Miguel Flor QA & AI Portfolio
+
+Version:
+
+1.0
+
+---
+
+### Preconditions
+
+El usuario se encuentra en la pantalla
+de registro.
+
+---
+
+### Steps to Reproduce
+
+1. Abrir la aplicación.
+2. Ingresar un nombre válido.
+3. Ingresar un apellido válido.
+4. Ingresar un email válido.
+5. Ingresar `abc` en el campo teléfono.
+6. Aceptar consentimiento.
+7. Presionar "Ingresar al portfolio".
+
+---
+
+### Expected Result
+
+El sistema debe rechazar el valor
+introducido en el campo teléfono.
+
+Debe mostrarse un mensaje de validación.
+
+---
+
+### Actual Result
+
+El sistema permite continuar con
+el valor `abc`.
+
+---
+
+### Evidence
+
+Pendiente de agregar screenshot.
+
+---
+
+### Related Requirement
+
+FR-008
+
+---
+
+### Related Test Case
+
+TC-012
