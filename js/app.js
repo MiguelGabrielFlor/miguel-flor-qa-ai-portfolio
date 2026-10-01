@@ -1,9 +1,18 @@
 const form = document.getElementById("accessForm");
 
+const accessPage = document.getElementById("accessPage");
+
+const portfolio = document.getElementById("portfolio");
+
+
 const firstName = document.getElementById("firstName");
+
 const lastName = document.getElementById("lastName");
+
 const email = document.getElementById("email");
+
 const phone = document.getElementById("phone");
+
 const consent = document.getElementById("consent");
 
 
@@ -15,6 +24,12 @@ form.addEventListener("submit", function (event) {
 
     let isValid = true;
 
+
+    /*
+    ============================================
+    FIRST NAME
+    ============================================
+    */
 
     if (firstName.value.trim() === "") {
 
@@ -28,6 +43,12 @@ form.addEventListener("submit", function (event) {
     }
 
 
+    /*
+    ============================================
+    LAST NAME
+    ============================================
+    */
+
     if (lastName.value.trim() === "") {
 
         showError(
@@ -39,6 +60,12 @@ form.addEventListener("submit", function (event) {
         isValid = false;
     }
 
+
+    /*
+    ============================================
+    EMAIL
+    ============================================
+    */
 
     if (email.value.trim() === "") {
 
@@ -62,6 +89,12 @@ form.addEventListener("submit", function (event) {
     }
 
 
+    /*
+    ============================================
+    PHONE
+    ============================================
+    */
+
     if (phone.value.trim() === "") {
 
         showError(
@@ -74,29 +107,64 @@ form.addEventListener("submit", function (event) {
     }
 
 
+    /*
+    ============================================
+    CONSENT
+    ============================================
+    */
+
     if (!consent.checked) {
 
-        document.getElementById("consentError").textContent =
+        document.getElementById(
+            "consentError"
+        ).textContent =
             "Debés aceptar el registro de tus datos.";
 
         isValid = false;
     }
 
 
+    /*
+    ============================================
+    ACCESS
+    ============================================
+    */
+
     if (isValid) {
 
-        alert("Validación exitosa. Próximamente accederás al portfolio.");
+        showPortfolio();
 
     }
 
 });
 
 
-function showError(input, errorId, message) {
+function showPortfolio() {
+
+    accessPage.classList.add("hidden");
+
+    portfolio.classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+function showError(
+    input,
+    errorId,
+    message
+) {
 
     input.classList.add("input-error");
 
-    document.getElementById(errorId).textContent = message;
+    document.getElementById(
+        errorId
+    ).textContent = message;
+
 }
 
 
@@ -128,4 +196,5 @@ function isValidEmail(email) {
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return emailRegex.test(email);
+
 }
