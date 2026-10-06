@@ -30,16 +30,27 @@ form.addEventListener("submit", function (event) {
     FIRST NAME
     ============================================
     */
+    function isValidName(value) {
+        const name = value.trim();
 
+        if (name.length < 2 || name.length > 50) {
+            return false;
+        }
+
+        const nameRegex = /^[\p{L}\s'-]+$/u;
+
+        return nameRegex.test(name);
+    }
     if (firstName.value.trim() === "") {
-
-        showError(
-            firstName,
-            "firstNameError",
-            "El nombre es obligatorio."
-        );
-
-        isValid = false;
+    showError(firstName, "firstNameError", "El nombre es obligatorio.");
+    isValid = false;
+    } else if (!isValidName(firstName.value)) {
+    showError(
+        firstName,
+        "firstNameError",
+        "Ingresá un nombre válido."
+    );
+    isValid = false;
     }
 
 
@@ -50,23 +61,26 @@ form.addEventListener("submit", function (event) {
     */
 
     if (lastName.value.trim() === "") {
-
-        showError(
-            lastName,
-            "lastNameError",
-            "El apellido es obligatorio."
-        );
-
-        isValid = false;
+    showError(lastName, "lastNameError", "El apellido es obligatorio.");
+    isValid = false;
+    } else if (!isValidName(lastName.value)) {
+    showError(
+        lastName,
+        "lastNameError",
+        "Ingresá un apellido válido."
+    );
+    isValid = false;
     }
-
 
     /*
     ============================================
     EMAIL
     ============================================
     */
-
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email.trim());
+    }
     if (email.value.trim() === "") {
 
         showError(
@@ -94,7 +108,18 @@ form.addEventListener("submit", function (event) {
     PHONE
     ============================================
     */
+    function isValidPhone(phone) {
+        const value = phone.trim();
 
+        const allowedCharacters = /^\+?[0-9\s()-]+$/;
+        const digits = value.replace(/\D/g, "");
+
+        return (
+            allowedCharacters.test(value) &&
+            digits.length >= 7 &&
+            digits.length <= 15
+        );
+    }
     if (phone.value.trim() === "") {
 
         showError(
