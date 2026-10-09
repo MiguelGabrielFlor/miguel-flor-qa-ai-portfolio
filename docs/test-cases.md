@@ -430,8 +430,237 @@ y mostrar un mensaje de validación.
 
 ### Expected Status
 
-FAIL
+PASS
 
 ### Related Bug
 
 BUG-001
+
+
+---
+
+# TC-013 — Empty Phone
+
+### Requirement
+
+FR-008
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
+
+### Test Data
+
+Phone: (empty)
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Dejar el teléfono vacío.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe rechazar el registro y mostrar
+el mensaje de teléfono obligatorio.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-014 — Phone with Mixed Letters and Numbers
+
+### Requirement
+
+FR-008
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
+
+### Test Data
+
+Phone: `jdhfadg246`
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Ingresar `jdhfadg246` como teléfono.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe rechazar el teléfono y mostrar
+un mensaje de validación.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-015 — Phone Below Minimum Length
+
+### Requirement
+
+FR-008
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
+
+### Test Data
+
+Phone: `123456`
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Ingresar `123456` como teléfono.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe rechazar el teléfono porque
+contiene menos de 7 dígitos.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-016 — Phone at Minimum Length
+
+### Requirement
+
+FR-008
+
+### Priority
+
+Medium
+
+### Type
+
+Positive Testing
+
+### Test Data
+
+Phone: `1234567`
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Ingresar `1234567` como teléfono.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe aceptar el teléfono y permitir
+continuar si los demás campos son válidos.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-017 — Phone with Prefix and Separators
+
+### Requirement
+
+FR-008
+
+### Priority
+
+Medium
+
+### Type
+
+Positive Testing
+
+### Test Data
+
+Phone: `+54 9 2996299558`
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Ingresar `+54 9 2996299558` como teléfono.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe aceptar el teléfono con prefijo
+internacional y espacios si los demás campos son válidos.
+
+### Expected Status
+
+PASS
+
+---
+
+# TC-018 — Phone Above Maximum Length
+
+### Requirement
+
+FR-008
+
+### Priority
+
+High
+
+### Type
+
+Negative Testing
+
+### Test Data
+
+Phone: `1234567890123456`
+
+### Steps
+
+1. Ingresar nombre válido.
+2. Ingresar apellido válido.
+3. Ingresar email válido.
+4. Ingresar `1234567890123456` como teléfono.
+5. Aceptar consentimiento.
+6. Presionar el botón.
+
+### Expected Result
+
+El sistema debe rechazar el teléfono porque
+contiene más de 15 dígitos.
+
+### Expected Status
+
+PASS
