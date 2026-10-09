@@ -4,7 +4,7 @@
 
 ### Status
 
-OPEN
+CLOSED
 
 ### Severity
 
@@ -74,14 +74,17 @@ Debe mostrarse un mensaje de validación.
 
 ### Actual Result
 
-El sistema permite continuar con
-el valor `abc`.
-
+La prueba de regresión confirmó que el sistema
+rechaza el teléfono `abc` y muestra el mensaje
+de validación correspondiente. El acceso queda
+bloqueado cuando se ingresa ese valor.
 ---
 
 ### Evidence
 
-Pendiente de agregar screenshot.
+![TC-012 - Teléfono inválido](evidence/bug-001/TC-012-telefono-invalido.jpg)
+
+![TC-012 - Teléfono válido](evidence/bug-001/TC-012-telefono-valido.jpg)
 
 ---
 
