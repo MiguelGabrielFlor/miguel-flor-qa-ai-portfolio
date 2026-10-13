@@ -78,8 +78,15 @@ form.addEventListener("submit", function (event) {
     ============================================
     */
     function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
-        return emailRegex.test(email.trim());
+        const value = email.trim();
+
+        const emailRegex =
+            /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;
+
+        return (
+            value.length <= 254 &&
+            emailRegex.test(value)
+        );
     }
     if (email.value.trim() === "") {
 
@@ -120,14 +127,21 @@ form.addEventListener("submit", function (event) {
             digits.length <= 15
         );
     }
-    if (phone.value.trim() === "") {
 
+
+    if (phone.value.trim() === "") {
         showError(
             phone,
             "phoneError",
             "El teléfono es obligatorio."
         );
-
+        isValid = false;
+    } else if (!isValidPhone(phone.value)) {
+        showError(
+            phone,
+            "phoneError",
+            "Ingresá un teléfono válido."
+        );
         isValid = false;
     }
 
@@ -211,15 +225,5 @@ function clearErrors() {
             input.classList.remove("input-error");
 
         });
-
-}
-
-
-function isValidEmail(email) {
-
-    const emailRegex =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    return emailRegex.test(email);
 
 }

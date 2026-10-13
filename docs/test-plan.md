@@ -50,6 +50,33 @@ En esta versión no se probarán:
 Estas funcionalidades serán incorporadas
 en futuras versiones.
 
+## Sprint 2 — Backend, API y persistencia
+
+### In Scope
+
+* API de estado: `GET /api/health`.
+* Registro de visitantes: `POST /api/visitors`.
+* Validación de nombre, apellido, email, teléfono y consentimiento.
+* Persistencia y recuperación de registros mediante SQLite.
+* Pruebas automatizadas con Node.js Test Runner.
+* Pruebas manuales de API con Postman.
+* Verificación de respuestas HTTP y rechazo de datos inválidos.
+
+### Test Environment
+
+* Runtime: Node.js.
+* Backend: Express.
+* Base de datos: SQLite.
+* API testing: Postman.
+* Automated testing: Node.js Test Runner.
+
+### Exit Criteria
+
+* Las pruebas automatizadas se ejecutan sin fallos.
+* Las pruebas manuales documentadas tienen resultados registrados.
+* La persistencia de los registros válidos queda verificada.
+* Los resultados se documentan en `docs/test-cases.md` y `docs/test-report.md`.
+
 ---
 
 # 3. Testing Types

@@ -1,0 +1,149 @@
+
+{
+  "info": {
+    "_postman_id": "a76d9c42-5b81-4d2f-9d1b-1f30e6b54a21",
+    "name": "Miguel Flor - Portfolio API",
+    "description": "Colección de pruebas manuales de la API del portfolio QA & AI. Los resultados PASS están documentados en docs/test-cases.md y docs/test-report.md. Las solicitudes no se ejecutan automáticamente al importar la colección.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "API-TC-001 - Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Prueba manual previamente aprobada: la API responde HTTP 200 y status ok."
+      },
+      "response": []
+    },
+    {
+      "name": "API-TC-002 - Registro válido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Miguel\",\n  \"apellido\": \"Prueba QA\",\n  \"email\": \"miguel.postman@example.com\",\n  \"telefono\": \"1234567\",\n  \"consentimiento\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/visitors",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "visitors"]
+        },
+        "description": "Prueba manual previamente aprobada: devuelve HTTP 201 y el visitante creado. Volver a enviar esta solicitud creará otro registro de prueba."
+      },
+      "response": []
+    },
+    {
+      "name": "API-TC-003 - Correo inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Miguel\",\n  \"apellido\": \"Prueba QA\",\n  \"email\": \"correo-invalido\",\n  \"telefono\": \"1234567\",\n  \"consentimiento\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/visitors",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "visitors"]
+        },
+        "description": "Prueba manual previamente aprobada: devuelve HTTP 400 y rechaza el correo inválido."
+      },
+      "response": []
+    },
+    {
+      "name": "API-TC-004 - Teléfono inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Miguel\",\n  \"apellido\": \"Prueba QA\",\n  \"email\": \"miguel.postman@example.com\",\n  \"telefono\": \"123abc\",\n  \"consentimiento\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/visitors",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "visitors"]
+        },
+        "description": "Prueba manual previamente aprobada: devuelve HTTP 400 y rechaza el teléfono inválido."
+      },
+      "response": []
+    },
+    {
+      "name": "API-TC-005 - Consentimiento obligatorio",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Miguel\",\n  \"apellido\": \"Prueba QA\",\n  \"email\": \"miguel.postman@example.com\",\n  \"telefono\": \"1234567\",\n  \"consentimiento\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/visitors",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "visitors"]
+        },
+        "description": "Prueba manual previamente aprobada: devuelve HTTP 400 y rechaza el registro sin consentimiento."
+      },
+      "response": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "default"
+    }
+  ]
+}

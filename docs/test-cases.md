@@ -390,7 +390,7 @@ las funcionalidades principales.
 
 ### Expected Status
 
-NOT EXECUTED
+PASS
 
 ---
 
@@ -665,3 +665,75 @@ contiene más de 15 dígitos.
 ### Expected Status
 
 PASS
+
+
+---
+
+# Sprint 2 — API Testing
+
+## API-TC-001 — API Health Check
+
+**Type:** API Testing
+**Method:** GET
+**Endpoint:** `/api/health`
+**Expected Status:** 200 OK
+**Actual Result:** La API respondió con `status: ok`.
+**Status:** PASS
+
+---
+
+## API-TC-002 — Successful Visitor Registration
+
+**Type:** API Testing
+**Method:** POST
+**Endpoint:** `/api/visitors`
+**Test Data:** Visitante válido, con consentimiento aceptado.
+**Expected Status:** 201 Created
+**Actual Result:** Se creó el registro y la API devolvió el ID del visitante y su nombre.
+**Status:** PASS
+
+---
+
+## API-TC-003 — Invalid Email
+
+**Type:** Negative API Testing
+**Method:** POST
+**Endpoint:** `/api/visitors`
+**Test Data:** `correo-invalido`
+**Expected Status:** 400 Bad Request
+**Actual Result:** La API rechazó el correo e indicó que debe ingresarse una dirección válida.
+**Status:** PASS
+
+---
+
+## API-TC-004 — Invalid Phone
+
+**Type:** Negative API Testing
+**Method:** POST
+**Endpoint:** `/api/visitors`
+**Test Data:** `123abc`
+**Expected Status:** 400 Bad Request
+**Actual Result:** La API rechazó el teléfono inválido.
+**Status:** PASS
+
+---
+
+## API-TC-005 — Consent Required
+
+**Type:** Negative API Testing
+**Method:** POST
+**Endpoint:** `/api/visitors`
+**Test Data:** `consentimiento: false`
+**Expected Status:** 400 Bad Request
+**Actual Result:** La API rechazó el registro e indicó que el consentimiento es obligatorio.
+**Status:** PASS
+
+---
+
+## API-TC-006 — Visitor Data Persistence
+
+**Type:** Database Testing
+**Database:** SQLite
+**Expected Result:** Los registros válidos deben conservarse en la base de datos.
+**Actual Result:** Se consultaron dos registros persistidos, con IDs 1 y 2. Ambos tienen consentimiento aceptado.
+**Status:** PASS

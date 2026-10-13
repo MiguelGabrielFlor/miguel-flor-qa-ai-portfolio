@@ -140,18 +140,61 @@ manteniendo responsabilidades separadas.
 
 ---
 
+# API Requirements
+
+## API-001 — API Health Check
+
+La API debe proporcionar un endpoint `GET /api/health` que permita comprobar su disponibilidad.
+
+**Expected response:** HTTP `200 OK`, con el estado `ok`.
+
+---
+
+## API-002 — Visitor Registration Through API
+
+La API debe permitir registrar visitantes mediante `POST /api/visitors` cuando los datos sean válidos y el consentimiento haya sido aceptado.
+
+**Expected response:** HTTP `201 Created`, con información del visitante registrado.
+
+---
+
+## API-003 — API Email Validation
+
+La API debe rechazar los registros que contengan una dirección de email inválida.
+
+**Expected response:** HTTP `400 Bad Request`. El visitante no debe guardarse en la base de datos.
+
+---
+
+## API-004 — API Phone Validation
+
+La API debe rechazar los registros que contengan un teléfono inválido, de acuerdo con las reglas de validación definidas para el proyecto.
+
+**Expected response:** HTTP `400 Bad Request`. El visitante no debe guardarse en la base de datos.
+
+---
+
+## API-005 — Mandatory Consent
+
+La API debe rechazar los registros cuando el visitante no haya aceptado el consentimiento obligatorio.
+
+**Expected response:** HTTP `400 Bad Request`. El visitante no debe guardarse en la base de datos.
+
+---
+
+## API-006 — Visitor Data Persistence
+
+La API debe almacenar en SQLite los registros válidos de visitantes y permitir recuperar los datos persistidos.
+
+**Expected result:** los registros válidos permanecen almacenados y pueden consultarse en la base de datos.
+
 # 4. Future Requirements
 
-Las siguientes funcionalidades serán
-implementadas en futuras versiones:
+Las siguientes funcionalidades serán implementadas en futuras versiones:
 
-- Persistencia de visitantes.
-- Base de datos.
-- API.
-- API Testing.
-- Selenium Automation.
-- GitHub Actions.
-- AI Applications.
+* Selenium Automation.
+* GitHub Actions.
+* AI Applications.
 
 # 5. Requirement Traceability Matrix
 
@@ -167,6 +210,12 @@ implementadas en futuras versiones:
 | NFR-001 | Usabilidad | TC-009 |
 | NFR-002 | Performance | TC-010 |
 | NFR-003 | Compatibilidad | TC-011 |
+| API-001 | Estado de la API | API-TC-001 |
+| API-002 | Registro de visitantes mediante API | API-TC-002 |
+| API-003 | Validación de email en la API | API-TC-003 |
+| API-004 | Validación de teléfono en la API | API-TC-004 |
+| API-005 | Consentimiento obligatorio en la API | API-TC-005 |
+| API-006 | Persistencia de visitantes en SQLite | API-TC-006 |
 
 ---
 

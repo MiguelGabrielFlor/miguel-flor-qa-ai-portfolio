@@ -1,0 +1,25 @@
+{
+  "name": "miguel-flor-qa-ai-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio profesional desarrollado para demostrar\r conocimientos en QA Testing, automatización,\r programación e Inteligencia Artificial.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npm test --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio/issues"
+  },
+  "homepage": "https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio#readme"
+}
