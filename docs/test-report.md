@@ -164,3 +164,32 @@ La verificación confirma que los registros válidos se almacenan y pueden recup
 Las 11 pruebas automatizadas finalizaron con PASS y 0 fallos. Las cinco solicitudes manuales documentadas en Postman finalizaron con PASS. La persistencia y recuperación de visitantes mediante SQLite también quedaron verificadas con resultado PASS.
 
 Los resultados están documentados en `docs/test-cases.md`, `docs/test-plan.md` y `docs/test-report.md`.
+
+---
+
+# Sprint 2.3 — Integración frontend-backend
+
+## Objetivo
+
+Verificar la comunicación entre el formulario de registro del frontend y la API, incluyendo el tratamiento de errores de conexión.
+
+## Resultados
+
+| ID | Escenario | Resultado |
+|---|---|---|
+| INT-001 | Registro válido enviado desde el frontend a la API | PASS |
+| INT-002 | Acceso al portfolio después de un registro exitoso | PASS |
+| INT-003 | Error de conexión cuando la API no está disponible | PASS |
+| AUTO-001 | Suite automatizada del backend | 11 PASS, 0 FAIL |
+
+## Observaciones
+
+- El frontend envía los datos del visitante mediante `POST /api/visitors`.
+- El portfolio se muestra después de recibir una respuesta satisfactoria.
+- Si la API no está disponible, se muestra un mensaje de error y el portfolio permanece oculto.
+- La suite automatizada se ejecutó nuevamente y finalizó con 11 pruebas aprobadas y ninguna fallida.
+- Node.js mostró una advertencia informativa sobre la funcionalidad experimental de SQLite; no impidió la ejecución de las pruebas.
+
+## Conclusión
+
+La integración frontend-backend quedó implementada y sus escenarios manuales registrados finalizaron con PASS. La suite automatizada del backend también fue aprobada.
