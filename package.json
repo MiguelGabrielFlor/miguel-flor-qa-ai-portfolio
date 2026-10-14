@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio/issues"
   },
-  "homepage": "https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio#readme"
+  "homepage": "https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio#readme",
+  "devDependencies": {
+    "selenium-webdriver": "^4.51.0"
+  }
 }

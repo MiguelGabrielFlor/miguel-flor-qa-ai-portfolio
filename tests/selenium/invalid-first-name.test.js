@@ -1,0 +1,42 @@
+﻿const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const path = require('node:path');
+const { pathToFileURL } = require('node:url');
+const { Builder, By } = require('selenium-webdriver');
+
+test('UI-004: un nombre demasiado corto impide acceder al portfolio', async (t) => {
+    const driver = await new Builder()
+        .forBrowser('chrome')
+        .build();
+
+    t.after(async () => {
+        await driver.quit();
+    });
+
+    const indexPath = path.resolve(__dirname, '../../index.html');
+    await driver.get(pathToFileURL(indexPath).href);
+
+    await driver.findElement(By.id('firstName')).sendKeys('M');
+    await driver.findElement(By.id('lastName')).sendKeys('Flor');
+    await driver.findElement(By.id('email')).sendKeys('miguel@example.com');
+    await driver.findElement(By.id('phone')).sendKeys('1123456789');
+    await driver.findElement(By.id('consent')).click();
+
+    await driver.findElement(By.id('accessButton')).click();
+
+    const firstNameError = await driver.findElement(By.id('firstNameError'));
+
+    assert.equal(
+        await firstNameError.getText(),
+        'Ingresá un nombre válido.',
+        'Debe mostrarse el mensaje de nombre inválido'
+    );
+
+    const portfolio = await driver.findElement(By.id('portfolio'));
+
+    assert.equal(
+        await portfolio.isDisplayed(),
+        false,
+        'El portfolio debe permanecer oculto'
+    );
+});
