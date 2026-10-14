@@ -35,4 +35,13 @@ test('UI-008: un registro válido permite acceder al portfolio', async (t) => {
         false,
         'El formulario de acceso debería quedar oculto.'
     );
+    const welcomeMessage = await driver.findElement(
+        By.id('welcomeMessage')
+    );
+
+    assert.equal(
+        await welcomeMessage.getText(),
+        'Bienvenido MIGUEL',
+        'El saludo debe mostrar el nombre en mayúsculas.'
+    );
 });
