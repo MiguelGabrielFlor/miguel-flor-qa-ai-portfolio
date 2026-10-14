@@ -193,3 +193,30 @@ Verificar la comunicación entre el formulario de registro del frontend y la API
 ## Conclusión
 
 La integración frontend-backend quedó implementada y sus escenarios manuales registrados finalizaron con PASS. La suite automatizada del backend también fue aprobada.
+---
+
+# Verificación de regresión — Saludo personalizado multilingüe
+
+## Objetivo
+
+Verificar que, después de completar correctamente el formulario de acceso, el portfolio muestre un saludo personalizado en el idioma seleccionado y utilice únicamente el nombre ingresado.
+
+## Resultados
+
+| ID | Escenario | Resultado |
+|---|---|---|
+| UI-REG-001 | Registro válido y saludo personalizado en español | PASS |
+| UI-REG-002 | Registro válido y saludo personalizado en inglés | PASS |
+| UI-REG-003 | Registro válido y saludo personalizado en portugués | PASS |
+
+## Evidencia y observaciones
+
+- Se completó el formulario con datos válidos en los tres idiomas.
+- En los tres casos, el acceso al Home se realizó correctamente.
+- El saludo se mostró en el idioma correspondiente.
+- El nombre ingresado apareció en mayúsculas.
+- Durante la verificación visual, el saludo no mostró el apellido, el email ni el teléfono.
+
+## Conclusión
+
+La verificación manual del flujo feliz y del saludo personalizado multilingüe finalizó con **3 pruebas PASS y 0 FAIL**.
