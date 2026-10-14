@@ -1,10 +1,12 @@
 ﻿const express = require('express');
+const cors = require('cors');
 const defaultDb = require('../database/connection');
 const { validateVisitor } = require('./validators/visitor.validator');
 
 function createApp(db = defaultDb) {
     const app = express();
 
+    app.use(cors());
     app.use(express.json({ limit: '10kb' }));
 
     app.get('/api/health', (req, res) => {

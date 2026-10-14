@@ -4,7 +4,6 @@ const accessPage = document.getElementById("accessPage");
 
 const portfolio = document.getElementById("portfolio");
 
-
 const firstName = document.getElementById("firstName");
 
 const lastName = document.getElementById("lastName");
@@ -15,8 +14,12 @@ const phone = document.getElementById("phone");
 
 const consent = document.getElementById("consent");
 
+const accessButton = document.getElementById("accessButton");
 
-form.addEventListener("submit", function (event) {
+const serverError = document.getElementById("serverError");
+
+
+form.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
@@ -170,10 +173,42 @@ form.addEventListener("submit", function (event) {
     */
 
     if (isValid) {
+        serverError.textContent = "";
+        accessButton.disabled = true;
 
-        showPortfolio();
+        try {
+            const response = await fetch("http://localhost:3000/api/visitors", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nombre: firstName.value.trim(),
+                    apellido: lastName.value.trim(),
+                    email: email.value.trim(),
+                    telefono: phone.value.trim(),
+                    consentimiento: consent.checked
+                })
+            });
 
+            const result = await response.json();
+
+            if (!response.ok) {
+                serverError.textContent =
+                    result.message || "No se pudo completar el registro.";
+                return;
+            }
+
+            showPortfolio();
+
+        } catch (error) {
+            serverError.textContent =
+                "No se pudo conectar con el servidor. Verificá que la API esté iniciada e intentá nuevamente.";
+        } finally {
+            accessButton.disabled = false;
+        }
     }
+
 
 });
 
