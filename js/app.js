@@ -18,6 +18,134 @@ const accessButton = document.getElementById("accessButton");
 
 const serverError = document.getElementById("serverError");
 
+const languageSelect = document.getElementById("languageSelect");
+
+
+const translations = {
+    es: {
+        accessEyebrow: "PORTFOLIO PROFESIONAL",
+        accessWelcome: "Bienvenido",
+        accessIntro: "Para acceder a mi portfolio profesional, completá tus datos de contacto.",
+        formHelp: "Los campos marcados con * son obligatorios.",
+        firstNameLabel: "Nombre",
+        firstNamePlaceholder: "Ingresá tu nombre",
+        lastNameLabel: "Apellido",
+        lastNamePlaceholder: "Ingresá tu apellido",
+        emailLabel: "Email",
+        emailPlaceholder: "nombre@email.com",
+        emailHint: "Ejemplo: nombre@email.com",
+        phoneLabel: "Teléfono",
+        phonePlaceholder: "+54 9 11 1234 5678",
+        phoneHint: "Incluí el código de país si corresponde. Ejemplo: +54 9 11 1234 5678.",
+        consentLabel: "Acepto el registro de mis datos para acceder al portfolio.",
+        accessButton: "Ingresar al portfolio",
+        portfolioInDevelopment: "Portfolio en desarrollo",
+        greeting: "Bienvenido",
+        firstNameRequired: "El nombre es obligatorio.",
+        firstNameInvalid: "Ingresá un nombre válido.",
+        lastNameRequired: "El apellido es obligatorio.",
+        lastNameInvalid: "Ingresá un apellido válido.",
+        emailRequired: "El email es obligatorio.",
+        emailInvalid: "Ingresá un email válido.",
+        phoneRequired: "El teléfono es obligatorio.",
+        phoneInvalid: "Ingresá un teléfono válido.",
+        consentRequired: "Debés aceptar el registro de tus datos.",
+        registrationFailed: "No se pudo completar el registro.",
+        connectionError: "No se pudo conectar con el servidor. Verificá que la API esté iniciada e intentá nuevamente."
+    },
+
+    en: {
+        accessEyebrow: "PROFESSIONAL PORTFOLIO",
+        accessWelcome: "Welcome",
+        accessIntro: "To access my professional portfolio, please enter your contact details.",
+        formHelp: "Fields marked with * are required.",
+        firstNameLabel: "First name",
+        firstNamePlaceholder: "Enter your first name",
+        lastNameLabel: "Last name",
+        lastNamePlaceholder: "Enter your last name",
+        emailLabel: "Email",
+        emailPlaceholder: "name@email.com",
+        emailHint: "Example: name@email.com",
+        phoneLabel: "Phone",
+        phonePlaceholder: "+1 555 123 4567",
+        phoneHint: "Include the country code if applicable. Example: +1 555 123 4567.",
+        consentLabel: "I agree to the registration of my data to access the portfolio.",
+        accessButton: "Enter portfolio",
+        portfolioInDevelopment: "Portfolio under development",
+        greeting: "Welcome",
+        firstNameRequired: "First name is required.",
+        firstNameInvalid: "Enter a valid first name.",
+        lastNameRequired: "Last name is required.",
+        lastNameInvalid: "Enter a valid last name.",
+        emailRequired: "Email is required.",
+        emailInvalid: "Enter a valid email address.",
+        phoneRequired: "Phone number is required.",
+        phoneInvalid: "Enter a valid phone number.",
+        consentRequired: "You must agree to the registration of your data.",
+        registrationFailed: "Registration could not be completed.",
+        connectionError: "Could not connect to the server. Make sure the API is running and try again."
+    },
+
+    pt: {
+        accessEyebrow: "PORTFÓLIO PROFISSIONAL",
+        accessWelcome: "Bem-vindo",
+        accessIntro: "Para acessar meu portfólio profissional, preencha seus dados de contato.",
+        formHelp: "Os campos marcados com * são obrigatórios.",
+        firstNameLabel: "Nome",
+        firstNamePlaceholder: "Digite seu nome",
+        lastNameLabel: "Sobrenome",
+        lastNamePlaceholder: "Digite seu sobrenome",
+        emailLabel: "E-mail",
+        emailPlaceholder: "nome@email.com",
+        emailHint: "Exemplo: nome@email.com",
+        phoneLabel: "Telefone",
+        phonePlaceholder: "+55 11 91234 5678",
+        phoneHint: "Inclua o código do país, se necessário. Exemplo: +55 11 91234 5678.",
+        consentLabel: "Aceito o registro dos meus dados para acessar o portfólio.",
+        accessButton: "Acessar portfólio",
+        portfolioInDevelopment: "Portfólio em desenvolvimento",
+        greeting: "Bem-vindo",
+        firstNameRequired: "O nome é obrigatório.",
+        firstNameInvalid: "Digite um nome válido.",
+        lastNameRequired: "O sobrenome é obrigatório.",
+        lastNameInvalid: "Digite um sobrenome válido.",
+        emailRequired: "O e-mail é obrigatório.",
+        emailInvalid: "Digite um e-mail válido.",
+        phoneRequired: "O telefone é obrigatório.",
+        phoneInvalid: "Digite um telefone válido.",
+        consentRequired: "Você deve aceitar o registro dos seus dados.",
+        registrationFailed: "Não foi possível concluir o cadastro.",
+        connectionError: "Não foi possível conectar ao servidor. Verifique se a API está iniciada e tente novamente."
+    }
+};
+
+function applyLanguage(language) {
+    const selectedTranslations = translations[language] || translations.es;
+
+    document.documentElement.lang = language;
+
+    document.querySelectorAll("[data-i18n]").forEach(function (element) {
+        const key = element.dataset.i18n;
+
+        if (selectedTranslations[key]) {
+            element.textContent = selectedTranslations[key];
+        }
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (element) {
+        const key = element.dataset.i18nPlaceholder;
+
+        if (selectedTranslations[key]) {
+            element.placeholder = selectedTranslations[key];
+        }
+    });
+}
+
+languageSelect.addEventListener("change", function () {
+    applyLanguage(languageSelect.value);
+});
+
+applyLanguage(languageSelect.value);
 
 form.addEventListener("submit", async function (event) {
 
@@ -44,17 +172,25 @@ form.addEventListener("submit", async function (event) {
 
         return nameRegex.test(name);
     }
+
+    const currentTranslations = translations[languageSelect.value] || translations.es;
+
     if (firstName.value.trim() === "") {
-    showError(firstName, "firstNameError", "El nombre es obligatorio.");
-    isValid = false;
+        showError(
+            firstName,
+            "firstNameError",
+            currentTranslations.firstNameRequired
+        );
+        isValid = false;
     } else if (!isValidName(firstName.value)) {
-    showError(
-        firstName,
-        "firstNameError",
-        "Ingresá un nombre válido."
-    );
-    isValid = false;
+        showError(
+            firstName,
+            "firstNameError",
+            currentTranslations.firstNameInvalid
+        );
+        isValid = false;
     }
+
 
 
     /*
@@ -63,16 +199,21 @@ form.addEventListener("submit", async function (event) {
     ============================================
     */
 
+
     if (lastName.value.trim() === "") {
-    showError(lastName, "lastNameError", "El apellido es obligatorio.");
-    isValid = false;
+        showError(
+            lastName,
+            "lastNameError",
+            currentTranslations.lastNameRequired
+        );
+        isValid = false;
     } else if (!isValidName(lastName.value)) {
-    showError(
-        lastName,
-        "lastNameError",
-        "Ingresá un apellido válido."
-    );
-    isValid = false;
+        showError(
+            lastName,
+            "lastNameError",
+            currentTranslations.lastNameInvalid
+        );
+        isValid = false;
     }
 
     /*
@@ -91,12 +232,13 @@ form.addEventListener("submit", async function (event) {
             emailRegex.test(value)
         );
     }
+
     if (email.value.trim() === "") {
 
         showError(
             email,
             "emailError",
-            "El email es obligatorio."
+            currentTranslations.emailRequired
         );
 
         isValid = false;
@@ -106,7 +248,7 @@ form.addEventListener("submit", async function (event) {
         showError(
             email,
             "emailError",
-            "Ingresá un email válido."
+            currentTranslations.emailInvalid
         );
 
         isValid = false;
@@ -132,18 +274,19 @@ form.addEventListener("submit", async function (event) {
     }
 
 
+
     if (phone.value.trim() === "") {
         showError(
             phone,
             "phoneError",
-            "El teléfono es obligatorio."
+            currentTranslations.phoneRequired
         );
         isValid = false;
     } else if (!isValidPhone(phone.value)) {
         showError(
             phone,
             "phoneError",
-            "Ingresá un teléfono válido."
+            currentTranslations.phoneInvalid
         );
         isValid = false;
     }
@@ -160,7 +303,7 @@ form.addEventListener("submit", async function (event) {
         document.getElementById(
             "consentError"
         ).textContent =
-            "Debés aceptar el registro de tus datos.";
+            currentTranslations.consentRequired;
 
         isValid = false;
     }
@@ -193,27 +336,37 @@ form.addEventListener("submit", async function (event) {
 
             const result = await response.json();
 
+
             if (!response.ok) {
                 serverError.textContent =
-                    result.message || "No se pudo completar el registro.";
+                    currentTranslations.registrationFailed;
                 return;
             }
 
+
             showPortfolio();
 
-        } catch (error) {
-            serverError.textContent =
-                "No se pudo conectar con el servidor. Verificá que la API esté iniciada e intentá nuevamente.";
-        } finally {
-            accessButton.disabled = false;
-        }
+
+            } catch (error) {
+                serverError.textContent =
+                    currentTranslations.connectionError;
+            } finally {
+                accessButton.disabled = false;
+            }
+
     }
 
 
 });
 
 
+
 function showPortfolio() {
+
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
+    const currentTranslations = translations[languageSelect.value] || translations.es;
+    welcomeMessage.textContent = `${currentTranslations.greeting} ${firstName.value.trim().toLocaleUpperCase()}`;
 
     accessPage.classList.add("hidden");
 
@@ -225,6 +378,7 @@ function showPortfolio() {
     });
 
 }
+
 
 
 function showError(

@@ -947,3 +947,100 @@ nav a:hover {
     }
 
 }
+
+
+/* ============================================
+   FORMULARIO: INDICADORES Y AYUDAS
+============================================ */
+
+.required-indicator {
+    color: var(--error);
+    font-weight: 700;
+}
+
+.form-help {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.field-hint {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ============================================
+   SELECTOR DE IDIOMA
+============================================ */
+
+.language-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.language-selector label {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.language-selector select {
+    min-width: 140px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--background);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.language-selector select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* ============================================
+   COLORES DE TEXTO — INSPIRACIÓN VS CODE
+============================================ */
+
+#firstName {
+    color: #569CD6;
+}
+
+#lastName {
+    color: #CE9178;
+}
+
+#email {
+    color: #9CDCFE;
+}
+
+#phone {
+    color: #6A9955;
+}
+
+/* ============================================
+
+   SALUDO PERSONALIZADO
+
+============================================ */
+
+
+
+.welcome-message {
+
+    font-size: 1.8rem;
+
+    font-weight: 600;
+
+    margin-bottom: 1rem;
+
+}

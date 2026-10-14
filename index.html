@@ -38,10 +38,17 @@
     >
 
         <section class="access-card">
-
+            <div class="language-selector">
+                <label for="languageSelect">Idioma / Language / Idioma</label>
+                <select id="languageSelect" name="language">
+                    <option value="es" selected>Español</option>
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                </select>
+            </div>
             <header class="access-header">
 
-                <p class="eyebrow">
+                <p class="eyebrow" data-i18n="accessEyebrow">
                     PORTFOLIO PROFESIONAL
                 </p>
 
@@ -58,11 +65,11 @@
 
             <section class="intro">
 
-                <h2>
+                <h2 data-i18n="accessWelcome">
                     Bienvenido
                 </h2>
 
-                <p>
+                <p data-i18n="accessIntro">
                     Para acceder a mi portfolio profesional,
                     completá tus datos de contacto.
                 </p>
@@ -72,18 +79,28 @@
 
             <form id="accessForm" novalidate>
 
+                <p class="form-help">
+                    <span data-i18n="formHelp">
+                        Los campos marcados con * son obligatorios.
+                    </span>
+                </p>
+
 
                 <div class="form-group">
 
+
                     <label for="firstName">
-                        Nombre
+                        <span data-i18n="firstNameLabel">Nombre</span>
+                        <span class="required-indicator" aria-hidden="true">*</span>
                     </label>
+
 
                     <input
                         type="text"
                         id="firstName"
                         name="firstName"
                         placeholder="Ingresá tu nombre"
+                        data-i18n-placeholder="firstNamePlaceholder"
                         maxlength="50"
                         autocomplete="given-name"
                     >
@@ -99,7 +116,8 @@
                 <div class="form-group">
 
                     <label for="lastName">
-                        Apellido
+                        <span data-i18n="lastNameLabel">Apellido</span>
+                        <span class="required-indicator" aria-hidden="true">*</span>
                     </label>
 
                     <input
@@ -107,6 +125,7 @@
                         id="lastName"
                         name="lastName"
                         placeholder="Ingresá tu apellido"
+                        data-i18n-placeholder="lastNamePlaceholder"
                         maxlength="50"
                         autocomplete="family-name"
                     >
@@ -122,7 +141,8 @@
                 <div class="form-group">
 
                     <label for="email">
-                        Email
+                        <span data-i18n="emailLabel">Email</span>
+                        <span class="required-indicator" aria-hidden="true">*</span>
                     </label>
 
                     <input
@@ -130,10 +150,17 @@
                         id="email"
                         name="email"
                         placeholder="nombre@email.com"
+                        data-i18n-placeholder="emailPlaceholder"
                         maxlength="254"
                         autocomplete="email"
                     >
-
+                    <small
+                        class="field-hint"
+                        id="emailHint"
+                        data-i18n="emailHint"
+                    >
+                        Ejemplo: nombre@email.com
+                    </small>
                     <small
                         class="error-message"
                         id="emailError"
@@ -145,7 +172,8 @@
                 <div class="form-group">
 
                     <label for="phone">
-                        Teléfono
+                        <span data-i18n="phoneLabel">Teléfono</span>
+                        <span class="required-indicator" aria-hidden="true">*</span>
                     </label>
 
                     <input
@@ -153,11 +181,18 @@
                         id="phone"
                         name="phone"
                         placeholder="+54 9 11 1234 5678"
+                        data-i18n-placeholder="phonePlaceholder"
                         inputmode="tel"
                         maxlength="25"
                         autocomplete="tel"
                     >
-
+                    <small
+                        class="field-hint"
+                        id="phoneHint"
+                        data-i18n="phoneHint"
+                    >
+                        Incluí el código de país si corresponde. Ejemplo: +54 9 11 1234 5678.
+                    </small>
                     <small
                         class="error-message"
                         id="phoneError"
@@ -174,10 +209,13 @@
                         name="consent"
                     >
 
+
                     <label for="consent">
 
-                        Acepto el registro de mis datos
-                        para acceder al portfolio.
+                        <span data-i18n="consentLabel">
+                            Acepto el registro de mis datos para acceder al portfolio
+                        </span>
+                        <span class="required-indicator" aria-hidden="true">*</span>
 
                     </label>
 
@@ -197,6 +235,7 @@
                 <button
                     type="submit"
                     id="accessButton"
+                    data-i18n="accessButton"
                 >
                     Ingresar al portfolio
                 </button>
@@ -211,7 +250,7 @@
                     QA · Automation · Python · AI
                 </p>
 
-                <span>
+                <span data-i18n="portfolioInDevelopment">
                     Portfolio en desarrollo
                 </span>
 
@@ -293,6 +332,8 @@
         >
 
             <div class="hero-content">
+
+            <p id="welcomeMessage" class="welcome-message"></p>
 
                 <p class="eyebrow">
                     QA TESTER · AI CONSULTANT
