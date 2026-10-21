@@ -5,9 +5,8 @@ const { pathToFileURL } = require('node:url');
 const { Builder, By } = require('selenium-webdriver');
 
 test('La página de acceso se abre y muestra el formulario', async (t) => {
-    const driver = await new Builder()
-        .forBrowser('chrome')
-        .build();
+    const browser = process.env.TEST_BROWSER || 'chrome';
+    const driver = await new Builder().forBrowser(browser).build();
 
     t.after(async () => {
         await driver.quit();

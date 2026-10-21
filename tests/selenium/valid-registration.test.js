@@ -5,7 +5,8 @@ const { pathToFileURL } = require('node:url');
 const { Builder, By, until } = require('selenium-webdriver');
 
 test('UI-008: un registro válido permite acceder al portfolio', async (t) => {
-    const driver = await new Builder().forBrowser('chrome').build();
+    const browser = process.env.TEST_BROWSER || 'chrome';
+    const driver = await new Builder().forBrowser(browser).build();
 
     t.after(async () => {
         await driver.quit();
@@ -41,7 +42,7 @@ test('UI-008: un registro válido permite acceder al portfolio', async (t) => {
 
     assert.equal(
         await welcomeMessage.getText(),
-        'Bienvenido MIGUEL',
+        'Te doy la bienvenida, MIGUEL',
         'El saludo debe mostrar el nombre en mayúsculas.'
     );
 });

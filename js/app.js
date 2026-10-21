@@ -20,11 +20,20 @@ const serverError = document.getElementById("serverError");
 
 const languageSelect = document.getElementById("languageSelect");
 
+const contactForm = document.getElementById("contactForm");
+
+const contactMessage = document.getElementById("contactMessage");
+
+const contactButton = document.getElementById("contactButton");
+
+const contactStatus = document.getElementById("contactStatus");
+
+const contactMessageError = document.getElementById("contactMessageError");
 
 const translations = {
     es: {
         accessEyebrow: "PORTFOLIO PROFESIONAL",
-        accessWelcome: "Bienvenido",
+        accessWelcome: "Te doy la bienvenida",
         accessIntro: "Para acceder a mi portfolio profesional, completá tus datos de contacto.",
         formHelp: "Los campos marcados con * son obligatorios.",
         firstNameLabel: "Nombre",
@@ -40,7 +49,7 @@ const translations = {
         consentLabel: "Acepto el registro de mis datos para acceder al portfolio.",
         accessButton: "Ingresar al portfolio",
         portfolioInDevelopment: "Portfolio en desarrollo",
-        greeting: "Bienvenido",
+        greeting: "Te doy la bienvenida,",
         firstNameRequired: "El nombre es obligatorio.",
         firstNameInvalid: "Ingresá un nombre válido.",
         lastNameRequired: "El apellido es obligatorio.",
@@ -72,7 +81,7 @@ const translations = {
         consentLabel: "I agree to the registration of my data to access the portfolio.",
         accessButton: "Enter portfolio",
         portfolioInDevelopment: "Portfolio under development",
-        greeting: "Welcome",
+        greeting: "Welcome,",
         firstNameRequired: "First name is required.",
         firstNameInvalid: "Enter a valid first name.",
         lastNameRequired: "Last name is required.",
@@ -88,7 +97,7 @@ const translations = {
 
     pt: {
         accessEyebrow: "PORTFÓLIO PROFISSIONAL",
-        accessWelcome: "Bem-vindo",
+        accessWelcome: "Dou-lhe as boas-vindas",
         accessIntro: "Para acessar meu portfólio profissional, preencha seus dados de contato.",
         formHelp: "Os campos marcados com * são obrigatórios.",
         firstNameLabel: "Nome",
@@ -104,7 +113,7 @@ const translations = {
         consentLabel: "Aceito o registro dos meus dados para acessar o portfólio.",
         accessButton: "Acessar portfólio",
         portfolioInDevelopment: "Portfólio em desenvolvimento",
-        greeting: "Bem-vindo",
+        greeting: "Dou-lhe as boas-vindas,",
         firstNameRequired: "O nome é obrigatório.",
         firstNameInvalid: "Digite um nome válido.",
         lastNameRequired: "O sobrenome é obrigatório.",
@@ -145,7 +154,30 @@ languageSelect.addEventListener("change", function () {
     applyLanguage(languageSelect.value);
 });
 
-applyLanguage(languageSelect.value);
+
+const savedSession = sessionStorage.getItem("portfolioSession");
+
+if (savedSession) {
+    try {
+        const session = JSON.parse(savedSession);
+
+        if (
+            typeof session.firstName === "string" &&
+            session.firstName.trim() !== "" &&
+            ["es", "en", "pt"].includes(session.language)
+        ) {
+            languageSelect.value = session.language;
+            applyLanguage(session.language);
+
+            firstName.value = session.firstName;
+            showPortfolio();
+        } else {
+            sessionStorage.removeItem("portfolioSession");
+        }
+    } catch (error) {
+        sessionStorage.removeItem("portfolioSession");
+    }
+}
 
 form.addEventListener("submit", async function (event) {
 
@@ -361,15 +393,26 @@ form.addEventListener("submit", async function (event) {
 
 
 
+
 function showPortfolio() {
 
     const welcomeMessage = document.getElementById("welcomeMessage");
 
-    const currentTranslations = translations[languageSelect.value] || translations.es;
-    welcomeMessage.textContent = `${currentTranslations.greeting} ${firstName.value.trim().toLocaleUpperCase()}`;
+    const selectedLanguage = languageSelect.value;
+    const visitorName = firstName.value.trim();
+
+    const currentTranslations = translations[selectedLanguage] || translations.es;
+
+    // Mantener la sesión durante la navegación en esta pestaña.
+    sessionStorage.setItem("portfolioSession", JSON.stringify({
+        firstName: visitorName,
+        language: selectedLanguage
+    }));
+
+    welcomeMessage.textContent =
+        `${currentTranslations.greeting} ${visitorName.toLocaleUpperCase()}`;
 
     accessPage.classList.add("hidden");
-
     portfolio.classList.remove("hidden");
 
     window.scrollTo({
@@ -416,3 +459,54 @@ function clearErrors() {
         });
 
 }
+
+contactForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    contactMessageError.textContent = "";
+    contactStatus.textContent = "";
+
+    const mensaje = contactMessage.value.trim();
+
+    if (!mensaje) {
+        contactMessageError.textContent =
+            "El mensaje es obligatorio.";
+        contactMessage.focus();
+        return;
+    }
+
+    contactButton.disabled = true;
+    contactStatus.textContent = "Enviando mensaje...";
+
+    try {
+        const response = await fetch("http://localhost:3000/api/contact", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombre: firstName.value.trim(),
+                apellido: lastName.value.trim(),
+                email: email.value.trim(),
+                telefono: phone.value.trim(),
+                mensaje
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            contactStatus.textContent =
+                result.message || "No se pudo enviar el mensaje.";
+            return;
+        }
+
+        contactStatus.textContent = result.message;
+        contactForm.reset();
+    } catch (error) {
+        contactStatus.textContent =
+            "No se pudo conectar con el servidor. Intentá nuevamente.";
+    } finally {
+        contactButton.disabled = false;
+    }
+});

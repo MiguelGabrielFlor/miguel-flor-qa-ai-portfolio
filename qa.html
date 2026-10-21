@@ -1,0 +1,2502 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QA Testing | Evidencia verificable — Miguel Flor</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Estructura principal */
+        .showcase {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 48px 0 110px;
+        }
+
+        .showcase-header {
+            margin-bottom: 42px;
+        }
+
+        .showcase-header h1 {
+            max-width: 800px;
+            margin-bottom: 16px;
+        }
+
+        .showcase-header > p:last-child {
+            max-width: 760px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .showcase-section {
+            margin: 0 0 36px;
+            scroll-margin-top: 30px;
+        }
+
+        .showcase-section > h2 {
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+        01. BIBLIOTECA INTERACTIVA DE CASOS
+        ======================================== */
+
+        .test-library {
+            min-width: 0;
+            margin-top: 24px;
+        }
+
+        .test-library-spines {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 6px;
+            width: 100%;
+            min-width: 0;
+            padding: 16px 10px;
+            overflow-x: auto;
+            background: var(--background, #080B12);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #3794FF var(--background-secondary);
+        }
+
+        .test-spine {
+            display: flex;
+            flex: 0 0 42px;
+            align-items: center;
+            justify-content: center;
+            min-height: 190px;
+            padding: 12px 8px;
+            color: var(--text-secondary);
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+            transition:
+                color 0.2s ease,
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                flex-basis 0.25s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .test-spine-id {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+
+        .test-spine:hover,
+        .test-spine:focus-visible {
+            color: #9CDCFE;
+            border-color: #3794FF;
+            box-shadow: 0 0 8px rgba(55, 148, 255, 0.18);
+            outline: none;
+        }
+
+        .test-spine[aria-expanded="true"] {
+            color: #FFFFFF;
+            background: rgba(55, 148, 255, 0.12);
+            border-color: #3794FF;
+            box-shadow: inset 0 -3px 0 #3794FF;
+        }
+        .test-spine:nth-last-child(2) {
+            transform: rotate(-6deg);
+            transform-origin: bottom center;
+        }
+
+        .test-spine:last-child {
+            transform: rotate(-12deg);
+            transform-origin: bottom center;
+        }
+        
+        .test-case-detail {
+            margin-top: 18px;
+            padding: 24px;
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow-wrap: anywhere;
+            line-height: 1.7;
+        }
+
+        .test-case-detail[hidden] {
+            display: none;
+        }
+
+        .test-case-detail h3 {
+            margin: 0 0 24px;
+            padding-bottom: 14px;
+            color: #9CDCFE;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.4;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .test-case-detail h4 {
+            margin: 0 0 8px;
+            color: #569CD6;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .test-case-detail p,
+        .test-case-detail li {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .test-case-detail p {
+            margin: 0;
+            white-space: pre-line;
+        }
+
+        .test-case-detail ol {
+            margin: 0;
+            padding-left: 24px;
+        }
+
+        .test-case-detail li {
+            padding-left: 4px;
+            margin-bottom: 6px;
+        }
+
+        .test-case-detail li::marker {
+            color: #569CD6;
+        }
+
+        .test-case-detail > div {
+            margin-bottom: 22px;
+        }
+
+        .test-case-detail > div:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 600px) {
+            .test-case-detail {
+                padding: 16px;
+            }
+
+            .test-case-detail h3 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .test-library-spines {
+                gap: 5px;
+                padding: 12px 8px;
+            }
+
+            .test-spine {
+                flex-basis: 36px;
+                min-height: 165px;
+                padding: 10px 6px;
+            }
+
+            .test-case-detail {
+                padding: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .test-spine {
+                transition: none;
+            }
+        }
+
+        /* Paneles informativos */
+        .qa-panel {
+            padding: 22px;
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .qa-panel p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }        
+        /* Biblioteca de escenarios Selenium */
+        .selenium-library {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        /* Tarjeta de cada escenario */
+        .selenium-test {
+            overflow: hidden;
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: border-color 0.25s ease;
+        }
+
+        /* El borde se ilumina, sin mover la tarjeta */
+        .selenium-test:hover {
+            border-color: #3794FF;
+        }
+
+        /* Título interactivo */
+        .selenium-test summary {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 18px;
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        /* Ocultar el marcador predeterminado */
+        .selenium-test summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Indicador de apertura */
+        .selenium-test summary::after {
+            content: "+";
+            margin-left: auto;
+            color: #3794FF;
+            font-size: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .selenium-test[open] summary::after {
+            content: "−";
+        }
+
+        /* Identificador UI */
+        .selenium-test-id {
+            flex-shrink: 0;
+            color: #569CD6;
+            font-family: Consolas, monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* Contenido desplegado */
+        .selenium-test-detail {
+            padding: 0 18px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .selenium-test-detail h4 {
+            margin: 18px 0 8px;
+            color: #4EC9B0;
+            font-size: 0.95rem;
+        }
+
+        .selenium-test-detail p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Bloques de código */
+        .selenium-test-detail pre {
+            overflow-x: auto;
+            margin: 12px 0 0;
+            padding: 16px;
+            background: #1E1E1E;
+            border: 1px solid #333333;
+            border-radius: 8px;
+        }
+
+        .selenium-test-detail code {
+            color: #9CDCFE;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            white-space: pre;
+        }
+
+        /* Adaptación a pantallas pequeñas */
+        @media (max-width: 600px) {
+            .selenium-test summary {
+                gap: 10px;
+                padding: 14px;
+                font-size: 0.9rem;
+            }
+
+            .selenium-test-detail {
+                padding: 0 14px 16px;
+            }
+
+            .selenium-test-detail pre {
+                padding: 12px;
+            }
+
+            .selenium-test-detail code {
+                font-size: 0.8rem;
+            }
+        }
+        /* Índice flotante */
+        .showcase-index {
+            position: relative;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .index-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: fit-content;
+            max-width: 100%;
+            padding: 12px 18px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            list-style: none;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .index-toggle::-webkit-details-marker {
+            display: none;
+        }
+
+        .index-toggle::after {
+            content: "+";
+            color: var(--primary);
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .showcase-index[open] .index-toggle::after {
+            content: "−";
+        }
+
+        .index-toggle:hover,
+        .index-toggle:focus-visible {
+            color: var(--primary-hover);
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .index-grid {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            z-index: 1100;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            width: min(520px, calc(100vw - 32px));
+            margin: 0;
+            padding: 12px;
+            background: var(--background, #080B12);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .index-link {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 0;
+            padding: 16px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .index-link:hover,
+        .index-link:focus-visible {
+            color: var(--text);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            outline: none;
+        }
+
+        .index-number {
+            color: var(--primary-hover);
+            font-size: 12px;
+        }
+
+        .index-link strong {
+            font-size: 14px;
+        }
+
+        .index-link small {
+            color: var(--text-secondary);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Adaptación a pantallas pequeñas */
+        @media (max-width: 760px) {
+            .showcase {
+                padding-top: 30px;
+                padding-bottom: 100px;
+            }
+
+            .index-toggle {
+                width: 100%;
+            }
+
+            .index-grid {
+                grid-template-columns: minmax(0, 1fr);
+                width: min(360px, calc(100vw - 32px));
+            }
+
+            .qa-panel {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .showcase {
+                width: calc(100% - 24px);
+            }
+
+            .qa-panel {
+                padding: 14px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .index-toggle,
+            .index-link {
+                transition: none;
+            }
+
+            .index-link:hover,
+            .index-link:focus-visible {
+                transform: none;
+            }
+        }               
+              
+        /* Tarjetas de bugs: fondo oscuro y borde luminoso sutil */
+        #regresion-bugs .qa-panel {
+            background: var(--background, #080B12);
+            border: 1px solid rgba(190, 105, 120, 0.48);
+            box-shadow: 0 0 7px rgba(190, 105, 120, 0.10);
+        }
+
+        /* Cabecera: tono borgoña translúcido */
+        #regresion-bugs .qa-panel > h3,
+        #regresion-bugs .qa-panel > p {
+            background: rgba(130, 48, 62, 0.18);
+            color: var(--text);
+        }
+
+        /* Borde de la zona desplegable */
+        #regresion-bugs .qa-panel details {
+            background: var(--background, #080B12);
+            border-top: 1px solid rgba(190, 105, 120, 0.28);
+        }
+
+        /* Resalte discreto al interactuar */
+        #regresion-bugs .qa-panel details > summary:hover,
+        #regresion-bugs .qa-panel details > summary:focus-visible {
+            color: #D7A0AA;
+        }
+        /* Encabezado más compacto */
+        #regresion-bugs .qa-panel > h3 {
+            padding: 14px 16px 8px;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        #regresion-bugs .qa-panel > p {
+            padding: 5px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.55;
+        }
+
+        /* Menos espacio entre tarjetas */
+        #regresion-bugs .qa-panel + .qa-panel {
+            margin-top: 12px;
+        }
+
+        /* Reporte desplegable más compacto */
+        #regresion-bugs .qa-panel details {
+            padding: 0 16px 14px;
+        }
+
+        #regresion-bugs .qa-panel details > summary {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 14px 0;
+            margin-bottom: -35px;
+            color: #D7A0AA;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.5;
+            text-align: right;
+            cursor: pointer;
+            list-style: none;
+            transition: color 0.2s ease;
+        }
+
+        /* Ocultar el marcador predeterminado */
+        #regresion-bugs .qa-panel details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Flecha al final del CTA */
+        #regresion-bugs .qa-panel details > summary::after {
+            content: "→";
+            display: inline-block;
+            flex: 0 0 auto;
+            color: #D7A0AA;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        /* Cambiar la dirección cuando se abre el reporte */
+        #regresion-bugs .qa-panel details[open] > summary::after {
+            transform: rotate(90deg);
+        }
+
+        #regresion-bugs .qa-panel details > summary:hover,
+        #regresion-bugs .qa-panel details > summary:focus-visible {
+            color: #F0C1CA;
+            outline: none;
+        }
+
+        #regresion-bugs .qa-panel details > summary:hover::after,
+        #regresion-bugs .qa-panel details > summary:focus-visible::after {
+            color: #F0C1CA;
+        }
+
+        #regresion-bugs .qa-panel details h4 {
+            margin: 16px 0 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Texto ligero y justificado */
+        #regresion-bugs .qa-panel details p,
+        #regresion-bugs .qa-panel details li {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.65;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        /* Destacar los datos sin recargar la tipografía */
+        #regresion-bugs .qa-panel strong {
+            font-weight: 500;
+        }
+
+        @media (max-width: 420px) {
+            #regresion-bugs .qa-panel > h3,
+            #regresion-bugs .qa-panel > p {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+
+            #regresion-bugs .qa-panel details {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+        }
+        
+        /* Evidencia verificable */
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .evidence-card {
+            min-width: 0;
+            padding: 16px;
+            background: var(--background, #080B12);
+            border: 1px solid rgba(55, 148, 255, 0.28);
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        /* Tarjetas con enlaces: movimiento al interactuar */
+        .evidence-card:has(a:hover),
+        .evidence-card:has(a:focus-visible) {
+            border-color: #3794FF;
+            box-shadow: 0 0 9px rgba(55, 148, 255, 0.16);
+            transform: translateY(-3px);
+        }
+
+        .evidence-card h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text, #D4D4D4);
+        }
+        .evidence-card .evidence-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .evidence-icon {
+            display: inline-flex;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(55, 148, 255, 0.25);
+            border-radius: 8px;
+            background: rgba(55, 148, 255, 0.08);
+            color: #3794FF;
+        }
+
+        .evidence-icon svg {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+        }
+
+        .evidence-title-bug .evidence-icon {
+            color: #D97777;
+            border-color: rgba(217, 119, 119, 0.28);
+            background: rgba(217, 119, 119, 0.08);
+        }
+
+        .evidence-card p {
+            margin: 0 0 14px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.65;
+            text-align: justify;
+            text-justify: inter-word;
+            color: var(--text, #D4D4D4);
+        }
+
+        .evidence-card a {
+            display: inline-block;
+            max-width: 100%;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #3794FF;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+        }
+
+        .evidence-card a:hover,
+        .evidence-card a:focus-visible {
+            color: #9CDCFE;
+            text-decoration: underline;
+        }
+
+        .evidence-links {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(55, 148, 255, 0.18);
+        }
+
+        @media (max-width: 600px) {
+            .evidence-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .evidence-card {
+                transition: none;
+            }
+
+            .evidence-card:has(a:hover),
+            .evidence-card:has(a:focus-visible) {
+                transform: none;
+            }
+        }
+        .test-status-approved p {
+            color: #14d866;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CABECERA -->
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo"
+               aria-label="Volver al perfil de Miguel Flor">
+                <span class="logo-initials">MF<span class="logo-dot">.</span></span>
+                <span class="logo-divider" aria-hidden="true"></span>
+                <span class="logo-label">PORTFOLIO</span>
+            </a>
+
+            <!-- ÍNDICE DE CONTENIDOS -->
+            <details class="showcase-index" id="indice-contenidos">
+                <summary class="index-toggle">
+                    <span>Ir a una sección</span>
+                </summary>
+
+                <nav class="index-grid" aria-label="Índice de contenidos">
+
+                    <a class="index-link" href="#casos-prueba">
+                        <span class="index-number">01</span>
+                        <strong>Casos de prueba</strong>
+                        <small>Escenarios y resultados esperados</small>
+                    </a>
+
+                    <a class="index-link" href="#automatizacion">
+                        <span class="index-number">02</span>
+                        <strong>Automatización con Selenium</strong>
+                        <small>Pruebas de interfaz</small>
+                    </a>
+
+                    <a class="index-link" href="#regresion-bugs">
+                        <span class="index-number">03</span>
+                        <strong>Regresión y bugs</strong>
+                        <small>Detección y corrección de defectos</small>
+                    </a>
+
+                    <a class="index-link" href="#evidencia">
+                        <span class="index-number">04</span>
+                        <strong>Evidencia verificable</strong>
+                        <small>Resultados y documentación</small>
+                    </a>
+
+                </nav>
+            </details>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="showcase">
+
+        <header class="showcase-header">
+            <h1>QA Testing | Evidencia verificable</h1>
+
+            <p>
+                Pruebas funcionales, automatización, regresión y documentación
+                orientadas a verificar el comportamiento del software,
+                detectar defectos y aportar evidencia reproducible.
+            </p>
+        </header>        
+        <!-- 01. CASOS DE PRUEBA -->
+        <section class="showcase-section" id="casos-prueba">
+            <h2>01. Casos de prueba</h2>
+
+            <p class="section-description">
+                Biblioteca interactiva de escenarios de prueba documentados
+                para verificar el comportamiento del portfolio.
+            </p>
+
+            <div class="test-library" id="test-library">
+
+                <!-- Lomos de los 18 casos -->
+                <div
+                    class="test-library-spines"
+                    role="group"
+                    aria-label="Seleccionar caso de prueba"
+                >
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-001" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-001">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>1</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-002" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-002">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>2</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-003" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-003">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>3</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-004" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-004">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>4</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-005" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-005">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>5</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-006" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-006">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>6</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-007" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-007">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>7</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-008" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-008">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>8</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-009" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-009">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>0<br>9</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-010" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-010">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>0</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-011" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-011">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>1</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-012" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-012">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>2</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-013" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-013">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>3</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-014" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-014">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>4</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-015" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-015">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>5</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-016" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-016">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>6</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-017" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-017">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>7</span>
+                    </button>
+
+                    <button class="test-spine" type="button"
+                        data-test-id="TC-018" aria-expanded="false"
+                        aria-controls="test-case-detail" aria-label="Abrir TC-018">
+                        <span class="test-spine-id" aria-hidden="true">T<br>C<br>-<br>0<br>1<br>8</span>
+                    </button>
+                </div>
+
+                <!-- Aquí se mostrará el caso seleccionado -->
+                <div
+                    class="test-case-detail"
+                    id="test-case-detail"
+                    aria-live="polite"
+                    aria-label="Detalle del caso de prueba"
+                    hidden
+                ></div>
+
+            </div>
+        </section>
+        
+        <!-- 02. AUTOMATIZACIÓN -->
+        <section class="showcase-section" id="automatizacion">
+            <h2>02. Automatización con Selenium</h2>
+
+            <p class="section-description">
+                Pruebas automatizadas de interfaz para verificar validaciones,
+                flujos de acceso y comportamiento funcional del portfolio.
+            </p>
+
+            <div class="qa-panel">
+                <h3>Automatización de pruebas UI</h3>
+
+                <p>
+                    Utilizo Selenium WebDriver para interactuar con la interfaz
+                    como lo haría un usuario y Node.js Test Runner para verificar
+                    los resultados mediante aserciones automatizadas.
+                </p>
+                
+                <div class="qa-metrics">
+                    <div>
+                        <strong>12/12 PASS</strong>
+                        <span>Escenarios automatizados</span>
+                    </div>
+
+                    <div>
+                        <strong>36/36 PASS</strong>
+                        <span>Regresión · 21/10/2026</span>
+                    </div>
+
+                    <div>
+                        <strong>3 navegadores</strong>
+                        <span>Chrome · Firefox · Edge</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="qa-panel">
+                <h3>Escenarios automatizados</h3>
+
+                <div class="selenium-library" id="selenium-library">
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-001</span>
+                            <span>Carga de la página y formulario</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Comprueba que la página se abra, que el título sea correcto y que el formulario de acceso esté visible.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>const title = await driver.getTitle();
+
+                            assert.equal(
+                                title,
+                                'Miguel Flor | QA Tester &amp; AI Consultant'
+                            );
+
+                            const accessForm = await driver.findElement(
+                                By.id('accessForm')
+                            );
+
+                            assert.equal(await accessForm.isDisplayed(), true);
+
+                            const firstName = await driver.findElement(
+                                By.id('firstName')
+                            );
+
+                            assert.equal(await firstName.isDisplayed(), true);</code></pre>
+
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-002</span>
+                            <span>Formulario vacío</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Comprueba que los campos obligatorios muestren sus errores y que el portfolio permanezca oculto.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>await driver.findElement(
+                                By.id('accessButton')
+                            ).click();
+
+                            const expectedErrors = {
+                                firstNameError: 'El nombre es obligatorio.',
+                                lastNameError: 'El apellido es obligatorio.',
+                                emailError: 'El email es obligatorio.',
+                                phoneError: 'El teléfono es obligatorio.',
+                                consentError: 'Debés aceptar el registro de tus datos.'
+                            };
+
+                            for (const [errorId, expectedMessage] of Object.entries(expectedErrors)) {
+                                const errorElement = await driver.findElement(By.id(errorId));
+
+                                assert.equal(
+                                    await errorElement.getText(),
+                                    expectedMessage,
+                                    `Mensaje incorrecto en ${errorId}`
+                                );
+                            }
+
+                            const portfolio = await driver.findElement(By.id('portfolio'));
+
+                            assert.equal(await portfolio.isDisplayed(), false);</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-003</span>
+                            <span>Correo electrónico inválido</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Valida que un correo con formato incorrecto impida el acceso al portfolio.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>await driver.findElement(By.id('firstName'))
+                                .sendKeys('Miguel');
+
+                            await driver.findElement(By.id('lastName'))
+                                .sendKeys('Flor');
+
+                            await driver.findElement(By.id('email'))
+                                .sendKeys('correo-invalido');
+
+                            await driver.findElement(By.id('phone'))
+                                .sendKeys('1123456789');
+
+                            await driver.findElement(By.id('consent')).click();
+
+                            await driver.findElement(By.id('accessButton')).click();
+
+                            const emailError = await driver.findElement(
+                                By.id('emailError')
+                            );
+
+                            assert.equal(
+                                await emailError.getText(),
+                                'Ingresá un email válido.',
+                                'Debe mostrarse el mensaje de email inválido'
+                            );
+
+                            const portfolio = await driver.findElement(By.id('portfolio'));
+
+                            assert.equal(
+                                await portfolio.isDisplayed(),
+                                false,
+                                'El portfolio debe permanecer oculto'
+                            );</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-004</span>
+                            <span>Nombre demasiado corto</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Comprueba que un nombre que no cumple la longitud mínima sea rechazado.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>await driver.findElement(By.id('firstName'))
+                                .sendKeys('M');
+
+                            await driver.findElement(By.id('lastName'))
+                                .sendKeys('Flor');
+
+                            await driver.findElement(By.id('email'))
+                                .sendKeys('miguel@example.com');
+
+                            await driver.findElement(By.id('phone'))
+                                .sendKeys('1123456789');
+
+                            await driver.findElement(By.id('consent')).click();
+
+                            await driver.findElement(By.id('accessButton')).click();
+
+                            const firstNameError = await driver.findElement(
+                                By.id('firstNameError')
+                            );
+
+                            assert.equal(
+                                await firstNameError.getText(),
+                                'Ingresá un nombre válido.',
+                                'Debe mostrarse el mensaje de nombre inválido'
+                            );
+
+                            const portfolio = await driver.findElement(By.id('portfolio'));
+
+                            assert.equal(
+                                await portfolio.isDisplayed(),
+                                false,
+                                'El portfolio debe permanecer oculto'
+                            );</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-005</span>
+                            <span>Apellido demasiado corto</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Verifica que un apellido inválido impida el acceso.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>await driver.findElement(By.id('firstName'))
+                                .sendKeys('Miguel');
+
+                            await driver.findElement(By.id('lastName'))
+                                .sendKeys('F');
+
+                            await driver.findElement(By.id('email'))
+                                .sendKeys('miguel@example.com');
+
+                            await driver.findElement(By.id('phone'))
+                                .sendKeys('1123456789');
+
+                            await driver.findElement(By.id('consent')).click();
+
+                            await driver.findElement(By.id('accessButton')).click();
+
+                            const lastNameError = await driver.findElement(
+                                By.id('lastNameError')
+                            );
+
+                            assert.equal(
+                                await lastNameError.getText(),
+                                'Ingresá un apellido válido.',
+                                'Debe mostrarse el mensaje de apellido inválido'
+                            );
+
+                            const portfolio = await driver.findElement(By.id('portfolio'));
+
+                            assert.equal(
+                                await portfolio.isDisplayed(),
+                                false,
+                                'El portfolio debe permanecer oculto'
+                            );</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-006</span>
+                            <span>Teléfono demasiado corto</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Comprueba que un teléfono de menos de siete dígitos sea rechazado.</p>
+                            <h4>Código Selenium</h4>
+                            <pre><code>await driver.findElement(By.id('firstName'))
+                                .sendKeys('Miguel');
+
+                            await driver.findElement(By.id('lastName'))
+                                .sendKeys('Flor');
+
+                            await driver.findElement(By.id('email'))
+                                .sendKeys('miguel@example.com');
+
+                            await driver.findElement(By.id('phone'))
+                                .sendKeys('123456');
+
+                            await driver.findElement(By.id('consent')).click();
+
+                            await driver.findElement(By.id('accessButton')).click();
+
+                            const phoneError = await driver.findElement(
+                                By.id('phoneError')
+                            );
+
+                            assert.equal(
+                                await phoneError.getText(),
+                                'Ingresá un teléfono válido.',
+                                'Debe mostrarse el mensaje de teléfono inválido'
+                            );
+
+                            const portfolio = await driver.findElement(By.id('portfolio'));
+
+                            assert.equal(
+                                await portfolio.isDisplayed(),
+                                false,
+                                'El portfolio debe permanecer oculto'
+                            );</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-007</span>
+                            <span>Consentimiento obligatorio</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Confirma que el usuario no pueda acceder sin aceptar el registro de sus datos.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>await driver.findElement(By.id('firstName'))
+                                .sendKeys('Miguel');
+
+                            await driver.findElement(By.id('lastName'))
+                                .sendKeys('Flor');
+
+                            await driver.findElement(By.id('email'))
+                                .sendKeys('miguel@example.com');
+
+                            await driver.findElement(By.id('phone'))
+                                .sendKeys('1123456789');
+
+                            const consent = await driver.findElement(By.id('consent'));
+
+                            assert.equal(
+                                await consent.isSelected(),
+                                false,
+                                'El consentimiento debe estar desmarcado inicialmente'
+                            );
+
+                            await driver.findElement(By.id('accessButton')).click();
+
+                            const consentError = await driver.findElement(
+                                By.id('consentError')
+                            );
+
+                            assert.equal(
+                                await consentError.getText(),
+                                'Debés aceptar el registro de tus datos.',
+                                'Debe mostrarse el mensaje de consentimiento obligatorio'
+                            );
+
+                            const portfolio = await driver.findElement(By.id('portfolio'));
+
+                            assert.equal(
+                                await portfolio.isDisplayed(),
+                                false,
+                                'El portfolio debe permanecer oculto'
+                            );</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-008</span>
+                            <span>Registro válido y acceso al portfolio</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Comprueba que el registro válido permita ingresar y que el saludo muestre el nombre en mayúsculas.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>await driver.findElement(By.id('firstName'))
+                                .sendKeys('Miguel');
+
+                            await driver.findElement(By.id('lastName'))
+                                .sendKeys('Flor');
+
+                            await driver.findElement(By.id('email'))
+                                .sendKeys('selenium.test@example.com');
+
+                            await driver.findElement(By.id('phone'))
+                                .sendKeys('1123456789');
+
+                            await driver.findElement(By.id('consent')).click();
+                            await driver.findElement(By.id('accessButton')).click();
+
+                            const portfolio = await driver.wait(
+                                until.elementIsVisible(
+                                    await driver.findElement(By.id('portfolio'))
+                                ),
+                                10000,
+                                'El portfolio debería mostrarse después del registro válido.'
+                            );
+
+                            assert.equal(await portfolio.isDisplayed(), true);
+
+                            assert.equal(
+                                await driver.findElement(By.id('accessPage')).isDisplayed(),
+                                false,
+                                'El formulario de acceso debería quedar oculto.'
+                            );
+
+                            const welcomeMessage = await driver.findElement(
+                                By.id('welcomeMessage')
+                            );
+
+                            assert.equal(
+                            await welcomeMessage.getText(),
+                            'Te doy la bienvenida, MIGUEL',
+                            'El saludo debe mostrar únicamente el nombre en mayúsculas.'
+                        );</code></pre>
+                        </div>
+                    </details>
+
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-009</span>
+                            <span>Cambio de idioma</span>
+                        </summary>
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+                            <p>Comprueba que el encabezado de acceso cambie entre español, inglés y portugués.</p>
+                            <h4>Código Selenium</h4>                            
+                            <pre><code>const languageSelect = await driver.findElement(
+                                By.id('languageSelect')
+                            );
+
+                            const accessWelcome = await driver.findElement(
+                                By.css('[data-i18n="accessWelcome"]')
+                            );
+
+                            const languages = [
+                                { code: 'es', expected: 'Te doy la bienvenida' },
+                                { code: 'en', expected: 'Welcome' },
+                                { code: 'pt', expected: 'Dou-lhe as boas-vindas' }
+                            ];
+
+                            for (const language of languages) {
+                                await new Select(languageSelect).selectByValue(language.code);
+
+                                assert.equal(
+                                    await accessWelcome.getText(),
+                                    language.expected,
+                                    `El encabezado debería mostrarse en ${language.code}.`
+                                );
+                            }</code></pre>
+                        </div>
+                    </details>                    
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-010</span>
+                            <span>Envío válido del formulario de contacto</span>
+                        </summary>
+
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+
+                            <p>
+                                Comprueba que un mensaje válido sea procesado mediante
+                                la API simulada, que aparezca la confirmación de envío,
+                                que el campo de mensaje quede vacío y que el botón
+                                vuelva a habilitarse. No se envían correos reales.
+                            </p>
+
+                            <h4>Código Selenium</h4>
+
+                            <pre><code>const message = await driver.findElement(
+                        By.id('contactMessage')
+                    );
+
+                    await message.sendKeys(
+                        'Prueba automatizada Selenium: consulta de contacto válida.'
+                    );
+
+                    const contactButton = await driver.findElement(
+                        By.id('contactButton')
+                    );
+
+                    await contactButton.click();
+
+                    const status = await driver.findElement(
+                        By.id('contactStatus')
+                    );
+
+                    await driver.wait(
+                        until.elementTextIs(
+                            status,
+                            'Mensaje enviado correctamente.'
+                        ),
+                        10000
+                    );
+
+                    assert.equal(
+                        await status.getText(),
+                        'Mensaje enviado correctamente.'
+                    );
+
+                    assert.equal(
+                        await message.getAttribute('value'),
+                        ''
+                    );
+
+                    assert.equal(
+                        await contactButton.isEnabled(),
+                        true
+                    );</code></pre>
+                        </div>
+                    </details>                    
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-011</span>
+                            <span>Validación de mensaje de contacto vacío</span>
+                        </summary>
+
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+
+                            <p>
+                                Comprueba que el formulario de contacto rechace
+                                un mensaje vacío mediante la validación HTML5.
+                                También verifica que no aparezca una confirmación
+                                de envío. No se comprueba directamente la ausencia
+                                de una solicitud HTTP.
+                            </p>
+
+                            <h4>Código Selenium</h4>
+
+                            <pre><code>const contactButton = await driver.findElement(
+                        By.id('contactButton')
+                    );
+
+                    await contactButton.click();
+
+                    const messageField = await driver.findElement(
+                        By.id('contactMessage')
+                    );
+
+                    const isInvalid = await driver.executeScript(
+                        'return !arguments[0].checkValidity();',
+                        messageField
+                    );
+
+                    assert.equal(
+                        isInvalid,
+                        true,
+                        'El campo vacío debe ser inválido según HTML5.'
+                    );
+
+                    const error = await driver.findElement(
+                        By.id('contactMessageError')
+                    );
+
+                    const errorText = await error.getText();
+
+                    assert.ok(
+                        errorText === '' ||
+                        errorText === 'El mensaje es obligatorio.',
+                        'No debe aparecer un mensaje inesperado.'
+                    );
+
+                    const status = await driver.findElement(
+                        By.id('contactStatus')
+                    );
+
+                    assert.equal(
+                        await status.getText(),
+                        '',
+                        'No debe mostrarse una confirmación de envío.'
+                    );</code></pre>
+
+                        </div>
+                    </details>
+                    
+                    <details class="selenium-test">
+                        <summary>
+                            <span class="selenium-test-id">UI-015</span>
+                            <span>Manejo de error HTTP 500</span>
+                        </summary>
+
+                        <div class="selenium-test-detail">
+                            <h4>¿Qué verifica?</h4>
+
+                            <p>
+                                Comprueba que, ante un fallo simulado del servicio
+                                de contacto, el formulario muestre el mensaje de
+                                error correspondiente, conserve el texto ingresado
+                                y vuelva a habilitar el botón de envío.
+                                No se envían correos reales.
+                            </p>
+
+                            <h4>Código Selenium</h4>
+
+                            <pre><code>const message = await driver.findElement(
+                        By.id('contactMessage')
+                    );
+
+                    const testMessage =
+                        'Prueba Selenium: error HTTP 500 simulado.';
+
+                    await message.sendKeys(testMessage);
+
+                    const contactButton = await driver.findElement(
+                        By.id('contactButton')
+                    );
+
+                    await contactButton.click();
+
+                    const status = await driver.findElement(
+                        By.id('contactStatus')
+                    );
+
+                    const expectedError =
+                        'No se pudo enviar el mensaje. Intentá nuevamente más tarde.';
+
+                    await driver.wait(
+                        until.elementTextIs(status, expectedError),
+                        10000
+                    );
+
+                    assert.equal(
+                        await status.getText(),
+                        expectedError
+                    );
+
+                    assert.equal(
+                        await message.getAttribute('value'),
+                        testMessage
+                    );
+
+                    assert.equal(
+                        await contactButton.isEnabled(),
+                        true
+                    );</code></pre>
+                        </div>
+                    </details>
+
+                </div>
+            </div>            
+        </section>
+        
+        <!-- 03. REGRESIÓN Y BUGS -->
+        <section class="showcase-section" id="regresion-bugs">
+            <h2>03. Regresión y bugs</h2>
+
+            <p class="section-description">
+                Registro de defectos detectados, correcciones y pruebas
+                de regresión relacionadas.
+            </p>
+
+            <!-- BUG-001 -->
+            <div class="qa-panel">
+                <h3>BUG-001 · Validación del teléfono</h3>
+                <p><strong>Estado:</strong> Cerrado</p>
+                <p><strong>Severidad:</strong> Media</p>
+                <p><strong>Prioridad:</strong> Alta</p>
+                <p><strong>Requisito:</strong> FR-008</p>
+                <p><strong>Caso relacionado:</strong> TC-012</p>
+
+                <details>
+                    <summary>Ver reporte completo</summary>
+
+                    <h4>Entorno</h4>
+                    <p>Windows · Google Chrome · Portfolio v1.0</p>
+
+                    <h4>Precondiciones</h4>
+                    <p>El usuario se encuentra en la pantalla de registro.</p>
+
+                    <h4>Pasos para reproducir</h4>
+                    <ol>
+                        <li>Abrir la aplicación.</li>
+                        <li>Ingresar un nombre válido.</li>
+                        <li>Ingresar un apellido válido.</li>
+                        <li>Ingresar un email válido.</li>
+                        <li>Ingresar <code>abc</code> en el campo teléfono.</li>
+                        <li>Aceptar el consentimiento.</li>
+                        <li>Presionar «Ingresar al portfolio».</li>
+                    </ol>
+
+                    <h4>Resultado esperado</h4>
+                    <p>El sistema rechaza el teléfono inválido y muestra un mensaje de validación.</p>
+
+                    <h4>Resultado actual</h4>
+                    <p>
+                        El defecto original permitía continuar con un teléfono inválido.
+                        La prueba de regresión confirmó que el sistema ahora rechaza
+                        <code>abc</code>, muestra el mensaje y bloquea el acceso.
+                    </p>
+
+                    <h4>Evidencia</h4>
+                    <ul>
+                        <li>
+                            <a href="docs/evidence/bug-001/TC-012-telefono-invalido.jpg"
+                               target="_blank" rel="noopener noreferrer">
+                                TC-012 · Teléfono inválido
+                            </a>
+                        </li>
+                        <li>
+                            <a href="docs/evidence/bug-001/TC-012-telefono-valido.jpg"
+                               target="_blank" rel="noopener noreferrer">
+                                TC-012 · Teléfono válido
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h4>Requisito relacionado</h4>
+                    <p>FR-008</p>
+
+                    <h4>Caso de prueba relacionado</h4>
+                    <p>TC-012 — Invalid Phone · PASS</p>
+
+                    <h4>Conclusión</h4>
+                    <p>Defecto cerrado; la regresión documentada es satisfactoria.</p>
+                </details>
+            </div>
+
+            <!-- BUG-002 -->
+            <div class="qa-panel">
+                <h3>BUG-002 · Validación del nombre</h3>
+                <p><strong>Estado histórico:</strong> Cerrado, pendiente de corroboración</p>
+                <p><strong>Severidad histórica:</strong> Alta</p>
+                <p><strong>Prioridad histórica:</strong> Alta</p>
+                <p><strong>Requisito histórico:</strong> FR-008 · Revisar</p>
+                <p><strong>Caso relacionado:</strong> Pendiente de confirmar</p>
+
+                <details>
+                    <summary>Ver reporte completo</summary>
+
+                    <h4>Entorno</h4>
+                    <p>Windows · Google Chrome · Portfolio v0.1 (dato histórico)</p>
+
+                    <h4>Precondiciones</h4>
+                    <p>El usuario se encuentra en la pantalla de acceso.</p>
+
+                    <h4>Pasos para reproducir</h4>
+                    <ol>
+                        <li>Ingresar <code>klsjdbg654#&amp;%&amp;</code> como nombre.</li>
+                        <li>Completar los demás campos con datos válidos.</li>
+                        <li>Aceptar el consentimiento e intentar ingresar.</li>
+                    </ol>
+
+                    <h4>Resultado esperado</h4>
+                    <p>El sistema debe rechazar un nombre que no cumpla las reglas de validación.</p>
+
+                    <h4>Resultado actual</h4>
+                    <p>
+                        El registro histórico indica que se permitía continuar.
+                        La reproducción y la corrección necesitan confirmación.
+                    </p>
+
+                    <h4>Evidencia</h4>
+                    <p>No se ha confirmado una captura exclusiva para este defecto.</p>
+
+                    <h4>Severidad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Prioridad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Requisito relacionado</h4>
+                    <p>FR-008 según el registro histórico; revisar correspondencia.</p>
+
+                    <h4>Caso de prueba relacionado</h4>
+                    <p>Pendiente de confirmar. No se asigna un TC por inferencia.</p>
+
+                    <h4>Estado</h4>
+                    <p>El cierre histórico requiere recuperar evidencia de la corrección.</p>
+                </details>
+            </div>
+
+            <!-- BUG-003 -->
+            <div class="qa-panel">
+                <h3>BUG-003 · Validación del apellido</h3>
+                <p><strong>Estado histórico:</strong> Cerrado, pendiente de corroboración</p>
+                <p><strong>Severidad histórica:</strong> Alta</p>
+                <p><strong>Prioridad histórica:</strong> Alta</p>
+                <p><strong>Requisito histórico:</strong> FR-008 · Revisar</p>
+                <p><strong>Caso relacionado:</strong> Pendiente de confirmar</p>
+
+                <details>
+                    <summary>Ver reporte completo</summary>
+
+                    <h4>Entorno</h4>
+                    <p>Windows · Google Chrome · Portfolio v0.1 (dato histórico)</p>
+
+                    <h4>Precondiciones</h4>
+                    <p>El usuario se encuentra en la pantalla de acceso.</p>
+
+                    <h4>Pasos para reproducir</h4>
+                    <ol>
+                        <li>Ingresar un nombre válido.</li>
+                        <li>Ingresar <code>ddbhad&amp;"%#3516</code> como apellido.</li>
+                        <li>Completar los demás campos con datos válidos.</li>
+                        <li>Aceptar el consentimiento e intentar ingresar.</li>
+                    </ol>
+
+                    <h4>Resultado esperado</h4>
+                    <p>El sistema debe rechazar un apellido que no cumpla las reglas de validación.</p>
+
+                    <h4>Resultado actual</h4>
+                    <p>
+                        El registro histórico indica que se permitía continuar.
+                        La reproducción y la corrección necesitan confirmación.
+                    </p>
+
+                    <h4>Evidencia</h4>
+                    <p>No se ha confirmado una captura exclusiva para este defecto.</p>
+
+                    <h4>Severidad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Prioridad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Requisito relacionado</h4>
+                    <p>FR-008 según el registro histórico; revisar correspondencia.</p>
+
+                    <h4>Caso de prueba relacionado</h4>
+                    <p>Pendiente de confirmar. No se asigna un TC por inferencia.</p>
+
+                    <h4>Estado</h4>
+                    <p>El cierre histórico requiere recuperar evidencia de la corrección.</p>
+                </details>
+            </div>
+
+            <!-- BUG-004 -->
+            <div class="qa-panel">
+                <h3>BUG-004 · Validación del formato del email</h3>
+                <p><strong>Estado histórico:</strong> Cerrado, pendiente de corroboración</p>
+                <p><strong>Severidad histórica:</strong> Alta</p>
+                <p><strong>Prioridad histórica:</strong> Alta</p>
+                <p><strong>Requisito histórico:</strong> FR-003</p>
+                <p><strong>Caso relacionado:</strong> TC-004, asociación por confirmar</p>
+
+                <details>
+                    <summary>Ver reporte completo</summary>
+
+                    <h4>Entorno</h4>
+                    <p>Windows · Google Chrome · Portfolio v0.1 (dato histórico)</p>
+
+                    <h4>Precondiciones</h4>
+                    <p>El usuario se encuentra en la pantalla de acceso.</p>
+
+                    <h4>Pasos para reproducir</h4>
+                    <ol>
+                        <li>Ingresar un nombre y apellido válidos.</li>
+                        <li>Ingresar <code>sfghfh@sfhfhg.adhfgh</code> como email.</li>
+                        <li>Completar el teléfono con un valor válido.</li>
+                        <li>Aceptar el consentimiento e intentar ingresar.</li>
+                    </ol>
+
+                    <h4>Resultado esperado</h4>
+                    <p>El sistema debe validar el formato del email según las reglas definidas.</p>
+
+                    <h4>Resultado actual</h4>
+                    <p>
+                        El registro histórico indica que se permitía continuar.
+                        La reproducción y la corrección necesitan confirmación.
+                    </p>
+
+                    <h4>Evidencia</h4>
+                    <p>
+                        Existe una captura denominada «Bug telefono y email.jpg»,
+                        pero su correspondencia exclusiva con este defecto no está confirmada.
+                    </p>
+
+                    <h4>Severidad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Prioridad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Requisito relacionado</h4>
+                    <p>FR-003</p>
+
+                    <h4>Caso de prueba relacionado</h4>
+                    <p>TC-004 — Invalid Email · PASS en la documentación actual.</p>
+
+                    <h4>Estado</h4>
+                    <p>El cierre histórico requiere confirmar el defecto exacto y su regresión.</p>
+                </details>
+            </div>
+
+            <!-- BUG-005 -->
+            <div class="qa-panel">
+                <h3>BUG-005 · Longitud máxima del teléfono</h3>
+                <p><strong>Estado histórico:</strong> Cerrado, pendiente de corroboración</p>
+                <p><strong>Severidad histórica:</strong> Baja</p>
+                <p><strong>Prioridad histórica:</strong> Alta</p>
+                <p><strong>Requisito histórico:</strong> FR-008</p>
+                <p><strong>Caso relacionado:</strong> TC-018, asociación por confirmar</p>
+
+                <details>
+                    <summary>Ver reporte completo</summary>
+
+                    <h4>Entorno</h4>
+                    <p>Windows · Google Chrome · Portfolio v0.1 (dato histórico)</p>
+
+                    <h4>Precondiciones</h4>
+                    <p>El usuario se encuentra en la pantalla de acceso.</p>
+
+                    <h4>Pasos para reproducir</h4>
+                    <ol>
+                        <li>Ingresar un nombre, apellido y email válidos.</li>
+                        <li>Ingresar un teléfono que exceda el máximo permitido.</li>
+                        <li>Aceptar el consentimiento e intentar ingresar.</li>
+                    </ol>
+
+                    <h4>Resultado esperado</h4>
+                    <p>El sistema debe rechazar un teléfono que supere la longitud máxima permitida.</p>
+
+                    <h4>Resultado actual</h4>
+                    <p>
+                        El registro histórico indica que se permitía continuar.
+                        La reproducción y la corrección necesitan confirmación.
+                    </p>
+
+                    <h4>Evidencia</h4>
+                    <p>
+                        Hay capturas de teléfono disponibles, pero no se ha confirmado
+                        cuál demuestra específicamente este escenario.
+                    </p>
+
+                    <h4>Severidad</h4>
+                    <p>Baja según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Prioridad</h4>
+                    <p>Alta según el registro histórico; pendiente de corroboración.</p>
+
+                    <h4>Requisito relacionado</h4>
+                    <p>FR-008</p>
+
+                    <h4>Caso de prueba relacionado</h4>
+                    <p>TC-018 — Phone Above Maximum Length · PASS en la documentación actual.</p>
+
+                    <h4>Estado</h4>
+                    <p>El cierre histórico requiere confirmar la evidencia de regresión.</p>
+                </details>
+            </div>
+        </section>
+       
+        <!-- 04. EVIDENCIA VERIFICABLE -->
+        <section class="showcase-section" id="evidencia">
+            <h2>04. Evidencia verificable</h2>
+
+            <p class="section-description">
+                Documentación, resultados de ejecución y evidencias visuales
+                para consultar y verificar el trabajo de QA.
+            </p>
+
+            <div class="evidence-grid">
+
+                <!-- Casos de prueba -->
+                <article class="evidence-card">
+                    <h3 class="evidence-title">
+                        <span class="evidence-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.7"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="3" width="16" height="18" rx="2"/>
+                                <path d="m8 9 1.5 1.5L12 8"/>
+                                <path d="M14 9h2"/>
+                                <path d="m8 15 1.5 1.5L12 14"/>
+                                <path d="M14 15h2"/>
+                            </svg>
+                        </span>
+                        Casos de prueba
+                    </h3>
+
+                    <p>
+                        Casos funcionales y escenarios de API documentados
+                        para verificar validaciones, navegación y
+                        comportamiento de la aplicación.
+                    </p>
+
+                    <a href="docs/test-cases.md" target="_blank" rel="noopener">
+                        Consultar casos de prueba →
+                    </a>
+                </article>
+
+                <!-- Plan de pruebas -->
+                <article class="evidence-card">
+                    <h3 class="evidence-title">
+                        <span class="evidence-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.7"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="4" width="14" height="17" rx="2"/>
+                                <rect x="9" y="2" width="6" height="4" rx="1.5"/>
+                                <path d="m8 13 2.5 2.5L16 10"/>
+                            </svg>
+                        </span>
+                        Plan de pruebas
+                    </h3>
+
+                    <p>
+                        Alcance, tipos de prueba, entorno de ejecución,
+                        criterios de entrada y salida y entregables
+                        definidos para el proyecto.
+                    </p>
+
+                    <a href="docs/test-plan.md" target="_blank" rel="noopener">
+                        Consultar plan de pruebas →
+                    </a>
+                </article>
+
+                <!-- Reporte de ejecución -->
+                <article class="evidence-card">
+                    <h3 class="evidence-title">
+                        <span class="evidence-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.7"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3v18h18"/>
+                                <rect x="6" y="12" width="3.5" height="6" rx="0.5"/>
+                                <rect x="11" y="8" width="3.5" height="10" rx="0.5"/>
+                                <rect x="16" y="4" width="3.5" height="14" rx="0.5"/>
+                            </svg>
+                        </span>
+                        Reporte de ejecución
+                    </h3>                    
+                    
+                    <p>
+                        Resultados documentados de pruebas funcionales,
+                        integración frontend-backend y validación de API.
+                        Última regresión Selenium del 21/10/2026:
+                        12 escenarios automatizados en Chrome, Firefox y Edge,
+                        con 36 PASS, 0 FAIL y 0 SKIP.
+                        Incluye las ejecuciones manuales satisfactorias
+                        de TC-006, TC-007 y CT-001 a CT-007.
+                        Se conserva el historial de regresiones anteriores.
+                    </p>
+
+
+                    <a href="docs/test-report.md" target="_blank" rel="noopener">
+                        Consultar resultados →
+                    </a>
+                </article>
+
+                <!-- BUG-001 -->
+                <article class="evidence-card">
+                    <h3 class="evidence-title evidence-title-bug">
+                        <span class="evidence-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.7"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3 14 5l3-.2.8 2.8L20 10l-1 2 1 2-2.2 2.4-.8 2.8-3-.2L12 21l-2-2-3 .2-.8-2.8L4 14l1-2-1-2 2.2-2.4L7 5l3 .2z"/>
+                                <circle cx="9" cy="11" r="1"/>
+                                <circle cx="15" cy="11" r="1"/>
+                                <path d="M9 15h6"/>
+                            </svg>
+                        </span>
+                        BUG-001 · Validación de teléfono
+                    </h3>
+
+                    <p>
+                        Defecto asociado a TC-012. Se corrigió la aceptación
+                        de caracteres alfabéticos y se verificó el rechazo
+                        del teléfono inválido.
+                    </p>
+
+                    <a href="docs/bug-reports.md" target="_blank" rel="noopener">
+                        Consultar reporte del defecto →
+                    </a>
+
+                    <div class="evidence-links">
+                        <a
+                            href="docs/evidence/bug-001/TC-012-telefono-invalido.jpg"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Evidencia: teléfono inválido
+                        </a>
+
+                        <a
+                            href="docs/evidence/bug-001/TC-012-telefono-valido.jpg"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Evidencia: teléfono válido
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- PIE FIJO -->
+    <footer class="cv-bottom-bar">
+        <a class="cv-back-button" href="index.html#qa">
+            <span class="button-brace" aria-hidden="true">{</span>
+            Volver a QA
+            <span class="button-brace" aria-hidden="true">}</span>
+        </a>
+    </footer>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        // Cerrar el índice al seleccionar una sección.
+        const indiceContenidos = document.getElementById(
+            'indice-contenidos'
+        );
+
+        const enlacesIndice = indiceContenidos.querySelectorAll(
+            '.index-link'
+        );
+
+        enlacesIndice.forEach((enlace) => {
+            enlace.addEventListener('click', () => {
+                indiceContenidos.open = false;
+            });
+        });
+
+            // Mantener un solo escenario Selenium abierto.
+    const seleniumTests = document.querySelectorAll(
+        "#selenium-library .selenium-test"
+    );
+
+    seleniumTests.forEach((test) => {
+        test.addEventListener("toggle", () => {
+            if (!test.open) return;
+
+            seleniumTests.forEach((otherTest) => {
+                if (otherTest !== test) {
+                    otherTest.open = false;
+                }
+            });
+        });
+    });
+    });
+    </script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Mantener el comportamiento actual de los reportes de bugs.
+        const reportes = document.querySelectorAll(
+            "#regresion-bugs .qa-panel details"
+        );
+
+        reportes.forEach((reporte) => {
+            reporte.addEventListener("toggle", () => {
+                if (!reporte.open) return;
+
+                reportes.forEach((otroReporte) => {
+                    if (otroReporte !== reporte) {
+                        otroReporte.open = false;
+                    }
+                });
+            });
+        });
+
+        // Biblioteca interactiva de casos de prueba.
+        const biblioteca = document.querySelector("#test-library");
+
+        if (!biblioteca) return;
+
+        const lomos = biblioteca.querySelectorAll(".test-spine");
+        const detalle = biblioteca.querySelector("#test-case-detail");
+
+        const casos = [
+            {
+                id: "TC-001",
+                title: "Formulario de registro vacío",
+                requirement: "FR-002",
+                priority: "High",
+                type: "Negative Testing",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Abrir la aplicación.",
+                    "Dejar todos los campos vacíos.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe mostrar mensajes de validación para todos los campos obligatorios."
+            },
+            {
+                id: "TC-002",
+                title: "Registro exitoso",
+                requirement: "FR-001, FR-005",
+                priority: "High",
+                type: "Positive Testing",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                data: "Nombre: Miguel | Apellido: Flor | Correo electrónico: válido | Teléfono: válido | Consentimiento: aceptado",
+                steps: [
+                    "Ingresar el nombre Miguel.",
+                    "Ingresar el apellido Flor.",
+                    "Ingresar un correo electrónico válido.",
+                    "Ingresar un teléfono válido.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe validar los datos y permitir el acceso al portfolio."
+            },
+            {
+                id: "TC-003",
+                title: "Nombre obligatorio",
+                requirement: "FR-002",
+                priority: "High",
+                type: "Negative Testing",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Dejar vacío el campo Nombre.",
+                    "Completar los demás campos con datos válidos.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: 'El sistema debe mostrar el mensaje "El nombre es obligatorio."'
+            },
+            {
+                id: "TC-004",
+                title: "Correo electrónico inválido",
+                requirement: "FR-003",
+                priority: "High",
+                type: "Negative Testing",
+                data: "Email: miguel@",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Ingresar un nombre y apellido válidos.",
+                    "Ingresar el correo electrónico inválido: miguel@.",
+                    "Completar el teléfono con un valor válido.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: 'El sistema debe mostrar el mensaje "Ingresá un email válido."'
+            },
+            {
+                id: "TC-005",
+                title: "Consentimiento obligatorio",
+                requirement: "FR-004",
+                priority: "High",
+                type: "Negative Testing",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar todos los campos con datos válidos.",
+                    "Dejar sin marcar la casilla de consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: 'El sistema debe impedir el acceso y mostrar el mensaje "Debés aceptar el registro de tus datos."'
+            },
+            {
+                id: "TC-006",
+                title: "Navegación a Sobre mí",
+                requirement: "FR-006",
+                priority: "Medium",
+                type: "Functional Testing",
+                preconditions: "El usuario ya ingresó al portfolio.",
+                steps: [
+                    'Seleccionar la opción "Sobre mí" en la navegación.',
+                    "Observar la sección a la que se desplaza la página."
+                ],
+                expected: 'La página debe desplazarse hasta la sección "Sobre mí".'
+            },            
+            {
+                id: "TC-007",
+                title: "Navegación a Especialidades",
+                requirement: "FR-006",
+                priority: "High",
+                type: "Functional Testing",
+                preconditions: "El usuario ya ingresó al portfolio.",
+                steps: [
+                    'Seleccionar la opción "Especialidades" en la navegación.',
+                    "Observar la sección a la que se desplaza la página."
+                ],
+                expected: 'La página debe desplazarse hasta la sección "Especialidades".'
+            },
+            {
+                id: "TC-008",
+                title: "Adaptación a dispositivos móviles",
+                requirement: "FR-007",
+                priority: "High",
+                type: "Responsive Testing",
+                preconditions: "La aplicación está disponible en un navegador con herramientas de desarrollo.",
+                steps: [
+                    "Abrir las herramientas de desarrollo de Chrome.",
+                    "Activar la barra de herramientas para dispositivos.",
+                    "Seleccionar un dispositivo móvil.",
+                    "Abrir la aplicación y recorrer sus secciones."
+                ],
+                expected: "La interfaz debe adaptarse al tamaño de la pantalla, sin desbordamientos que impidan utilizar el contenido y los controles."
+            },
+            {
+                id: "TC-009",
+                title: "Legibilidad de la interfaz",
+                requirement: "NFR-001",
+                priority: "Medium",
+                type: "UI Testing",
+                preconditions: "La aplicación está abierta en el navegador.",
+                steps: [
+                    "Revisar los títulos y subtítulos.",
+                    "Revisar los botones y formularios.",
+                    "Revisar los elementos de navegación.",
+                    "Comprobar que el texto pueda leerse y entenderse."
+                ],
+                expected: "Los textos, controles y elementos de navegación deben ser visibles, legibles y comprensibles."
+            },
+            {
+                id: "TC-010",
+                title: "Rendimiento y tiempos de respuesta",
+                requirement: "NFR-002",
+                priority: "Medium",
+                type: "Performance Testing",
+                preconditions: "La aplicación y el backend están disponibles en un entorno de prueba definido.",
+                steps: [
+                    "Definir el entorno, la herramienta y las condiciones de medición.",
+                    "Medir el tiempo de carga inicial de la aplicación.",
+                    "Medir el tiempo de respuesta de las interacciones principales.",
+                    "Medir los tiempos de respuesta de los endpoints de la API.",
+                    "Registrar los resultados obtenidos.",
+                    "Comparar las mediciones con los umbrales de aceptación que se definan."
+                ],
+                expected: "Los tiempos de carga, interacción y respuesta de la API deben cumplir los umbrales de aceptación definidos para el entorno de prueba."
+            },
+            {
+                id: "TC-011",
+                title: "Compatibilidad de navegador",
+                requirement: "NFR-003",
+                priority: "Medium",
+                type: "Compatibility Testing",
+                browsers: ["Chrome", "Firefox", "Edge"],
+                preconditions: "La aplicación está disponible para probar en Chrome, Firefox y Edge.",
+                steps: [
+                    "Abrir la aplicación en Google Chrome.",
+                    "Repetir la prueba en Mozilla Firefox.",
+                    "Repetir la prueba en Microsoft Edge.",
+                    "Comprobar la navegación y las funciones principales en cada navegador."
+                ],
+                expected: "Las funciones principales deben poder utilizarse correctamente en los tres navegadores."
+            },
+            {
+                id: "TC-012",
+                title: "Teléfono compuesto únicamente por letras",
+                requirement: "FR-008",
+                priority: "High",
+                type: "Negative Testing",
+                data: "Phone: abc",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar el nombre, apellido y correo electrónico con datos válidos.",
+                    "Ingresar letras en el campo Teléfono: abc.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe rechazar el teléfono y mostrar un mensaje de validación.",
+                bug: "BUG-001"
+            },
+            {
+                id: "TC-013",
+                title: "Teléfono vacío",
+                requirement: "FR-008",
+                priority: "High",
+                type: "Negative Testing",
+                data: "Phone: (empty)",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar el nombre, apellido y correo electrónico con datos válidos.",
+                    "Dejar vacío el campo Teléfono.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe rechazar el registro e indicar que el teléfono es obligatorio."
+            },
+            {
+                id: "TC-014",
+                title: "Teléfono con Letras y Números Mezclados",
+                requirement: "FR-008",
+                priority: "High",
+                type: "Negative Testing",
+                data: "Phone: jdhfadg246",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar los demás campos con datos válidos.",
+                    "Ingresar jdhfadg246 en el campo Teléfono.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe rechazar el teléfono que contiene letras y mostrar un mensaje de validación."
+            },
+            {
+                id: "TC-015",
+                title: "Teléfono por debajo de la longitud mínima",
+                requirement: "FR-008",
+                priority: "High",
+                type: "Negative Testing",
+                data: "Phone: 123456",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar los demás campos con datos válidos.",
+                    "Ingresar 123456 en el campo Teléfono.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe rechazar el teléfono porque contiene menos de 7 dígitos."
+            },
+            {
+                id: "TC-016",
+                title: "Teléfono en la longitud mínima",
+                requirement: "FR-008",
+                priority: "Medium",
+                type: "Positive Testing",
+                data: "Phone: 1234567",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar los demás campos con datos válidos.",
+                    "Ingresar 1234567 en el campo Teléfono.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe aceptar el teléfono de 7 dígitos y permitir continuar si los demás datos son válidos."
+            },
+            {
+                id: "TC-017",
+                title: "Teléfono con prefijo y separadores",
+                requirement: "FR-008",
+                priority: "Medium",
+                type: "Positive Testing",
+                data: "Phone: +54 9 2996299558",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar los demás campos con datos válidos.",
+                    "Ingresar +54 9 2996299558 en el campo Teléfono.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe aceptar el prefijo internacional y los espacios si el teléfono cumple las reglas de validación."
+            },
+            {
+                id: "TC-018",
+                title: "Teléfono por encima de la longitud máxima",
+                requirement: "FR-008",
+                priority: "High",
+                type: "Negative Testing",
+                data: "Phone: 1234567890123456",
+                preconditions: "El usuario se encuentra en la pantalla de registro.",
+                steps: [
+                    "Completar los demás campos con datos válidos.",
+                    "Ingresar 1234567890123456 en el campo Teléfono.",
+                    "Aceptar el consentimiento.",
+                    'Presionar "Ingresar al portfolio".'
+                ],
+                expected: "El sistema debe rechazar el teléfono porque contiene más de 15 dígitos."
+            }
+        ];
+
+        function agregarCampo(contenedor, etiqueta, valor) {
+            if (!valor) return;
+
+            const bloque = document.createElement("div");
+            const titulo = document.createElement("h4");
+            const contenido = document.createElement("p");
+
+            titulo.textContent = etiqueta;
+            contenido.textContent = valor;
+
+            bloque.append(titulo, contenido);
+            contenedor.append(bloque);
+        }
+
+        function mostrarCaso(caso) {
+            detalle.replaceChildren();
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = `${caso.id} — ${caso.title}`;
+            detalle.append(titulo);
+
+            
+            agregarCampo(detalle, "Requisito", caso.requirement);
+
+            agregarCampo(
+                detalle,
+                "Prioridad",
+                { High: "Alta", Medium: "Media", Low: "Baja" }[caso.priority]
+                    || caso.priority
+            );
+
+            agregarCampo(
+                detalle,
+                "Tipo de prueba",
+                {
+                    "Negative Testing": "Prueba negativa",
+                    "Positive Testing": "Prueba positiva",
+                    "Functional Testing": "Prueba funcional",
+                    "Responsive Testing": "Prueba de diseño adaptable",
+                    "UI Testing": "Prueba de interfaz",
+                    "Compatibility Testing": "Prueba de compatibilidad",
+                    "Performance Testing": "Prueba de rendimiento"
+                }[caso.type] || caso.type
+            );
+
+            agregarCampo(detalle, "Precondiciones", caso.preconditions);
+            agregarCampo(detalle, "Datos de prueba", caso.data);
+
+
+            if (caso.browsers) {
+                agregarCampo(detalle, "Navegadores compatibles", caso.browsers.join(", "));
+            }
+
+            const lista = document.createElement("div");
+
+            if (caso.steps?.length) {
+                const subtitulo = document.createElement("h4");
+                const pasos = document.createElement("ol");
+
+                subtitulo.textContent = "Pasos";
+                caso.steps.forEach((paso) => {
+                    const elemento = document.createElement("li");
+                    elemento.textContent = paso;
+                    pasos.append(elemento);
+                });
+
+                lista.append(subtitulo, pasos);
+                detalle.append(lista);
+            }
+
+            agregarCampo(detalle, "Resultado esperado", caso.expected);                
+                
+                const estadosEspeciales = {
+                    "TC-006": "PASS — EJECUCIÓN MANUAL 20/10/2026",
+                    "TC-007": "PASS — EJECUCIÓN MANUAL 20/10/2026",
+                    "TC-010": "PENDIENTE DE MEDICIÓN",
+                    "TC-011": "VERIFICACIÓN PARCIAL"
+                };
+
+                const estado = estadosEspeciales[caso.id]
+                    || "PASS — EJECUCIÓN HISTÓRICA";
+
+                agregarCampo(detalle, "Estado documentado", estado);
+
+                if (estado.startsWith("PASS")) {
+                    detalle.lastElementChild.classList.add("test-status-approved");
+                }
+
+                detalle.hidden = false;
+            }
+
+        function seleccionarCaso(lomo) {
+            const caso = casos.find(
+                (item) => item.id === lomo.dataset.testId
+            );
+
+            if (!caso) return;
+
+            const yaSeleccionado = lomo.getAttribute("aria-expanded") === "true";
+
+            lomos.forEach((otro) => {
+                otro.setAttribute("aria-expanded", "false");
+            });
+
+            if (yaSeleccionado) {
+                detalle.hidden = true;
+                return;
+            }
+
+            lomo.setAttribute("aria-expanded", "true");
+            mostrarCaso(caso);
+        }
+
+        lomos.forEach((lomo) => {
+            lomo.addEventListener("click", () => seleccionarCaso(lomo));
+        });
+    });
+    </script>
+
+
+</body>
+</html>

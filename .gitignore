@@ -1,7 +1,21 @@
-﻿node_modules/
+﻿
+# Dependencias
+node_modules/
+
+# Variables de entorno
 .env
 .env.*
 !.env.example
+
+# Bases de datos locales
 *.sqlite
 *.sqlite3
 *.db
+
+# Respaldos y archivos temporales
+*.backup
+*.backup.*
+*.bak
+*.tmp
+*.patch
+*.backup-*

@@ -25,5 +25,8 @@
   "homepage": "https://github.com/MiguelGabrielFlor/miguel-flor-qa-ai-portfolio#readme",
   "devDependencies": {
     "selenium-webdriver": "^4.51.0"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^6.4.299"
   }
 }

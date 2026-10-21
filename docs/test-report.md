@@ -220,3 +220,313 @@ Verificar que, después de completar correctamente el formulario de acceso, el p
 ## Conclusión
 
 La verificación manual del flujo feliz y del saludo personalizado multilingüe finalizó con **3 pruebas PASS y 0 FAIL**.
+
+---
+
+# Verificación actual del backend y del servicio de contacto
+
+## Objetivo
+
+Registrar el estado actual de las pruebas automatizadas del backend y documentar los escenarios de la API de contacto incorporados después de Sprint 2.
+
+## Resultados de las pruebas automatizadas
+
+| Métrica | Resultado |
+|---|---:|
+| Pruebas ejecutadas | 15 |
+| Aprobadas | 15 |
+| Fallidas | 0 |
+
+**Herramienta:** Node.js Test Runner.
+
+## Escenarios de contacto cubiertos
+
+| ID | Escenario | Resultado |
+|---|---|---|
+| API-TC-007 | Servicio de correo no configurado | PASS |
+| API-TC-008 | Envío simulado de mensaje de contacto | PASS |
+| API-TC-009 | Mensaje de contacto vacío | PASS |
+| API-TC-010 | Fallo simulado del envío SMTP | PASS |
+
+## Observaciones
+
+- Los escenarios de contacto se verificaron mediante pruebas automatizadas.
+- El envío satisfactorio se comprobó con un servicio de correo simulado.
+- El error SMTP se reprodujo de forma controlada para verificar la respuesta de la API.
+- Estos resultados no modifican los resultados históricos documentados en Sprint 2.
+- La autenticación SMTP se verificó por separado; esa comprobación no equivale a confirmar la recepción de un correo real.
+
+## Conclusión
+
+La última ejecución registrada de la suite automatizada finalizó con 15 pruebas aprobadas y 0 fallidas. Los escenarios de contacto documentados cubren la falta de configuración del servicio, el envío simulado, el rechazo de mensajes vacíos y el tratamiento de errores de envío.
+
+---
+
+## Regresión Selenium multinavegador — 20/10/2026
+
+### Objetivo
+
+Verificar los nueve escenarios automatizados de acceso,
+validaciones e idioma en Google Chrome, Mozilla Firefox
+y Microsoft Edge.
+
+### Comando ejecutado
+
+Suite `npm.cmd run test:selenium` ejecutada con la variable
+`TEST_BROWSER` configurada para cada navegador.
+
+### Resultados
+
+| Navegador | Ejecutadas | PASS | FAIL | SKIP |
+|---|---:|---:|---:|---:|
+| Google Chrome | 9 | 9 | 0 | 0 |
+| Mozilla Firefox | 9 | 9 | 0 | 0 |
+| Microsoft Edge | 9 | 9 | 0 | 0 |
+| **Total** | **27** | **27** | **0** | **0** |
+
+### Alcance
+
+Se verificaron los nueve escenarios Selenium existentes:
+apertura de la pantalla de acceso, validaciones de datos,
+consentimiento obligatorio, selección de idioma ES/EN/PT
+y registro válido.
+
+### Observaciones
+
+Los nueve escenarios se ejecutaron satisfactoriamente
+en los tres navegadores.
+
+La cobertura corresponde a las funcionalidades automatizadas
+de la pantalla de acceso. No incluye todavía el formulario
+de contacto ni la navegación integral del portfolio.
+
+Los tiempos de ejecución de Selenium no representan
+mediciones de rendimiento de la aplicación.
+
+### Estado
+
+PASS — Regresión automatizada multinavegador.
+
+---
+
+## Regresión Selenium multinavegador — 20/10/2026 — Ampliación de cobertura
+
+### Objetivo
+
+Verificar los once escenarios automatizados de acceso, validaciones, internacionalización y formulario de contacto en Google Chrome, Mozilla Firefox y Microsoft Edge.
+
+### Entorno de pruebas
+
+- Selenium WebDriver con Node.js.
+- Navegadores: Chrome, Firefox y Microsoft Edge.
+- Backend Express con SQLite en memoria y servicio de correo simulado.
+- Envío de correos reales deshabilitado durante las pruebas de contacto.
+
+### Comando ejecutado
+
+Suite `npm.cmd run test:selenium` ejecutada con la variable `TEST_BROWSER` configurada para cada navegador.
+
+### Resultados
+
+| Navegador | Ejecutadas | PASS | FAIL | SKIP |
+|---|---:|---:|---:|---:|
+| Google Chrome | 11 | 11 | 0 | 0 |
+| Mozilla Firefox | 11 | 11 | 0 | 0 |
+| Microsoft Edge | 11 | 11 | 0 | 0 |
+| **Total** | **33** | **33** | **0** | **0** |
+
+### Cobertura
+
+Se ejecutaron los nueve escenarios Selenium previamente existentes y dos escenarios nuevos:
+
+- UI-010: envío válido del formulario de contacto, confirmación visual, limpieza del mensaje y rehabilitación del botón.
+- UI-011: validación HTML5 de mensaje obligatorio y ausencia de confirmación de envío.
+
+### Observaciones
+
+Los once escenarios finalizaron satisfactoriamente en los tres navegadores.
+
+UI-010 utiliza las rutas reales de Express con un servicio de correo simulado. No verifica la entrega de correos electrónicos mediante SMTP real.
+
+UI-011 verifica la invalidez del campo vacío, pero no incorpora todavía una comprobación explícita de ausencia de solicitudes HTTP.
+
+Los tiempos registrados corresponden a la ejecución de las pruebas Selenium y no constituyen mediciones de rendimiento de la aplicación.
+
+La cobertura no incluye todavía una automatización integral de todas las páginas y funcionalidades del portfolio.
+
+### Estado
+
+**PASS — 33 ejecuciones satisfactorias, 0 fallos, 0 omitidas.**
+
+---
+
+## Reejecución manual — TC-007
+
+**Fecha:** 20/10/2026
+
+**Caso:** TC-007 — Navegación a Especialidades
+
+**Requisito:** FR-006
+
+**Tipo:** Functional Testing
+
+**Resultado:** PASS
+
+### Objetivo
+
+Verificar que el enlace "Especialidades" de la
+navegación principal permita desplazarse
+correctamente hasta la sección #specialties.
+
+### Verificaciones realizadas
+
+1. Acceso al portfolio mediante el formulario: PASS.
+2. Selección del enlace "Especialidades": PASS.
+3. Desplazamiento hasta #specialties: PASS.
+4. Visualización de la sección sin errores aparentes: PASS.
+
+### Defectos observados
+
+No se observaron defectos durante esta ejecución.
+
+### Trazabilidad
+
+Esta ejecución corresponde al escenario actualizado
+TC-007 — Navegación a Especialidades.
+
+El escenario histórico "Navigate to QA" fue
+reemplazado en la documentación funcional.
+
+Esta ejecución manual es independiente de la
+regresión Selenium del 20/10/2026, cuyo resultado
+permanece en 33 PASS, 0 FAIL y 0 SKIP.
+
+---
+
+## Ejecución manual — TC-006
+
+**Fecha:** 20/10/2026
+
+**Caso:** TC-006 — Navegación a Sobre mí
+
+**Requisito:** FR-006
+
+**Tipo:** Functional Testing
+
+**Resultado:** PASS
+
+### Objetivo
+
+Verificar que el enlace "Sobre mí" de la navegación
+principal permita desplazarse correctamente
+hasta la sección #about.
+
+### Verificaciones realizadas
+
+1. Acceso al portfolio: PASS.
+2. Selección del enlace "Sobre mí": PASS.
+3. Desplazamiento hasta #about: PASS.
+4. Visualización correcta de la sección: PASS.
+
+### Defectos observados
+
+No se reportaron defectos durante esta ejecución.
+
+### Trazabilidad
+
+Esta ejecución corresponde al escenario
+TC-006 — Navegación a Sobre mí.
+
+Es independiente de la ejecución manual de TC-007
+y de la regresión automatizada Selenium.
+
+La regresión Selenium del 20/10/2026 permanece
+en 33 PASS, 0 FAIL y 0 SKIP.
+
+---
+
+## Regresión Selenium multinavegador — 21/10/2026
+
+### Objetivo
+
+Verificar los 12 escenarios automatizados de acceso,
+validaciones, internacionalización y formulario de contacto,
+incluyendo el manejo de errores HTTP 500.
+
+### Entorno
+
+- Sistema operativo: Windows.
+- Herramienta: Selenium WebDriver con Node.js.
+- Navegadores: Google Chrome, Mozilla Firefox y Microsoft Edge.
+- API Express simulada con SQLite en memoria.
+- Servicio de correo simulado, sin envíos reales.
+
+### Comando ejecutado
+
+`npm.cmd run test:selenium`
+
+Variable `TEST_BROWSER` configurada para cada navegador:
+
+- `chrome`
+- `firefox`
+- `MicrosoftEdge`
+
+### Resultados
+
+| Navegador | Ejecutadas | PASS | FAIL | SKIP | Duración |
+|---|---:|---:|---:|---:|---:|
+| Google Chrome | 12 | 12 | 0 | 0 | 68,18 s |
+| Mozilla Firefox | 12 | 12 | 0 | 0 | 613,99 s |
+| Microsoft Edge | 12 | 12 | 0 | 0 | 83,87 s |
+| **Total** | **36** | **36** | **0** | **0** | **766,04 s** |
+
+### Nueva cobertura — UI-015
+
+**Caso:** UI-015 — Manejo de error HTTP 500.
+
+**Archivo:** `tests/selenium/contact-server-error.test.js`
+
+**Requisito:** FR-010.
+
+**Resultado:** PASS en Chrome, Firefox y Edge.
+
+Verificaciones automatizadas:
+
+1. Visualización del mensaje de error esperado.
+2. Conservación del contenido ingresado.
+3. Rehabilitación del botón de envío.
+
+El error HTTP 500 se generó mediante un fallo controlado
+del servicio de correo de la API simulada.
+
+### Verificación de regresión
+
+UI-010 (envío exitoso) y UI-015 (error simulado)
+finalizaron con PASS en los tres navegadores.
+
+No se detectaron regresiones en los escenarios
+automatizados existentes.
+
+### Observaciones
+
+- Firefox presentó un tiempo de ejecución superior
+  al de Chrome y Edge.
+- Edge mostró mensajes internos relacionados con
+  SSL handshake y Renderer fallback.
+- Estos mensajes no provocaron fallos en Selenium.
+- Los tiempos corresponden a la ejecución completa
+  de las pruebas, no al rendimiento de la aplicación.
+- La prueba UI-015 verifica el comportamiento visible
+  del frontend; no inspecciona directamente el código
+  HTTP mediante Selenium.
+- La regresión no constituye una auditoría integral
+  de compatibilidad visual, rendimiento o accesibilidad.
+- No se enviaron correos electrónicos reales.
+
+### Estado
+
+**PASS — 36 ejecuciones satisfactorias,
+0 fallidas y 0 omitidas.**
+
+La regresión anterior del 20/10/2026,
+con 33 PASS, se conserva como evidencia histórica.

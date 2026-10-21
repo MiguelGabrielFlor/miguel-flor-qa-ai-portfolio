@@ -7,7 +7,8 @@ const { Builder, By } = require('selenium-webdriver');
 const { Select } = require('selenium-webdriver/lib/select');
 
 test('UI-009: el selector cambia el idioma de la pantalla de acceso', async (t) => {
-    const driver = await new Builder().forBrowser('chrome').build();
+    const browser = process.env.TEST_BROWSER || 'chrome';
+    const driver = await new Builder().forBrowser(browser).build();
 
     t.after(async () => {
         await driver.quit();
@@ -22,9 +23,9 @@ test('UI-009: el selector cambia el idioma de la pantalla de acceso', async (t) 
     );
 
     const languages = [
-        { code: 'es', expected: 'Bienvenido' },
+        { code: 'es', expected: 'Te doy la bienvenida' },
         { code: 'en', expected: 'Welcome' },
-        { code: 'pt', expected: 'Bem-vindo' }
+        { code: 'pt', expected: 'Dou-lhe as boas-vindas' }
     ];
 
     for (const language of languages) {

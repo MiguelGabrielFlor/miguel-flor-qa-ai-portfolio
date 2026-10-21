@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend | QA Testing — Miguel Flor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .showcase {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 48px 0 110px;
+        }
+
+        .showcase-header {
+            margin-bottom: 42px;
+        }
+
+        .showcase-header h1 {
+            max-width: 800px;
+            margin-bottom: 16px;
+        }
+
+        .showcase-header > p:last-child {
+            max-width: 760px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .showcase-section {
+            margin: 0 0 36px;
+        }
+
+        .showcase-section > h2 {
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .showcase-columns {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .showcase-panel {
+            min-width: 0;
+            padding: 22px;
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .panel-heading h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .panel-heading span {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .code-block {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--background);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-header span {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .copy-code {
+            flex-shrink: 0;
+            padding: 7px 10px;
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .copy-code:hover {
+            border-color: var(--primary);
+            color: var(--primary-hover);
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 18px;
+            overflow-x: auto;
+            color: #d4d4d4;
+            font: 13px/1.75 Consolas, monospace;
+            tab-size: 4;
+        }
+
+        .explanation-content {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .explanation-content h4 {
+            margin: 18px 0 7px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .explanation-content h4:first-child {
+            margin-top: 0;
+        }
+
+        .explanation-content p {
+            margin: 0 0 12px;
+        }
+
+        .explanation-content ul {
+            padding-left: 20px;
+        }
+
+        .explanation-content li {
+            margin-bottom: 7px;
+        }
+
+        .qa-focus {
+            margin-top: 20px;
+            padding: 14px;
+            border-left: 3px solid var(--primary);
+            background: var(--card);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .qa-focus strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .showcase-note {
+            margin-top: 14px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--text);
+        }
+
+        @media (max-width: 760px) {
+            .showcase {
+                padding-top: 30px;
+                padding-bottom: 100px;
+            }
+
+            .showcase-columns {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .showcase-panel {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .showcase {
+                width: calc(100% - 24px);
+            }
+
+            .showcase-panel {
+                padding: 14px;
+            }
+
+            .code-block pre {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .code-header {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+        }
+        
+        
+        /* Índice flotante: no modifica la altura del encabezado */
+        .showcase-index {
+            position: relative;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        /* Control del menú */
+        .index-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: fit-content;
+            max-width: 100%;
+            padding: 12px 18px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            list-style: none;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .index-toggle::-webkit-details-marker {
+            display: none;
+        }
+
+        .index-toggle::after {
+            content: "+";
+            color: var(--primary);
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .showcase-index[open] .index-toggle::after {
+            content: "−";
+        }
+
+        .index-toggle:hover,
+        .index-toggle:focus-visible {
+            color: var(--primary-hover);
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Panel flotante: se superpone al contenido */
+        .index-grid {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            z-index: 1100;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            width: min(520px, calc(100vw - 32px));
+            margin: 0;
+            padding: 12px;
+            background: var(--background, #080B12);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .index-link {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 0;
+            padding: 16px;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .index-link:hover,
+        .index-link:focus-visible {
+            color: var(--text);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            outline: none;
+        }
+
+        .index-number {
+            color: var(--primary-hover);
+            font-size: 12px;
+        }
+
+        .index-link strong {
+            font-size: 14px;
+        }
+
+        .index-link small {
+            color: var(--text-secondary);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 760px) {
+            .index-toggle {
+                width: 100%;
+            }
+
+            .index-grid {
+                grid-template-columns: minmax(0, 1fr);
+                width: min(360px, calc(100vw - 32px));
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .index-toggle,
+            .index-link {
+                transition: none;
+            }
+
+            .index-link:hover,
+            .index-link:focus-visible {
+                transform: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body>   
+    
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"
+            aria-label="Volver al perfil de Miguel Flor">
+                <span class="logo-initials">MF<span class="logo-dot">.</span></span>
+                <span class="logo-divider" aria-hidden="true"></span>
+                <span class="logo-label">PORTFOLIO</span>
+            </a>
+
+            <details class="showcase-index" id="indice-contenidos">
+                <summary class="index-toggle">
+                    <span>Ir a una sección</span>
+                </summary>
+
+                <nav class="index-grid" aria-label="Índice de contenidos">
+                    <a class="index-link" href="#estructura-html">
+                        <span class="index-number">01</span>
+                        <strong>Estructura HTML</strong>
+                        <small>Organización de la interfaz</small>
+                    </a>
+
+                    <a class="index-link" href="#validacion">
+                        <span class="index-number">02</span>
+                        <strong>Validación y estilos</strong>
+                        <small>Errores y estados visuales</small>
+                    </a>
+
+                    <a class="index-link" href="#internacionalizacion">
+                        <span class="index-number">03</span>
+                        <strong>Internacionalización</strong>
+                        <small>Español, inglés y portugués</small>
+                    </a>
+
+                    <a class="index-link" href="#pruebas-automatizadas">
+                        <span class="index-number">04</span>
+                        <strong>Pruebas automatizadas</strong>
+                        <small>Escenarios y pruebas Selenium</small>
+                    </a>
+                </nav>
+            </details>
+        </div>
+    </header>
+    <main class="showcase">
+        <header class="showcase-header">
+            <p class="eyebrow">FRONTEND · INTERFAZ BAJO PRUEBA</p>
+            <h1>La interfaz también se puede verificar.</h1>
+            <p>
+                El frontend conecta estructura, diseño, validaciones e
+                internacionalización. Cada comportamiento debe poder
+                comprobarse mediante pruebas reproducibles.
+            </p>
+        </header>
+
+        <section class="showcase-section" id="estructura-html">
+            <h2>01. Estructura HTML</h2>
+            <p class="section-description">
+                Organización de las áreas de acceso y portfolio.
+            </p>
+
+            <div class="showcase-columns">
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Estructura</h3>
+                        <span>index.html</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>HTML · estructura identificada</span>
+                            <button class="copy-code" type="button">
+                                Copiar código
+                            </button>
+                        </div>
+                        <pre><code>&lt;main
+        id="accessPage"
+        class="access-page"
+    &gt;
+        &lt;form id="accessForm" novalidate&gt;
+            ...
+        &lt;/form&gt;
+    &lt;/main&gt;
+
+    &lt;div
+        id="portfolio"
+        class="portfolio hidden"
+    &gt;
+        ...
+    &lt;/div&gt;</code></pre>
+                    </div>
+                </article>
+
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Explicación</h3>
+                    </div>
+
+                    <div class="explanation-content">
+                        <h4>¿Qué representa?</h4>
+                        <p>
+                            El HTML separa la pantalla de acceso del
+                            portfolio que se muestra después del registro.
+                            Los identificadores permiten localizar
+                            cada elemento desde JavaScript.
+                        </p>
+
+                        <h4>¿Por qué importa?</h4>
+                        <p>
+                            Una estructura clara facilita el mantenimiento,
+                            la automatización y la comprobación de los
+                            estados de la interfaz.
+                        </p>
+
+                        <div class="qa-focus">
+                            <strong>Enfoque QA</strong>
+                            Última regresión Selenium documentada:
+                            20/10/2026 — 9 pruebas ejecutadas,
+                            9 PASS, 0 FAIL y 0 SKIP.
+                            La cobertura corresponde a escenarios
+                            automatizados de acceso y validación
+                            ejecutados en Google Chrome.
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="showcase-section" id="validacion">
+            <h2>02. Validación y estados visuales</h2>
+            <p class="section-description">
+                Comunicación visual de errores y campos en foco.
+            </p>
+
+            <div class="showcase-columns">
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Estilos CSS</h3>
+                        <span>css/style.css</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>CSS · estados de campo</span>
+                            <button class="copy-code" type="button">
+                                Copiar código
+                            </button>
+                        </div>
+                        <pre><code>input:focus {
+        border-color: var(--primary);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(108, 99, 255, 0.15);
+    }
+
+    input.input-error {
+        border-color: var(--error);
+    }
+
+    .error-message {
+        display: block;
+        color: var(--error);
+        font-size: 12px;
+        margin-top: 6px;
+    }</code></pre>
+                    </div>
+
+                    <div class="panel-heading" style="margin-top: 24px;">
+                        <h3>Gestión del error</h3>
+                        <span>js/app.js</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>JavaScript · showError</span>
+                            <button class="copy-code" type="button">
+                                Copiar código
+                            </button>
+                        </div>
+                        <pre><code>function showError(
+        input,
+        errorId,
+        message
+    ) {
+        input.classList.add("input-error");
+
+        document.getElementById(
+            errorId
+        ).textContent = message;
+    }</code></pre>
+                    </div>
+                </article>
+
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Explicación</h3>
+                    </div>
+
+                    <div class="explanation-content">
+                        <h4>¿Qué hace el CSS?</h4>
+                        <p>
+                            Resalta el campo activo y distingue los campos
+                            inválidos mediante el color de error. El mensaje
+                            se presenta debajo del campo correspondiente.
+                        </p>
+
+                        <h4>¿Qué hace JavaScript?</h4>
+                        <p>
+                            <code>showError()</code> agrega la clase de error
+                            al campo y coloca el mensaje en el elemento
+                            identificado por <code>errorId</code>.
+                        </p>
+
+                        <h4>¿Qué debería probarse?</h4>
+                        <ul>
+                            <li>Que el error aparezca en el campo correcto.</li>
+                            <li>Que el mensaje sea claro y visible.</li>
+                            <li>Que los errores puedan limpiarse.</li>
+                            <li>Que el foco sea perceptible al navegar.</li>
+                        </ul>
+
+                        <div class="qa-focus">
+                            <strong>Enfoque QA</strong>
+                            Comprobar tanto la validación funcional como
+                            la presentación visual del error.
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="showcase-section" id="internacionalizacion">
+            <h2>03. Internacionalización</h2>
+            <p class="section-description">
+                Adaptación de los textos al idioma seleccionado.
+            </p>
+
+            <div class="showcase-columns">
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Selección de idioma</h3>
+                        <span>js/app.js</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>JavaScript · applyLanguage</span>
+                            <button class="copy-code" type="button">
+                                Copiar código
+                            </button>
+                        </div>
+                        <pre><code>function applyLanguage(language) {
+        const selectedTranslations =
+            translations[language] || translations.es;
+
+        document.documentElement.lang = language;
+
+        document.querySelectorAll("[data-i18n]")
+            .forEach(function (element) {
+                const key = element.dataset.i18n;
+
+                if (selectedTranslations[key]) {
+                    element.textContent =
+                        selectedTranslations[key];
+                }
+            });
+
+        document.querySelectorAll(
+            "[data-i18n-placeholder]"
+        ).forEach(function (element) {
+            const key = element.dataset.i18nPlaceholder;
+
+            if (selectedTranslations[key]) {
+                element.placeholder =
+                    selectedTranslations[key];
+            }
+        });
+    }</code></pre>
+                    </div>
+                </article>
+
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Explicación</h3>
+                    </div>
+
+                    <div class="explanation-content">
+                        <h4>¿Cómo funciona?</h4>
+                        <p>
+                            La función obtiene las traducciones del idioma
+                            elegido y actualiza los elementos marcados con
+                            <code>data-i18n</code> y
+                            <code>data-i18n-placeholder</code>.
+                        </p>
+
+                        <h4>¿Por qué importa?</h4>
+                        <p>
+                            Cambiar el idioma implica más que traducir
+                            títulos: también deben actualizarse las
+                            etiquetas, los campos y los mensajes visibles.
+                        </p>
+
+                        <h4>¿Qué debería probarse?</h4>
+                        <ul>
+                            <li>Español, inglés y portugués.</li>
+                            <li>Etiquetas y placeholders.</li>
+                            <li>El atributo <code>lang</code> del documento.</li>
+                            <li>Que cambiar el idioma no rompa el formulario.</li>
+                        </ul>
+
+                        <div class="qa-focus">
+                            <strong>Enfoque QA</strong>
+                            Ejecutar pruebas de regresión en los tres idiomas
+                            y comprobar que la interfaz mantenga su
+                            comportamiento.
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>        
+        <section class="showcase-section" id="pruebas-automatizadas">
+            <h2>04. Pruebas automatizadas</h2>
+
+            <p class="section-description">
+                Cobertura automatizada del frontend mediante Selenium WebDriver,
+                con regresión ejecutada en Chrome, Firefox y Edge.
+            </p>
+
+            <div class="showcase-columns">
+
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Suite Selenium</h3>
+                        <span>tests/selenium</span>
+                    </div>
+
+                    <div class="explanation-content">
+                        <ul>
+                            <li><code>access-page.test.js</code></li>
+                            <li><code>empty-form.test.js</code></li>
+                            <li><code>invalid-email.test.js</code></li>
+                            <li><code>invalid-first-name.test.js</code></li>
+                            <li><code>invalid-last-name.test.js</code></li>
+                            <li><code>invalid-phone.test.js</code></li>
+                            <li><code>language-selector.test.js</code></li>
+                            <li><code>missing-consent.test.js</code></li>
+                            <li><code>valid-registration.test.js</code></li>
+                            <li><code>contact-valid.test.js</code></li>
+                            <li><code>contact-empty.test.js</code></li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="showcase-panel">
+                    <div class="panel-heading">
+                        <h3>Cobertura y resultados</h3>
+                    </div>
+
+                    <div class="explanation-content">
+                        <h4>¿Qué se automatiza?</h4>
+                        <p>
+                            Validaciones del formulario de acceso, consentimiento,
+                            registro válido, selección de idioma y comportamiento
+                            del formulario de contacto.
+                        </p>
+
+                        <h4>¿Cómo se ejecutan las pruebas?</h4>
+                        <p>
+                            Selenium WebDriver interactúa con la interfaz y
+                            Node.js Test Runner ejecuta las aserciones.
+                            Las pruebas de contacto utilizan una API Express
+                            con SQLite en memoria y un servicio de correo
+                            simulado, sin realizar envíos SMTP reales.
+                        </p>
+                        
+                        <h4>Última regresión · 21/10/2026</h4>
+                        <p>
+                            12 escenarios automatizados ejecutados en Google Chrome,
+                            Mozilla Firefox y Microsoft Edge:
+                            <strong>36 PASS, 0 FAIL y 0 SKIP.</strong>
+                            La cobertura incluye el manejo de errores del
+                            formulario de contacto mediante una API simulada.
+                        </p>
+
+                        <div class="qa-focus">
+                            <strong>Enfoque QA</strong>
+                            Esta sección presenta la estructura y el alcance
+                            de la automatización. Los escenarios desplegables,
+                            sus aserciones y la evidencia de ejecución se
+                            documentan en el área QA.
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main> 
+    
+    <footer class="cv-bottom-bar">
+        <a class="cv-back-button" href="index.html#qa">
+            <span class="button-brace" aria-hidden="true">{</span>
+            Volver a QA
+            <span class="button-brace" aria-hidden="true">}</span>
+        </a>
+    </footer>
+    <script src="js/code-showcase.js"></script>
+    
+    <script>
+        // Cerrar el índice después de elegir una sección.
+        const showcaseIndex = document.getElementById(
+            'indice-contenidos'
+        );
+
+        if (showcaseIndex) {
+            showcaseIndex.querySelectorAll('.index-link').forEach((link) => {
+                link.addEventListener('click', () => {
+                    showcaseIndex.open = false;
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,4 +1,6 @@
-﻿const { createApp } = require('./app');
+﻿require('dotenv').config({ path: require('node:path').resolve(__dirname, '../../.env') });
+
+const { createApp } = require('./app');
 const db = require('../database/connection');
 
 const app = createApp(db);
