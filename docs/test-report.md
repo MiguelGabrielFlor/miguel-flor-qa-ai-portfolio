@@ -530,3 +530,76 @@ automatizados existentes.
 
 La regresión anterior del 20/10/2026,
 con 33 PASS, se conserva como evidencia histórica.
+
+---
+
+## Verificación NFR-004 — Mantenibilidad del backend.html
+
+**Fecha:** 21/10/2026
+
+### Objetivo
+
+Reducir la duplicación de código JavaScript en backend.html,
+centralizando las solicitudes HTTP y la presentación de resultados
+de los laboratorios interactivos.
+
+### Refactorización realizada
+
+- Incorporación de js/backend/api-client.js para centralizar
+  solicitudes HTTP y procesamiento de respuestas JSON.
+- Incorporación de js/backend/result-renderer.js para unificar
+  la presentación de resultados PASS/FAIL.
+- Eliminación de funciones duplicadas de presentación.
+- Eliminación de configuraciones repetidas de la URL de la API.
+- Conservación de las reglas de validación y de los resultados
+  independientes de cada laboratorio.
+
+### Verificación funcional
+
+| Área | Pruebas | Resultado |
+|---|---:|---|
+| Arquitectura de la API | 4 | PASS |
+| Validaciones | 9 | PASS |
+| Persistencia | 2 | PASS |
+
+Los 15 laboratorios interactivos devolvieron los resultados
+esperados durante la verificación manual posterior a la
+refactorización.
+
+### Regresión automatizada posterior a NFR-004
+
+**Herramienta:** Selenium WebDriver con Node.js.
+
+**Entorno:** API Express de pruebas, SQLite en memoria
+y servicio de correo simulado, sin envíos reales.
+
+| Navegador | Ejecutadas | PASS | FAIL | SKIP |
+|---|---:|---:|---:|---:|
+| Google Chrome | 12 | 12 | 0 | 0 |
+| Mozilla Firefox | 12 | 12 | 0 | 0 |
+| Microsoft Edge | 12 | 12 | 0 | 0 |
+| **Total** | **36** | **36** | **0** | **0** |
+
+La regresión verificó los escenarios automatizados existentes,
+incluyendo el envío satisfactorio del formulario de contacto
+y el tratamiento del error HTTP 500 simulado.
+
+### Verificación estática
+
+- node --check ejecutado satisfactoriamente sobre ambos
+  archivos JavaScript nuevos.
+- git diff --check finalizado sin advertencias.
+- Revisión del diff de backend.html completada.
+- Estructuras try/catch/finally conservadas.
+
+### Conclusión
+
+La refactorización NFR-004 superó las verificaciones
+funcionales y la regresión automatizada multinavegador,
+sin fallos detectados en los escenarios ejecutados.
+
+La centralización del código reduce la duplicación
+y facilita el mantenimiento de los laboratorios.
+
+Estos resultados no constituyen una medición cuantitativa
+de mantenibilidad ni una auditoría integral del portfolio.

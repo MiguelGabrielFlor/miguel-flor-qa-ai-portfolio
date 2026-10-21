@@ -8,7 +8,7 @@
     >
     <title>Backend & API Testing | Miguel Flor</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>        
+    <style>
         /* Contenido técnico */
         .showcase {
             width: min(1100px, calc(100% - 32px));
@@ -28,7 +28,7 @@
         }
 
         .showcase-header h1 {
-            margin: 12px 0 18px;            
+            margin: 12px 0 18px;
         }
 
         .showcase-header > p:last-child {
@@ -237,7 +237,7 @@
                 transform: scale(1.45);
             }
         }
-        
+
         /* Laboratorios interactivos de QA */
         .validation-lab {
             margin-top: 28px;
@@ -302,7 +302,7 @@
             max-height: 320px;
             overflow: auto;
         }
-        
+
         /* Arquitectura y explorador de endpoints */
         .explorador-api {
             margin-top: 24px;
@@ -413,7 +413,7 @@
                 grid-template-columns: 1fr;
             }
         }
-        
+
         /* Panel de resultados de pruebas automatizadas */
         .resumen-pruebas {
             display: grid;
@@ -529,7 +529,7 @@
                 grid-template-columns: 1fr;
             }
         }
-        
+
         /* Explorador de endpoints: cuatro tarjetas interactivas */
         .endpoint-resumen-cuatro {
             grid-template-columns: repeat(2, minmax(0, 1fr))!important;
@@ -604,7 +604,7 @@
                 grid-template-columns: 1fr;
             }
         }
-        
+
         /* Tarjetas de endpoints con CTA alineado a la derecha */
         .endpoint-resumen-cuatro {
             grid-template-columns: 1fr;
@@ -643,7 +643,7 @@
                 align-self: flex-end;
             }
         }
-        
+
         .endpoint-tarjeta {
             display: flex;
             flex-direction: row;
@@ -676,7 +676,7 @@
                 white-space: normal;
             }
         }
-        
+
         /* Persistencia: pruebas independientes en dos columnas */
         .persistencia-grid {
             display: grid;
@@ -785,7 +785,7 @@
         </header>
 
         <!-- 01. ARQUITECTURA -->
-        
+
         <section class="showcase-section" id="arquitectura">
             <h2>01. Arquitectura de la API</h2>
 
@@ -805,8 +805,8 @@
                 <strong>Objetivo de QA:</strong> comprobar que cada endpoint
                 responda de acuerdo con su propósito y gestione correctamente
                 las solicitudes recibidas.
-            </p>            
-            
+            </p>
+
             <div class="validation-lab explorador-api">
 
                 <h3>Explorador de endpoints</h3>
@@ -814,8 +814,8 @@
                 <p class="explorador-descripcion">
                     Seleccioná un endpoint para ejecutar una prueba real y consultar
                     su respuesta HTTP.
-                </p>                
-                
+                </p>
+
                 <div class="endpoint-resumen endpoint-resumen-cuatro">
 
                     <article class="endpoint-tarjeta">
@@ -869,11 +869,11 @@
                             Seleccioná una tarjeta y ejecutá la prueba.
                         </p>
                     </div>
-                </div>                               
+                </div>
 
             </div>
         </section>
-        
+
         <!-- 02. VALIDACIONES -->
         <section class="showcase-section" id="validaciones">
             <h2>02. Validaciones y reglas de negocio</h2>
@@ -944,8 +944,8 @@
                 las solicitudes inválidas con respuestas HTTP coherentes y
                 mensajes de error controlados.
             </p>
-        </section>        
-        
+        </section>
+
         <!-- 03. PERSISTENCIA -->
         <section class="showcase-section" id="persistencia">
             <h2>03. Persistencia de datos</h2>
@@ -1021,7 +1021,7 @@
                 reglas de integridad.
             </p>
         </section>
-        
+
         <!-- 04. PRUEBAS -->
         <section class="showcase-section" id="pruebas-api">
             <h2>04. Pruebas automatizadas</h2>
@@ -1047,7 +1047,7 @@
             </p>
 
             <!-- Resultados de la última ejecución verificada -->
-            <div class="validation-lab" id="resultados-pruebas-api">                
+            <div class="validation-lab" id="resultados-pruebas-api">
                 <h3>Resultados de la suite automatizada</h3>
 
                 <p>
@@ -1241,7 +1241,8 @@
             <span class="button-brace" aria-hidden="true">}</span>
         </a>
     </footer>
-
+    <script src="js/backend/api-client.js"></script>
+    <script src="js/backend/result-renderer.js"></script>
     <script>
         // Cerrar el índice después de elegir una sección.
         const showcaseIndex = document.querySelector(".showcase-index");
@@ -1251,10 +1252,9 @@
                 showcaseIndex.open = false;
             });
         });
-    </script>    
-    
+    </script>
+
     <script>
-        const API_URL = 'http://localhost:3000';
 
         const apiResultado = document.getElementById('api-resultado');
         const tarjetasPrueba = document.querySelectorAll('[data-api-prueba]');
@@ -1279,47 +1279,26 @@
             }
         };
 
-        function mostrarResultado(aprobado, estado, datos) {
-            apiResultado.replaceChildren();
-
-            const veredicto = document.createElement('p');
-            veredicto.style.cssText = `
-                margin: 0;
-                font-weight: bold;
-                color: ${aprobado ? '#6A9955' : '#CE9178'};
-            `;
-            veredicto.textContent = `${aprobado ? 'PASS' : 'FAIL'} — ${estado}`;
-
-            const detalle = document.createElement('pre');
-            detalle.style.cssText = `
-                margin: 12px 0 0;
-                color: #9CDCFE;
-                white-space: pre-wrap;
-                overflow-wrap: anywhere;
-                font-family: Consolas, monospace;
-            `;
-            detalle.textContent = JSON.stringify(datos, null, 2);
-
-            apiResultado.append(veredicto, detalle);
-        }
-
         async function ejecutarSolicitud(url, opciones = {}) {
-            const respuesta = await fetch(url, opciones);
-            const texto = await respuesta.text();
+            const baseUrl = window.BackendAPI.baseUrl;
 
-            let datos;
+            const path = url.startsWith(baseUrl)
+                ? url.slice(baseUrl.length)
+                : url;
 
-            try {
-                datos = texto ? JSON.parse(texto) : {};
-            } catch {
-                datos = { respuesta: texto };
-            }
+            const resultado = await window.BackendAPI.request(
+                path,
+                opciones
+            );
 
-            return { respuesta, datos };
+            return {
+                respuesta: resultado.response,
+                datos: resultado.data
+            };
         }
 
         async function probarHealth() {
-            const resultado = await ejecutarSolicitud(`${API_URL}/api/health`);
+            const resultado = await ejecutarSolicitud('/api/health');
 
             return {
                 ...resultado,
@@ -1330,7 +1309,7 @@
 
         async function probarVisitantes() {
             const resultado = await ejecutarSolicitud(
-                `${API_URL}/api/visitors`,
+                '/api/visitors',
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1348,7 +1327,7 @@
 
         async function probarContacto() {
             const resultado = await ejecutarSolicitud(
-                `${API_URL}/api/contact`,
+                '/api/contact',
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1385,7 +1364,6 @@
                 }
             };
         }
-
         async function ejecutarPrueba(tipo, boton) {
             tarjetasPrueba.forEach((tarjeta) => {
                 tarjeta.disabled = true;
@@ -1405,15 +1383,19 @@
                     case 'health':
                         resultado = await probarHealth();
                         break;
+
                     case 'visitors':
                         resultado = await probarVisitantes();
                         break;
+
                     case 'contact':
                         resultado = await probarContacto();
                         break;
+
                     case 'integration':
                         resultado = await probarIntegracion();
                         break;
+
                     default:
                         throw new Error('Tipo de prueba desconocido.');
                 }
@@ -1422,36 +1404,40 @@
                     ? `HTTP ${resultado.respuesta.status} — ${resultado.respuesta.statusText}`
                     : 'Resultado de integración';
 
-                mostrarResultado(
+                window.BackendResultRenderer.render(
+                    apiResultado,
                     resultado.aprobado,
                     estado,
                     resultado.datos
                 );
 
             } catch (error) {
-                mostrarResultado(false, 'No se pudo completar la solicitud', {
-                    error: 'No se pudo conectar con la API.',
-                    indicacion: 'Verificá que el backend esté iniciado en localhost:3000.',
-                    detalle: error.message
-                });
+                window.BackendResultRenderer.render(
+                    apiResultado,
+                    false,
+                    'No se pudo completar la solicitud',
+                    {
+                        error: 'No se pudo conectar con la API.',
+                        indicacion: 'Verificá que el backend esté iniciado en localhost:3000.',
+                        detalle: error.message
+                    }
+                );
+
             } finally {
                 tarjetasPrueba.forEach((tarjeta) => {
                     tarjeta.disabled = false;
                 });
             }
         }
-
         tarjetasPrueba.forEach((boton) => {
             boton.addEventListener('click', () => {
                 ejecutarPrueba(boton.dataset.apiPrueba, boton);
             });
         });
     </script>
-    
+
     <script>
         // PUNTO 02 — LABORATORIO DE VALIDACIONES
-
-        const API_VALIDACIONES_URL = 'http://localhost:3000';
 
         const casosValidacionVisitante = {
             nombre: {
@@ -1523,63 +1509,17 @@
         };
 
         async function solicitarValidacion(url, datos) {
-            const respuesta = await fetch(
-                `${API_VALIDACIONES_URL}${url}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(datos)
-                }
-            );
+            const resultado = await window.BackendAPI.post(url, datos);
 
-            const texto = await respuesta.text();
-            let cuerpo;
-
-            try {
-                cuerpo = texto ? JSON.parse(texto) : {};
-            } catch {
-                cuerpo = { respuesta: texto };
-            }
+            const cuerpo = resultado.data;
 
             return {
-                http: respuesta.status,
-                ok: respuesta.status === 400 &&
+                http: resultado.status,
+                ok: resultado.status === 400 &&
                     Array.isArray(cuerpo.errors) &&
                     cuerpo.errors.length > 0,
                 cuerpo
             };
-        }
-
-        function mostrarResultadoValidacion(
-            contenedor,
-            aprobado,
-            http,
-            cuerpo
-        ) {
-            contenedor.replaceChildren();
-
-            const veredicto = document.createElement('p');
-            veredicto.style.cssText = `
-                margin: 0;
-                font-weight: bold;
-                color: ${aprobado ? '#6A9955' : '#CE9178'};
-            `;
-            veredicto.textContent =
-                `${aprobado ? 'PASS' : 'FAIL'} — HTTP ${http}`;
-
-            const detalle = document.createElement('pre');
-            detalle.style.cssText = `
-                margin-top: 12px;
-                color: #9CDCFE;
-                white-space: pre-wrap;
-                overflow-wrap: anywhere;
-                font-family: Consolas, monospace;
-            `;
-            detalle.textContent = JSON.stringify(cuerpo, null, 2);
-
-            contenedor.append(veredicto, detalle);
         }
 
         async function ejecutarValidacion(
@@ -1602,17 +1542,18 @@
                     obtenerDatos()
                 );
 
-                mostrarResultadoValidacion(
+                window.BackendResultRenderer.render(
                     contenedor,
                     resultado.ok,
-                    resultado.http,
+                    `HTTP ${resultado.http}`,
                     resultado.cuerpo
                 );
+
             } catch (error) {
-                mostrarResultadoValidacion(
+                window.BackendResultRenderer.render(
                     contenedor,
                     false,
-                    'sin respuesta',
+                    'HTTP sin respuesta',
                     {
                         error: 'No se pudo conectar con la API.',
                         detalle: error.message,
@@ -1620,10 +1561,12 @@
                             'Verificá que el backend esté iniciado en localhost:3000.'
                     }
                 );
+
             } finally {
                 boton.disabled = false;
             }
         }
+
 
         // 02.1 — Registro de visitantes
 
@@ -1663,11 +1606,9 @@
             });
         }
     </script>
-    
+
     <script>
         // PUNTO 03 — LABORATORIO DE PERSISTENCIA
-
-        const API_PERSISTENCIA_URL = 'http://localhost:3000';
 
         const botonPersistenciaValido = document.getElementById(
             'persistencia-valido-ejecutar'
@@ -1684,60 +1625,15 @@
         );
 
         async function solicitarPersistencia(datos) {
-            const respuesta = await fetch(
-                `${API_PERSISTENCIA_URL}/api/visitors`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(datos)
-                }
+            const resultado = await window.BackendAPI.post(
+                '/api/visitors',
+                datos
             );
 
-            const texto = await respuesta.text();
-            let cuerpo;
-
-            try {
-                cuerpo = texto ? JSON.parse(texto) : {};
-            } catch {
-                cuerpo = { respuesta: texto };
-            }
-
             return {
-                http: respuesta.status,
-                cuerpo
+                http: resultado.status,
+                cuerpo: resultado.data
             };
-        }
-
-        function mostrarResultadoPersistencia(
-            contenedor,
-            aprobado,
-            estado,
-            cuerpo
-        ) {
-            contenedor.replaceChildren();
-
-            const veredicto = document.createElement('p');
-            veredicto.style.cssText = `
-                margin: 0;
-                font-weight: bold;
-                color: ${aprobado ? '#6A9955' : '#CE9178'};
-            `;
-            veredicto.textContent =
-                `${aprobado ? 'PASS' : 'FAIL'} — ${estado}`;
-
-            const detalle = document.createElement('pre');
-            detalle.style.cssText = `
-                margin-top: 12px;
-                color: #9CDCFE;
-                white-space: pre-wrap;
-                overflow-wrap: anywhere;
-                font-family: Consolas, monospace;
-            `;
-            detalle.textContent = JSON.stringify(cuerpo, null, 2);
-
-            contenedor.append(veredicto, detalle);
         }
 
         async function ejecutarPersistencia(
@@ -1758,14 +1654,15 @@
                 const resultado = await solicitarPersistencia(datos);
                 const aprobado = validarResultado(resultado);
 
-                mostrarResultadoPersistencia(
+                window.BackendResultRenderer.render(
                     contenedor,
                     aprobado,
                     `HTTP ${resultado.http}`,
                     resultado.cuerpo
                 );
+
             } catch (error) {
-                mostrarResultadoPersistencia(
+                window.BackendResultRenderer.render(
                     contenedor,
                     false,
                     'Sin respuesta',
@@ -1776,6 +1673,7 @@
                             'Verificá que el backend esté iniciado en localhost:3000.'
                     }
                 );
+
             } finally {
                 boton.disabled = false;
             }
