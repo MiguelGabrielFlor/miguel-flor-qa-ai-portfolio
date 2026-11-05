@@ -19,6 +19,20 @@ const accessButton = document.getElementById("accessButton");
 const serverError = document.getElementById("serverError");
 
 const languageSelect = document.getElementById("languageSelect");
+// Estado del formulario de contacto para internacionalización.
+let contactStatusKey = "";
+
+const savedLanguage = localStorage.getItem("portfolioLanguage");
+
+if (["es", "en", "pt"].includes(savedLanguage)) {
+    languageSelect.value = savedLanguage;
+}
+
+// Restaurar el idioma cuando el documento esté cargado.
+window.addEventListener("DOMContentLoaded", function () {
+    applyLanguage(languageSelect.value);
+});
+
 
 const contactForm = document.getElementById("contactForm");
 
@@ -30,105 +44,10 @@ const contactStatus = document.getElementById("contactStatus");
 
 const contactMessageError = document.getElementById("contactMessageError");
 
-const translations = {
-    es: {
-        accessEyebrow: "PORTFOLIO PROFESIONAL",
-        accessWelcome: "Te doy la bienvenida",
-        accessIntro: "Para acceder a mi portfolio profesional, completá tus datos de contacto.",
-        formHelp: "Los campos marcados con * son obligatorios.",
-        firstNameLabel: "Nombre",
-        firstNamePlaceholder: "Ingresá tu nombre",
-        lastNameLabel: "Apellido",
-        lastNamePlaceholder: "Ingresá tu apellido",
-        emailLabel: "Email",
-        emailPlaceholder: "nombre@email.com",
-        emailHint: "Ejemplo: nombre@email.com",
-        phoneLabel: "Teléfono",
-        phonePlaceholder: "+54 9 11 1234 5678",
-        phoneHint: "Incluí el código de país si corresponde. Ejemplo: +54 9 11 1234 5678.",
-        consentLabel: "Acepto el registro de mis datos para acceder al portfolio.",
-        accessButton: "Ingresar al portfolio",
-        portfolioInDevelopment: "Portfolio en desarrollo",
-        greeting: "Te doy la bienvenida,",
-        firstNameRequired: "El nombre es obligatorio.",
-        firstNameInvalid: "Ingresá un nombre válido.",
-        lastNameRequired: "El apellido es obligatorio.",
-        lastNameInvalid: "Ingresá un apellido válido.",
-        emailRequired: "El email es obligatorio.",
-        emailInvalid: "Ingresá un email válido.",
-        phoneRequired: "El teléfono es obligatorio.",
-        phoneInvalid: "Ingresá un teléfono válido.",
-        consentRequired: "Debés aceptar el registro de tus datos.",
-        registrationFailed: "No se pudo completar el registro.",
-        connectionError: "No se pudo conectar con el servidor. Verificá que la API esté iniciada e intentá nuevamente."
-    },
 
-    en: {
-        accessEyebrow: "PROFESSIONAL PORTFOLIO",
-        accessWelcome: "Welcome",
-        accessIntro: "To access my professional portfolio, please enter your contact details.",
-        formHelp: "Fields marked with * are required.",
-        firstNameLabel: "First name",
-        firstNamePlaceholder: "Enter your first name",
-        lastNameLabel: "Last name",
-        lastNamePlaceholder: "Enter your last name",
-        emailLabel: "Email",
-        emailPlaceholder: "name@email.com",
-        emailHint: "Example: name@email.com",
-        phoneLabel: "Phone",
-        phonePlaceholder: "+1 555 123 4567",
-        phoneHint: "Include the country code if applicable. Example: +1 555 123 4567.",
-        consentLabel: "I agree to the registration of my data to access the portfolio.",
-        accessButton: "Enter portfolio",
-        portfolioInDevelopment: "Portfolio under development",
-        greeting: "Welcome,",
-        firstNameRequired: "First name is required.",
-        firstNameInvalid: "Enter a valid first name.",
-        lastNameRequired: "Last name is required.",
-        lastNameInvalid: "Enter a valid last name.",
-        emailRequired: "Email is required.",
-        emailInvalid: "Enter a valid email address.",
-        phoneRequired: "Phone number is required.",
-        phoneInvalid: "Enter a valid phone number.",
-        consentRequired: "You must agree to the registration of your data.",
-        registrationFailed: "Registration could not be completed.",
-        connectionError: "Could not connect to the server. Make sure the API is running and try again."
-    },
-
-    pt: {
-        accessEyebrow: "PORTFÓLIO PROFISSIONAL",
-        accessWelcome: "Dou-lhe as boas-vindas",
-        accessIntro: "Para acessar meu portfólio profissional, preencha seus dados de contato.",
-        formHelp: "Os campos marcados com * são obrigatórios.",
-        firstNameLabel: "Nome",
-        firstNamePlaceholder: "Digite seu nome",
-        lastNameLabel: "Sobrenome",
-        lastNamePlaceholder: "Digite seu sobrenome",
-        emailLabel: "E-mail",
-        emailPlaceholder: "nome@email.com",
-        emailHint: "Exemplo: nome@email.com",
-        phoneLabel: "Telefone",
-        phonePlaceholder: "+55 11 91234 5678",
-        phoneHint: "Inclua o código do país, se necessário. Exemplo: +55 11 91234 5678.",
-        consentLabel: "Aceito o registro dos meus dados para acessar o portfólio.",
-        accessButton: "Acessar portfólio",
-        portfolioInDevelopment: "Portfólio em desenvolvimento",
-        greeting: "Dou-lhe as boas-vindas,",
-        firstNameRequired: "O nome é obrigatório.",
-        firstNameInvalid: "Digite um nome válido.",
-        lastNameRequired: "O sobrenome é obrigatório.",
-        lastNameInvalid: "Digite um sobrenome válido.",
-        emailRequired: "O e-mail é obrigatório.",
-        emailInvalid: "Digite um e-mail válido.",
-        phoneRequired: "O telefone é obrigatório.",
-        phoneInvalid: "Digite um telefone válido.",
-        consentRequired: "Você deve aceitar o registro dos seus dados.",
-        registrationFailed: "Não foi possível concluir o cadastro.",
-        connectionError: "Não foi possível conectar ao servidor. Verifique se a API está iniciada e tente novamente."
-    }
-};
 
 function applyLanguage(language) {
+    
     const selectedTranslations = translations[language] || translations.es;
 
     document.documentElement.lang = language;
@@ -148,12 +67,187 @@ function applyLanguage(language) {
             element.placeholder = selectedTranslations[key];
         }
     });
+    
+    document.querySelectorAll("[data-i18n-aria-label]").forEach(function (element) {
+        const key = element.dataset.i18nAriaLabel;
+
+        if (selectedTranslations[key]) {
+            element.setAttribute(
+                "aria-label",
+                selectedTranslations[key]
+            );
+        }
+    });
+    
+    // Actualizar los errores visibles del formulario de acceso.
+    // No generar errores nuevos al cambiar de idioma.
+    const accessErrors = [
+        {
+            input: firstName,
+            errorId: "firstNameError",
+            requiredKey: "firstNameRequired",
+            invalidKey: "firstNameInvalid"
+        },
+        {
+            input: lastName,
+            errorId: "lastNameError",
+            requiredKey: "lastNameRequired",
+            invalidKey: "lastNameInvalid"
+        },
+        {
+            input: email,
+            errorId: "emailError",
+            requiredKey: "emailRequired",
+            invalidKey: "emailInvalid"
+        },
+        {
+            input: phone,
+            errorId: "phoneError",
+            requiredKey: "phoneRequired",
+            invalidKey: "phoneInvalid"
+        },
+        {
+            input: consent,
+            errorId: "consentError",
+            requiredKey: "consentRequired"
+        }
+    ];
+
+    accessErrors.forEach(function (item) {
+        const errorElement = document.getElementById(item.errorId);
+
+        if (!errorElement || !errorElement.textContent.trim()) {
+            return;
+        }
+
+        const translationKey = item.invalidKey &&
+            item.input.value.trim() !== ""
+                ? item.invalidKey
+                : item.requiredKey;
+
+        errorElement.textContent =
+            selectedTranslations[translationKey] ||
+            errorElement.textContent;
+    });
+
+    
+    // Actualizar el saludo personalizado al cambiar de idioma.
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
+    if (welcomeMessage && welcomeMessage.textContent.trim()) {
+        const savedSession = sessionStorage.getItem("portfolioSession");
+
+        if (savedSession) {
+            try {
+                const session = JSON.parse(savedSession);
+
+                if (typeof session.firstName === "string" &&
+                    session.firstName.trim() !== "") {
+
+                    welcomeMessage.textContent =
+                        `${selectedTranslations.greeting} ${session.firstName.trim().toUpperCase()}`;
+                }
+            } catch (error) {
+                // Mantener el saludo existente si la sesión no es válida.
+            }
+        }
+    }
+    
+    // Actualizar el error de validación del formulario de contacto.
+    const contactMessageError =
+        document.getElementById("contactMessageError");
+
+    const contactMessage =
+        document.getElementById("contactMessage");
+
+    if (
+        contactMessageError &&
+        contactMessage &&
+        contactMessageError.textContent.trim() !== "" &&
+        contactMessage.value.trim() === ""
+    ) {
+        contactMessageError.textContent =
+            selectedTranslations.contactRequiredError;
+    }
+    // Traducir el estado actual del formulario de contacto.
+    const contactStatusElement =
+        document.getElementById("contactStatus");
+
+    if (contactStatusElement && contactStatusKey) {
+        contactStatusElement.textContent =
+            selectedTranslations[contactStatusKey] || "";
+    }
+
 }
+applyLanguage(languageSelect.value);
 
 languageSelect.addEventListener("change", function () {
-    applyLanguage(languageSelect.value);
+    const selectedLanguage = languageSelect.value;
+
+    // Aplicar las traducciones actuales.
+    applyLanguage(selectedLanguage);
+
+    // Guardar el idioma para las demás páginas.
+    localStorage.setItem(
+        "portfolioLanguage",
+        selectedLanguage
+    );
+
+    // Sincronizar la sesión del visitante, si existe.
+    const savedSession = sessionStorage.getItem(
+        "portfolioSession"
+    );
+
+    if (savedSession) {
+        try {
+            const session = JSON.parse(savedSession);
+
+            if (session && typeof session === "object") {
+                session.language = selectedLanguage;
+
+                sessionStorage.setItem(
+                    "portfolioSession",
+                    JSON.stringify(session)
+                );
+            }
+        } catch (error) {
+            // La validación existente de sesión
+            // se encargará de los datos inválidos.
+        }
+    }
 });
 
+const footerLanguageSelect = document.getElementById(
+    "footerLanguageSelect"
+);
+
+if (footerLanguageSelect) {
+
+    // Mostrar el idioma actualmente seleccionado.
+    footerLanguageSelect.value = languageSelect.value;
+
+    // Cambiar el idioma desde el footer.
+    footerLanguageSelect.addEventListener("change", function () {
+
+        const selectedLanguage = footerLanguageSelect.value;
+
+        // Sincronizar con el selector del registro.
+        languageSelect.value = selectedLanguage;
+
+        // Reutilizar el evento existente para aplicar
+        // traducciones y guardar la preferencia.
+        languageSelect.dispatchEvent(
+            new Event("change")
+        );
+
+    });
+
+    // Mantener actualizado el selector del footer.
+    languageSelect.addEventListener("change", function () {
+        footerLanguageSelect.value = languageSelect.value;
+    });
+
+}
 
 const savedSession = sessionStorage.getItem("portfolioSession");
 
@@ -166,8 +260,18 @@ if (savedSession) {
             session.firstName.trim() !== "" &&
             ["es", "en", "pt"].includes(session.language)
         ) {
-            languageSelect.value = session.language;
-            applyLanguage(session.language);
+            
+            const preferredLanguage =
+                localStorage.getItem("portfolioLanguage");
+
+            const activeLanguage =
+                ["es", "en", "pt"].includes(preferredLanguage)
+                    ? preferredLanguage
+                    : session.language;
+
+            languageSelect.value = activeLanguage;
+            applyLanguage(activeLanguage);
+
 
             firstName.value = session.firstName;
             showPortfolio();
@@ -465,18 +569,28 @@ contactForm.addEventListener("submit", async function (event) {
 
     contactMessageError.textContent = "";
     contactStatus.textContent = "";
+    contactStatusKey = "";
+
+    const getContactTranslations = () => {
+        const language = document.documentElement.lang || "es";
+        return translations[language] || translations.es;
+    };
 
     const mensaje = contactMessage.value.trim();
 
     if (!mensaje) {
         contactMessageError.textContent =
-            "El mensaje es obligatorio.";
+            getContactTranslations().contactRequiredError;
+
         contactMessage.focus();
         return;
     }
 
     contactButton.disabled = true;
-    contactStatus.textContent = "Enviando mensaje...";
+
+    contactStatusKey = "contactSending";
+    contactStatus.textContent =
+        getContactTranslations()[contactStatusKey];
 
     try {
         const response = await fetch("http://localhost:3000/api/contact", {
@@ -493,20 +607,34 @@ contactForm.addEventListener("submit", async function (event) {
             })
         });
 
-        const result = await response.json();
+        await response.json();
 
         if (!response.ok) {
+            contactStatusKey =
+                response.status === 503
+                    ? "contactServiceUnavailable"
+                    : "contactSendError";
+
             contactStatus.textContent =
-                result.message || "No se pudo enviar el mensaje.";
+                getContactTranslations()[contactStatusKey];
+
             return;
         }
 
-        contactStatus.textContent = result.message;
-        contactForm.reset();
-    } catch (error) {
+        contactStatusKey = "contactSuccess";
         contactStatus.textContent =
-            "No se pudo conectar con el servidor. Intentá nuevamente.";
+            getContactTranslations()[contactStatusKey];
+
+        contactForm.reset();
+
+    } catch (error) {
+        contactStatusKey = "contactConnectionError";
+
+        contactStatus.textContent =
+            getContactTranslations()[contactStatusKey];
+
     } finally {
         contactButton.disabled = false;
     }
 });
+

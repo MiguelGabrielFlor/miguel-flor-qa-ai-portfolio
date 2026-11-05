@@ -95,6 +95,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    function traducirCertificado(clave, textoAlternativo = "") {
+        const idioma = localStorage.getItem("portfolioLanguage") || "es";
+
+        const diccionario =
+            window.portfolioTranslations?.[idioma] ||
+            window.portfolioTranslations?.es ||
+            {};
+
+        return diccionario[clave] || textoAlternativo;
+    }
+
     function getFileUrl(category, file) {
         return basePath + category.folder + file;
     }
@@ -143,17 +154,49 @@ document.addEventListener("DOMContentLoaded", function () {
             }).promise;
         } catch (error) {
             console.error("No se pudo generar la miniatura del PDF:", url, error);
-            canvas.classList.add("certificate-preview-error");
-            canvas.setAttribute("aria-label", "Vista previa no disponible");
+            canvas.classList.add("certificate-preview-error");            
+            canvas.setAttribute(
+                "aria-label",
+                traducirCertificado(
+                    "cvCertificatePreviewError",
+                    "Vista previa no disponible"
+                )
+            );
+
         }
     }
+
+    let categoriaActiva = null;
+    
     function renderGallery(categoryKey) {
         const category = categories[categoryKey];
 
         if (!category) return;
 
-        title.textContent = category.title;
+        categoriaActiva = categoryKey;
+
+        const language = localStorage.getItem("portfolioLanguage") || "es";
+
+        const translations =
+            window.portfolioTranslations?.[language] ||
+            window.portfolioTranslations?.es ||
+            {};
+
+        const titleKeys = {
+            credenciales: "cvCredentialsTitle",
+            qa: "cvQaCertificatesTitle",
+            ia: "cvAiCertificatesTitle",
+            gestion: "cvManagementTitle",
+            marketing: "cvMarketingTitle"
+        };
+
+        const translationKey = titleKeys[categoryKey];
+
+        title.textContent =
+            translations[translationKey] || category.title;
+
         gallery.replaceChildren();
+
 
         category.files.forEach(function (file) {
             const url = getFileUrl(category, file);
@@ -188,10 +231,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 const canvas = document.createElement("canvas");
 
                 canvas.className = "certificate-pdf-preview";
-                canvas.setAttribute("role", "img");
+                canvas.setAttribute("role", "img");                
                 canvas.setAttribute(
                     "aria-label",
-                    "Vista previa: " + getDisplayName(file)
+                    traducirCertificado("cvCertificatePreview", "Vista previa:") +
+                    " " +
+                    getDisplayName(file)
                 );
 
                 item.appendChild(canvas);
@@ -199,10 +244,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 renderPdfPreview(url, canvas);
             }
             const link = document.createElement("a");
-            link.href = url;
+            link.href = url;            
             link.textContent = isImage
-                ? "Abrir imagen"
-                : "Ver certificado PDF";
+                ? traducirCertificado("cvCertificateOpenImage", "Abrir imagen")
+                : traducirCertificado("cvCertificateOpenPdf", "Ver certificado PDF");
             link.target = "_blank";
             link.rel = "noopener noreferrer";
 
@@ -242,6 +287,11 @@ document.addEventListener("DOMContentLoaded", function () {
     dialog.addEventListener("click", function (event) {
         if (event.target === dialog) {
             dialog.close();
+        }
+    });
+    document.addEventListener("portfolio:languagechange", function () {
+        if (dialog.open && categoriaActiva) {
+            renderGallery(categoriaActiva);
         }
     });
 });

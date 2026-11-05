@@ -196,6 +196,42 @@ registrado durante la ejecución original.
 Este estado no representa una nueva ejecución
 del caso durante la auditoría actual.
 
+### Related Bug
+
+BUG-004 — Email format validation.
+
+### Complementary Automated Regression
+
+**Archivo:** `tests/selenium/invalid-email-double-at.test.js`
+
+**Fecha:** 30/10/2026
+
+Se verificaron cinco formatos inválidos de correo
+electrónico en Google Chrome, Mozilla Firefox
+y Microsoft Edge.
+
+**Resultado:** 15/15 PASS — 0 FAIL.
+
+La regresión complementa el caso manual TC-004
+y verifica el rechazo de cinco formatos inválidos
+de correo electrónico.
+
+BUG-004 fue reclasificado como una observación
+de requisitos, originada por interpretar que la
+validación del formato también debía comprobar
+la existencia del correo electrónico.
+
+FR-003 exige validar el formato, no verificar
+la existencia del dominio o del buzón.
+
+La evidencia histórica no confirmó un defecto
+funcional de validación de formato.
+
+Por tanto, los resultados 15/15 PASS acreditan
+el comportamiento verificado mediante Selenium,
+pero no constituyen evidencia de la corrección
+de un defecto funcional histórico.
+
 ---
 
 # TC-005 — Consent Required
@@ -385,6 +421,23 @@ registrado durante la ejecución original.
 Este estado no representa una nueva ejecución
 del caso durante la auditoría actual.
 
+### Complementary Responsive Verification — 05/11/2026
+
+Se realizó una revisión manual responsive posterior
+sobre las seis páginas del portfolio.
+
+**Navegadores:** Chrome, Firefox y Microsoft Edge.
+
+**Resultado:** PASS — Sin desbordamientos de texto
+ni problemas visuales pendientes observados.
+
+**Referencia:** docs/test-report.md,
+sección "Verificación manual responsive y compatibilidad visual".
+
+Esta comprobación complementa el resultado histórico
+de TC-008 sin modificarlo.
+
+
 ---
 
 # TC-009 — UI Readability
@@ -570,9 +623,25 @@ La cobertura incluye:
 Los resultados confirman el funcionamiento de los
 escenarios cubiertos por Selenium en los tres navegadores.
 
-La verificación de compatibilidad continúa siendo PARCIAL,
-porque todavía no se realizó una auditoría visual integral,
-responsive ni de navegación completa en los tres navegadores.
+
+### Actualización de cobertura visual — 05/11/2026
+
+Se completó la revisión manual responsive de las seis páginas
+del portfolio en Google Chrome, Mozilla Firefox y Microsoft Edge.
+
+No se observaron desbordamientos de texto pendientes ni
+anomalías visuales relevantes durante el recorrido final.
+
+Esta verificación complementa las regresiones automatizadas
+Selenium documentadas en docs/test-report.md.
+
+**Estado de la revisión visual:** PASS.
+
+**Estado general de TC-011:** VERIFICACIÓN PARCIAL.
+
+La revisión visual no sustituye la ejecución integral de
+todos los pasos funcionales de TC-011 ni constituye una
+auditoría exhaustiva de compatibilidad.
 
 La regresión histórica del 20/10/2026 conserva
 sus 33 PASS independientes.
@@ -910,6 +979,37 @@ registrado durante la ejecución original.
 Este estado no representa una nueva ejecución
 del caso durante la auditoría actual.
 
+### Related Bug
+
+BUG-005 — Phone above maximum length.
+
+### Complementary Automated Regression
+
+**Archivo:** `tests/selenium/phone-validation-boundaries.test.js`
+
+**Escenario:** BUG-005.
+
+**Dato de prueba:** `1234567890123456`.
+
+**Fecha:** 30/10/2026.
+
+**Resultados por navegador:**
+
+- Google Chrome: 1 PASS.
+- Mozilla Firefox: 1 PASS.
+- Microsoft Edge: 1 PASS.
+
+**Resultado del escenario:** 3/3 PASS — 0 FAIL.
+
+La regresión confirma que el sistema rechaza
+un teléfono de 16 dígitos después de la corrección.
+
+El escenario forma parte de una suite más amplia
+de validación telefónica, cuyo resultado fue
+33/33 PASS en los tres navegadores.
+
+La ejecución histórica de TC-018 se conserva
+independiente de esta regresión automatizada.
 
 ---
 
@@ -1057,7 +1157,7 @@ del caso durante la auditoría actual.
 
 ## Casos de prueba automatizados
 
-**Fecha de regresión actual:** 21/10/2026  
+**Fecha de regresión base documentada:** 21/10/2026 
 **Herramienta:** Selenium WebDriver  
 **Navegadores:** Chrome, Firefox y Microsoft Edge  
 **Resultado:** 36 PASS, 0 FAIL, 0 SKIP.
@@ -1079,7 +1179,7 @@ del caso durante la auditoría actual.
 
 ## Resultado de ejecución
 
-### Regresión actual — 21/10/2026
+### Regresión base — 21/10/2026
 
 Se ejecutaron 12 escenarios Selenium en cada navegador:
 
@@ -1105,6 +1205,95 @@ navegadores, sin interferencias observadas.
 
 Los resultados históricos se conservan como evidencia
 de la evolución de la cobertura automatizada.
+
+## Regresión complementaria — BUG-002
+
+**Defecto:** BUG-002 — Nombre con caracteres numéricos.
+
+**Requisito principal:** FR-012 — Validación de Nombre y Apellido.
+
+**Requisito complementario:** FR-002 — Campos obligatorios.
+
+**Archivo Selenium:** `tests/selenium/invalid-first-name-numeric.test.js`
+
+**Dato de prueba:** `sdfh567`
+
+**Resultado esperado:**
+- Rechazar el nombre que contiene números.
+- Mostrar el mensaje de validación correspondiente.
+- Impedir el acceso al portfolio.
+
+**Fecha de ejecución:** 30/10/2026.
+
+### Resultados por navegador
+
+| Navegador | PASS | FAIL |
+|---|---:|---:|
+| Google Chrome | 1 | 0 |
+| Mozilla Firefox | 1 | 0 |
+| Microsoft Edge | 1 | 0 |
+| **Total** | **3** | **0** |
+
+**Estado:** PASS — Defecto corregido y regresión satisfactoria.
+
+### Relación con UI-004
+
+UI-004 (`invalid-first-name.test.js`) verifica
+un nombre demasiado corto (`M`).
+
+La prueba de BUG-002 verifica específicamente
+un nombre que contiene números (`sdfh567`).
+
+Ambos escenarios corresponden a FR-012,
+pero comprueban condiciones diferentes.
+
+La regresión de BUG-002 no sustituye
+ni modifica los resultados históricos de UI-004.
+
+## Regresión complementaria — BUG-003
+
+**Defecto:** BUG-003 — Apellido con caracteres numéricos.
+
+**Requisito principal:** FR-012 — Validación de Nombre y Apellido.
+
+**Requisito complementario:** FR-002 — Campos obligatorios.
+
+**Archivo Selenium:** `tests/selenium/invalid-last-name-numeric.test.js`
+
+**Dato de prueba:** `Flor567`
+
+**Resultado esperado:**
+- Rechazar el apellido que contiene números.
+- Mostrar el mensaje de validación correspondiente.
+- Impedir el acceso al portfolio.
+
+**Fecha de ejecución:** 30/10/2026.
+
+### Resultados por navegador
+
+| Navegador | PASS | FAIL |
+|---|---:|---:|
+| Google Chrome | 1 | 0 |
+| Mozilla Firefox | 1 | 0 |
+| Microsoft Edge | 1 | 0 |
+| **Total** | **3** | **0** |
+
+**Estado:** PASS — Defecto corregido y regresión satisfactoria.
+
+### Relación con UI-005
+
+UI-005 (`invalid-last-name.test.js`) verifica
+un apellido demasiado corto (`F`).
+
+La prueba de BUG-003 verifica específicamente
+un apellido que contiene números (`Flor567`).
+
+Ambos escenarios corresponden a FR-012,
+pero comprueban condiciones diferentes.
+
+La regresión de BUG-003 no sustituye
+ni modifica los resultados históricos de UI-005.
+
 
 ## Alcance y limitaciones
 
@@ -1274,3 +1463,158 @@ Respuesta HTTP: `500 Internal Server Error`.
 
 Se utilizó un fallo SMTP simulado.
 No se enviaron correos reales.
+
+---
+
+# Casos de prueba — Buscador global
+
+**Referencia:** BL-02  
+**Módulo:** Buscador global del portfolio  
+**Tipo de ejecución:** Manual  
+**Entorno:** Chrome y portfolio local  
+**Estado:** 17 PASS / 0 FAIL
+
+## Pruebas funcionales y de teclado
+
+| ID | Escenario | Resultado esperado | Estado |
+|---|---|---|---|
+| TC-SEARCH-001 | Búsquedas consecutivas | GitHub, LinkedIn y formación accesibles sin recargar la página | PASS |
+| TC-SEARCH-002 | Navegación con flechas | La selección avanza y retrocede entre resultados | PASS |
+| TC-SEARCH-003 | Enter sobre selección | Se abre el resultado seleccionado | PASS |
+| TC-SEARCH-004 | Tecla Escape | Se cierra el panel y puede iniciarse otra búsqueda | PASS |
+| TC-SEARCH-005 | Sin coincidencias | Se informa que no existen resultados y el buscador no se bloquea | PASS |
+| TC-SEARCH-006 | Selección con mouse | Se abre el destino y se cierra el panel | PASS |
+
+## Navegación entre páginas
+
+| ID | Origen | Búsqueda | Destino esperado | Estado |
+|---|---|---|---|---|
+| TC-SEARCH-007 | Home | credenciales | CV · Formación | PASS |
+| TC-SEARCH-008 | CV | sqlite | Backend | PASS |
+| TC-SEARCH-009 | Frontend | gherkin | Gestión de Calidad · BDD | PASS |
+| TC-SEARCH-010 | Backend | regresión | QA · Regresión y bugs | PASS |
+| TC-SEARCH-011 | QA | marketing | CV · Formación | PASS |
+| TC-SEARCH-012 | Gestión de Calidad | github | Home · Tarjeta GitHub | PASS |
+
+## Pruebas de diseño adaptable
+
+| ID | Resolución o entorno | Resultado esperado | Estado |
+|---|---|---|---|
+| TC-SEARCH-013 | 320 px | Encabezado compacto sin superposiciones | PASS |
+| TC-SEARCH-014 | 375 px | Encabezado de dos filas y buscador funcional | PASS |
+| TC-SEARCH-015 | 768 px | Resultados visibles y sin desbordamiento | PASS |
+| TC-SEARCH-016 | 1440 px | Logo, buscador y menú correctamente alineados | PASS |
+| TC-SEARCH-017 | Móvil con teclado virtual | Búsqueda y navegación táctil funcionales | PASS |
+
+## Criterios de aceptación verificados
+
+- El buscador está disponible en las seis páginas del portfolio.
+- Permite buscar por títulos, tecnologías y palabras clave.
+- Los resultados se ordenan por relevancia textual.
+- Permite navegar mediante mouse y teclado.
+- Cierra y reinicia correctamente después de seleccionar resultados.
+- Navega a páginas, secciones y tarjetas internas.
+- Funciona en las resoluciones evaluadas.
+- No se reportaron fallos en los 17 casos ejecutados.
+
+## Resultado de ejecución
+
+**17 PASS / 0 FAIL / 0 BLOCKED**
+
+Referencia de resultados: `docs/test-report.md`.
+
+---
+
+# Regresión automatizada Selenium — Buscador global
+
+**Requirement:** FR-011 — Global Search
+
+**Related Requirements:** FR-006, FR-009, NFR-005
+
+**Test File:** `tests/selenium/global-search-navigation.test.js`
+
+**Tool:** Selenium WebDriver — Node.js Test Runner
+
+**Execution Date:** 30/10/2026
+
+**Browsers:** Google Chrome, Mozilla Firefox, Microsoft Edge
+
+**Total Test Cases:** 43
+
+**Total Executions:** 129
+
+**Execution Result:** 129 PASS / 0 FAIL
+
+## Automated Test Cases
+
+Los casos siguientes documentan los escenarios
+automatizados del buscador global.
+
+Las implementaciones se encuentran en el archivo
+Selenium indicado anteriormente.
+
+Los resultados detallados de ejecución se conservan
+en `docs/test-report.md`.
+
+### Búsquedas, resultados y navegación — SEARCH-TC-001 a SEARCH-TC-010
+
+| ID | Escenario | Resultado esperado | Requisito |
+|---|---|---|---|
+| SEARCH-TC-001 | Búsquedas consecutivas sin recargar | Permite realizar varias consultas, actualiza los resultados y cierra el panel al limpiar el campo. | FR-011 |
+| SEARCH-TC-002 | Navegación con teclado | ArrowDown selecciona un resultado y Enter permite abrir su destino. | FR-011 |
+| SEARCH-TC-003 | Cerrar resultados con Escape | Escape limpia la consulta, cierra el panel y permite iniciar otra búsqueda. | FR-011 |
+| SEARCH-TC-004 | Búsqueda sin resultados ES/EN/PT | Muestra el mensaje correspondiente al idioma y no presenta enlaces seleccionables. | FR-011, FR-009 |
+| SEARCH-TC-005 | Búsqueda con y sin acentos | Las consultas equivalentes con y sin acentos encuentran el mismo destino. | FR-011 |
+| SEARCH-TC-006 | Resultados traducidos ES/EN/PT | Los títulos y descripciones coinciden con las traducciones esperadas en los tres idiomas. | FR-011, FR-009 |
+| SEARCH-TC-007 | Cierre y reapertura por foco | Al hacer clic fuera se cierra el panel sin borrar la consulta y al recuperar el foco reaparecen los resultados. | FR-011 |
+| SEARCH-TC-008 | Navegación con ArrowUp y ArrowDown | Permite avanzar y retroceder entre resultados y abrir el seleccionado mediante Enter. | FR-011 |
+| SEARCH-TC-009 | Abrir segundo resultado con teclado | Permite seleccionar el segundo resultado y navegar al destino correcto mediante Enter. | FR-011 |
+| SEARCH-TC-010 | Búsqueda con espacios adicionales | Los espacios al inicio y al final no impiden encontrar el resultado ni navegar a su destino. | FR-011 |
+
+### Normalización, integridad y navegación — SEARCH-TC-011 a SEARCH-TC-020
+
+| ID | Escenario | Resultado esperado | Requisito |
+|---|---|---|---|
+| SEARCH-TC-011 | Búsqueda sin distinguir mayúsculas y minúsculas | Las consultas en minúsculas, mayúsculas y combinadas encuentran el mismo resultado. | FR-011 |
+| SEARCH-TC-012 | Limpiar consulta y cerrar resultados | Al vaciar el campo desaparecen los resultados y aria-expanded cambia a false. | FR-011, NFR-005 |
+| SEARCH-TC-013 | Búsqueda con caracteres especiales | Una consulta sin coincidencias muestra el mensaje correspondiente y no genera resultados seleccionables. | FR-011 |
+| SEARCH-TC-014 | Actualización de resultados al cambiar consulta | Los resultados anteriores desaparecen y se muestran únicamente los correspondientes a la nueva búsqueda. | FR-011 |
+| SEARCH-TC-015 | Seleccionar segundo resultado con clic | El segundo resultado permite navegar a Especialidades y conserva el ancla #specialties. | FR-011, FR-006 |
+| SEARCH-TC-016 | Buscar después de navegar a otra página | El buscador continúa funcionando después de navegar entre Gestión de Calidad y Backend. | FR-011, FR-006 |
+| SEARCH-TC-017 | Verificar orden de resultados | La búsqueda de QA muestra primero Evidencia verificable y después Especialidades. | FR-011 |
+| SEARCH-TC-018 | Navegación con Tab y Enter | Tab permite enfocar el primer resultado y Enter abre la página QA. | FR-011, NFR-005 |
+| SEARCH-TC-019 | Navegación inversa con Shift + Tab | Permite avanzar al segundo resultado, regresar al primero y abrirlo mediante Enter. | FR-011, NFR-005 |
+| SEARCH-TC-020 | Recorrido de resultados con flechas | ArrowDown y ArrowUp permiten recorrer tres resultados sin provocar una navegación inesperada. | FR-011, NFR-005 |
+
+### Accesibilidad, integridad y recuperación — SEARCH-TC-021 a SEARCH-TC-030
+
+| ID | Escenario | Resultado esperado | Requisito |
+|---|---|---|---|
+| SEARCH-TC-021 | Escape desde un resultado seleccionado | Escape cierra el desplegable, oculta los resultados y no provoca una navegación inesperada. | FR-011, NFR-005 |
+| SEARCH-TC-022 | Nueva búsqueda después de Escape desde un resultado | Después de cerrar el desplegable con Escape, permite realizar otra consulta y mostrar nuevos resultados. | FR-011, NFR-005 |
+| SEARCH-TC-023 | Estado aria-expanded del buscador | El atributo aria-expanded refleja correctamente los estados cerrado, abierto y reabierto del componente. | FR-011, NFR-005 |
+| SEARCH-TC-024 | Integridad de enlaces y títulos | Cada resultado dispone de texto visible y un enlace válido que apunta al portfolio. | FR-011 |
+| SEARCH-TC-025 | Verificar resultados sin destinos duplicados | Una búsqueda no presenta enlaces con destinos duplicados. | FR-011 |
+| SEARCH-TC-026 | Eliminar resultados anteriores cuando no hay coincidencias | Al cambiar a una consulta sin coincidencias, desaparecen los enlaces anteriores y se muestra el mensaje correspondiente. | FR-011 |
+| SEARCH-TC-027 | Recuperación después de una búsqueda sin resultados | Después de una consulta sin coincidencias, una nueva búsqueda válida vuelve a mostrar el resultado esperado. | FR-011 |
+| SEARCH-TC-028 | Búsqueda por término parcial | Una consulta parcial encuentra el contenido correspondiente y permite navegar a su destino. | FR-011 |
+| SEARCH-TC-029 | Búsqueda por descripción | Una palabra incluida en la descripción permite encontrar el resultado y navegar a la sección correspondiente. | FR-011 |
+| SEARCH-TC-030 | Búsqueda con varias palabras | Una consulta compuesta por varias palabras encuentra el resultado esperado y permite abrirlo. | FR-011 |
+
+### Normalización avanzada y navegación entre secciones — SEARCH-TC-031 a SEARCH-TC-044
+
+| ID | Escenario | Resultado esperado | Requisito |
+|---|---|---|---|
+| SEARCH-TC-031 | Búsqueda con espacios internos repetidos | La consulta "arquitectura   api" encuentra Arquitectura de la API y mantiene abierto el desplegable. | FR-011 |
+| SEARCH-TC-032 | Búsqueda con tabulaciones entre palabras | Las tabulaciones se normalizan y permiten encontrar Arquitectura de la API. | FR-011 |
+| SEARCH-TC-033 | Normalización de caracteres Unicode | Las variantes Unicode equivalentes permiten encontrar Internacionalización en frontend.html. | FR-011 |
+| SEARCH-TC-034 | Tratamiento de saltos de línea en el input | El buscador procesa el valor real del campo después de que el navegador elimina el salto de línea. | FR-011 |
+| SEARCH-TC-035 | Consulta compuesta únicamente por espacios | Una consulta sin caracteres significativos se trata como vacía y mantiene cerrado el desplegable. | FR-011 |
+| SEARCH-TC-036 | Caracteres especiales combinados con texto válido | Una consulta sin coincidencias como "arquitectura@@@" muestra el mensaje correspondiente sin resultados seleccionables. | FR-011 |
+| SEARCH-TC-037 | Recuperación tras caracteres especiales | Después de una consulta con símbolos sin coincidencias, una búsqueda válida vuelve a mostrar resultados. | FR-011 |
+| SEARCH-TC-038 | Navegación a Arquitectura | La búsqueda permite abrir backend.html#arquitectura y visualizar la sección sin quedar oculta detrás de la cabecera. | FR-011, FR-006 |
+| SEARCH-TC-040 | Navegación a Casos de prueba | La búsqueda permite abrir qa.html#casos-prueba y visualizar correctamente la sección. | FR-011, FR-006 |
+| SEARCH-TC-041 | Navegación a Trazabilidad | La búsqueda permite abrir quality-management.html#trazabilidad y visualizar correctamente la sección. | FR-011, FR-006 |
+| SEARCH-TC-042 | Navegación a Persistencia | La búsqueda permite abrir backend.html#persistencia y visualizar correctamente la sección. | FR-011, FR-006 |
+| SEARCH-TC-043 | Navegación a Internacionalización | La búsqueda permite abrir frontend.html#internacionalizacion y visualizar correctamente la sección. | FR-011, FR-006 |
+| SEARCH-TC-044 | Navegación a Regresión y bugs | La búsqueda permite abrir qa.html#regresion-bugs y visualizar correctamente la sección. | FR-011, FR-006 |

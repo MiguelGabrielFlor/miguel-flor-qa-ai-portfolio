@@ -1,386 +1,1268 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend | QA Testing — Miguel Flor</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8"/>
+    <!-- FAVICON — MF. -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon-mf.ico">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Análisis de estructura HTML, validaciones, internacionalización y automatización Selenium del frontend del portfolio de Miguel Flor." data-i18n-content="frontMeta" name="description"/><title data-i18n="frontPageTitle">Frontend | QA Testing — Miguel Flor</title>
+    <link href="css/style.css" rel="stylesheet"/>
     <style>
-        .showcase {
-            width: min(1100px, calc(100% - 32px));
-            margin: 0 auto;
-            padding: 48px 0 110px;
-        }
-
-        .showcase-header {
-            margin-bottom: 42px;
-        }
-
-        .showcase-header h1 {
-            max-width: 800px;
-            margin-bottom: 16px;
-        }
-
-        .showcase-header > p:last-child {
-            max-width: 760px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .showcase-section {
-            margin: 0 0 36px;
-        }
-
-        .showcase-section > h2 {
-            margin-bottom: 10px;
-        }
-
-        .section-description {
-            margin-bottom: 20px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .showcase-columns {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-            gap: 20px;
-            align-items: stretch;
-        }
-
-        .showcase-panel {
-            min-width: 0;
-            padding: 22px;
-            background: var(--background-secondary);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-        }
-
-        .panel-heading {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .panel-heading h3 {
-            margin: 0;
-            font-size: 15px;
-        }
-
-        .panel-heading span {
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        .code-block {
-            overflow: hidden;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: var(--background);
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 12px;
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .code-header span {
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        .copy-code {
-            flex-shrink: 0;
-            padding: 7px 10px;
-            color: var(--text);
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: border-color 0.2s ease, color 0.2s ease;
-        }
-
-        .copy-code:hover {
-            border-color: var(--primary);
-            color: var(--primary-hover);
-        }
-
-        .code-block pre {
-            margin: 0;
-            padding: 18px;
-            overflow-x: auto;
-            color: #d4d4d4;
-            font: 13px/1.75 Consolas, monospace;
-            tab-size: 4;
-        }
-
-        .explanation-content {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.8;
-        }
-
-        .explanation-content h4 {
-            margin: 18px 0 7px;
-            color: var(--text);
-            font-size: 14px;
-        }
-
-        .explanation-content h4:first-child {
-            margin-top: 0;
-        }
-
-        .explanation-content p {
-            margin: 0 0 12px;
-        }
-
-        .explanation-content ul {
-            padding-left: 20px;
-        }
-
-        .explanation-content li {
-            margin-bottom: 7px;
-        }
-
-        .qa-focus {
-            margin-top: 20px;
-            padding: 14px;
-            border-left: 3px solid var(--primary);
-            background: var(--card);
-            border-radius: 0 8px 8px 0;
-        }
-
-        .qa-focus strong {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--text);
-        }
-
-        .showcase-note {
-            margin-top: 14px;
-            color: var(--text-secondary);
-            font-size: 13px;
-            line-height: 1.7;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: var(--text);
-        }
-
-        @media (max-width: 760px) {
             .showcase {
-                padding-top: 30px;
-                padding-bottom: 100px;
+                width: min(1100px, calc(100% - 32px));
+                margin: 0 auto;
+                padding: 48px 0 110px;
+            }
+
+            .showcase-header {
+                margin-bottom: 42px;
+            }
+
+            .showcase-header h1 {
+                max-width: 800px;
+                margin-bottom: 16px;
+            }
+
+            .showcase-header > p:last-child {
+                max-width: 760px;
+                color: var(--text-secondary);
+                line-height: 1.7;
+            }
+
+            /* FRONTEND — Posición correcta al navegar desde el índice */
+            .showcase-section {
+                margin: 0 0 36px;
+                scroll-margin-top: 110px;
+            }
+
+            .showcase-section > h2 {
+                margin-bottom: 10px;
+            }
+
+            .section-description {
+                margin-bottom: 20px;
+                color: var(--text-secondary);
+                line-height: 1.7;
             }
 
             .showcase-columns {
-                grid-template-columns: minmax(0, 1fr);
+                display: grid;
+                grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+                gap: 20px;
+                align-items: stretch;
             }
+            /* FRONTEND — COLUMNAS RESPONSIVE */
 
+            @media (max-width: 768px) {
+
+                .showcase-section .showcase-columns {
+                    grid-template-columns: minmax(0, 1fr);
+                    gap: 20px;
+                }
+
+            }
+            /* FRONTEND — Tarjetas informativas */
             .showcase-panel {
-                padding: 18px;
-            }
-        }
+                min-width: 0;
+                padding: 22px;
+                background: var(--background-secondary);
+                border: 1px solid var(--border);
+                border-radius: 14px;
 
-        @media (max-width: 420px) {
-            .showcase {
-                width: calc(100% - 24px);
-            }
-
-            .showcase-panel {
-                padding: 14px;
+                transition:
+                    border-color 0.35s ease,
+                    box-shadow 0.35s ease;
             }
 
-            .code-block pre {
-                padding: 12px;
+            /* Iluminación sin desplazamiento */
+            .showcase-panel:hover {
+                border-color: #3794FF;
+                box-shadow: 0 0 18px rgba(55, 148, 255, 0.10);
+            }
+
+            .panel-heading {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 18px;
+            }
+
+            .panel-heading h3 {
+                margin: 0;
+                font-size: 15px;
+            }
+
+            .panel-heading span {
+                color: var(--text-secondary);
                 font-size: 12px;
             }
 
+            .code-block {
+                overflow: hidden;
+                border: 1px solid var(--border);
+                border-radius: 9px;
+                background: var(--background);
+            }
+
             .code-header {
-                align-items: flex-start;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                padding: 11px 12px;
+                background: var(--card);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .code-header span {
+                color: var(--text-secondary);
+                font-size: 12px;
+            }
+
+            /* FRONTEND — Botones Copiar código */
+            .copy-code {
+                flex-shrink: 0;
+                padding: 7px 12px;
+                color: var(--text);
+                background: transparent;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                cursor: pointer;
+
+                transition:
+                    border-color 0.35s ease,
+                    background-color 0.35s ease,
+                    color 0.35s ease,
+                    box-shadow 0.35s ease;
+            }
+
+            .copy-code:hover {
+                color: #DCEBFF;
+                border-color: #3794FF;
+                background-color: rgba(55, 148, 255, 0.08);
+                box-shadow: 0 0 12px rgba(55, 148, 255, 0.10);
+            }
+
+            .copy-code:focus-visible {
+                outline: 2px solid #3794FF;
+                outline-offset: 3px;
+            }
+
+            .code-block pre {
+                margin: 0;
+                padding: 18px;
+                overflow-x: auto;
+                color: #d4d4d4;
+                font: 13px/1.75 Consolas, monospace;
+                tab-size: 4;
+            }
+
+            .explanation-content {
+                color: var(--text-secondary);
+                font-size: 14px;
+                line-height: 1.8;
+            }
+
+            .explanation-content h4 {
+                margin: 18px 0 7px;
+                color: var(--text);
+                font-size: 14px;
+            }
+
+            .explanation-content h4:first-child {
+                margin-top: 0;
+            }
+
+            .explanation-content p {
+                margin: 0 0 12px;
+            }
+
+            .explanation-content ul {
+                padding-left: 20px;
+            }
+
+            .explanation-content li {
+                margin-bottom: 7px;
+            }
+
+            .qa-focus {
+                margin-top: 20px;
+                padding: 14px;
+                border-left: 3px solid var(--primary);
+                background: var(--card);
+                border-radius: 0 8px 8px 0;
+            }
+
+            .qa-focus strong {
+                display: block;
+                margin-bottom: 5px;
+                color: var(--text);
+            }
+
+            .showcase-note {
+                margin-top: 14px;
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.7;
+            }
+
+            .back-link {
+                display: inline-block;
+                margin-top: 20px;
+                color: var(--text);
+            }
+            /* FRONTEND — Laboratorio de estructura HTML */
+
+            .frontend-lab {
+                margin-top: 24px;
+                padding: 24px;
+                background: var(--background-secondary);
+                border: 1px solid var(--border);
+                border-radius: 14px;
+            }
+
+            .frontend-lab-header h3 {
+                margin: 8px 0;
+            }
+
+            .frontend-lab-header p {
+                color: var(--text-secondary);
+                line-height: 1.7;
+            }
+
+            .frontend-lab-label,
+            .frontend-lab-caption {
+                color: #3794FF;
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.2px;
+            }
+
+            .frontend-lab-tabs {
+                display: flex;
                 flex-wrap: wrap;
+                gap: 10px;
+                margin: 24px 0;
             }
-        }
-        
-        
-        /* Índice flotante: no modifica la altura del encabezado */
-        .showcase-index {
-            position: relative;
-            margin: 0;
-            flex-shrink: 0;
-        }
 
-        /* Control del menú */
-        .index-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            width: fit-content;
-            max-width: 100%;
-            padding: 12px 18px;
-            color: var(--text);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font: inherit;
-            font-size: 14px;
-            cursor: pointer;
-            list-style: none;
-            transition: border-color 0.2s ease, color 0.2s ease;
-        }
+            .frontend-lab-tab {
+                padding: 10px 16px;
+                color: var(--text-secondary);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                cursor: pointer;
+                transition:
+                    border-color 0.3s ease,
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
 
-        .index-toggle::-webkit-details-marker {
-            display: none;
-        }
+            .frontend-lab-tab:hover,
+            .frontend-lab-tab:focus-visible {
+                border-color: #3794FF;
+                color: var(--text);
+            }
 
-        .index-toggle::after {
-            content: "+";
-            color: var(--primary);
-            font-size: 20px;
-            line-height: 1;
-        }
+            .frontend-lab-tab.active {
+                border-color: #3794FF;
+                color: #fff;
+                background: rgba(55, 148, 255, 0.12);
+            }
 
-        .showcase-index[open] .index-toggle::after {
-            content: "−";
-        }
+            .frontend-lab-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
 
-        .index-toggle:hover,
-        .index-toggle:focus-visible {
-            color: var(--primary-hover);
-            border-color: var(--primary);
-            outline: none;
-        }
+            .frontend-lab-preview,
+            .frontend-lab-explanation {
+                min-width: 0;
+                padding: 20px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+            /* FRONTEND — Laboratorio interactivo de validaciones */
 
-        /* Panel flotante: se superpone al contenido */
-        .index-grid {
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            z-index: 1100;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            width: min(520px, calc(100vw - 32px));
-            margin: 0;
-            padding: 12px;
-            background: var(--background, #080B12);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-        }
+            .validation-lab-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+                align-items: stretch;
+            }
 
-        .index-link {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            min-width: 0;
-            padding: 16px;
-            color: var(--text);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            text-decoration: none;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
+            .validation-lab-form,
+            .validation-lab-result {
+                min-width: 0;
+                padding: 20px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
 
-        .index-link:hover,
-        .index-link:focus-visible {
-            color: var(--text);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            outline: none;
-        }
+            .validation-lab-form label {
+                display: block;
+                margin-bottom: 10px;
+                color: var(--text);
+                font-size: 14px;
+            }
 
-        .index-number {
-            color: var(--primary-hover);
-            font-size: 12px;
-        }
-
-        .index-link strong {
-            font-size: 14px;
-        }
-
-        .index-link small {
-            color: var(--text-secondary);
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 760px) {
-            .index-toggle {
+            #demo-email {
                 width: 100%;
+                padding: 12px 14px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                transition:
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
             }
 
-            .index-grid {
-                grid-template-columns: minmax(0, 1fr);
-                width: min(360px, calc(100vw - 32px));
+            #demo-email:focus {
+                outline: none;
+                border-color: #3794FF;
+                box-shadow: 0 0 0 3px rgba(55, 148, 255, 0.12);
             }
+
+            #demo-email.demo-invalid {
+                border-color: #F48771;
+            }
+
+            #demo-email.demo-valid {
+                border-color: #4EC9B0;
+            }
+
+            .validation-lab-message {
+                min-height: 22px;
+                margin: 8px 0 0;
+                font-size: 13px;
+            }
+
+            .validation-lab-message.error {
+                color: #F48771;
+            }
+
+            .validation-lab-message.success {
+                color: #4EC9B0;
+            }
+
+            .validation-lab-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .validation-lab-button {
+                padding: 10px 14px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                font-size: 13px;
+                cursor: pointer;
+                transition:
+                    border-color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .validation-lab-button:hover {
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.08);
+            }
+
+            .validation-lab-button:focus-visible {
+                outline: 2px solid #3794FF;
+                outline-offset: 3px;
+            }
+
+            .validation-lab-button.secondary {
+                color: var(--text-secondary);
+            }
+
+            .validation-lab-status {
+                margin: 18px 0;
+                padding: 16px;
+                color: var(--text-secondary);
+                background: var(--card);
+                border-left: 3px solid var(--border);
+                border-radius: 0 8px 8px 0;
+            }
+
+            .validation-lab-status.error {
+                color: #F48771;
+                border-left-color: #F48771;
+            }
+
+            .validation-lab-status.success {
+                color: #4EC9B0;
+                border-left-color: #4EC9B0;
+            }
+
+            .validation-lab-result > p {
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.7;
+            }
+
+            @media (max-width: 760px) {
+                .validation-lab-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            
+            /* FRONTEND — Organización de las modalidades */
+
+            .validation-mode {
+                margin-top: 24px;
+                padding: 22px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+
+            .validation-mode-heading {
+                display: flex;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .validation-mode-number {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                width: 36px;
+                height: 36px;
+                color: #3794FF;
+                background: rgba(55, 148, 255, 0.10);
+                border: 1px solid rgba(55, 148, 255, 0.3);
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .validation-mode-heading h4 {
+                margin: 0 0 8px;
+                color: var(--text);
+                font-size: 16px;
+            }
+
+            .validation-mode-heading p {
+                margin: 0;
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.8;
+                text-align: justify;
+            }
+
+            .validation-mode .validation-scenarios {
+                margin: 20px 0 0;
+            }
+
+            .validation-mode .validation-lab-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                margin-top: 20px;
+            }
+
+            .validation-mode .validation-lab-form,
+            .validation-mode .validation-lab-result {
+                background: var(--background-secondary);
+            }
+
+            .validation-mode .validation-lab-form label {
+                margin-top: 16px;
+            }
+
+            /* Responsive */
+            @media (max-width: 760px) {
+                .validation-mode {
+                    padding: 16px;
+                }
+
+                .validation-mode .validation-lab-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+            }
+
+            /* FRONTEND — Escenarios seleccionables */
+
+            .validation-scenarios {
+                margin-bottom: 24px;
+            }
+
+            .validation-scenario-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 12px;
+            }
+
+            .validation-scenario-buttons button {
+                padding: 8px 12px;
+                color: var(--text-secondary);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 7px;
+                font: inherit;
+                font-size: 12px;
+                cursor: pointer;
+
+                transition:
+                    color 0.3s ease,
+                    border-color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .validation-scenario-buttons button:hover,
+            .validation-scenario-buttons button:focus-visible {
+                color: var(--text);
+                border-color: #3794FF;
+                outline: none;
+            }
+
+            .validation-scenario-buttons button.active {
+                color: #DCEBFF;
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.12);
+            }
+            /* FRONTEND — Instrucciones y modalidades de prueba */
+
+            .validation-lab-instructions {
+                margin-top: 22px;
+            }
+
+            .validation-lab-instructions > p {
+                margin-bottom: 16px;
+                color: var(--text-secondary);
+                line-height: 1.7;
+            }
+
+            .validation-lab-guide {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+            }
+
+            .validation-guide-item {
+                padding: 18px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+
+            .validation-guide-item strong {
+                display: block;
+                margin-bottom: 8px;
+                color: var(--text);
+                font-size: 14px;
+            }
+
+            .validation-guide-item p {
+                margin: 0;
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.8;
+                text-align: justify;
+            }
+
+            /* Escenarios ubicados sobre el formulario */
+
+            .validation-scenarios {
+                margin: 24px 0 0;
+            }
+
+            .validation-scenario-buttons {
+                margin-top: 12px;
+            }
+
+            @media (max-width: 760px) {
+                .validation-lab-guide {
+                    grid-template-columns: 1fr;
+                }
+            }
+                    /* FRONTEND — Laboratorio de internacionalización */
+
+            .language-lab-selector {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 24px 0;
+            }
+
+            .language-lab-selector button {
+                padding: 10px 16px;
+                color: var(--text-secondary);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                cursor: pointer;
+                transition:
+                    color 0.3s ease,
+                    border-color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .language-lab-selector button:hover,
+            .language-lab-selector button:focus-visible,
+            .language-lab-selector button.active {
+                color: var(--text);
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.10);
+            }
+
+            .language-lab-preview {
+                padding: 24px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+
+            .language-lab-heading {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .language-lab-heading h4 {
+                margin: 0;
+            }
+
+            #language-lab-current {
+                color: #3794FF;
+                font: 13px Consolas, monospace;
+            }
+
+            .language-lab-fields {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .language-lab-fields label {
+                color: var(--text);
+                font-size: 13px;
+            }
+
+            .language-lab-fields input,
+            .language-lab-fields textarea {
+                width: 100%;
+                padding: 12px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                resize: vertical;
+            }
+
+            .language-lab-fields input:focus,
+            .language-lab-fields textarea:focus {
+                outline: none;
+                border-color: #3794FF;
+                box-shadow: 0 0 0 3px rgba(55, 148, 255, 0.12);
+            }
+
+            #language-demo-submit {
+                align-self: flex-start;
+                margin-top: 12px;
+                padding: 11px 16px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                cursor: pointer;
+            }
+
+            #language-demo-submit:hover {
+                border-color: #3794FF;
+            }
+
+            .language-lab-feedback {
+                margin-top: 20px;
+                color: #4EC9B0;
+                font-size: 13px;
+            }
+
+            .language-demo-result {
+                min-height: 20px;
+                margin: 6px 0;
+                font-size: 13px;
+            }
+
+            .language-demo-result.error {
+                color: #F48771;
+            }
+
+            .language-demo-result.success {
+                color: #4EC9B0;
+            }
+
+            /* FRONTEND — Validaciones multilingües */
+
+            .language-field-message {
+                min-height: 0;
+                margin: 0;
+                color: #F48771;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .language-field-message:not(:empty) {
+                margin: -4px 0 6px;
+            }
+
+            .language-lab-fields .demo-field-error {
+                border-color: #F48771;
+            }
+
+            .language-lab-fields .demo-field-valid {
+                border-color: #4EC9B0;
+            }
+
+            .language-demo-result {
+                line-height: 1.7;
+            }
+            /* INTERNACIONALIZACIÓN — ESCENARIOS GUIADOS */
+
+            .language-demo-scenarios {
+                margin: 20px 0;
+                padding: 20px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+
+            .language-demo-scenarios h4 {
+                margin: 0 0 10px;
+                color: var(--text);
+            }
+
+            .language-demo-scenarios p {
+                margin: 0 0 18px;
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.8;
+                text-align: justify;
+            }
+
+            .language-demo-scenario-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .language-demo-scenario-buttons button {
+                padding: 10px 14px;
+                color: var(--text-secondary);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                cursor: pointer;
+                transition:
+                    border-color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .language-demo-scenario-buttons button:hover,
+            .language-demo-scenario-buttons button.active {
+                color: var(--text);
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.10);
+            }
+            /* FRONTEND — LABORATORIO SELENIUM */
+
+            .selenium-lab-selector {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 24px 0;
+            }
+
+            .selenium-lab-selector button {
+                padding: 11px 18px;
+                color: var(--text-secondary);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                font-size: 13px;
+                cursor: pointer;
+                transition:
+                    border-color 0.3s ease,
+                    background-color 0.3s ease,
+                    color 0.3s ease;
+            }
+
+            .selenium-lab-selector button:hover,
+            .selenium-lab-selector button.active {
+                color: var(--text);
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.10);
+            }
+
+            .selenium-lab-selector button:focus-visible {
+                outline: 2px solid #3794FF;
+                outline-offset: 3px;
+            }
+
+            .selenium-lab-detail {
+                padding: 24px;
+                background: var(--background);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+
+            .selenium-lab-detail-heading {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 16px;
+            }
+
+            #selenium-lab-id {
+                padding: 7px 10px;
+                color: #3794FF;
+                background: rgba(55, 148, 255, 0.10);
+                border: 1px solid rgba(55, 148, 255, 0.30);
+                border-radius: 6px;
+                font-family: Consolas, monospace;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            #selenium-lab-title {
+                margin: 0;
+                color: var(--text);
+                font-size: 17px;
+            }
+
+            #selenium-lab-objective {
+                margin: 0 0 24px;
+                color: var(--text-secondary);
+                line-height: 1.8;
+                text-align: justify;
+            }
+
+            .selenium-lab-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+            }
+
+            .selenium-lab-item {
+                padding: 20px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+            }
+
+            .selenium-lab-item h5 {
+                margin: 0 0 12px;
+                color: #3794FF;
+                font-size: 13px;
+            }
+
+            .selenium-lab-item p {
+                margin: 0;
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.8;
+                text-align: justify;
+            }
+
+            .selenium-lab-note {
+                margin: 18px 0 0;
+                color: var(--text-secondary);
+                font-size: 12px;
+                line-height: 1.7;
+            }
+
+            @media (max-width: 760px) {
+                .selenium-lab-detail {
+                    padding: 16px;
+                }
+
+                .selenium-lab-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+
+                .selenium-lab-detail-heading {
+                    align-items: flex-start;
+                }
+            }
+            /* FRONTEND — Explorador visual de estructura HTML */
+            .frontend-lab-tree {
+                margin-top: 18px;
+                padding: 18px;
+                min-height: 135px;
+
+                font: 13px/2 Consolas, monospace;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+
+                color: #9CDCFE;
+                background: #111722;
+
+                border: 1px solid rgba(55, 148, 255, 0.18);
+                border-left: 3px solid #3794FF;
+                border-radius: 8px;
+
+                transition:
+                    border-color 0.35s ease,
+                    box-shadow 0.35s ease;
+            }
+
+            .frontend-lab-tree:hover {
+                border-color: #3794FF;
+                box-shadow: 0 0 14px rgba(55, 148, 255, 0.08);
+            }
+            /* FRONTEND — Resaltado del árbol HTML */
+
+            .html-tree-line {
+                padding: 2px 8px;
+                border-radius: 5px;
+                white-space: pre-wrap;
+            }
+
+            .html-tree-tag {
+                color: #569CD6;
+            }
+
+            .html-tree-text {
+                color: #D4D4D4;
+            }
+
+            .html-tree-line.selected {
+                background: rgba(55, 148, 255, 0.12);
+                border-left: 2px solid #3794FF;
+            }
+
+            .html-tree-line.selected .html-tree-text {
+                color: #9CDCFE;
+            }
+
+            .frontend-lab-explanation h4 {
+                margin: 18px 0 10px;
+            }
+
+            .frontend-lab-explanation p {
+                color: var(--text-secondary);
+                line-height: 1.8;
+            }
+
+            .frontend-lab-code {
+                margin-top: 18px;
+                padding: 14px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                overflow-x: auto;
+            }
+
+            .frontend-lab-code code {
+                color: #9CDCFE;
+                font: 13px/1.7 Consolas, monospace;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+            }
+
+            @media (max-width: 760px) {
+                .frontend-lab {
+                    padding: 18px;
+                }
+
+        .frontend-lab-content {
+            grid-template-columns: 1fr;
         }
+    }
 
-        @media (prefers-reduced-motion: reduce) {
-            .index-toggle,
+            @media (max-width: 760px) {
+                .showcase {
+                    padding-top: 30px;
+                    padding-bottom: 100px;
+                }
+
+                .showcase-columns {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+
+                .showcase-panel {
+                    padding: 18px;
+                }
+            }
+
+            @media (max-width: 420px) {
+                .showcase {
+                    width: calc(100% - 24px);
+                }
+
+                .showcase-panel {
+                    padding: 14px;
+                }
+
+                .code-block pre {
+                    padding: 12px;
+                    font-size: 12px;
+                }
+
+                .code-header {
+                    align-items: flex-start;
+                    flex-wrap: wrap;
+                }
+            }
+            
+            
+            /* Índice flotante: no modifica la altura del encabezado */
+            .showcase-index {
+                position: relative;
+                margin: 0;
+                flex-shrink: 0;
+            }
+
+            /* Control del menú */
+            .index-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                width: fit-content;
+                max-width: 100%;
+                padding: 12px 18px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                font-size: 14px;
+                cursor: pointer;
+                list-style: none;
+                transition: border-color 0.2s ease, color 0.2s ease;
+            }
+
+            .index-toggle::-webkit-details-marker {
+                display: none;
+            }
+
+            .index-toggle::after {
+                content: "+";
+                color: var(--primary);
+                font-size: 20px;
+                line-height: 1;
+            }
+
+            .showcase-index[open] .index-toggle::after {
+                content: "−";
+            }
+
+            .index-toggle:hover,
+            .index-toggle:focus-visible {
+                color: var(--primary-hover);
+                border-color: var(--primary);
+                outline: none;
+            }
+
+            /* Panel flotante: se superpone al contenido */
+            .index-grid {
+                position: absolute;
+                top: calc(100% + 10px);
+                right: 0;
+                z-index: 1100;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+                width: min(520px, calc(100vw - 32px));
+                margin: 0;
+                padding: 12px;
+                background: var(--background, #080B12);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            }
+
             .index-link {
-                transition: none;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
+                min-width: 0;
+                padding: 16px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                text-decoration: none;
+                transition: transform 0.2s ease, border-color 0.2s ease;
             }
 
             .index-link:hover,
             .index-link:focus-visible {
-                transform: none;
+                color: var(--text);
+                border-color: var(--primary);
+                transform: translateY(-3px);
+                outline: none;
             }
-        }
+
+            .index-number {
+                color: var(--primary-hover);
+                font-size: 12px;
+            }
+
+            .index-link strong {
+                font-size: 14px;
+            }
+
+            .index-link small {
+                color: var(--text-secondary);
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            @media (max-width: 760px) {
+                .index-toggle {
+                    width: 100%;
+                }
+
+                .index-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                    width: min(360px, calc(100vw - 32px));
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .index-toggle,
+                .index-link {
+                    transition: none;
+                }
+
+                .index-link:hover,
+                .index-link:focus-visible {
+                    transform: none;
+                }
+            }
+        
+            /* Footer responsive — CV y Frontend */
+
+            @media (max-width: 600px) {
+
+                .cv-bottom-bar {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    flex-wrap: nowrap;
+                    gap: 8px;
+                    padding: 12px 8px;
+                }
+
+                .cv-bottom-bar .cv-language-selector {
+                    position: static;
+                    left: auto;
+                    transform: none;
+                    order: 1;
+                    flex: 0 0 auto;
+                    min-width: 0;
+                }
+
+                .cv-bottom-bar .cv-back-button {
+                    order: 2;
+                    flex: 0 1 auto;
+                    min-width: 0;
+                    margin: 0;
+                    padding: 10px 8px;
+                    font-size: 11px;
+                    white-space: normal;
+                }
+
+                .showcase {
+                    padding-bottom: 100px;
+                }
+
+            }
+            
 
     </style>
 </head>
-
-<body>   
-    
+<body>
     <header class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo"
-            aria-label="Volver al perfil de Miguel Flor">
+            <a aria-label="Volver al perfil de Miguel Flor" class="logo" data-i18n-aria-label="frontLogoAria" href="index.html">
                 <span class="logo-initials">MF<span class="logo-dot">.</span></span>
-                <span class="logo-divider" aria-hidden="true"></span>
+                <span aria-hidden="true" class="logo-divider"></span>
                 <span class="logo-label">PORTFOLIO</span>
             </a>
 
+            <!-- BUSCADOR GLOBAL -->
+
+            <div class="portfolio-search" role="search">
+                <div class="portfolio-search-field">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input
+                        type="search"
+                        id="portfolio-search-input"
+                        class="portfolio-search-input"
+                        placeholder="Buscar en el portfolio..."
+                        data-i18n-placeholder="frontSearchPlaceholder"
+                        autocomplete="off"
+                        aria-label="Buscar en el portfolio"
+                        data-i18n-aria-label="frontSearchAria"
+                        aria-controls="portfolio-search-results"
+                        aria-expanded="false"
+                    >
+                </div>
+                <div
+                    class="portfolio-search-results"
+                    id="portfolio-search-results"
+                    role="region"
+                    aria-label="Resultados de búsqueda"
+                    data-i18n-aria-label="frontSearchResultsAria"
+                    aria-live="polite"
+                    hidden
+                ></div>
+            </div>
             <details class="showcase-index" id="indice-contenidos">
                 <summary class="index-toggle">
-                    <span>Ir a una sección</span>
+                <span data-i18n="frontIndex">Índice</span>
                 </summary>
-
-                <nav class="index-grid" aria-label="Índice de contenidos">
+                <nav aria-label="Índice de contenidos" class="index-grid" data-i18n-aria-label="frontIndexAria">
                     <a class="index-link" href="#estructura-html">
                         <span class="index-number">01</span>
-                        <strong>Estructura HTML</strong>
-                        <small>Organización de la interfaz</small>
+                        <strong data-i18n="frontIndex1">Estructura HTML</strong>
+                        <small data-i18n="frontIndex1Desc">Organización de la interfaz</small>
                     </a>
 
                     <a class="index-link" href="#validacion">
                         <span class="index-number">02</span>
-                        <strong>Validación y estilos</strong>
-                        <small>Errores y estados visuales</small>
+                        <strong data-i18n="frontIndex2">Validación y estilos</strong>
+                        <small data-i18n="frontIndex2Desc">Errores y estados visuales</small>
                     </a>
 
                     <a class="index-link" href="#internacionalizacion">
                         <span class="index-number">03</span>
-                        <strong>Internacionalización</strong>
-                        <small>Español, inglés y portugués</small>
+                        <strong data-i18n="frontIndex3">Internacionalización</strong>
+                        <small data-i18n="frontIndex3Desc">Español, inglés y portugués</small>
                     </a>
 
                     <a class="index-link" href="#pruebas-automatizadas">
                         <span class="index-number">04</span>
-                        <strong>Pruebas automatizadas</strong>
-                        <small>Escenarios y pruebas Selenium</small>
+                        <strong data-i18n="frontIndex4">Pruebas automatizadas</strong>
+                        <small data-i18n="frontIndex4Desc">Escenarios y pruebas Selenium</small>
                     </a>
                 </nav>
             </details>
@@ -388,294 +1270,483 @@
     </header>
     <main class="showcase">
         <header class="showcase-header">
-            <p class="eyebrow">FRONTEND · INTERFAZ BAJO PRUEBA</p>
-            <h1>La interfaz también se puede verificar.</h1>
-            <p>
-                El frontend conecta estructura, diseño, validaciones e
-                internacionalización. Cada comportamiento debe poder
-                comprobarse mediante pruebas reproducibles.
-            </p>
+            <p class="eyebrow" data-i18n="frontEyebrow">FRONTEND · INTERFAZ BAJO PRUEBA</p>
+            <h1 data-i18n="frontHeroTitle">La interfaz también se puede verificar.</h1>
+            <p data-i18n="frontHeroDesc">
+                            El frontend conecta estructura, diseño, validaciones e
+                            internacionalización. Cada comportamiento debe poder
+                            comprobarse mediante pruebas reproducibles.
+                        </p>
         </header>
 
         <section class="showcase-section" id="estructura-html">
-            <h2>01. Estructura HTML</h2>
-            <p class="section-description">
-                Organización de las áreas de acceso y portfolio.
-            </p>
-
+            <h2 data-i18n="frontS1Title">01. Estructura HTML</h2>
+            <p class="section-description" data-i18n="frontS1Desc">
+                            Organización de las áreas de acceso y portfolio.
+                        </p>
             <div class="showcase-columns">
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Estructura</h3>
-                        <span>index.html</span>
+                    <h3 data-i18n="frontStructure">Estructura</h3>
+                    <span>index.html</span>
                     </div>
 
                     <div class="code-block">
                         <div class="code-header">
-                            <span>HTML · estructura identificada</span>
-                            <button class="copy-code" type="button">
-                                Copiar código
-                            </button>
+                            <span data-i18n="frontCodeStructure">HTML · estructura identificada</span>
+                            <button class="copy-code" data-i18n="frontCopy" type="button">
+                                                            Copiar código
+                                                        </button>
                         </div>
                         <pre><code>&lt;main
-        id="accessPage"
-        class="access-page"
-    &gt;
-        &lt;form id="accessForm" novalidate&gt;
-            ...
-        &lt;/form&gt;
-    &lt;/main&gt;
+                                id="accessPage"
+                                class="access-page"
+                            &gt;
+                                &lt;form id="accessForm" novalidate&gt;
+                                    ...
+                                &lt;/form&gt;
+                            &lt;/main&gt;
 
-    &lt;div
-        id="portfolio"
-        class="portfolio hidden"
-    &gt;
-        ...
-    &lt;/div&gt;</code></pre>
+                            &lt;div
+                                id="portfolio"
+                                class="portfolio hidden"
+                            &gt;
+                                ...
+                            &lt;/div&gt;</code></pre>
                     </div>
                 </article>
 
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Explicación</h3>
+                        <h3 data-i18n="frontExplanation">Explicación</h3>
                     </div>
 
                     <div class="explanation-content">
-                        <h4>¿Qué representa?</h4>
-                        <p>
-                            El HTML separa la pantalla de acceso del
-                            portfolio que se muestra después del registro.
-                            Los identificadores permiten localizar
-                            cada elemento desde JavaScript.
-                        </p>
-
-                        <h4>¿Por qué importa?</h4>
-                        <p>
-                            Una estructura clara facilita el mantenimiento,
-                            la automatización y la comprobación de los
-                            estados de la interfaz.
-                        </p>
-
+                        <h4 data-i18n="frontWhatRepresents">¿Qué representa?</h4>
+                        <p data-i18n="frontWhatRepresentsDesc">
+                                                    El HTML separa la pantalla de acceso del
+                                                    portfolio que se muestra después del registro.
+                                                    Los identificadores permiten localizar
+                                                    cada elemento desde JavaScript.
+                                                </p>
+                        <h4 data-i18n="frontWhyImportant">¿Por qué importa?</h4>
+                        <p data-i18n="frontStructureWhy">
+                                                    Una estructura clara facilita el mantenimiento,
+                                                    la automatización y la comprobación de los
+                                                    estados de la interfaz.
+                                                </p>
                         <div class="qa-focus">
-                            <strong>Enfoque QA</strong>
-                            Última regresión Selenium documentada:
-                            20/10/2026 — 9 pruebas ejecutadas,
-                            9 PASS, 0 FAIL y 0 SKIP.
-                            La cobertura corresponde a escenarios
-                            automatizados de acceso y validación
-                            ejecutados en Google Chrome.
-                        </div>
+                            <strong data-i18n="frontQaFocus">Enfoque QA</strong><span data-i18n="frontStructureQa">La separación entre la pantalla de acceso y el portfolio permite identificar elementos, verificar estados de visualización y automatizar interacciones mediante Selenium WebDriver.</span></div>
                     </div>
                 </article>
             </div>
+
+            <!-- LABORATORIO INTERACTIVO — ESTRUCTURA HTML -->
+            <div class="frontend-lab" id="html-lab">
+                <div class="frontend-lab-header">
+                    <div>
+                        <span class="frontend-lab-label" data-i18n="frontInteractive">
+                                                    LABORATORIO INTERACTIVO
+                                                </span>
+                        <h3 data-i18n="frontHtmlLabTitle">Explorá la estructura de la interfaz</h3>
+                        <p data-i18n="frontHtmlLabDesc">
+                                                    Seleccioná un elemento para descubrir su función
+                                                    y observar cómo participa en el portfolio.
+                                                </p>
+                    </div>
+                </div>
+                <div aria-label="Elementos HTML" class="frontend-lab-tabs" data-i18n-aria-label="frontHtmlElementsAria" role="group">
+                    <button aria-pressed="true" class="frontend-lab-tab active" data-html-element="accessPage" type="button">
+                                            accessPage
+                                        </button>
+                    <button aria-pressed="false" class="frontend-lab-tab" data-html-element="accessForm" type="button">
+                                            accessForm
+                                        </button>
+                    <button aria-pressed="false" class="frontend-lab-tab" data-html-element="portfolio" type="button">
+                                            portfolio
+                                        </button>
+                </div>
+                <div class="frontend-lab-content">
+                    <div class="frontend-lab-preview">
+                        <span class="frontend-lab-caption" data-i18n="frontStructureView">
+                                                    VISTA DE ESTRUCTURA
+                                                </span>
+                        <div aria-live="polite" class="frontend-lab-tree" id="html-lab-tree"></div>
+                    </div>
+                    <div class="frontend-lab-explanation">
+                        <span class="frontend-lab-caption" data-i18n="frontSelectedElement">
+                                                    ELEMENTO SELECCIONADO
+                                                </span>
+                        <h4 id="html-lab-title"></h4>
+                        <p id="html-lab-description"></p>
+                        <div class="frontend-lab-code">
+                            <code id="html-lab-code"></code>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
-
         <section class="showcase-section" id="validacion">
-            <h2>02. Validación y estados visuales</h2>
-            <p class="section-description">
-                Comunicación visual de errores y campos en foco.
-            </p>
-
+            <h2 data-i18n="frontS2Title">02. Validación y estados visuales</h2>
+            <p class="section-description" data-i18n="frontS2Desc">
+                            Comunicación visual de errores y campos en foco.
+                        </p>
             <div class="showcase-columns">
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Estilos CSS</h3>
+                        <h3 data-i18n="frontCssStyles">Estilos CSS</h3>
                         <span>css/style.css</span>
                     </div>
 
                     <div class="code-block">
                         <div class="code-header">
-                            <span>CSS · estados de campo</span>
-                            <button class="copy-code" type="button">
-                                Copiar código
-                            </button>
+                            <span data-i18n="frontCssStates">CSS · estados de campo</span>
+                            <button class="copy-code" data-i18n="frontCopy" type="button">
+                                                            Copiar código
+                                                        </button>
                         </div>
                         <pre><code>input:focus {
-        border-color: var(--primary);
+                                border-color: var(--primary);
 
-        box-shadow:
-            0 0 0 3px
-            rgba(108, 99, 255, 0.15);
-    }
+                                box-shadow:
+                                    0 0 0 3px
+                                    rgba(108, 99, 255, 0.15);
+                            }
 
-    input.input-error {
-        border-color: var(--error);
-    }
+                            input.input-error {
+                                border-color: var(--error);
+                            }
 
-    .error-message {
-        display: block;
-        color: var(--error);
-        font-size: 12px;
-        margin-top: 6px;
-    }</code></pre>
+                            .error-message {
+                                display: block;
+                                color: var(--error);
+                                font-size: 12px;
+                                margin-top: 6px;
+                            }</code></pre>
                     </div>
 
                     <div class="panel-heading" style="margin-top: 24px;">
-                        <h3>Gestión del error</h3>
+                        <h3 data-i18n="frontErrorManagement">Gestión del error</h3>
                         <span>js/app.js</span>
                     </div>
 
                     <div class="code-block">
                         <div class="code-header">
                             <span>JavaScript · showError</span>
-                            <button class="copy-code" type="button">
-                                Copiar código
-                            </button>
+                            <button class="copy-code" data-i18n="frontCopy" type="button">
+                                                            Copiar código
+                                                        </button>
                         </div>
                         <pre><code>function showError(
-        input,
-        errorId,
-        message
-    ) {
-        input.classList.add("input-error");
+                                input,
+                                errorId,
+                                message
+                            ) {
+                                input.classList.add("input-error");
 
-        document.getElementById(
-            errorId
-        ).textContent = message;
-    }</code></pre>
+                                document.getElementById(
+                                    errorId
+                                ).textContent = message;
+                            }</code></pre>
                     </div>
                 </article>
 
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Explicación</h3>
+                        <h3 data-i18n="frontExplanation">Explicación</h3>
                     </div>
 
                     <div class="explanation-content">
-                        <h4>¿Qué hace el CSS?</h4>
-                        <p>
-                            Resalta el campo activo y distingue los campos
-                            inválidos mediante el color de error. El mensaje
-                            se presenta debajo del campo correspondiente.
-                        </p>
-
-                        <h4>¿Qué hace JavaScript?</h4>
-                        <p>
-                            <code>showError()</code> agrega la clase de error
-                            al campo y coloca el mensaje en el elemento
-                            identificado por <code>errorId</code>.
-                        </p>
-
-                        <h4>¿Qué debería probarse?</h4>
+                        <h4 data-i18n="frontWhatCss">¿Qué hace el CSS?</h4>
+                        <p data-i18n="frontWhatCssDesc">
+                                                    Resalta el campo activo y distingue los campos
+                                                    inválidos mediante el color de error. El mensaje
+                                                    se presenta debajo del campo correspondiente.
+                                                </p>
+                        <h4 data-i18n="frontWhatJs">¿Qué hace JavaScript?</h4>
+                        <p data-i18n="frontJsExplainBefore">showError() agrega la clase de error al campo y coloca el mensaje en el elemento identificado por errorId.</p>
+                        <h4 data-i18n="frontWhatTest">¿Qué debería probarse?</h4>
                         <ul>
-                            <li>Que el error aparezca en el campo correcto.</li>
-                            <li>Que el mensaje sea claro y visible.</li>
-                            <li>Que los errores puedan limpiarse.</li>
-                            <li>Que el foco sea perceptible al navegar.</li>
+                            <li data-i18n="frontCssCheck1">Que el error aparezca en el campo correcto.</li>
+                            <li data-i18n="frontCssCheck2">Que el mensaje sea claro y visible.</li>
+                            <li data-i18n="frontCssCheck3">Que los errores puedan limpiarse.</li>
+                            <li data-i18n="frontCssCheck4">Que el foco sea perceptible al navegar.</li>
                         </ul>
 
                         <div class="qa-focus">
-                            <strong>Enfoque QA</strong>
-                            Comprobar tanto la validación funcional como
-                            la presentación visual del error.
-                        </div>
+                        <strong data-i18n="frontQaFocus">Enfoque QA</strong><span data-i18n="frontCssQa">Comprobar tanto la validación funcional como la presentación visual del error.</span></div>
                     </div>
                 </article>
+            </div>
+
+            <!-- LABORATORIO INTERACTIVO — VALIDACIONES -->
+            <div class="frontend-lab" id="validation-lab">
+                <div class="frontend-lab-header">
+                    <span class="frontend-lab-label" data-i18n="frontInteractive">
+                                            LABORATORIO INTERACTIVO
+                                        </span>
+                    <h3 data-i18n="frontValidationLabTitle">Probá las validaciones del formulario</h3>
+                    <p data-i18n="frontValidationLabDesc">
+                                            Explorá cómo responde la interfaz ante distintos
+                                            datos de entrada. Podés utilizar escenarios guiados
+                                            o realizar tus propias pruebas.
+                                        </p>
+                </div>
+
+                <!-- MODALIDAD 01: PRUEBAS GUIADAS -->
+                <div class="validation-mode">
+                    <div class="validation-mode-heading">
+                        <span class="validation-mode-number">01</span>
+                        <div>
+                        <h4 data-i18n="frontGuided">Pruebas guiadas</h4>
+                        <p data-i18n="frontGuidedDesc">
+                                                        Seleccioná uno de los escenarios disponibles.
+                                                        El sistema completará el campo automáticamente
+                                                        y mostrará el resultado de la validación.
+                                                        Podés comparar casos aprobados y rechazados.
+                                                    </p>
+                        </div>
+                    </div>
+
+                    <div class="validation-scenarios">
+                        <span class="frontend-lab-caption" data-i18n="frontScenarios">
+                                                    ESCENARIOS DE PRUEBA
+                                                </span>
+                        <div class="validation-scenario-buttons">
+                            <button data-demo-email="" data-i18n="frontEmptyField" type="button">
+                                                            Campo vacío
+                                                        </button>
+                            <button data-demo-email="correo-invalido" data-i18n="frontInvalidEmail" type="button">
+                                                            Email inválido
+                                                        </button>
+                            <button data-demo-email="usuario@ejemplo.com" data-i18n="frontValidEmail" type="button">
+                                                            Email válido
+                                                        </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODALIDAD 02: PRUEBA MANUAL -->
+                <div class="validation-mode">
+                    <div class="validation-mode-heading">
+                        <span class="validation-mode-number">02</span>
+                        <div>
+                            <h4 data-i18n="frontManual">Prueba manual</h4>
+                            <p data-i18n="frontManualDesc">
+                                                            Ingresá tus propios datos en el campo
+                                                            «Correo electrónico» y presioná
+                                                            «Ejecutar validación». Probá valores válidos,
+                                                            incorrectos o vacíos para observar las
+                                                            diferentes respuestas. Utilizá «Restablecer»
+                                                            para comenzar una nueva prueba.
+                                                        </p>
+                        </div>
+                    </div>
+
+                    <div class="validation-lab-grid">
+                    <!-- FORMULARIO -->
+                        <div class="validation-lab-form">
+                            <span class="frontend-lab-caption" data-i18n="frontInputData">
+                                                            DATOS DE ENTRADA
+                                                        </span>
+                            <label data-i18n="frontEmailLabel" for="demo-email">
+                                                            Correo electrónico
+                                                        </label>
+                            <input aria-describedby="demo-email-message" autocomplete="off" id="demo-email" placeholder="usuario@ejemplo.com" type="text"/>
+                            <p aria-live="polite" class="validation-lab-message" id="demo-email-message" role="status"></p>
+                            <div class="validation-lab-actions">
+                                <button class="validation-lab-button" data-i18n="frontRunValidation" id="demo-validate" type="button">
+                                                                    Ejecutar validación
+                                                                </button>
+                                <button class="validation-lab-button secondary" data-i18n="frontReset" id="demo-reset" type="button">
+                                                                    Restablecer
+                                                                </button>
+                            </div>
+                        </div>
+                        <!-- RESULTADO -->
+                        <div class="validation-lab-result">
+                            <span class="frontend-lab-caption" data-i18n="frontValidationResult">
+                                                            RESULTADO DE LA VALIDACIÓN
+                                                        </span>
+                            <div aria-live="polite" class="validation-lab-status" data-i18n="frontWaiting" id="demo-validation-result">
+                                                            Esperando datos de entrada.
+                                                        </div>
+                            <p data-i18n="frontValidationNote">
+                                                            Observá si la validación fue aprobada
+                                                            o rechazada y cómo cambia la presentación
+                                                            visual del campo. Esta demostración no
+                                                            almacena información.
+                                                        </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="showcase-section" id="internacionalizacion">
-            <h2>03. Internacionalización</h2>
-            <p class="section-description">
-                Adaptación de los textos al idioma seleccionado.
-            </p>
-
+            <h2 data-i18n="frontS3Title">03. Internacionalización</h2>
+            <p class="section-description" data-i18n="frontS3Desc">
+                            Adaptación de los textos al idioma seleccionado.
+                        </p>
             <div class="showcase-columns">
                 <article class="showcase-panel">
-                    <div class="panel-heading">
-                        <h3>Selección de idioma</h3>
-                        <span>js/app.js</span>
+                <div class="panel-heading">
+                    <h3 data-i18n="frontLanguageSelection">Selección de idioma</h3>
+                    <span>js/app.js</span>
+                </div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>JavaScript · applyLanguage</span>
+                        <button class="copy-code" data-i18n="frontCopy" type="button">
+                                                        Copiar código
+                                                    </button>
                     </div>
+                    <pre><code>function applyLanguage(language) {
+                            const selectedTranslations =
+                                translations[language] || translations.es;
 
-                    <div class="code-block">
-                        <div class="code-header">
-                            <span>JavaScript · applyLanguage</span>
-                            <button class="copy-code" type="button">
-                                Copiar código
-                            </button>
-                        </div>
-                        <pre><code>function applyLanguage(language) {
-        const selectedTranslations =
-            translations[language] || translations.es;
+                            document.documentElement.lang = language;
 
-        document.documentElement.lang = language;
+                            document.querySelectorAll("[data-i18n]")
+                                .forEach(function (element) {
+                                    const key = element.dataset.i18n;
 
-        document.querySelectorAll("[data-i18n]")
-            .forEach(function (element) {
-                const key = element.dataset.i18n;
+                                    if (selectedTranslations[key]) {
+                                        element.textContent =
+                                            selectedTranslations[key];
+                                    }
+                                });
 
-                if (selectedTranslations[key]) {
-                    element.textContent =
-                        selectedTranslations[key];
-                }
-            });
+                            document.querySelectorAll(
+                                "[data-i18n-placeholder]"
+                            ).forEach(function (element) {
+                                const key = element.dataset.i18nPlaceholder;
 
-        document.querySelectorAll(
-            "[data-i18n-placeholder]"
-        ).forEach(function (element) {
-            const key = element.dataset.i18nPlaceholder;
-
-            if (selectedTranslations[key]) {
-                element.placeholder =
-                    selectedTranslations[key];
-            }
-        });
-    }</code></pre>
-                    </div>
+                                if (selectedTranslations[key]) {
+                                    element.placeholder =
+                                        selectedTranslations[key];
+                                }
+                            });
+                        }</code></pre>
+                </div>
                 </article>
 
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Explicación</h3>
+                        <h3 data-i18n="frontExplanation">Explicación</h3>
                     </div>
 
                     <div class="explanation-content">
-                        <h4>¿Cómo funciona?</h4>
-                        <p>
-                            La función obtiene las traducciones del idioma
-                            elegido y actualiza los elementos marcados con
-                            <code>data-i18n</code> y
-                            <code>data-i18n-placeholder</code>.
-                        </p>
-
-                        <h4>¿Por qué importa?</h4>
-                        <p>
-                            Cambiar el idioma implica más que traducir
-                            títulos: también deben actualizarse las
-                            etiquetas, los campos y los mensajes visibles.
-                        </p>
-
-                        <h4>¿Qué debería probarse?</h4>
+                        <h4 data-i18n="frontHowWorks">¿Cómo funciona?</h4>
+                        <p data-i18n="frontI18nHow">La función obtiene las traducciones del idioma elegido y actualiza los elementos marcados con data-i18n y data-i18n-placeholder.</p>
+                        <h4 data-i18n="frontWhyImportant">¿Por qué importa?</h4>
+                        <p data-i18n="frontI18nWhy">
+                                                    Cambiar el idioma implica más que traducir
+                                                    títulos: también deben actualizarse las
+                                                    etiquetas, los campos y los mensajes visibles.
+                                                </p>
+                        <h4 data-i18n="frontWhatTest">¿Qué debería probarse?</h4>
                         <ul>
-                            <li>Español, inglés y portugués.</li>
-                            <li>Etiquetas y placeholders.</li>
-                            <li>El atributo <code>lang</code> del documento.</li>
-                            <li>Que cambiar el idioma no rompa el formulario.</li>
+                            <li data-i18n="frontI18nCheck1">Español, inglés y portugués.</li>
+                            <li data-i18n="frontI18nCheck2">Etiquetas y placeholders.</li>
+                            <li data-i18n="frontI18nLangCheck">El atributo lang del documento.</li>
+                            <li data-i18n="frontI18nCheck4">Que cambiar el idioma no rompa el formulario.</li>
                         </ul>
-
                         <div class="qa-focus">
-                            <strong>Enfoque QA</strong>
-                            Ejecutar pruebas de regresión en los tres idiomas
-                            y comprobar que la interfaz mantenga su
-                            comportamiento.
-                        </div>
+                        <strong data-i18n="frontQaFocus">Enfoque QA</strong><span data-i18n="frontI18nQa">Ejecutar pruebas de regresión en los tres idiomas y comprobar que la interfaz mantenga su comportamiento.</span></div>
                     </div>
                 </article>
             </div>
-        </section>        
+
+            <!-- LABORATORIO INTERACTIVO — INTERNACIONALIZACIÓN -->
+            <div class="frontend-lab" id="language-lab">
+                <div class="frontend-lab-header">
+                    <span class="frontend-lab-label" data-i18n="frontInteractive">
+                                            LABORATORIO INTERACTIVO
+                                        </span>
+                    <h3 data-i18n="frontLanguageLabTitle">Explorá la internacionalización</h3>
+                    <p data-i18n="frontLanguageLabDesc">
+                                            Seleccioná un idioma para observar cómo se adaptan
+                                            las etiquetas, los campos y los botones de una interfaz.
+                                            Esta demostración no modifica el idioma del portfolio.
+                                        </p>
+                </div>
+                <div aria-label="Seleccionar idioma de demostración" class="language-lab-selector" data-i18n-aria-label="frontDemoLanguageAria" role="group">
+                    <button aria-pressed="true" class="active" data-demo-language="es" type="button">
+                                            Español
+                                        </button>
+                    <button aria-pressed="false" data-demo-language="en" type="button">
+                                            English
+                                        </button>
+                    <button aria-pressed="false" data-demo-language="pt" type="button">
+                                            Português
+                                        </button>
+                </div>
+                <!-- ESCENARIOS GUIADOS DE INTERNACIONALIZACIÓN -->
+                <div class="language-demo-scenarios">
+                    <h4 data-i18n="frontDemoScenariosTitle">
+                                            Escenarios de prueba
+                                        </h4>
+                    <p data-i18n="frontDemoScenariosDescription">
+                                            Seleccioná un escenario para comprobar las validaciones
+                                            y sus mensajes en diferentes idiomas.
+                                        </p>
+                    <div class="language-demo-scenario-buttons">
+                        <button data-language-scenario="empty" data-i18n="frontDemoScenarioEmpty">
+                                                    Formulario vacío
+                                                </button>
+                        <button data-language-scenario="invalid" data-i18n="frontDemoScenarioInvalid">
+                                                    Datos inválidos
+                                                </button>
+                        <button data-language-scenario="valid" data-i18n="frontDemoScenarioValid">
+                                                    Datos válidos
+                                                </button>
+                    </div>
+                </div>
+                <div class="language-lab-preview" lang="es">
+                    <div class="language-lab-heading">
+                        <h4 data-demo-translation="title">
+                                                    Formulario de contacto
+                                                </h4>
+                        <span id="language-lab-current">ES</span>
+                    </div>
+                    <div class="language-lab-fields">
+                        <label data-demo-translation="name" for="language-demo-name">
+                                                    Nombre
+                                                </label>
+                        <input id="language-demo-name" placeholder="QA Tester" type="text"/>
+                        <p aria-live="polite" class="language-field-message" id="language-name-error"></p>
+                        <label data-demo-translation="email" for="language-demo-email">
+                                                    Correo electrónico
+                                                </label>
+                        <input id="language-demo-email" placeholder="qa@ejemplo.com" type="text"/>
+                        <p aria-live="polite" class="language-field-message" id="language-email-error"></p>
+                        <label data-demo-translation="message" for="language-demo-message">
+                                                    Mensaje
+                                                </label>
+                        <textarea id="language-demo-message" placeholder="Escribí tu mensaje..." rows="3"></textarea>
+                        <p aria-live="polite" class="language-field-message" id="language-message-error"></p>
+                        <button data-demo-translation="send" id="language-demo-submit" type="button">
+                                                    Validar formulario
+                                                </button>
+                        <p aria-live="polite" class="language-demo-result" id="language-demo-result" role="status"></p>
+                    </div>
+                    <div aria-live="polite" class="language-lab-feedback" id="language-lab-feedback" role="status">
+                                            Interfaz en español.
+                                        </div>
+                </div>
+            </div>
+        </section>
         <section class="showcase-section" id="pruebas-automatizadas">
-            <h2>04. Pruebas automatizadas</h2>
-
-            <p class="section-description">
-                Cobertura automatizada del frontend mediante Selenium WebDriver,
-                con regresión ejecutada en Chrome, Firefox y Edge.
-            </p>
-
+            <h2 data-i18n="frontS4Title">04. Pruebas automatizadas</h2>
+            <p class="section-description" data-i18n="frontS4Desc">
+                            Cobertura automatizada del frontend mediante Selenium WebDriver,
+                            con regresión ejecutada en Chrome, Firefox y Edge.
+                        </p>
             <div class="showcase-columns">
-
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Suite Selenium</h3>
+                        <h3 data-i18n="frontSeleniumSuite">Suite Selenium</h3>
                         <span>tests/selenium</span>
                     </div>
 
@@ -692,78 +1763,861 @@
                             <li><code>valid-registration.test.js</code></li>
                             <li><code>contact-valid.test.js</code></li>
                             <li><code>contact-empty.test.js</code></li>
+                            <li><code>contact-server-error.test.js</code></li>
                         </ul>
                     </div>
                 </article>
 
                 <article class="showcase-panel">
                     <div class="panel-heading">
-                        <h3>Cobertura y resultados</h3>
+                        <h3 data-i18n="frontCoverage">Cobertura y resultados</h3>
                     </div>
 
                     <div class="explanation-content">
-                        <h4>¿Qué se automatiza?</h4>
-                        <p>
-                            Validaciones del formulario de acceso, consentimiento,
-                            registro válido, selección de idioma y comportamiento
-                            del formulario de contacto.
-                        </p>
-
-                        <h4>¿Cómo se ejecutan las pruebas?</h4>
-                        <p>
-                            Selenium WebDriver interactúa con la interfaz y
-                            Node.js Test Runner ejecuta las aserciones.
-                            Las pruebas de contacto utilizan una API Express
-                            con SQLite en memoria y un servicio de correo
-                            simulado, sin realizar envíos SMTP reales.
-                        </p>
-                        
-                        <h4>Última regresión · 21/10/2026</h4>
-                        <p>
-                            12 escenarios automatizados ejecutados en Google Chrome,
-                            Mozilla Firefox y Microsoft Edge:
-                            <strong>36 PASS, 0 FAIL y 0 SKIP.</strong>
-                            La cobertura incluye el manejo de errores del
-                            formulario de contacto mediante una API simulada.
-                        </p>
-
+                        <h4 data-i18n="frontWhatAutomated">¿Qué se automatiza?</h4>
+                        <p data-i18n="frontWhatAutomatedDesc">
+                                                    Validaciones del formulario de acceso, consentimiento,
+                                                    registro válido, selección de idioma y comportamiento
+                                                    del formulario de contacto.
+                                                </p>
+                        <h4 data-i18n="frontHowTests">¿Cómo se ejecutan las pruebas?</h4>
+                        <p data-i18n="frontHowTestsDesc">
+                                                    Selenium WebDriver interactúa con la interfaz y
+                                                    Node.js Test Runner ejecuta las aserciones.
+                                                    Las pruebas de contacto utilizan una API Express
+                                                    con SQLite en memoria y un servicio de correo
+                                                    simulado, sin realizar envíos SMTP reales.
+                                                </p>
+                        <h4 data-i18n="frontLastRegression">Última regresión · 21/10/2026</h4>
+                        <p><span data-i18n="frontRegressionScenarios">
+                                                    12 escenarios automatizados ejecutados en Google Chrome,
+                                                    Mozilla Firefox y Microsoft Edge:</span>
+                                                    <strong data-i18n="frontRegressionMetrics">36 PASS, 0 FAIL y 0 SKIP.</strong>
+                                                    <span data-i18n="frontRegressionContactCoverage">La cobertura incluye el manejo de errores del
+                                                    formulario de contacto mediante una API simulada.</span>
+                                                </p>
                         <div class="qa-focus">
-                            <strong>Enfoque QA</strong>
-                            Esta sección presenta la estructura y el alcance
-                            de la automatización. Los escenarios desplegables,
-                            sus aserciones y la evidencia de ejecución se
-                            documentan en el área QA.
-                        </div>
+                        <strong data-i18n="frontQaFocus">Enfoque QA</strong><span data-i18n="frontSeleniumQa">Esta sección presenta la estructura y el alcance de la automatización. Los escenarios desplegables, sus aserciones y la evidencia de ejecución se documentan en el área QA.</span></div>
                     </div>
                 </article>
+            </div>
 
+            <!-- LABORATORIO INTERACTIVO — SELENIUM -->
+            <div class="frontend-lab" id="selenium-lab">
+                <div class="frontend-lab-header">
+                    <span class="frontend-lab-label" data-i18n="frontInteractive">
+                                            LABORATORIO INTERACTIVO
+                                        </span>
+                    <h3 data-i18n="frontSeleniumLabTitle">Explorá la automatización del frontend</h3>
+                    <p data-i18n="frontSeleniumLabDesc">
+                                            Seleccioná una prueba para conocer qué comportamiento
+                                            verifica Selenium y cómo se comprueba el resultado.
+                                            Este explorador no ejecuta pruebas reales.
+                                        </p>
+                </div>
+                <div aria-label="Seleccionar escenario automatizado" class="selenium-lab-selector" data-i18n-aria-label="frontSeleniumAria" role="group">
+                    <button aria-pressed="true" class="active" data-selenium-test="UI-001" type="button">
+                                            UI-001
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-002" type="button">
+                                            UI-002
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-003" type="button">
+                                            UI-003
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-004" type="button">
+                                            UI-004
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-005" type="button">
+                                            UI-005
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-006" type="button">
+                                            UI-006
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-007" type="button">
+                                            UI-007
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-008" type="button">
+                                            UI-008
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-009" type="button">
+                                            UI-009
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-010" type="button">
+                                            UI-010
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-011" type="button">
+                                            UI-011
+                                        </button>
+                    <button aria-pressed="false" data-selenium-test="UI-015" type="button">
+                                            UI-015
+                                        </button>
+                </div>
+                <div aria-live="polite" class="selenium-lab-detail">
+                    <div class="selenium-lab-detail-heading">
+                        <span id="selenium-lab-id">UI-001</span>
+                        <h4 data-i18n="frontUi001Title" id="selenium-lab-title">
+                                                    Carga de la página
+                                                </h4>
+                    </div>
+                    <p data-i18n="frontUi001Objective" id="selenium-lab-objective">
+                                            Verificar que la página de acceso se abre
+                                            correctamente y muestra el formulario.
+                                        </p>
+                    <div class="selenium-lab-grid">
+                        <div class="selenium-lab-item">
+                            <h5 data-i18n="frontAction">Acción automatizada</h5>
+                            <p data-i18n="frontUi001Action" id="selenium-lab-action">
+                                                            Selenium abre la página de acceso.
+                                                        </p>
+                        </div>
+                        <div class="selenium-lab-item">
+                            <h5 data-i18n="frontCheck">Comprobación</h5>
+                            <p data-i18n="frontUi001Check" id="selenium-lab-check">
+                                                            Se comprueba el título y la visibilidad
+                                                            del formulario.
+                                                        </p>
+                        </div>
+                    </div>
+                </div>
+                <p class="selenium-lab-note" data-i18n="frontSeleniumNote">
+                                    La ejecución real y sus evidencias se documentan
+                                    en la sección de QA del portfolio.
+                                </p>
             </div>
         </section>
-    </main> 
-    
+    </main>
     <footer class="cv-bottom-bar">
-        <a class="cv-back-button" href="index.html#qa">
-            <span class="button-brace" aria-hidden="true">{</span>
-            Volver a QA
-            <span class="button-brace" aria-hidden="true">}</span>
-        </a>
-    </footer>
-    <script src="js/code-showcase.js"></script>
-    
-    <script>
-        // Cerrar el índice después de elegir una sección.
-        const showcaseIndex = document.getElementById(
-            'indice-contenidos'
-        );
+    <a class="cv-back-button" data-i18n="frontBack" href="index.html#qa">            
+                Volver a QUALITY ASSURANCE            
+    </a>
+    <div class="cv-language-selector"><select aria-label="Seleccionar idioma" class="cv-language-select" data-i18n-aria-label="frontFooterLanguageAria" id="cv-language-select"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></select></div></footer>
+        
+        <script src="js/translations.js"></script>
+        <script src="js/page-i18n.js"></script>
+        <script>
+            // Shared translation helper for dynamic lab output; no event listeners added.
+            window.frontTr = function (key, fallback) {
+                const lang = localStorage.getItem("portfolioLanguage") || "es";
+                const dictionary = window.portfolioTranslations?.[lang] || window.portfolioTranslations?.es;
+                return dictionary?.[key] ?? fallback;
+            };
+        </script>
+        <script src="js/code-showcase.js"></script>
+        
+        <script>
+            // Cerrar el índice después de elegir una sección.
+            const showcaseIndex = document.getElementById(
+                'indice-contenidos'
+            );
 
-        if (showcaseIndex) {
-            showcaseIndex.querySelectorAll('.index-link').forEach((link) => {
-                link.addEventListener('click', () => {
-                    showcaseIndex.open = false;
+            if (showcaseIndex) {
+                showcaseIndex.querySelectorAll('.index-link').forEach((link) => {
+                    link.addEventListener('click', () => {
+                        showcaseIndex.open = false;
+                    });
                 });
-            });
-        }
-    </script>
+            }
+        </script>
+        <script>
+            // Laboratorio interactivo — Estructura HTML
+            (() => {
+                const lab = document.getElementById("html-lab");
+
+                if (!lab) return;
+
+                const elements = {
+                    accessPage: {
+                        title: "Pantalla de acceso",
+                        description:
+                            "Contenedor principal de la pantalla de acceso. " +
+                            "Agrupa el formulario que permite ingresar al portfolio.",
+                        code: '<main id="accessPage" class="access-page">',
+                        tree:
+                            '<main id="accessPage">\n' +
+                            '  └── <form id="accessForm">\n' +
+                            '        └── Campos de registro'
+                    },
+
+                    accessForm: {
+                        title: "Formulario de acceso",
+                        description:
+                            "Agrupa los campos de registro y permite ejecutar " +
+                            "las validaciones antes de procesar la información.",
+                        code: '<form id="accessForm" novalidate>',
+                        tree:
+                            '<main id="accessPage">\n' +
+                            '  └── <form id="accessForm">  ← SELECCIONADO\n' +
+                            '        └── Campos de registro'
+                    },
+
+                    portfolio: {
+                        title: "Contenido del portfolio",
+                        description:
+                            "Contenedor del portfolio profesional. " +
+                            "Se presenta después de completar correctamente " +
+                            "el proceso de acceso.",
+                        code: '<div id="portfolio" class="portfolio hidden">',
+                        tree:
+                            '<div id="portfolio">  ← SELECCIONADO\n' +
+                            '  ├── Sobre mí\n' +
+                            '  ├── Especialidades\n' +
+                            '  ├── Proyectos\n' +
+                            '  └── Contacto'
+                    }
+                };
+
+                const tabs = lab.querySelectorAll("[data-html-element]");
+                const title = document.getElementById("html-lab-title");
+                const description = document.getElementById("html-lab-description");
+                const code = document.getElementById("html-lab-code");
+                const tree = document.getElementById("html-lab-tree");
+
+                function showElement(key) {
+                    const element = elements[key];
+
+                    if (!element) return;
+
+                    const htmlKeys = {
+                        accessPage: ["frontHtmlAccessTitle", "frontHtmlAccessDesc"],
+                        accessForm: ["frontHtmlFormTitle", "frontHtmlFormDesc"],
+                        portfolio: ["frontHtmlPortfolioTitle", "frontHtmlPortfolioDesc"]
+                    };
+                    title.textContent = frontTr(htmlKeys[key][0], element.title);
+                    description.textContent = frontTr(htmlKeys[key][1], element.description);
+                    code.textContent = element.code;
+                    tree.replaceChildren();
+
+                    const fragment = document.createDocumentFragment();
+                    const treeWords = {
+                        "Campos de registro": "frontHtmlTreeFields",
+                        "SELECCIONADO": "frontHtmlTreeSelected",
+                        "Sobre mí": "frontHtmlTreeAbout",
+                        "Especialidades": "frontHtmlTreeSpecialties",
+                        "Proyectos": "frontHtmlTreeProjects",
+                        "Contacto": "frontHtmlTreeContact"
+                    };
+                    let translatedTree = element.tree;
+                    Object.entries(treeWords).forEach(([word, translationKey]) => {
+                        translatedTree = translatedTree.replaceAll(word, frontTr(translationKey, word));
+                    });
+                    const lines = translatedTree.split("\n");
+
+                    lines.forEach((line, index) => {
+                        const lineElement = document.createElement("div");
+                        lineElement.className = "html-tree-line";
+
+                        if (line.includes("← " + frontTr("frontHtmlTreeSelected", "SELECCIONADO"))) {
+                            lineElement.classList.add("selected");
+                        }
+
+                        const parts = line.split(/(<[^>]+>)/g);
+
+                        parts.forEach(part => {
+                            if (!part) return;
+
+                            const span = document.createElement("span");
+
+                            if (part.startsWith("<") && part.endsWith(">")) {
+                                span.className = "html-tree-tag";
+                            } else {
+                                span.className = "html-tree-text";
+                            }
+
+                            span.textContent = part;
+                            lineElement.appendChild(span);
+                        });
+
+                        fragment.appendChild(lineElement);
+                    });
+
+                    tree.appendChild(fragment);
+
+                    tabs.forEach(tab => {
+                        const active = tab.dataset.htmlElement === key;
+
+                        tab.classList.toggle("active", active);
+                        tab.setAttribute("aria-pressed", String(active));
+                    });
+                }
+
+                tabs.forEach(tab => {
+                    tab.addEventListener("click", () => {
+                        showElement(tab.dataset.htmlElement);
+                    });
+                });
+
+                showElement("accessPage");
+            })();
+            
+        </script>
+        <script>
+        // FRONTEND — Laboratorio interactivo de validaciones
+            (() => {
+                const input = document.getElementById("demo-email");
+                const validateButton = document.getElementById("demo-validate");
+                const resetButton = document.getElementById("demo-reset");
+                const message = document.getElementById("demo-email-message");
+                const result = document.getElementById("demo-validation-result");
+
+                if (!input || !validateButton || !resetButton || !message || !result) {
+                    return;
+                }
+
+                function resetVisualState() {
+                    input.classList.remove("demo-valid", "demo-invalid");
+                    input.removeAttribute("aria-invalid");
+
+                    message.textContent = "";
+                    message.className = "validation-lab-message";
+
+                    result.textContent = frontTr("frontWaiting", "Esperando datos de entrada.");
+                    result.className = "validation-lab-status";
+                }
+
+                function validateEmail() {
+                    const email = input.value.trim();
+
+                    // Regla de demostración; no sustituye la validación real.
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                    const isValid = email.length <= 254 && emailRegex.test(email);
+
+                    input.classList.remove("demo-valid", "demo-invalid");
+                    message.className = "validation-lab-message";
+                    result.className = "validation-lab-status";
+
+                    if (!email) {
+                        input.classList.add("demo-invalid");
+                        input.setAttribute("aria-invalid", "true");
+
+                        message.textContent = frontTr("frontEmailRequired", "El correo electrónico es obligatorio.");
+                        message.classList.add("error");
+
+                        result.textContent = frontTr("frontRejectedEmpty", "VALIDACIÓN RECHAZADA — Campo vacío.");
+                        result.classList.add("error");
+
+                        return;
+                    }
+
+                    if (!isValid) {
+                        input.classList.add("demo-invalid");
+                        input.setAttribute("aria-invalid", "true");
+
+                        message.textContent = frontTr("frontEmailFormat", "Ingresá un correo electrónico válido.");
+                        message.classList.add("error");
+
+                        result.textContent = frontTr("frontRejectedFormat", "VALIDACIÓN RECHAZADA — Formato incorrecto.");
+                        result.classList.add("error");
+
+                        return;
+                    }
+
+                    input.classList.add("demo-valid");
+                    input.setAttribute("aria-invalid", "false");
+
+                    message.textContent = frontTr("frontEmailOk", "Correo electrónico válido.");
+                    message.classList.add("success");
+
+                    result.textContent = frontTr("frontApprovedFormat", "VALIDACIÓN APROBADA — Formato correcto.");
+                    result.classList.add("success");
+                }
+                // Escenarios de prueba precargados
+                const scenarioButtons = document.querySelectorAll(
+                    "#validation-lab [data-demo-email]"
+                );
+
+                scenarioButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        input.value = button.dataset.demoEmail;
+
+                        scenarioButtons.forEach(item => {
+                            item.classList.toggle("active", item === button);
+                        });
+
+                        validateEmail();
+
+                        // Mantener visibles los botones de escenarios
+                        // mientras se muestra el resultado.
+                        const escenarios = document.querySelector(
+                            "#validation-lab .validation-scenarios"
+                        );
+
+                        if (escenarios) {
+                            const encabezado = document.querySelector(".navbar");
+                            const alturaEncabezado = encabezado
+                                ? encabezado.getBoundingClientRect().height
+                                : 0;
+
+                            const posicion = escenarios.getBoundingClientRect().top
+                                + window.scrollY
+                                - alturaEncabezado
+                                - 16;
+
+                            window.scrollTo({
+                                top: Math.max(0, posicion),
+                                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                                    ? "instant"
+                                    : "smooth"
+                            });
+                        }
+                    });
+                });
+
+                // Al editar manualmente, quitar la selección del escenario.
+                input.addEventListener("input", () => {
+                    scenarioButtons.forEach(button => {
+                        button.classList.remove("active");
+                    });
+                });
+
+                // Al restablecer, quitar la selección del escenario.
+                resetButton.addEventListener("click", () => {
+                    scenarioButtons.forEach(button => {
+                        button.classList.remove("active");
+                    });
+                });
+
+
+                validateButton.addEventListener("click", validateEmail);
+
+                resetButton.addEventListener("click", () => {
+                    input.value = "";
+                    resetVisualState();
+                    input.focus();
+                });
+
+                input.addEventListener("input", resetVisualState);
+            })();
+        </script>
+        <script>
+            (() => {
+                const lab = document.getElementById("language-lab");
+                if (!lab) return;
+
+                const preview = lab.querySelector(".language-lab-preview");
+                const buttons = lab.querySelectorAll("[data-demo-language]");
+                const current = document.getElementById("language-lab-current");
+                const feedback = document.getElementById("language-lab-feedback");
+                const result = document.getElementById("language-demo-result");
+
+                const fields = {
+                    name: document.getElementById("language-demo-name"),
+                    email: document.getElementById("language-demo-email"),
+                    message: document.getElementById("language-demo-message")
+                };
+
+                const translations = {
+                    es: {
+                        title: "Formulario de contacto",
+                        name: "Nombre",
+                        namePlaceholder: "Ej.: Juan Pérez",
+                        email: "Correo electrónico",
+                        message: "Mensaje",
+                        send: "Validar formulario",
+                        placeholder: "Escribí tu mensaje...",
+                        feedback: "Interfaz en español.",
+                        errors: {
+                            name: "Ingresá un nombre de 3 a 50 caracteres, utilizando solamente letras.",
+                            email: "Ingresá un correo electrónico válido (máximo 254 caracteres).",
+                            message: "Ingresá un mensaje de hasta 5000 caracteres."
+                        },
+                        success: "Todos los campos son válidos.",
+                        scenariosTitle: "Escenarios de prueba",
+                        scenariosDescription: "Seleccioná un escenario para comprobar las validaciones y sus mensajes en diferentes idiomas.",
+                        scenarioEmpty: "Formulario vacío",
+                        scenarioInvalid: "Datos inválidos",
+                        scenarioValid: "Datos válidos",
+                    },
+                    en: {
+                        title: "Contact form",
+                        name: "Name",
+                        namePlaceholder: "E.g.: John Smith",
+                        email: "Email address",
+                        message: "Message",
+                        send: "Validate form",
+                        placeholder: "Write your message...",
+                        feedback: "Interface in English.",
+                        errors: {
+                            name: "Enter a name between 3 and 50 characters, using letters only.",
+                            email: "Enter a valid email address (maximum 254 characters).",
+                            message: "Enter a message of up to 5000 characters."
+                        },
+                        success: "All fields are valid.",
+                        scenariosTitle: "Test scenarios",
+                        scenariosDescription: "Select a scenario to check validations and their messages in different languages.",
+                        scenarioEmpty: "Empty form",
+                        scenarioInvalid: "Invalid data",
+                        scenarioValid: "Valid data",
+                    },
+                    pt: {
+                        title: "Formulário de contato",
+                        name: "Nome",
+                        namePlaceholder: "Ex.: João Silva",
+                        email: "E-mail",
+                        message: "Mensagem",
+                        send: "Validar formulário",
+                        placeholder: "Escreva sua mensagem...",
+                        feedback: "Interface em português.",
+                        errors: {
+                            name: "Digite um nome de 3 a 50 caracteres, usando apenas letras.",
+                            email: "Digite um endereço de e-mail válido (máximo de 254 caracteres).",
+                            message: "Digite uma mensagem de até 5000 caracteres."
+                        },
+                        success: "Todos os campos são válidos.",
+                        scenariosTitle: "Cenários de teste",
+                        scenariosDescription: "Selecione um cenário para verificar as validações e suas mensagens em diferentes idiomas.",
+                        scenarioEmpty: "Formulário vazio",
+                        scenarioInvalid: "Dados inválidos",
+                        scenarioValid: "Dados válidos",
+                    }
+                };
+
+                let activeLanguage = "es";
+                const submitButton = document.getElementById("language-demo-submit");
+
+                const errorElements = {
+                    name: document.getElementById("language-name-error"),
+                    email: document.getElementById("language-email-error"),
+                    message: document.getElementById("language-message-error")
+                };
+
+                let hasValidated = false;
+
+                function validateDemoForm() {
+                    const selected = translations[activeLanguage];
+
+                    const values = {
+                        name: fields.name.value.trim(),
+                        email: fields.email.value.trim(),
+                        message: fields.message.value.trim()
+                    };
+
+                    const nameValid =
+                        values.name.length >= 3 &&
+                        values.name.length <= 50 &&
+                        /^[\p{L}\s'’-]+$/u.test(values.name);
+
+                    const emailValid =
+                        values.email.length <= 254 &&
+                        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email);
+
+                    const messageValid =
+                        values.message.length > 0 &&
+                        values.message.length <= 5000;
+
+                    const validation = {
+                        name: nameValid,
+                        email: emailValid,
+                        message: messageValid
+                    };
+
+                    Object.entries(validation).forEach(([key, valid]) => {
+                        const field = fields[key];
+                        const error = errorElements[key];
+
+                        field.classList.toggle("demo-field-error", !valid);
+                        field.classList.toggle("demo-field-valid", valid);
+                        field.setAttribute("aria-invalid", String(!valid));
+
+                        error.textContent = valid ? "" : selected.errors[key];
+                    });
+
+                    const allValid = Object.values(validation).every(Boolean);
+
+                    result.className = allValid
+                        ? "language-demo-result success"
+                        : "language-demo-result error";
+
+                    result.textContent = allValid
+                        ? selected.success
+                        : Object.entries(validation)
+                            .filter(([, valid]) => !valid)
+                            .map(([key]) => selected.errors[key])
+                            .join(" ");
+
+                    hasValidated = true;
+                }
+                const scenarioButtons = lab.querySelectorAll(
+                    "[data-language-scenario]"
+                );
+
+                const scenarios = {
+                    empty: {
+                        name: "",
+                        email: "",
+                        message: ""
+                    },
+                    invalid: {
+                        name: "Juan123",
+                        email: "correo-invalido",
+                        message: ""
+                    },
+                    valid: {
+                        name: "Juan Pérez",
+                        email: "juan@example.com",
+                        message: "Mensaje de prueba válido."
+                    }
+                };
+
+                scenarioButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        const scenario = scenarios[button.dataset.languageScenario];
+                        if (!scenario) return;
+
+                        fields.name.value = scenario.name;
+                        fields.email.value = scenario.email;
+                        fields.message.value = scenario.message;
+
+                        scenarioButtons.forEach(item => {
+                            const active = item === button;
+                            item.classList.toggle("active", active);
+                            item.setAttribute("aria-pressed", String(active));
+                        });
+
+                        validateDemoForm();
+                    });
+                });
+
+                function applyDemoLanguage(language) {
+                    const selected = translations[language];
+                    if (!selected) return;
+
+                    activeLanguage = language;
+                    preview.lang = language;
+
+                    lab.querySelectorAll("[data-demo-translation]").forEach(element => {
+                        const key = element.dataset.demoTranslation;
+                        if (selected[key]) {
+                            element.textContent = selected[key];
+                        }
+                    });
+
+                    fields.message.placeholder = selected.placeholder;
+                    fields.name.placeholder = selected.namePlaceholder;
+                    
+                    current.textContent = language.toUpperCase();
+                    feedback.textContent = selected.feedback;
+
+                    buttons.forEach(button => {
+                        const active = button.dataset.demoLanguage === language;
+                        button.classList.toggle("active", active);
+                        button.setAttribute("aria-pressed", String(active));
+                    });
+
+                    // Volveremos a validar al cambiar el idioma
+                    // cuando incorporemos la lógica del formulario.
+                    if (hasValidated) {
+                        validateDemoForm();
+                    } else {
+                        result.textContent = "";
+                        result.className = "language-demo-result";
+                    }
+                }
+
+                buttons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        applyDemoLanguage(button.dataset.demoLanguage);
+                    });
+                });
+                submitButton.addEventListener("click", validateDemoForm);
+
+                Object.values(fields).forEach(field => {
+                    field.addEventListener("input", () => {
+                        if (hasValidated) {
+                            validateDemoForm();
+                        }
+                    });
+                });
+                applyDemoLanguage("es");
+            })();
+        </script>
+        <script>
+            (() => {
+                const lab = document.getElementById("selenium-lab");
+                if (!lab) return;
+
+                const buttons = lab.querySelectorAll("[data-selenium-test]");
+
+                const elements = {
+                    id: document.getElementById("selenium-lab-id"),
+                    title: document.getElementById("selenium-lab-title"),
+                    objective: document.getElementById("selenium-lab-objective"),
+                    action: document.getElementById("selenium-lab-action"),
+                    check: document.getElementById("selenium-lab-check")
+                };
+
+                const tests = {
+                    "UI-001": {
+                        title: "Carga de la página",
+                        objective:
+                            "Verificar que la página de acceso se abre correctamente y que el formulario está visible.",
+                        action:
+                            "Selenium abre la página de acceso y localiza el formulario y sus campos principales.",
+                        check:
+                            "Se comprueba el título de la página y que los elementos esperados están visibles."
+                    },
+
+                    "UI-002": {
+                        title: "Formulario vacío",
+                        objective:
+                            "Verificar que el formulario de acceso no permita continuar cuando faltan datos obligatorios.",
+                        action:
+                            "Selenium intenta enviar el formulario sin completar los campos.",
+                        check:
+                            "Se verifica que el formulario rechaza la operación y permanece en la página de acceso."
+                    },
+
+                    "UI-003": {
+                        title: "Correo electrónico inválido",
+                        objective:
+                            "Verificar que un correo electrónico con formato incorrecto sea rechazado.",
+                        action:
+                            "Selenium introduce un correo inválido junto con los demás datos necesarios.",
+                        check:
+                            "Se comprueba que la validación impide continuar con el registro."
+                    },
+                                    
+                    "UI-004": {
+                        title: "Nombre demasiado corto",
+                        objective:
+                            "Verificar que el formulario rechace un nombre que no cumple la longitud mínima.",
+                        action:
+                            "Selenium completa el formulario utilizando un nombre demasiado corto.",
+                        check:
+                            "Se verifica que la validación impide acceder al portfolio."
+                    },
+
+                    "UI-005": {
+                        title: "Apellido demasiado corto",
+                        objective:
+                            "Verificar que el formulario rechace un apellido que no cumple la longitud mínima.",
+                        action:
+                            "Selenium completa el formulario utilizando un apellido demasiado corto.",
+                        check:
+                            "Se verifica que la validación impide acceder al portfolio."
+                    },
+
+                    "UI-006": {
+                        title: "Teléfono demasiado corto",
+                        objective:
+                            "Verificar que el formulario rechace un número telefónico que no cumple la longitud mínima.",
+                        action:
+                            "Selenium introduce un teléfono demasiado corto en el formulario de acceso.",
+                        check:
+                            "Se verifica que la validación impide acceder al portfolio."
+                    },
+
+                    "UI-007": {
+                        title: "Consentimiento obligatorio",
+                        objective:
+                            "Comprobar que no se permite acceder al portfolio sin aceptar el consentimiento.",
+                        action:
+                            "Selenium completa los datos personales, deja desmarcado el consentimiento e intenta acceder.",
+                        check:
+                            "Se comprueba que aparece el mensaje de consentimiento obligatorio y que el portfolio permanece oculto."
+                    },
+
+                    "UI-008": {
+                        title: "Registro válido",
+                        objective:
+                            "Comprobar que un registro correctamente completado permite acceder al portfolio.",
+                        action:
+                            "Selenium completa los campos, acepta el consentimiento y presiona el botón de acceso.",
+                        check:
+                            "Se comprueba que el portfolio se muestra, que la pantalla de acceso queda oculta y que aparece el saludo personalizado."
+                    },
+
+                    "UI-009": {
+                        title: "Selector de idioma",
+                        objective:
+                            "Verificar el cambio de idioma de la pantalla de acceso.",
+                        action:
+                            "Selenium interactúa con el selector de idiomas de la interfaz.",
+                        check:
+                            "Se verifica que la pantalla de acceso cambia al idioma seleccionado."
+                    },
+
+                    "UI-010": {
+                        title: "Contacto válido",
+                        objective:
+                            "Verificar que un mensaje válido muestra la confirmación de envío.",
+                        action:
+                            "Selenium completa el formulario de contacto con datos válidos y solicita el envío.",
+                        check:
+                            "Se comprueba que la interfaz presenta la confirmación correspondiente."
+                    },
+
+                    "UI-011": {
+                        title: "Mensaje de contacto vacío",
+                        objective:
+                            "Verificar que no se permita enviar el formulario de contacto con un mensaje vacío.",
+                        action:
+                            "Selenium intenta enviar el formulario de contacto sin ingresar un mensaje.",
+                        check:
+                            "Se comprueba que la interfaz rechaza el envío."
+                    },
+
+                    "UI-015": {
+                        title: "Error HTTP 500",
+                        objective:
+                            "Verificar cómo responde el formulario de contacto ante un error interno del servidor.",
+                        action:
+                            "Selenium ejecuta el escenario de contacto preparado para recibir una respuesta HTTP 500.",
+                        check:
+                            "Se verifica que el formulario gestione el error sin mostrar una confirmación de envío exitoso."
+                    }
+
+                };
+
+                function showTest(testId) {
+                    const test = tests[testId];
+                    if (!test) return;
+
+                    elements.id.textContent = testId;
+                    elements.title.textContent = frontTr("frontUi" + testId.slice(3) + "Title", test.title);
+                    elements.objective.textContent = frontTr("frontUi" + testId.slice(3) + "Objective", test.objective);
+                    elements.action.textContent = frontTr("frontUi" + testId.slice(3) + "Action", test.action);
+                    elements.check.textContent = frontTr("frontUi" + testId.slice(3) + "Check", test.check);
+
+                    buttons.forEach(button => {
+                        const active = button.dataset.seleniumTest === testId;
+
+                        button.classList.toggle("active", active);
+                        button.setAttribute("aria-pressed", String(active));
+                    });
+                }
+
+                buttons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        showTest(button.dataset.seleniumTest);
+                    });
+                });
+
+                showTest("UI-001");
+            })();
+            </script>
+            <script>
+                /* Cerrar el menú al utilizar el buscador */
+
+                document.addEventListener("DOMContentLoaded", () => {
+                    const menu = document.getElementById("indice-contenidos");
+                    const buscador = document.getElementById("portfolio-search-input");
+
+                    if (!menu || !buscador) return;
+
+                    const cerrarMenu = () => {
+                        if (menu.open) {
+                            menu.open = false;
+                        }
+                    };
+
+                    buscador.addEventListener("focus", cerrarMenu);
+                    buscador.addEventListener("input", cerrarMenu);
+                });
+            </script>
+
+            <script src="js/search.js" defer></script>
 
 </body>
 </html>

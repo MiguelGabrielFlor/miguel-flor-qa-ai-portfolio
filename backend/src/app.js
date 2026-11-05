@@ -25,7 +25,11 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
         if (!validation.valid) {
             return res.status(400).json({
                 message: 'Los datos enviados no son válidos.',
-                errors: validation.errors
+                errors: validation.errors,
+                persistencia: {
+                    insercionEjecutada: false,
+                    motivo: 'La validación rechazó la solicitud antes de ejecutar INSERT.'
+                }
             });
         }
 
@@ -42,12 +46,30 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
                 email.trim(),
                 telefono.trim()
             );
+            const visitorId = Number(result.lastInsertRowid);
+
+            const registroVerificado = db.prepare(`
+                SELECT id, consentimiento, created_at
+                FROM visitors
+                WHERE id = ?
+            `).get(visitorId);
+
+            if (!registroVerificado) {
+                throw new Error('No se pudo verificar el registro en SQLite.');
+            }
 
             return res.status(201).json({
                 message: 'Registro creado correctamente.',
                 visitor: {
-                    id: Number(result.lastInsertRowid),
+                    id: visitorId,
                     nombre: nombre.trim()
+                },
+                persistencia: {
+                    verificada: true,
+                    motor: 'SQLite',
+                    registroId: registroVerificado.id,
+                    consentimiento: registroVerificado.consentimiento === 1,
+                    fechaRegistro: registroVerificado.created_at
                 }
             });
         } catch (error) {

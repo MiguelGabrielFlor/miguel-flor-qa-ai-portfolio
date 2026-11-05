@@ -1,18 +1,23 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
 
 html {
-    scroll-behavior: smooth;
-}
 
+    scroll-behavior: smooth;
+
+}
 
 :root {
 
     --background: #080b12;
+
     --background-secondary: #0d111a;
 
     --card: #111722;
@@ -20,20 +25,23 @@ html {
     --border: #252e3d;
 
     --primary: #6c63ff;
+
     --primary-hover: #8179ff;
 
     --text: #f5f7fb;
+
     --text-secondary: #9ca6b7;
 
     --error: #ff6b6b;
 
     --max-width: 1180px;
-}
 
+}
 
 body {
 
     font-family:
+
         "Cascadia Code", monospace;
 
     background: var(--background);
@@ -41,24 +49,28 @@ body {
     color: var(--text);
 
     line-height: 1.6;
-}
 
+}
 
 a {
-    color: inherit;
-    text-decoration: none;
-}
 
+    color: inherit;
+
+    text-decoration: none;
+
+}
 
 .hidden {
+
     display: none !important;
+
 }
 
-
 /* =====================================================
-   ACCESS
-===================================================== */
 
+   ACCESS
+
+===================================================== */
 
 .access-page {
 
@@ -73,13 +85,18 @@ a {
     padding: 30px 20px;
 
     background:
-        radial-gradient(
-            circle at top,
-            #1a2235 0%,
-            #080b12 55%
-        );
-}
 
+        radial-gradient(
+
+            circle at top,
+
+            #1a2235 0%,
+
+            #080b12 55%
+
+        );
+
+}
 
 .access-card {
 
@@ -96,18 +113,20 @@ a {
     padding: 40px;
 
     box-shadow:
-        0 25px 70px
-        rgba(0, 0, 0, 0.4);
-}
 
+        0 25px 70px
+
+        rgba(0, 0, 0, 0.4);
+
+}
 
 .access-header {
 
     text-align: center;
 
     margin-bottom: 35px;
-}
 
+}
 
 .eyebrow {
 
@@ -120,50 +139,50 @@ a {
     letter-spacing: 3px;
 
     margin-bottom: 12px;
-}
 
+}
 
 .access-header h1 {
 
     font-size: 42px;
 
     margin-bottom: 8px;
-}
 
+}
 
 .subtitle {
 
     color: var(--text-secondary);
 
     font-size: 17px;
-}
 
+}
 
 .intro {
 
     margin-bottom: 30px;
-}
 
+}
 
 .intro h2 {
 
     font-size: 24px;
 
     margin-bottom: 8px;
-}
 
+}
 
 .intro p {
 
     color: var(--text-secondary);
-}
 
+}
 
 .form-group {
 
     margin-bottom: 20px;
-}
 
+}
 
 .form-group label {
 
@@ -174,11 +193,13 @@ a {
     font-size: 14px;
 
     font-weight: bold;
+
 }
 
-
 input[type="text"],
+
 input[type="email"],
+
 input[type="tel"] {
 
     width: 100%;
@@ -198,24 +219,26 @@ input[type="tel"] {
     outline: none;
 
     transition: 0.2s;
-}
 
+}
 
 input:focus {
 
     border-color: var(--primary);
 
     box-shadow:
-        0 0 0 3px
-        rgba(108, 99, 255, 0.15);
-}
 
+        0 0 0 3px
+
+        rgba(108, 99, 255, 0.15);
+
+}
 
 input.input-error {
 
     border-color: var(--error);
-}
 
+}
 
 .error-message {
 
@@ -226,8 +249,8 @@ input.input-error {
     font-size: 12px;
 
     margin-top: 6px;
-}
 
+}
 
 .consent {
 
@@ -238,83 +261,123 @@ input.input-error {
     align-items: flex-start;
 
     margin: 25px 0 8px;
-}
 
+}
 
 .consent label {
 
     color: var(--text-secondary);
 
     font-size: 13px;
+
 }
 
 /* Botón de acceso: conserva un diseño destacado */
 
 #accessPage button {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
     width: 100%;
+
     padding: 12px 18px;
 
     background: transparent;
+
     border: 1px solid #3794FF;
+
     border-radius: 8px;
 
     color: #3794FF;
+
     font-family: inherit;
+
     font-size: 14px;
+
     font-weight: 600;
 
     cursor: pointer;
 
     transition:
+
         background 0.3s ease,
+
         color 0.3s ease,
+
         border-color 0.3s ease,
+
         transform 0.3s ease;
+
 }
 
 #accessPage button:hover {
+
     background: #3794FF;
+
     border-color: #3794FF;
+
     color: #FFFFFF;
+
     transform: translateY(-2px);
+
 }
 
 #portfolio button,
+
 #portfolio .button {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
     padding: 12px 18px;
 
     background: transparent;
+
     border: none;
+
     border-radius: 0;
 
     color: #FFFFFF;
+
     font-family: inherit;
+
     font-size: 14px;
+
     font-weight: 600;
+
     text-decoration: none;
 
     cursor: pointer;
 
     transform: scale(1);
+
     transition:
+
         color 0.4s ease,
+
         transform 0.4s ease;
+
 }
 
 #portfolio button:hover,
+
 #portfolio .button:hover {
+
     background: transparent;
+
     border: none;
+
     color: #3794FF;
+
     transform: scale(1.50);
+
 }
 
 .access-footer {
@@ -330,8 +393,8 @@ input.input-error {
     color: var(--text-secondary);
 
     font-size: 12px;
-}
 
+}
 
 .access-footer span {
 
@@ -340,13 +403,14 @@ input.input-error {
     margin-top: 8px;
 
     opacity: 0.6;
+
 }
 
-
 /* =====================================================
-   NAVBAR
-===================================================== */
 
+   NAVBAR
+
+===================================================== */
 
 .navbar {
 
@@ -357,11 +421,13 @@ input.input-error {
     z-index: 1000;
 
     background:
+
         rgba(8, 11, 18, 0.9);
 
     backdrop-filter: blur(15px);
 
     border-bottom: 1px solid var(--border);
+
 }
 
 
@@ -380,86 +446,500 @@ input.input-error {
     align-items: center;
 
     gap: 30px;
+
 }
 
-
-
 .logo {
+
     display: inline-flex;
+
     align-items: baseline;
+
     gap: 7px;
 
     color: #FFFFFF;
+
     font-size: 45px;
+
     font-weight: 800;
+
     line-height: 1;
+
     letter-spacing: -1.5px;
 
     text-decoration: none;
+
     white-space: nowrap;
+
 }
 
 .logo-initials {
+
     color: #FFFFFF;
+
     font-size: 1em;
+
     font-weight: 500;
+
     letter-spacing: -1px;
+
     margin-right: -6px;
+
 }
 
 .logo-dot {
+
     display: inline-block;
+
     margin-left: -3px;
+
 }
 
 .logo-divider {
+
     display: inline-block;
+
     align-self: center;
 
     width: 3px;
+
     height: 52px;
+
     margin: 0 2px;
 
     background-color: #3794FF;
+
     border-radius: 2px;
+
 }
 
 .logo-label {
+
     color: #FFFFFF;
+
     font-size: 0.40em;
+
     font-weight: 800;
+
     letter-spacing: 0.5px;
+
 }
 
 nav {
+
     display: flex;
+
     align-items: center;
+
     gap: 28px;
+
     flex-wrap: wrap;
+
 }
+
+/* Navegación general: base sin efectos globales */
 
 nav a {
+
     color: #FFFFFF;
+
     font-size: 13px;
+
     text-decoration: none;
 
-    display: inline-block;
-    transform: scale(1);
-
-    transition:
-        color 0.4s ease,
-        transform 0.4s ease;
 }
 
-nav a:hover {
-    color: #3794FF;
-    transform: scale(1.5);
+/* Menú principal del Home */
+
+#portfolio .navbar .nav-container > nav > a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    padding: 12px 14px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    color: var(--text);
+
+    transform: translateY(0);
+
+    transition:
+
+        border-color 0.2s ease,
+
+        color 0.2s ease,
+
+        transform 0.2s ease;
+
+}
+
+/* Movimiento e iluminación: enlaces navegables */
+
+#portfolio .navbar .nav-container > nav > a:hover {
+
+    color: var(--primary-hover);
+
+    border-color: var(--primary);
+
+    transform: translateY(-3px);
+
+}
+
+/* Accesibilidad mediante teclado */
+
+#portfolio .navbar .nav-container > nav > a:focus-visible {
+
+    border-color: var(--primary);
+
+    outline: 2px solid var(--primary);
+
+    outline-offset: 3px;
+
 }
 
 /* =====================================================
-   GENERAL
+
+   ÍNDICE DE CONTENIDOS — HOME
+
 ===================================================== */
 
+.navbar .showcase-index {
+
+    position: relative;
+
+    margin: 0;
+
+    flex-shrink: 0;
+
+}
+
+.navbar .index-toggle {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    width: fit-content;
+
+    max-width: 100%;
+
+    padding: 12px 18px;
+
+    color: var(--text);
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    font: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    list-style: none;
+
+    transition: border-color 0.2s ease, color 0.2s ease;
+
+}
+
+.navbar .index-toggle::-webkit-details-marker {
+
+    display: none;
+
+}
+
+.navbar .index-toggle::after {
+
+    content: "+";
+
+    color: var(--primary);
+
+    font-size: 20px;
+
+    line-height: 1;
+
+}
+
+.navbar .showcase-index[open] .index-toggle::after {
+
+    content: "−";
+
+}
+
+/* Botón principal Menú: iluminación del borde */
+
+.navbar .index-toggle:hover {
+
+    color: var(--primary-hover);
+
+    border-color: var(--primary);
+
+}
+
+/* Foco accesible mediante teclado */
+
+.navbar .index-toggle:focus-visible {
+
+    color: var(--primary-hover);
+
+    border-color: var(--primary);
+
+    outline: 2px solid var(--primary);
+
+    outline-offset: 2px;
+
+}
+
+/* Mantener la iluminación mientras el menú está abierto */
+
+.navbar .showcase-index[open] > .index-toggle {
+
+    border-color: var(--primary);
+
+}
+
+.navbar .index-grid {
+
+    position: absolute;
+
+    top: calc(100% + 10px);
+
+    right: 0;
+
+    z-index: 1100;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    width: min(520px, calc(100vw - 32px));
+
+    margin: 0;
+
+    padding: 12px;
+
+    background: var(--background, #080B12);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+
+}
+
+.navbar .index-link {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    min-width: 0;
+
+    padding: 16px;
+
+    color: var(--text);
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    transform: translateY(0);
+
+    transition: transform 0.2s ease, border-color 0.2s ease;
+
+}
+
+/* CV — Opciones del índice con dimensiones uniformes */
+
+body:has(#cv) .navbar .index-grid {
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    align-items: stretch;
+
+}
+
+body:has(#cv) .navbar .index-link {
+
+    width: 100%;
+
+    height: 100%;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    justify-self: stretch;
+
+    align-self: stretch;
+
+    justify-content: flex-start;
+
+}
+
+body:has(#cv) .navbar .index-link strong {
+
+    line-height: 1.5;
+
+}
+
+body:has(#cv) .navbar .index-link small {
+
+    line-height: 1.5;
+
+}
+
+/* Móvil: una tarjeta debajo de la otra */
+
+@media (max-width: 760px) {
+
+    body:has(#cv) .navbar .index-grid {
+
+        grid-template-columns: minmax(0, 1fr);
+
+    }
+
+}
+
+/* Iluminación idéntica a las tarjetas del índice QA */
+
+.navbar .index-link:hover {
+
+    color: var(--text);
+
+    border-color: var(--primary);
+
+    transform: translateY(-3px);
+
+}
+
+/* Foco visible para navegación con teclado */
+
+.navbar .index-link:focus-visible {
+
+    color: var(--text);
+
+    border-color: var(--primary);
+
+    transform: translateY(-3px);
+
+    outline: 2px solid var(--primary);
+
+    outline-offset: 2px;
+
+}
+
+.navbar .index-number {
+
+    color: var(--primary-hover);
+
+    font-size: 12px;
+
+}
+
+.navbar .index-link strong {
+
+    font-size: 14px;
+
+}
+
+.navbar .index-link small {
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+@media (max-width: 760px) {
+
+    .navbar .index-toggle {
+
+        width: 100%;
+
+    }
+
+    .navbar .index-grid {
+
+        grid-template-columns: minmax(0, 1fr);
+
+        width: min(360px, calc(100vw - 32px));
+
+        max-width: calc(100vw - 32px);
+
+    }
+
+    .navbar .index-link {
+
+        width: 100%;
+
+        min-width: 0;
+
+        box-sizing: border-box;
+
+        grid-column: auto;
+
+        justify-self: stretch;
+
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .navbar .index-toggle,
+
+    .navbar .index-link {
+
+        transition: none;
+
+    }
+
+    .navbar .index-link:hover,
+
+    .navbar .index-link:focus-visible {
+
+        transform: none;
+
+    }
+
+}
+
+/* =====================================================
+
+   GENERAL
+
+===================================================== */
 
 .section {
 
@@ -468,16 +948,21 @@ nav a:hover {
     margin: auto;
 
     padding: 110px 25px;
+
 }
 
-
 /* Reducir espacio entre la introducción y QA */
+
 #specialties {
+
     padding-bottom: 45px;
+
 }
 
 #qa {
+
     padding-top: 25px;
+
 }
 
 .dark-section {
@@ -489,57 +974,89 @@ nav a:hover {
     padding-left: max(25px, calc((100vw - var(--max-width)) / 2));
 
     padding-right: max(25px, calc((100vw - var(--max-width)) / 2));
+
 }
 
-
 .section-heading {
+
     max-width: 100%;
+
     margin-bottom: 55px;
+
 }
 
 .section-heading h2 {
+
     font-size: clamp(32px, 5vw, 52px);
+
     line-height: 1.1;
+
     margin-bottom: 20px;
+
 }
 
 .section-heading p {
+
     color: var(--text-secondary);
+
     max-width: 100%;
+
 }
 
 /* =====================================================
    HERO
 ===================================================== */
 
-
 .hero {
-    min-height: calc(100vh - 70px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 60px;
-}
 
+    min-height: calc(100vh - 70px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 60px;
+
+}
 
 .hero-content {
 
     max-width: 720px;
+
 }
 
 .hero h1 {
+
     font-size: clamp(48px, 6.5vw, 82px);
+
     line-height: 1.05;
+
     font-weight: 700;
+
     letter-spacing: -2px;
+
     margin-bottom: 30px;
+
 }
 
-.hero h1 span {
+/* HERO: dos primeras líneas blancas, última línea en violeta. */
+#home .hero h1,
+#home h1 {
+    color: var(--text);
+}
 
+#home .hero h1 span,
+#home h1 span {
+    color: var(--text);
+}
+
+/* La última línea corresponde a "Calidad." en los tres idiomas. */
+#home .hero h1 span:last-of-type,
+#home h1 span:last-of-type {
     color: var(--primary);
 }
-
 
 .hero-description {
 
@@ -552,223 +1069,377 @@ nav a:hover {
     font-size: 18px;
 
     margin-bottom: 35px;
+
 }
 
 /* Espaciado uniforme entre llaves y texto */
+
 #portfolio .button-brace,
+
 #portfolio nav .button-brace {
+
     margin-left: 8px;
+
     margin-right: 8px;
+
 }
 
 .hero-buttons {
+
     display: flex;
+
     align-items: center;
+
     gap: 28px;
+
     flex-wrap: wrap;
+
     padding: 10px 0;
+
 }
 
 .button.primary,
+
 .button.secondary {
+
     background: transparent;
+
     border: none;
+
     color: var(--text-secondary);
+
 }
 
 .hero-panel {
+
     position: relative;
+
     isolation: isolate;
+
     overflow: hidden;
+
     box-sizing: border-box;
+
     min-width: 240px;
+
     max-width: 360px;
+
     padding: 30px;
+
     border: 1px solid var(--border);
+
     border-radius: 18px;
+
+    /* Posición original respecto del título */
     transform: translateY(-60px);
-    transition: border-color 0.25s ease,
-            transform 0.25s ease,
-            box-shadow 0.25s ease;
+
+    /* Transición suave */
+    transition:
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
 
     background: linear-gradient(
+
         145deg,
+
         var(--card),
+
         var(--background-secondary)
+
     );
 
     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+
 }
+
 .hero-panel:hover {
+
     border-color: #0A66C2;
+
     box-shadow: 0 14px 36px rgba(10, 102, 194, 0.12);
+
 }
 
 /* Iluminación sutil en movimiento */
+
 .hero-panel::before {
+
     content: "";
+
     position: absolute;
+
     inset: -50%;
+
     z-index: 0;
+
     pointer-events: none;
 
     background: radial-gradient(
+
         ellipse at center,
+
         rgba(56, 189, 248, 0.16),
+
         transparent 60%
+
     );
 
     animation: hero-panel-glow 9s ease-in-out infinite alternate;
+
 }
+
 .hero-panel > * {
+
     position: relative;
+
     z-index: 1;
+
 }
+
 @keyframes hero-panel-glow {
+
     from {
+
         transform: translate(-25%, -10%);
+
     }
 
     to {
+
         transform: translate(25%, 10%);
+
     }
+
 }
 
 /* Título de la caja */
+
 .hero-panel-title {
+
     position: relative;
+
     margin: 0 0 10px;
+
     color: var(--text-secondary);
+
     font-size: 11px;
+
     font-weight: 600;
+
     letter-spacing: 2px;
+
 }
 
 /* Especialización técnica y punto verde */
+
 .hero-panel-heading {
+
     position: relative;
+
     display: flex;
+
     align-items: center;
+
     gap: 10px;
+
     margin: 0 0 30px;
+
     color: var(--text);
+
     font-size: 14px;
+
     font-weight: 500;
+
     letter-spacing: 0.3px;
+
 }
 
 .status-dot {
+
     flex: 0 0 9px;
+
     width: 9px;
+
     height: 9px;
+
     margin: 0;
+
     border-radius: 50%;
+
     background: #4ade80;
+
     box-shadow: 0 0 12px rgba(74, 222, 128, 0.7);
+
 }
 
 /* Especialidades centradas */
+
 .hero-panel-item {
+
     position: relative;
+
     text-align: center;
+
 }
 
 .hero-panel-item + .hero-panel-item {
+
     margin-top: 26px;
+
 }
 
 .hero-panel-item strong {
+
     display: block;
+
     margin: 0 0 8px;
+
     color: var(--text);
+
     font-size: 14px;
+
     line-height: 1.4;
+
     letter-spacing: 0.4px;
+
 }
 
 .hero-panel-item p {
+
     margin: 0;
+
     color: var(--text-secondary);
+
     font-size: 12px;
+
     line-height: 1.6;
+
 }
 
 /* Respeta la preferencia de reducir movimiento */
+
 @media (prefers-reduced-motion: reduce) {
+
     .hero-panel::before {
+
         animation: none;
+
     }
+
 }
 
 /* Iluminación ambiental común para las ventanas */
+
 .info-card,
+
 .experience-card,
+
 .skill-card,
+
 .ai-card,
+
 .project-card {
+
     position: relative;
+
     isolation: isolate;
+
     overflow: hidden;
+
     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+
 }
 
 .info-card::before,
+
 .experience-card::before,
+
 .skill-card::before,
+
 .ai-card::before,
+
 .project-card::before {
+
     content: "";
+
     position: absolute;
+
     inset: -50%;
+
     z-index: 0;
+
     pointer-events: none;
 
     background: radial-gradient(
+
         ellipse at center,
+
         rgba(56, 189, 248, 0.12),
+
         transparent 60%
+
     );
 
     animation: hero-panel-glow 9s ease-in-out infinite alternate;
+
 }
 
 .info-card > *,
+
 .experience-card > *,
+
 .skill-card > *,
+
 .ai-card > *,
+
 .project-card > * {
+
     position: relative;
+
     z-index: 1;
+
 }
 
 /* Respeta la preferencia de reducir movimiento */
+
 @media (prefers-reduced-motion: reduce) {
+
     .info-card::before,
+
     .experience-card::before,
+
     .skill-card::before,
+
     .ai-card::before,
+
     .project-card::before {
+
         animation: none;
+
     }
+
 }
 
-
 /* =====================================================
-   CONTENT
-===================================================== */
 
+   CONTENT
+
+===================================================== */
 
 .two-column {
 
     display: grid;
 
     grid-template-columns:
+
         1.5fr
+
         1fr;
 
     gap: 50px;
-}
 
+}
 
 .two-column > div > p {
 
@@ -777,8 +1448,8 @@ nav a:hover {
     margin-bottom: 20px;
 
     font-size: 18px;
-}
 
+}
 
 .info-card {
 
@@ -789,13 +1460,17 @@ nav a:hover {
     padding: 35px;
 
     border-radius: 18px;
+
 }
 
-
 .info-card span,
+
 .skill-card span,
+
 .ai-card span,
+
 .experience-card span,
+
 .project-card span {
 
     color: var(--primary);
@@ -805,41 +1480,45 @@ nav a:hover {
     letter-spacing: 2px;
 
     font-weight: bold;
-}
 
+}
 
 .info-card h3 {
 
     font-size: 25px;
 
     margin: 15px 0;
-}
 
+}
 
 .info-card p {
 
     color: var(--text-secondary);
+
 }
 
-
 /* =====================================================
-   CARDS
-===================================================== */
 
+   CARDS
+
+===================================================== */
 
 .cards-grid {
 
     display: grid;
 
     grid-template-columns:
+
         repeat(4, 1fr);
 
     gap: 18px;
+
 }
 
-
 .experience-card,
+
 .skill-card,
+
 .ai-card {
 
     border: 1px solid var(--border);
@@ -851,44 +1530,52 @@ nav a:hover {
     border-radius: 16px;
 
     transition: 0.25s;
+
 }
 
-
 /* Movimiento exclusivo para tarjetas con navegación */
+
 a.experience-card:hover,
+
 a.skill-card:hover,
+
 a.ai-card:hover {
 
     transform: translateY(-5px);
 
     border-color: var(--primary);
+
 }
 
-
 .experience-card h3,
+
 .skill-card h3,
+
 .ai-card h3 {
 
     font-size: 21px;
 
     margin: 18px 0 12px;
+
 }
 
-
 .experience-card p,
+
 .skill-card p,
+
 .ai-card p {
 
     color: var(--text-secondary);
 
     font-size: 14px;
+
 }
 
-
 /* =====================================================
-   PROJECTS
-===================================================== */
 
+   PROJECTS
+
+===================================================== */
 
 .project-card {
 
@@ -909,24 +1596,24 @@ a.ai-card:hover {
     background: var(--card);
 
     margin-bottom: 18px;
-}
 
+}
 
 .project-card h3 {
 
     font-size: 28px;
 
     margin: 10px 0;
-}
 
+}
 
 .project-card p {
 
     color: var(--text-secondary);
 
     max-width: 650px;
-}
 
+}
 
 .project-status span {
 
@@ -935,122 +1622,175 @@ a.ai-card:hover {
     border-radius: 20px;
 
     background:
+
         rgba(108, 99, 255, 0.12);
 
     color: var(--primary);
 
     white-space: nowrap;
-}
 
+}
 
 /* =====================================================
+
    CONTACT
+
 ===================================================== */
 
-
 .contact-section {
-    text-align: center;
-    max-width: 100%;
-    width: 100%;
-}
 
+    text-align: center;
+
+    max-width: 100%;
+
+    width: 100%;
+
+}
 
 .contact-section h2 {
 
     font-size: clamp(35px, 6vw, 60px);
 
     margin-bottom: 20px;
-}
 
+}
 
 .contact-section p {
 
     color: var(--text-secondary);
 
     margin-bottom: 30px;
-}
 
+}
 
 /* CONTACT FORM */
 
 .contact-form {
+
     width: 100%;
+
     max-width: 650px;
+
     margin: 0 auto;
+
     text-align: left;
+
 }
 
 .contact-form .form-group {
+
     margin-bottom: 20px;
+
 }
 
 .contact-form label {
+
     display: block;
+
     margin-bottom: 8px;
+
     color: var(--text);
+
     font-family: inherit;
+
     font-weight: 500;
+
 }
 
 .contact-form textarea {
+
     display: block;
+
     box-sizing: border-box;
+
     width: 100%;
+
     min-height: 150px;
+
     padding: 14px 16px;
 
     background: var(--card);
+
     color: var(--text);
+
     font-family: inherit;
+
     font-size: 1rem;
+
     line-height: 1.5;
 
     border: 1px solid var(--border);
+
     border-radius: 12px;
 
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
 }
 
 .contact-form textarea::placeholder {
+
     color: var(--text-secondary);
+
     opacity: 1;
+
 }
 
 .contact-form textarea:focus {
+
     outline: none;
+
     border-color: var(--primary);
+
     box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+
 }
 
 .contact-form textarea.input-error {
+
     border-color: var(--error);
+
 }
 
 .contact-form .field-hint {
+
     display: block;
+
     text-align: left;
+
     color: var(--text-secondary);
+
 }
 
 #contactMessageError {
+
     display: block;
+
     margin-top: 6px;
+
     color: var(--error);
+
 }
 
 #contactStatus {
+
     display: block;
+
     min-height: 0;
+
     margin-bottom: 0;
+
     color: var(--text-secondary);
+
     line-height: 1.5;
+
     overflow-wrap: anywhere;
+
 }
 
 .contact-form #contactButton {
-    display: flex;
+    display: flex !important;
     width: fit-content;
-    margin: 02px auto 0;
+    margin: 2px 0 0 auto !important;
     align-items: center;
     justify-content: center;
     float: none;
@@ -1059,22 +1799,30 @@ a.ai-card:hover {
 }
 
 #contactButton:disabled {
+
     opacity: 0.65;
+
     cursor: wait;
+
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .contact-form textarea {
+
         transition: none;
+
     }
+
 }
 
 /* FIN CONTACT FORM */
 
 /* =====================================================
-   FOOTER
-===================================================== */
 
+   FOOTER
+
+===================================================== */
 
 .main-footer {
 
@@ -1093,208 +1841,342 @@ a.ai-card:hover {
     color: var(--text-secondary);
 
     font-size: 12px;
+
 }
 
-
 /* =====================================================
-   RESPONSIVE
-===================================================== */
 
+   RESPONSIVE
+
+===================================================== */
 
 @media (max-width: 900px) {
 
     .hero-panel {
+
         width: 100%;
+
         max-width: 420px;
+
         align-self: center;
+
         transform: none;
+
     }
 
     .hero {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
 
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+    }
 
     .cards-grid {
 
         grid-template-columns:
-            repeat(2, 1fr);
-    }
 
+            repeat(2, 1fr);
+
+    }
 
     .two-column {
 
         grid-template-columns: 1fr;
+
     }
 
-
     nav {
+
         gap: 12px;
+
         justify-content: flex-end;
+
         margin-left: auto;
+
     }
 
 }
-
 
 @media (max-width: 600px) {
 
     .access-card {
 
         padding: 28px 22px;
-    }
 
+    }
 
     .access-header h1 {
 
         font-size: 34px;
-    }
 
+    }
 
     .section {
 
         padding: 75px 20px;
-    }
 
+    }
 
     .dark-section {
 
         padding-left: 20px;
 
         padding-right: 20px;
-    }
 
+    }
 
     .cards-grid {
 
         grid-template-columns: 1fr;
+
     }
 
     .nav-container {
+
         display: flex;
+
         flex-direction: row;
+
         align-items: flex-start;
+
         justify-content: space-between;
+
         gap: 12px;
+
     }
 
-    .nav-container nav {
+    .nav-container > nav {
+
         display: grid !important;
-        grid-template-columns: max-content max-content !important;
-        justify-content: end;
-        justify-items: center;
-        column-gap: 12px;
-        row-gap: 10px;
-        margin-left: auto;
-    }
 
-    .nav-container nav a:nth-child(3) {
-        grid-column: 1 / -1;
-        justify-self: center;
+        grid-template-columns: max-content max-content !important;
+
+        justify-content: end;
+
+        justify-items: center;
+
+        column-gap: 12px;
+
+        row-gap: 10px;
+
+        margin-left: auto;
+
     }
 
     .hero h1 {
-
-        font-size: 50px;
+        font-size: clamp(45px, 8vw, 38px);
+        line-height: 1.15;
+        letter-spacing: -1px;
+        overflow-wrap: break-word;
     }
-
 
     .project-card {
 
         flex-direction: column;
 
         align-items: flex-start;
-    }
 
+    }
 
     .main-footer {
 
         flex-direction: column;
 
         gap: 10px;
+
     }
 
 }
 
 
+
 /* ============================================
+
    FORMULARIO: INDICADORES Y AYUDAS
+
 ============================================ */
 
 .required-indicator {
+
     color: var(--error);
+
     font-weight: 700;
+
 }
 
 .form-help {
+
     margin-bottom: 20px;
+
     color: var(--text-secondary);
+
     font-size: 13px;
+
     line-height: 1.5;
+
 }
 
 .field-hint {
+
     display: block;
+
     margin-top: 6px;
+
     color: var(--text-secondary);
+
     font-size: 12px;
+
     line-height: 1.5;
+
 }
 
 /* ============================================
+
    SELECTOR DE IDIOMA
+
 ============================================ */
 
 .language-selector {
+
     display: flex;
+
     flex-direction: column;
+
     align-items: flex-end;
+
     gap: 6px;
+
     margin-bottom: 20px;
+
 }
 
 .language-selector label {
+
     color: var(--text-secondary);
+
     font-size: 12px;
+
 }
 
 .language-selector select {
+
     min-width: 140px;
+
     padding: 8px 12px;
+
     border: 1px solid var(--border);
+
     border-radius: 8px;
+
     background: var(--background);
+
     color: var(--text);
+
     font: inherit;
+
     font-size: 13px;
+
     cursor: pointer;
+
 }
 
 .language-selector select:focus-visible {
+
     outline: 2px solid var(--primary);
+
     outline-offset: 3px;
+
 }
 
 /* ============================================
+
+   SELECTOR DE IDIOMA — FOOTER
+
+============================================ */
+
+.main-footer .footer-language {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-bottom: 0;
+
+}
+
+.main-footer .footer-language label {
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+}
+
+.main-footer .footer-language select {
+
+    min-width: 140px;
+
+    padding: 8px 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    font: inherit;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+}
+
+.main-footer .footer-language select:focus-visible {
+
+    outline: 2px solid var(--primary);
+
+    outline-offset: 3px;
+
+}
+
+/* ============================================
+
    COLORES DE TEXTO — INSPIRACIÓN VS CODE
+
 ============================================ */
 
 #firstName {
+
     color: #569CD6;
+
 }
 
 #lastName {
+
     color: #CE9178;
+
 }
 
 #email {
+
     color: #9CDCFE;
+
 }
 
 #phone {
+
     color: #6A9955;
+
 }
 
 /* ============================================
@@ -1304,845 +2186,2530 @@ a.ai-card:hover {
 ============================================ */
 
 .welcome-message {
+
     font-size: clamp(1.5rem, 3vw, 2rem);
+
     font-weight: 600;
+
     line-height: 1.3;
+
     margin-bottom: 1.25rem;
+
     color: var(--text);
+
     letter-spacing: -0.5px;
+
 }
 
 /* TARJETA DE LINKEDIN */
 
 .linkedin-card {
+
     color: inherit;
+
     text-decoration: none;
+
     cursor: pointer;
+
     display: flex;
+
     align-items: center;
+
     gap: 24px;
+
     width: 100%;
+
     max-width: 760px;
+
     box-sizing: border-box;
+
     margin: 32px auto 0;
+
     padding: 28px;
+
     text-align: left;
+
     background: var(--card);
+
     border: 1px solid var(--border);
+
     border-radius: 20px;
+
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
     transition: border-color 0.25s ease,
+
                 transform 0.25s ease,
+
                 box-shadow 0.25s ease;
+
 }
 
 .linkedin-card:focus-visible {
+
     outline: 3px solid #0A66C2;
+
     outline-offset: 4px;
+
 }
 
 .linkedin-avatar {
+
     display: block;
+
     flex-shrink: 0;
+
     width: 140px;
+
     height: 140px;
+
     object-fit: cover;
+
     border-radius: 50%;
+
     border: 3px solid #0A66C2;
+
 }
 
 .linkedin-info {
+
     display: flex;
+
     flex-direction: column;
+
     flex: 1;
+
     min-width: 0;
+
     align-items: flex-start;
+
 }
 
 .linkedin-identity {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
+
     width: 100%;
+
     margin-bottom: 16px;
+
 }
 
 .linkedin-identity-text {
+
     flex: 1;
+
     min-width: 0;
+
     overflow-wrap: anywhere;
+
 }
 
 .linkedin-logo {
+
     align-self: center;
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     flex-shrink: 0;
+
     width: 42px;
+
     height: 42px;
+
     border-radius: 6px;
+
     background: #0A66C2;
+
     color: #fff;
+
     font-size: 28px;
+
     font-weight: 700;
+
     letter-spacing: -2px;
+
     line-height: 1;
+
 }
 
 .linkedin-label {
+
     display: inline-block;
+
     margin-bottom: 8px;
+
     color: #0A66C2;
+
     font-size: 0.75rem;
+
     font-weight: 700;
+
     letter-spacing: 1.5px;
+
 }
 
 .linkedin-info h3 {
+
     margin: 0 0 4px;
+
     color: var(--text);
+
     font-size: 1.5rem;
+
 }
+
 .linkedin-button {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     align-self: center;
+
     box-sizing: border-box;
+
     max-width: 100%;
+
     gap: 8px;
+
     background: #0A66C2;
+
     color: #fff;
+
     border: 1px solid #0A66C2;
+
     border-radius: 10px;
+
     padding: 11px 18px;
+
     text-align: center;
+
     white-space: normal;
+
     line-height: 1.4;
+
 }
+
 .linkedin-card:hover {
+
     border-color: #007ACC;
+
     transform: translateY(-4px);
+
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+
+}
+
+/* LinkedIn: distribución vertical en dispositivos móviles */
+
+@media (max-width: 600px) {
+
+    .linkedin-card {
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 20px;
+
+        padding: 24px 18px;
+
+        width: 100%;
+
+        max-width: 100%;
+
+        box-sizing: border-box;
+
+    }
+
+    .linkedin-avatar {
+
+        width: 140px;
+
+        height: 140px;
+
+        flex-shrink: 0;
+
+        object-fit: cover;
+
+        border-radius: 50%;
+
+    }
+
+    .linkedin-info {
+
+        width: 100%;
+
+        min-width: 0;
+
+        align-items: stretch;
+
+    }
+
+    .linkedin-identity {
+
+        width: 100%;
+
+        min-width: 0;
+
+        align-items: center;
+
+        gap: 12px;
+
+    }
+
+    .linkedin-identity-text {
+
+        min-width: 0;
+
+        overflow-wrap: normal;
+
+        overflow-wrap: break-word;
+
+    }
+
+    .linkedin-info h3 {
+
+        font-size: 1.25rem;
+
+        line-height: 1.3;
+
+    }
+
+    .linkedin-headline {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        overflow-wrap: break-word;
+
+        line-height: 1.6;
+
+    }
+
+    .linkedin-button {
+
+        align-self: center;
+
+        max-width: 100%;
+
+        text-align: center;
+
+    }
+
 }
 
 /* FIN TARJETA DE LINKEDIN */
 
-
 /* TARJETA DE GITHUB */
 
 .github-card {
+
     display: flex;
+
     align-items: center;
+
     width: 100%;
+
     max-width: 760px;
+
     box-sizing: border-box;
+
     margin: 24px auto 0;
+
     padding: 28px;
+
     color: inherit;
+
     text-decoration: none;
+
     text-align: left;
+
     background: var(--card);
+
     border: 1px solid var(--border);
+
     border-radius: 20px;
+
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
     transition: border-color 0.25s ease,
+
                 transform 0.25s ease,
+
                 box-shadow 0.25s ease;
+
     cursor: pointer;
+
 }
 
 .github-card:hover {
+
     border-color: #007ACC;
+
     transform: translateY(-4px);
+
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+
 }
 
 .github-card:focus-visible {
+
     outline: 3px solid #007ACC;
+
     outline-offset: 4px;
+
 }
 
 .github-info {
+
     display: flex;
+
     flex-direction: column;
+
     flex: 1;
+
     min-width: 0;
+
     align-items: flex-start;
+
 }
 
 .github-identity {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
+
     width: 100%;
+
     margin-bottom: 16px;
+
 }
 
 .github-identity-text {
+
     flex: 1;
+
     min-width: 0;
+
     overflow-wrap: anywhere;
+
 }
 
 .github-logo {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     flex-shrink: 0;
+
     width: 42px;
+
     height: 42px;
+
     border-radius: 50%;
+
     background: #24292f;
+
     color: #fff;
+
     font-size: 15px;
+
     font-weight: 700;
+
 }
 
 .github-logo svg {
+
     display: block;
+
     width: 28px;
+
     height: 28px;
+
 }
 
 .github-label {
+
     display: inline-block;
+
     margin-bottom: 8px;
+
     color: #007ACC;
+
     font-size: 0.75rem;
+
     font-weight: 700;
+
     letter-spacing: 1.5px;
+
 }
 
 .github-info h3 {
+
     margin: 0 0 4px;
+
     color: var(--text);
+
     font-size: 1.5rem;
+
 }
 
 .github-complement {
+
     margin: 0 0 12px;
+
     color: var(--text-secondary);
+
     font-size: 1rem;
+
     font-weight: 600;
+
     line-height: 1.5;
+
 }
 
 .github-headline {
+
     margin: 0 0 20px;
+
     color: var(--text-secondary);
+
     font-size: 0.95rem;
+
     line-height: 1.7;
+
     overflow-wrap: anywhere;
+
 }
 
 .github-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    box-sizing: border-box;
-    max-width: 100%;
-    padding: 11px 18px;
-    background: #24292f;
-    color: #fff;
-    border: 1px solid #24292f;
-    border-radius: 10px;
-    text-align: center;
-    white-space: normal;
-    line-height: 1.4;
-    cursor: pointer;
-    transition: background-color 0.25s ease,
-                border-color 0.25s ease,
-                color 0.25s ease,
-                transform 0.25s ease;
-}
 
-#portfolio button:hover,
-#portfolio .button:hover {
-    background: transparent;
-    border: none;
-    color: #3794FF;
-    transform: scale(1.50);
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    align-self: center;
+
+    box-sizing: border-box;
+
+    max-width: 100%;
+
+    padding: 11px 18px;
+
+    background: #24292f;
+
+    color: #fff;
+
+    border: 1px solid #24292f;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    white-space: normal;
+
+    line-height: 1.4;
+
+    cursor: pointer;
+
+    transition: background-color 0.25s ease,
+
+                border-color 0.25s ease,
+
+                color 0.25s ease,
+
+                transform 0.25s ease;
+
 }
 
 #portfolio .button.github-button:focus-visible {
+
     outline: 3px solid #007ACC;
+
     outline-offset: 3px;
+
 }
 
 @media (max-width: 600px) {
+
     .github-card {
+
         flex-direction: column;
+
         align-items: stretch;
+
         gap: 18px;
+
         padding: 24px 18px;
+
         text-align: left;
+
     }
 
     .github-info h3 {
+
         font-size: 1.3rem;
+
     }
 
     .github-button {
+
         max-width: 100%;
+
     }
+
 }
 
+/* =====================================================
+
+   HOME — CTA UNIFICADOS CON EL BOTÓN MENÚ
+
+===================================================== */
+
+/* Apariencia compartida */
+
+#portfolio #contactButton,
+
+#about .info-card-link .button,
+
+#portfolio .linkedin-card .linkedin-button,
+
+#portfolio .github-card .github-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    box-sizing: border-box;
+
+    max-width: 100%;
+
+    padding: 12px 18px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    color: var(--text);
+
+    font: inherit;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    transform: none;
+
+    transition:
+
+        color 0.2s ease,
+
+        border-color 0.2s ease;
+
+}
+
+/* Iluminación sin movimiento */
+
+#portfolio #contactButton:hover,
+
+#about .info-card-link:hover .button,
+
+#portfolio .linkedin-card:hover .linkedin-button,
+
+#portfolio .github-card:hover .github-button {
+
+    background: var(--card);
+
+    color: var(--primary-hover);
+
+    border-color: var(--primary);
+
+    transform: none;
+
+}
+
+/* Foco accesible */
+
+#portfolio #contactButton:focus-visible,
+
+#about .info-card-link:focus-visible .button,
+
+#portfolio .linkedin-card:focus-visible .linkedin-button,
+
+#portfolio .github-card:focus-visible .github-button {
+
+    border-color: var(--primary);
+
+    outline: 2px solid var(--primary);
+
+    outline-offset: 3px;
+
+}
+
+/* Evitar movimiento en el botón de envío */
+
+#portfolio #contactButton:hover {
+
+    transform: none;
+
+}
+
+/* Movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #portfolio #contactButton,
+
+    #portfolio #about .info-card-link .button,
+
+    #portfolio .linkedin-card .linkedin-button,
+
+    #portfolio .github-card .github-button {
+
+        transition: none;
+
+    }
+
+}
 
 /* Barra inferior fija del CV */
+
 .cv-bottom-bar {
+
     position: fixed;
+
     bottom: 0;
+
     left: 0;
+
     width: 100%;
+
     z-index: 1000;
+
     box-sizing: border-box;
 
     display: flex;
+
     justify-content: flex-end;
+
     align-items: center;
 
     padding: 12px 25px;
 
     background: rgba(8, 11, 18, 0.9);
+
     backdrop-filter: blur(15px);
 
     border-top: 1px solid var(--border);
+
 }
 
-/* Enlace con el mismo efecto del menú principal */
-.cv-back-button {
+/* CV — Botón del pie con el estilo del índice */
+
+.cv-bottom-bar .cv-back-button {
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
-    padding: 10px 18px;
+    box-sizing: border-box;
 
-    color: #FFFFFF;
-    font-family: inherit;
-    font-size: 13px;
+    max-width: 100%;
+
+    padding: 12px 18px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    color: var(--text);
+
+    font: inherit;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+    text-align: center;
+
     text-decoration: none;
 
-    transform: scale(1);
+    transform: none;
+
     transition:
-        color 0.4s ease,
-        transform 0.4s ease;
+
+        color 0.2s ease,
+
+        border-color 0.2s ease;
+
 }
 
-.cv-back-button:hover {
-    color: #3794FF;
-    transform: scale(1.5);
+/* Iluminación azul sin movimiento */
+
+.cv-bottom-bar .cv-back-button:hover {
+
+    background: var(--card);
+
+    color: var(--text);
+
+    border-color: var(--primary);
+
+    transform: none;
+
 }
 
-/* Separación de las llaves, igual que en el menú principal */
-.cv-back-button .button-brace {
-    display: inline-block;
-    margin-left: 8px;
-    margin-right: 8px;
+/* Accesibilidad mediante teclado */
+
+.cv-bottom-bar .cv-back-button:focus-visible {
+
+    border-color: var(--primary);
+
+    outline: 2px solid var(--primary);
+
+    outline-offset: 3px;
+
+    transform: none;
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cv-bottom-bar .cv-back-button {
+
+        transition: none;
+
+    }
+
 }
 
 /* Espacio para que la barra no tape el contenido */
+
 body:has(.cv-bottom-bar) {
+
     padding-bottom: 70px;
+
 }
 
 /* =========================================
+
    CV — EXPERIENCIA PROFESIONAL
+
 ========================================= */
 
-.cv-experience {
-    width: min(100% - 50px, var(--max-width));
-    margin: 60px auto 40px;
-    display: grid;
-    gap: 24px;
+/* CV — Espacio para navegación con encabezado fijo */
+
+#cv #experience ,
+
+#cv #education {
+    
+    scroll-margin-top: 110px;
+
 }
 
+.cv-experience {
+
+    width: min(100% - 50px, var(--max-width));
+
+    margin: 60px auto 40px;
+
+    display: grid;
+
+    gap: 24px;
+
+}
+
+/* CV — Experiencia profesional: tarjetas informativas */
+
 .cv-experience-card {
+
     position: relative;
+
     padding: 30px 34px;
+
     background: rgba(255, 255, 255, 0.02);
+
     border: 1px solid var(--border);
+
     border-left: 3px solid #3794FF;
+
     border-radius: 10px;
 
     transition:
+
         border-color 0.3s ease,
-        transform 0.3s ease,
+
         background 0.3s ease;
+
 }
 
 .cv-experience-card:hover {
+
     border-color: #3794FF;
-    transform: translateX(5px);
+
     background: rgba(55, 148, 255, 0.04);
+
 }
 
 .cv-experience-card .eyebrow {
+
     margin: 0 0 12px;
+
     color: #3794FF;
+
     font-size: 12px;
+
     font-weight: 700;
+
     letter-spacing: 1px;
+
 }
 
 .cv-experience-card h2 {
+
     margin: 0 0 8px;
+
     color: #FFFFFF;
+
     font-size: 22px;
+
     line-height: 1.35;
+
 }
 
 .cv-experience-card h3 {
+
     margin: 0 0 20px;
+
     color: var(--text-secondary);
+
     font-size: 15px;
+
     font-weight: 500;
+
     line-height: 1.6;
+
 }
 
 .cv-experience-card p:not(.eyebrow) {
+
     color: var(--text-secondary);
+
     font-size: 14px;
+
     line-height: 1.85;
+
     margin: 0 0 14px;
+
     text-align: justify;
+
 }
 
 .cv-experience-card p:last-child {
+
     margin-bottom: 0;
+
 }
 
 /* Adaptación para pantallas pequeñas */
+
 @media (max-width: 600px) {
+
     .cv-experience {
+
         width: calc(100% - 30px);
+
         margin-top: 40px;
+
         gap: 18px;
+
     }
 
     .cv-experience-card {
+
         padding: 22px 20px;
+
     }
 
     .cv-experience-card h2 {
+
         font-size: 19px;
+
     }
 
     .cv-experience-card h3 {
-        font-size: 14px;
-    }
-}
 
-/* Justificación de los textos descriptivos del CV */
-#cv .section-heading > p:not(.eyebrow) {
-    text-align: justify;
+        font-size: 14px;
+
+    }
+
 }
 
 /* Centrado del botón de trayectoria profesional */
+
 #about .info-card {
+
     display: flex;
+
     flex-direction: column;
+
 }
 
 #about .info-card .button {
+
     align-self: center;
+
 }
 
-
 /* Encabezado y experiencias: mismo ancho y alineación */
+
 #cv .section-heading,
+
 #cv .cv-experience {
+
     width: calc(100% - 50px);
+
     max-width: var(--max-width);
+
     margin-left: auto;
+
     margin-right: auto;
+
     box-sizing: border-box;
+
 }
 
 #cv .section-heading {
+
     text-align: left;
+
 }
 
 #cv .section-heading h1,
+
 #cv .section-heading > p:not(.eyebrow) {
+
     width: 100%;
+
     max-width: none;
+
     margin-left: 0;
+
     margin-right: 0;
+
     box-sizing: border-box;
+
 }
 
 #cv .section-heading > p:not(.eyebrow) {
+
     text-align: justify;
+
 }
 
 @media (max-width: 600px) {
+
     #cv .section-heading,
+
     #cv .cv-experience {
+
         width: calc(100% - 30px);
+
     }
+
 }
 
 /* Justificación del texto de la sección Sobre mí */
+
 #about .two-column > div:first-child p {
+
     text-align: justify;
+
 }
 
 /* La tarjeta completa funciona como enlace al CV */
-#about .info-card-link {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-}
 
-#about .info-card-link .button {
-    align-self: center;
+#about .info-card-link {
+
+    display: flex;
+
+    flex-direction: column;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    cursor: pointer;
+
 }
 
 #about .info-card-link:hover {
+
     border-color: #3794FF;
+
 }
 
 #about .info-card-link:focus-visible {
+
     outline: 2px solid #3794FF;
+
     outline-offset: 4px;
+
 }
 
 /* =========================================
+
    INTERACCIÓN DE TARJETAS CON NAVEGACIÓN
+
 ========================================= */
 
 /* Estado fijo por defecto: todas las tarjetas */
+
 .info-card,
+
 .experience-card,
+
 .skill-card,
+
 .ai-card,
+
 .project-card {
+
     transform: none;
+
     transition:
+
         border-color 0.3s ease,
+
         box-shadow 0.3s ease,
+
         transform 0.3s ease;
+
 }
 
 /* Solo las tarjetas que son enlaces se desplazan */
+
 a.info-card:hover,
+
 a.experience-card:hover,
+
 a.skill-card:hover,
+
 a.ai-card:hover,
+
 a.project-card:hover {
+
     transform: translateY(-5px);
+
     border-color: #3794FF;
+
+}
+
+/* HOME — Tarjetas QA interactivas */
+
+#qa a.skill-card {
+
+    cursor: pointer;
+
+    transform: translateY(0);
+
+    transition:
+
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+
+        border-color 0.35s ease,
+
+        box-shadow 0.35s ease;
+
+}
+
+/* Elevación e iluminación */
+
+#qa a.skill-card:hover {
+
+    transform: translateY(-3.5px);
+
+    border-color: #3794FF;
+
+    box-shadow: 0 14px 36px rgba(55, 148, 255, 0.12);
+
+}
+
+/* Navegación mediante teclado */
+
+#qa a.skill-card:focus-visible {
+
+    border-color: #3794FF;
+
+    outline: 2px solid #3794FF;
+
+    outline-offset: 4px;
+
 }
 
 /* Respeta la preferencia de reducir movimiento */
+
 @media (prefers-reduced-motion: reduce) {
+
     a.info-card,
+
     a.experience-card,
+
     a.skill-card,
+
     a.ai-card,
+
     a.project-card {
+
         transition: none;
+
     }
 
     a.info-card:hover,
+
     a.experience-card:hover,
+
     a.skill-card:hover,
+
     a.ai-card:hover,
+
     a.project-card:hover {
+
         transform: none;
+
     }
+
 }
+
 /* INTERACCIÓN DE TARJETAS CON NAVEGACIÓN */
 
 a.info-card-link {
+
     display: flex;
+
     flex-direction: column;
+
     text-decoration: none;
+
     color: inherit;
+
     cursor: pointer;
 
     transition:
+
         transform 0.3s ease,
+
         border-color 0.3s ease,
+
         box-shadow 0.3s ease;
+
 }
 
 a.info-card-link:hover {
+
     transform: translateY(-5px);
+
     border-color: #3794FF;
+
     box-shadow: 0 18px 45px rgba(55, 148, 255, 0.18);
+
 }
 
 a.info-card-link:focus-visible {
+
     outline: 2px solid #3794FF;
+
     outline-offset: 4px;
+
 }
 
 /* Respeta la preferencia de reducir movimiento */
+
 @media (prefers-reduced-motion: reduce) {
+
     a.info-card-link {
+
         transition: none;
+
     }
 
     a.info-card-link:hover {
+
         transform: none;
+
     }
+
 }
+
 /* INTERACCIÓN DE TARJETAS CON NAVEGACIÓN */
 
 #about a.info-card-link {
+
     transition: 0.25s;
+
 }
 
 #about a.info-card-link:hover {
+
     transform: translateY(-5px);
+
     border-color: var(--primary);
+
 }
+
 /* ILUMINACIÓN DE TARJETAS FIJAS AL PASAR EL CURSOR */
 
 .info-card:not(a),
+
 .experience-card:not(a),
+
 .skill-card:not(a),
+
 .ai-card:not(a),
+
 .project-card:not(a) {
+
     transition:
+
         border-color 0.25s ease,
+
         box-shadow 0.25s ease;
+
 }
 
 .info-card:not(a):hover,
+
 .experience-card:not(a):hover,
+
 .skill-card:not(a):hover,
+
 .ai-card:not(a):hover,
+
 .project-card:not(a):hover {
+
     border-color: var(--primary);
+
     box-shadow: 0 14px 36px rgba(10, 102, 194, 0.18);
+
 }
+
 /* DISTRIBUCIÓN DEL CONTENIDO: TRAYECTORIA PROFESIONAL */
 
 #about a.info-card-link {
+
     display: flex;
+
     flex-direction: column;
+
     justify-content: space-between;
+
     gap: 24px;
+
     text-decoration: none;
+
     color: inherit;
+
 }
 
 #about a.info-card-link p {
+
     text-align: justify;
+
     line-height: 1.8;
+
     margin: 0;
+
 }
 
 #about a.info-card-link h3 {
+
     line-height: 1.4;
+
     margin: 0;
+
 }
 
 /* ==============================
+
    CERTIFICATE GALLERY
+
 ============================== */
 
-.cv-training-card {
+/* Formación y desarrollo: movimiento suave */
+
+#cv .cv-experience-card.cv-training-card {
+
     cursor: pointer;
+
+    transition:
+
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+
+        border-color 0.35s ease,
+
+        background-color 0.35s ease;
+
+}
+
+#cv .cv-experience-card.cv-training-card:hover {
+
+    transform: translateY(-3.5px);
+
+    border-color: #3794FF;
+
+    background-color: rgba(55, 148, 255, 0.04);
+
 }
 
 .cv-training-card:focus-visible {
+
     outline: 2px solid #3794FF;
+
     outline-offset: 4px;
+
 }
 
-
 .certificate-dialog {
+
     box-sizing: border-box;
+
     width: calc(100% - 24px);
+
     max-width: none;
+
     height: calc(100vh - 24px);
+
     max-height: none;
+
     margin: auto;
+
     padding: 28px;
+
     color: #FFFFFF;
+
     background: #151515;
+
     border: 1px solid var(--border);
+
     border-radius: 12px;
+
     overflow: hidden;
+
 }
 
 .certificate-dialog::backdrop {
+
     background: rgba(0, 0, 0, 0.8);
+
     backdrop-filter: blur(4px);
+
 }
 
 .certificate-dialog-header {
+
     display: flex;
+
     align-items: flex-start;
+
     justify-content: space-between;
+
     gap: 20px;
+
     margin-bottom: 26px;
+
 }
 
 .certificate-dialog-header .eyebrow {
+
     margin: 0 0 10px;
+
     color: #3794FF;
+
     font-size: 12px;
+
     font-weight: 700;
+
     letter-spacing: 1px;
+
 }
 
 .certificate-dialog-header h2 {
+
     margin: 0;
+
     color: #FFFFFF;
+
     font-size: clamp(22px, 4vw, 30px);
+
     line-height: 1.3;
+
 }
 
 .certificate-dialog-close {
+
     flex-shrink: 0;
+
     width: 40px;
+
     height: 40px;
+
     color: #FFFFFF;
+
     background: transparent;
+
     border: 1px solid var(--border);
+
     border-radius: 8px;
+
     font-size: 28px;
+
     line-height: 1;
+
     cursor: pointer;
+
     transition:
+
         color 0.2s ease,
+
         border-color 0.2s ease,
+
         background 0.2s ease;
+
 }
 
 .certificate-dialog-close:hover {
+
     color: #3794FF;
+
     border-color: #3794FF;
+
     background: rgba(55, 148, 255, 0.08);
+
 }
 
 .certificate-gallery {
+
     display: grid;
+
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
     gap: 18px;
+
     height: calc(100% - 90px);
+
     max-height: none;
+
     overflow-y: auto;
+
     align-content: start;
+
     padding: 2px 6px 8px 2px;
+
 }
 
 .certificate-item {
+
     min-width: 0;
+
     padding: 16px;
+
     background: rgba(255, 255, 255, 0.025);
+
     border: 1px solid var(--border);
+
     border-radius: 10px;
+
     transition:
+
         border-color 0.25s ease,
+
         transform 0.25s ease,
+
         background 0.25s ease;
+
 }
 
 .certificate-item:hover {
+
     border-color: #3794FF;
+
     transform: translateY(-3px);
+
     background: rgba(55, 148, 255, 0.05);
+
 }
 
 .certificate-image {
+
     display: block;
+
     width: 100%;
+
     max-height: 230px;
+
     margin-bottom: 14px;
+
     object-fit: contain;
+
     background: rgba(0, 0, 0, 0.2);
+
     border-radius: 6px;
+
     cursor: zoom-in;
+
     transition: max-height 0.25s ease;
+
 }
 
 .certificate-image.is-enlarged {
+
     max-height: none;
+
     cursor: zoom-out;
+
 }
 
 /* VISTA PREVIA DE CERTIFICADOS PDF */
 
 .certificate-pdf-preview {
+
     display: block;
+
     width: 100%;
+
     height: 230px;
+
     margin-bottom: 14px;
+
     object-fit: contain;
+
     background: #FFFFFF;
+
     border: 1px solid var(--border);
+
     border-radius: 6px;
+
 }
 
 .certificate-preview-error {
+
     height: 230px;
+
     background: rgba(255, 255, 255, 0.04);
+
     border: 1px dashed var(--border);
+
 }
 
 .certificate-name {
+
     margin: 0 0 12px;
+
     color: var(--text-secondary);
+
     font-size: 14px;
+
     line-height: 1.6;
+
     overflow-wrap: anywhere;
+
 }
 
 .certificate-item a {
+
     display: inline-block;
+
     color: #3794FF;
+
     font-size: 14px;
+
     font-weight: 600;
+
     text-decoration: none;
+
 }
 
 .certificate-item a:hover {
+
     text-decoration: underline;
+
 }
 
 @media (max-width: 600px) {
+
     .certificate-dialog {
+
         width: calc(100% - 16px);
+
         height: calc(100vh - 16px);
+
         padding: 18px;
+
     }
 
     .certificate-gallery {
+
         grid-template-columns: 1fr;
+
         max-height: 65vh;
+
     }
 
     .certificate-image {
+
         max-height: 260px;
+
     }
+
 }
 
 /* BOTÓN DE FORMACIÓN DEL CV */
 
-#cv + .cv-bottom-bar {
-    /* Mantiene intactos los estilos de la barra inferior */
-}
-
 body:has(> .navbar) .navbar .button {
+
     transform: scale(1);
+
     transition:
+
         color 0.4s ease,
+
         transform 0.4s ease;
+
 }
 
 body:has(> .navbar) .navbar .button:hover {
+
     background: transparent;
+
     border: none;
+
     color: #3794FF;
+
     transform: scale(1.15);
+
+}
+
+/* HOME — Posición de la sección QA al navegar mediante enlaces */
+
+#qa {
+
+    scroll-margin-top: 110px;
+
+}
+
+/* =========================================
+
+   BUSCADOR GLOBAL DEL PORTFOLIO
+
+   ========================================= */
+
+.portfolio-search {
+
+    position: relative;
+
+    flex: 0 1 340px;
+
+    min-width: 0;
+
+    margin-left: auto;
+
+    z-index: 1002;
+
+}
+
+/* Campo de búsqueda */
+
+.portfolio-search-field {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    min-height: 46px;
+
+    padding: 0 14px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    transition: border-color 0.2s ease,
+
+                box-shadow 0.2s ease;
+
+}
+
+.portfolio-search-field:focus-within {
+
+    border-color: var(--primary);
+
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.12);
+
+}
+
+.portfolio-search-field svg {
+
+    flex-shrink: 0;
+
+    color: var(--primary);
+
+}
+
+.portfolio-search-input {
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 12px 0;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font: inherit;
+
+    font-size: 14px;
+
+}
+
+.portfolio-search-input::placeholder {
+
+    color: var(--text-secondary);
+
+    opacity: 0.85;
+
+}
+
+/* Panel de resultados */
+
+.portfolio-search-results {
+
+    position: absolute;
+
+    top: calc(100% + 10px);
+
+    left: 0;
+
+    right: 0;
+
+    z-index: 1100;
+
+    max-height: min(420px, calc(100dvh - 160px));
+
+    overflow-y: auto;
+
+    padding: 8px;
+
+    background: #080B12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+
+    overscroll-behavior: contain;
+
+}
+
+/* Respetar el atributo hidden */
+
+.portfolio-search-results[hidden] {
+
+    display: none;
+
+}
+
+/* Resultados individuales */
+
+.portfolio-search-result {
+
+    display: block;
+
+    padding: 12px 14px;
+
+    color: var(--text);
+
+    text-decoration: none;
+
+    border: 1px solid transparent;
+
+    border-radius: 7px;
+
+    transition: background 0.2s ease,
+
+                border-color 0.2s ease;
+
+}
+
+.portfolio-search-result:hover,
+
+.portfolio-search-result:focus-visible {
+
+    background: var(--card);
+
+    border-color: var(--primary);
+
+    outline: none;
+
+}
+
+.portfolio-search-result strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+
+}
+
+.portfolio-search-result small {
+
+    display: block;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+.portfolio-search-empty {
+
+    margin: 0;
+
+    padding: 14px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    text-align: center;
+
+}
+
+/* Adaptación a tablets */
+
+@media (max-width: 768px) {
+
+    .portfolio-search {
+
+        flex: 1 1 180px;
+
+        margin-left: 12px;
+
+    }
+
+    .portfolio-search-field {
+
+        min-height: 42px;
+
+        padding: 0 10px;
+
+    }
+
+    .portfolio-search-input {
+
+        font-size: 13px;
+
+    }
+
+}
+
+/* =========================================
+
+   BUSCADOR — RESULTADO ACTIVO
+
+   ========================================= */
+
+.portfolio-search-result-active {
+
+    background: var(--card);
+
+    border-color: var(--primary);
+
+}
+
+.portfolio-search-result-active strong {
+
+    color: var(--primary-hover);
+
+}
+
+/* BUSCADOR GLOBAL — DESTINOS EN HOME */
+
+#linkedin,
+
+#github {
+
+    scroll-margin-top: 110px;
+
+}
+
+/* =========================================
+
+   NAVEGACIÓN MÓVIL — ANCLAS VISIBLES
+
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    html {
+
+        scroll-padding-top: 160px;
+
+    }
+
+    .showcase-section,
+
+    #home,
+
+    #about,
+
+    #specialties,
+
+    #projects,
+
+    #contact,
+
+    #experience,
+
+    #education {
+
+        scroll-margin-top: 160px;
+
+    }
+
+}
+
+/* =========================================
+
+   LOGO RESPONSIVE — MÓVILES PEQUEÑOS
+
+   ========================================= */
+
+@media (max-width: 360px) {
+
+    /* Ocultar la palabra PORTFOLIO */
+
+    .navbar .logo-label {
+
+        display: none;
+
+    }
+
+    /* Ocultar el separador vertical */
+
+    .navbar .logo-divider {
+
+        display: block;
+
+        flex-shrink: 0;
+
+    }
+
+    /* Conservar únicamente las iniciales MF. */
+
+    .navbar .logo {
+
+        width: auto;
+
+        min-width: 0;
+
+        flex-shrink: 0;
+
+    }
+
+    /* Mantener el menú a la derecha */
+
+    .navbar .showcase-index {
+
+        justify-self: end;
+
+    }
+
+}
+
+/* Backlog: iniciativa completada */
+
+.qm-backlog-completed {
+
+    color: #3fb950;
+
+    font-weight: 600;
+
+}
+
+@media (max-width: 480px) {
+
+    .main-footer .footer-language {
+
+        width: 100%;
+
+    }
+
+}
+
+/* Separación entre Especialidades y Quality Assurance */
+
+#specialties + #qa {
+
+    padding-top: 100px;
+
+}
+
+/* INTRODUCCIÓN DE ESPECIALIDADES */
+
+.specialties-intro {
+
+    max-width: 1100px;
+
+}
+
+.specialties-intro p {
+    color: var(--text-secondary);
+
+    line-height: 1.85;
+
+    text-align: justify;
+
+    margin-bottom: 22px;
+
+}
+
+.specialties-intro h3 {
+
+    color: var(--text);
+
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    margin-top: 34px;
+
+    margin-bottom: 14px;
+
+}
+
+.specialties-intro .specialties-closing {
+
+    color: var(--text);
+
+    font-weight: 600;
+
+    margin-top: 30px;
+
+    margin-bottom: 0;
+
+}
+
+@media (max-width: 600px) {
+
+    .specialties-intro p {
+
+        text-align: left;
+
+    }
+
+    .specialties-intro h3 {
+
+        margin-top: 28px;
+
+    }
+
+}
+
+/* =====================================================
+   HERO — TARJETA NAVEGABLE QUALITY ASSURANCE
+===================================================== */
+
+a.hero-panel.hero-panel-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+
+    /* Alineación independiente del movimiento */
+    transform: translateY(-75px);
+
+    /* Respuesta más ágil */
+    transition:
+        transform 0.30s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Misma elevación de 5px que Especialidades */
+
+a.hero-panel.hero-panel-link:hover {
+    transform: translateY(-80px);
+    border-color: var(--primary);
+    box-shadow: 0 18px 45px rgba(108, 99, 255, 0.18);
+}
+
+/* Navegación mediante teclado */
+
+a.hero-panel.hero-panel-link:focus-visible {
+    transform: translateY(-50px);
+    border-color: var(--primary);
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+/* CV — Selector desplegable de idiomas */
+
+.cv-language-selector {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cv-language-select {
+    min-width: 140px;
+    padding: 9px 14px;
+    border: 1px solid #30384b;
+    border-radius: 8px;
+    background: #0d111a;
+    color: #f5f7fb;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.cv-language-select:focus-visible {
+    outline: 2px solid #6c63ff;
+    outline-offset: 2px;
+}
+
+
+/* CV — Adaptación del pie a pantallas estrechas */
+
+@media (max-width: 600px) {
+
+    .cv-bottom-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .cv-language-selector {
+        position: static;
+        left: auto;
+        transform: none;
+        order: 1;
+    }
+
+    .cv-bottom-bar .cv-back-button {
+        order: 2;
+    }
+
+}
+
+/* QA — Cobertura de validación telefónica */
+
+.selenium-phone-coverage {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    background: #0d1117;
+}
+
+.selenium-phone-coverage table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.selenium-phone-coverage th {
+    padding: 14px 16px;
+    background: #161b22;
+    color: #9cdcfe;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-bottom: 1px solid #30363d;
+}
+
+.selenium-phone-coverage td {
+    padding: 12px 16px;
+    color: #d4d4d4;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #21262d;
+}
+
+.selenium-phone-coverage tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.selenium-phone-coverage tbody tr:hover {
+    background: rgba(55, 148, 255, 0.08);
+}
+
+.selenium-phone-coverage td:first-child {
+    color: #569cd6;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.selenium-phone-coverage td code {
+    color: #ce9178;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    background: transparent;
+    padding: 0;
+}
+
+.selenium-phone-coverage td:last-child {
+    color: #b5cea8;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .selenium-phone-coverage th,
+    .selenium-phone-coverage td {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Separación de párrafos en observaciones de requisitos */
+
+.bug-observation-text {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+#regresion-bugs [data-i18n="qaObservationTraceability004"] {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+/* BUG-004: separación de párrafos traducidos */
+
+#regresion-bugs [data-i18n="qaRequirementAmbiguity004"],
+#regresion-bugs [data-i18n="qaObservationActualResult004"],
+#regresion-bugs [data-i18n="qaObservationVisualVerification004"],
+#regresion-bugs [data-i18n="qaObservationConclusion004"] {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   RESPONSIVE — HEADER MÓVIL
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .navbar .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding: 12px 8px;
+        min-width: 0;
+    }
+
+    /* Logo */
+    .navbar .logo {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+
+    .navbar .logo-initials {
+        font-size: 28px;
+    }
+
+    .navbar .logo-label {
+        display: none;
+    }
+
+    .navbar .logo-divider {
+        margin: 0 0 0 4px;
+    }
+
+    /* Buscador */
+    .navbar .portfolio-search {
+        display: block;
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .navbar .portfolio-search-field {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        gap: 6px;
+        padding: 0 8px;
+    }
+
+    .navbar .portfolio-search-input {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        font-size: 11px;
+    }
+
+    /* Menú */
+    .navbar .showcase-index {
+        display: block;
+        position: relative;
+        flex: 0 0 auto;
+        width: auto;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .navbar .index-toggle {
+        display: flex;
+        align-items: center;
+        width: auto;
+        padding: 9px 7px;
+        gap: 5px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .navbar .index-toggle::after {
+        font-size: 16px;
+    }
+}
+
+/* HERO — Lectura optimizada en móviles */
+
+.hero-description {
+    text-align: justify;
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* =========================================
+   HOME — TEXTO RESPONSIVE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    /* Texto de las secciones principales */
+    #portfolio .hero-description,
+    #portfolio #about p,
+    #portfolio #specialties p,
+    #portfolio #projects p,
+    #portfolio #contact p {
+
+        font-size: 15px;
+        line-height: 1.8;
+        text-align: justify;
+        letter-spacing: normal;
+        word-spacing: normal;
+        hyphens: none;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .cv-bottom-bar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .cv-language-selector {
+        order: 1;
+        flex: 0 1 auto;
+        min-width: 0;
+    }
+
+    .cv-back-button {
+        order: 2;
+        flex: 0 1 auto;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .cv-language-select {
+        max-width: 100%;
+    }
+
+}
+/* FRONTEND — Tipografía responsive */
+
+@media (max-width: 768px) {
+
+    body:has(.showcase) .showcase-section > p,
+    body:has(.showcase) .section-description {
+        font-size: 15px;
+        line-height: 1.8;
+        text-align: justify;
+        hyphens: none;
+    }
+
 }

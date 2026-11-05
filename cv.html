@@ -3,59 +3,154 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- FAVICON — MF. -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon-mf.ico">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <meta
         name="description"
         content="Trayectoria profesional de Miguel Flor, QA Tester y AI Consultant."
+        data-i18n-content="cvMetaDescription"
     >
-
-    <title>Trayectoria profesional | Miguel Flor</title>
+    <title data-i18n="cvPageTitle">
+        Trayectoria profesional | Miguel Flor
+    </title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <header class="navbar">
-        <div class="nav-container">
-        <a href="index.html" class="logo">
-            <span class="logo-initials">MF<span class="logo-dot">.</span></span>
+    
+<header class="navbar">
+    <div class="nav-container">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo" aria-label="Volver al portfolio" data-i18n-aria-label="cvLogoAria">
+            <span class="logo-initials">
+                MF<span class="logo-dot">.</span>
+            </span>
             <span class="logo-divider" aria-hidden="true"></span>
             <span class="logo-label">PORTFOLIO</span>
         </a>
 
-        <a href="#education" class="button primary">
-            <span class="button-brace" aria-hidden="true">{</span>
-            <span>Formación y desarrollo</span>
-            <span class="button-brace" aria-hidden="true">}</span>
-        </a>
-    </div>
-    </header>
-    <main id="cv" class="section dark-section">
+        <!-- BUSCADOR GLOBAL -->
+        <div class="portfolio-search" role="search">
+            <div class="portfolio-search-field">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>                
+                <input
+                    type="search"
+                    id="portfolio-search-input"
+                    class="portfolio-search-input"
+                    placeholder="Buscar en el portfolio..."
+                    data-i18n-placeholder="cvSearchPlaceholder"
+                    autocomplete="off"
+                    aria-label="Buscar en el portfolio"
+                    data-i18n-aria-label="cvSearchAria"
+                    aria-controls="portfolio-search-results"
+                    aria-expanded="false"
+                />
+            </div>
+            <div
+                class="portfolio-search-results"
+                id="portfolio-search-results"
+                role="region"
+                aria-label="Resultados de búsqueda"
+                data-i18n-aria-label="cvSearchResultsAria"
+                aria-live="polite"
+                hidden
+            ></div>
+        </div>
+        
+        <!-- ÍNDICE DE CONTENIDOS -->
 
-        <div class="section-heading">
-            <p class="eyebrow">TRAYECTORIA PROFESIONAL</p>
-            <h1>Experiencia, evolución y visión de negocio.</h1>
-            <p>
+        <details class="showcase-index" id="indice-contenidos">
+            <summary class="index-toggle">
+                <span data-i18n="cvIndexTitle">Índice</span>
+            </summary>
+
+            <nav
+                class="index-grid"
+                aria-label="Índice del currículum"
+                data-i18n-aria-label="cvIndexAria"
+            >
+                <a class="index-link" href="#experience">
+                    <span class="index-number">01</span>
+                    <strong data-i18n="cvIndexExperience">
+                        Trayectoria profesional
+                    </strong>
+                    <small data-i18n="cvIndexExperienceDesc">
+                        Experiencia y evolución laboral
+                    </small>
+                </a>
+
+                <a class="index-link" href="#education">
+                    <span class="index-number">02</span>
+                    <strong data-i18n="cvIndexEducation">
+                        Formación y desarrollo
+                    </strong>
+                    <small data-i18n="cvIndexEducationDesc">
+                        Estudios y certificaciones
+                    </small>
+                </a>
+
+            </nav>
+        </details>
+
+    </div>
+</header>
+
+<main id="cv" class="section dark-section">
+        
+        <div class="section-heading" id="experience">
+            <p class="eyebrow" data-i18n="cvHeroEyebrow">
+                TRAYECTORIA PROFESIONAL
+            </p>
+
+            <h1 data-i18n="cvHeroTitle">
+                Experiencia, evolución y visión de negocio.
+            </h1>
+
+            <p data-i18n="cvHeroDescription">
                 Un recorrido construido a través de la atención al cliente,
                 las ventas, la gestión comercial y mi desarrollo actual
                 en calidad de software e inteligencia artificial.
             </p>
         </div>
 
-        
-        
-    <section class="cv-experience" aria-label="Experiencia laboral">
+        <section class="cv-experience" aria-label="Experiencia laboral">
+
         
         <article class="cv-experience-card">
-            <p class="eyebrow">2025 — ACTUALIDAD</p>
+            
+            <p class="eyebrow" data-i18n="cvTechPeriod">
+                2025 — ACTUALIDAD
+            </p>
 
-            <h2>Desarrollo tecnológico y proyectos prácticos</h2>
+            <h2 data-i18n="cvTechTitle">
+                Desarrollo tecnológico y proyectos prácticos
+            </h2>
 
-            <h3>QA Automation e Inteligencia Artificial aplicada</h3>
+            <h3 data-i18n="cvTechSubtitle">
+                QA Automation e Inteligencia Artificial aplicada
+            </h3>
 
-            <p>
+            <p data-i18n="cvTechIntro">
                 Desarrollo continuo de conocimientos mediante formación,
                 proyectos propios y laboratorios técnico-prácticos, integrando
                 calidad de software, automatización e inteligencia artificial.
@@ -64,9 +159,9 @@
                 resolver problemas reales.
             </p>
 
-            <h3>QA Automation y calidad de software</h3>
+            <h3 data-i18n="cvTechQaTitle">QA Automation y calidad de software</h3>
 
-            <p>
+            <p data-i18n="cvTechQaDescription1">
                 Diseño y ejecución de pruebas funcionales, exploratorias y de
                 regresión para aplicaciones web. Desarrollo de automatizaciones
                 con Selenium WebDriver y Java, exploración de prácticas BDD con
@@ -74,16 +169,16 @@
                 incluyendo respuestas HTTP, códigos de estado y estructuras JSON.
             </p>
 
-            <p>
+            <p data-i18n="cvTechQaDescription2">
                 Documentación de casos de prueba, seguimiento de defectos y
                 análisis de experiencia de usuario e interfaces. Exploración
                 de Python para la validación de datos y de herramientas de IA
                 como apoyo al diseño y mantenimiento de pruebas.
             </p>
 
-            <h3>Inteligencia artificial y automatización de procesos</h3>
+            <h3 data-i18n="cvTechAiTitle">Inteligencia artificial y automatización de procesos</h3>
 
-            <p>
+            <p data-i18n="cvTechAiDescription1">
                 Exploración de flujos de trabajo automatizados, integración de
                 APIs REST y agentes de inteligencia artificial para optimizar
                 tareas operativas. Desarrollo de scripts en Python para el
@@ -91,26 +186,27 @@
                 y automatización de actividades repetitivas.
             </p>
 
-            <p>
+            <p data-i18n="cvTechAiDescription2">
                 Interés en análisis de datos y métricas para la toma de decisiones,
                 así como en la aplicación de IA a la validación de procesos,
                 el desarrollo de soluciones y la mejora de tareas de QA.
             </p>
 
             <p>
-                <strong>Proyecto destacado:</strong> desarrollo de este portfolio
+                <strong data-i18n="cvTechProjectLabel">Proyecto destacado:</strong> 
+                <span data-i18n="cvTechProjectDescription">desarrollo de este portfolio
                 como proyecto práctico de integración, aplicando diseño web,
                 JavaScript, backend con Node.js y Express, persistencia con SQLite,
-                validación de APIs y pruebas automatizadas.
+                validación de APIs y pruebas automatizadas.</span>
             </p>
         </article>
 
         <article class="cv-experience-card">
             <p class="eyebrow">2024 — 2026</p>
             <h2>SENZA — Senza Deco S.R.L. </h2>
-            <h3>Asesoramiento comercial y gestión de sucursal</h3>
+            <h3 data-i18n="cvSenzaRole">Asesoramiento comercial y gestión de sucursal</h3>
 
-            <p>
+            <p data-i18n="cvSenzaDescription1">
                 Asesoramiento personalizado en mobiliario y soluciones para
                 el hogar, conectando las necesidades de cada cliente con
                 propuestas funcionales y comerciales. Participación en la
@@ -118,7 +214,7 @@
                 y coordinación con proveedores.
             </p>
 
-            <p>
+            <p data-i18n="cvSenzaDescription2">
                 También colaboré en la formación de nuevos integrantes del
                 equipo, compartiendo conocimientos sobre productos, atención
                 comercial y dinámica de trabajo. Esta experiencia fortaleció
@@ -130,9 +226,9 @@
         <article class="cv-experience-card">
             <p class="eyebrow">2018 — 2024</p>
             <h2>SELEMA — Global Mobili SRL </h2>
-            <h3>Gestión comercial, ventas y operaciones</h3>
+            <h3 data-i18n="cvSelemaRole">Gestión comercial, ventas y operaciones</h3>
 
-            <p>
+            <p data-i18n="cvSelemaDescription1">
                 Desarrollo de ventas consultivas de mobiliario y productos
                 para el hogar, con propuestas adaptadas al espacio, las
                 preferencias y el presupuesto de cada cliente. Participación
@@ -140,7 +236,7 @@
                 para mejorar la experiencia de compra.
             </p>
 
-            <p>
+            <p data-i18n="cvSelemaDescription2">
                 Gestión de cierres de caja, depósitos, seguimiento de pedidos
                 y pagos, pagos a proveedores y recepción y movimiento de
                 mercadería. También asumí tareas de organización comercial
@@ -153,9 +249,9 @@
         <article class="cv-experience-card">
             <p class="eyebrow">2016 — 2018</p>
             <h2>DIVINO — Divino SRL </h2>
-            <h3>Ventas, visual merchandising y coordinación de equipo</h3>
+            <h3 data-i18n="cvDivinoRole">Ventas, visual merchandising y coordinación de equipo</h3>
 
-            <p>
+            <p data-i18n="cvDivinoDescription1">
                 Asesoramiento comercial en indumentaria y accesorios,
                 identificando preferencias y ayudando a cada cliente a
                 encontrar productos acordes con su estilo y necesidades.
@@ -164,7 +260,7 @@
                 control y cierre de caja.
             </p>
 
-            <p>
+            <p data-i18n="cvDivinoDescription2">
                 También desarrollé responsabilidades de coordinación de
                 sucursal y acompañamiento del equipo de trabajo. Esta etapa
                 consolidó habilidades de comunicación, organización,
@@ -175,9 +271,9 @@
         <article class="cv-experience-card">
             <p class="eyebrow">2015 — 2016</p>
             <h2>Presta Cash YA — Feladak S.A. </h2>
-            <h3>Gestión de cobranzas y seguimiento de cuentas</h3>
+            <h3 data-i18n="cvPrestaCashRole">Gestión de cobranzas y seguimiento de cuentas</h3>
 
-            <p>
+            <p data-i18n="cvPrestaCashDescription1">
                 Gestión de cobranzas preventivas y tempranas, contacto con
                 clientes, coordinación de pagos con comercios adheridos y
                 seguimiento de acuerdos. Participación en alternativas de
@@ -185,7 +281,7 @@
                 correspondientes.
             </p>
 
-            <p>
+            <p data-i18n="cvPrestaCashDescription2">
                 La experiencia reforzó la importancia de la precisión de los
                 datos, el seguimiento sistemático, la comunicación clara y
                 el cumplimiento de procedimientos para resolver situaciones
@@ -196,9 +292,9 @@
         <article class="cv-experience-card">
             <p class="eyebrow">2012 — 2015</p>
             <h2>ACC Group — ACC Group S.A. </h2>
-            <h3>Atención al cliente, soporte y gestión comercial</h3>
+            <h3 data-i18n="cvAccRole">Atención al cliente, soporte y gestión comercial</h3>
 
-            <p>
+            <p data-i18n="cvAccDescription1">
                 Participación en operaciones de atención y soporte al cliente,
                 retención, ventas entrantes, cobranzas tempranas y gestión de
                 reclamos y solicitudes. También trabajé en acciones de venta
@@ -208,12 +304,11 @@
             </p>
 
             <p>
-                Trabajé con proyectos vinculados a Telecom — Personal Argentina
-                S.A., TeleCentro S.A., EDES S.A., EDEMSA S.A., EDELAP y
-                Encompass TIBA Latinoamérica S.A.
+                <span data-i18n="cvAccClientsIntro">Trabajé con proyectos vinculados a</span>
+                <span>Telecom — Personal Argentina S.A., TeleCentro S.A., EDES S.A., EDEMSA S.A., EDELAP </span><span data-i18n="cvAccClientsAnd">y</span><span> Encompass TIBA Latinoamérica S.A.</span>
             </p>
 
-            <p>
+            <p data-i18n="cvAccDescription3">
                 Esta etapa me permitió conocer de cerca los procesos de
                 atención, las necesidades de los usuarios, la gestión de
                 incidencias y el funcionamiento de servicios apoyados en
@@ -226,12 +321,12 @@
     
         <!-- EDUCATION AND TRAINING -->
 
-        <section class="section content-section cv-training" id="education">
+        <section class="section content-section cv-training">
 
-            <div class="section-heading">
-                <p class="eyebrow">FORMACIÓN Y DESARROLLO</p>
-                <h2>Aprendizaje continuo. Aplicación práctica.</h2>
-                <p>
+            <div class="section-heading" id="education">
+                <p class="eyebrow" data-i18n="cvEducationEyebrow">FORMACIÓN Y DESARROLLO</p>
+                <h2 data-i18n="cvEducationTitle">Aprendizaje continuo. Aplicación práctica.</h2>
+                <p data-i18n="cvEducationDescription">
                     Una formación que combina fundamentos técnicos,
                     calidad de software, inteligencia artificial y
                     experiencia de negocio, complementada con aprendizaje
@@ -247,10 +342,12 @@
                     data-certificate-category="credenciales"
                     tabindex="0"
                     role="button"
+                    aria-haspopup="dialog"
                     aria-label="Ver credenciales profesionales"
+                    data-i18n-aria-label="cvCredentialsAria"
                 >
-                    <p class="eyebrow">CERTIFICACIONES</p>
-                    <h2>Credenciales profesionales</h2>
+                    <p class="eyebrow" data-i18n="cvCredentialsEyebrow">CERTIFICACIONES</p>
+                    <h2 data-i18n="cvCredentialsTitle">Credenciales profesionales</h2>
                     <p>Marketing Digital.</p>
                     <p>QA Manager.</p>
                 </article>
@@ -262,10 +359,11 @@
                     role="button"
                     aria-haspopup="dialog"
                     aria-label="Ver certificados de QA Testing y automatización"
+                    data-i18n-aria-label="cvQaCertificatesAria"
                 >
-                    <p class="eyebrow">CALIDAD DE SOFTWARE</p>
-                    <h2>QA Testing y automatización</h2>
-                    <p>
+                    <p class="eyebrow" data-i18n="cvQaCertificatesEyebrow">CALIDAD DE SOFTWARE</p>
+                    <h2 data-i18n="cvQaCertificatesTitle">QA Testing y automatización</h2>
+                    <p data-i18n="cvQaCertificatesDescription">
                         Tester QA Manual; Análisis y Diseño de Casos de
                         Prueba; Introducción a Java; Introducción a Bases
                         de Datos y SQL; Introducción a DevOps; API Testing;
@@ -281,10 +379,11 @@
                     role="button"
                     aria-haspopup="dialog"
                     aria-label="Ver certificados de inteligencia artificial y datos"
+                    data-i18n-aria-label="cvAiCertificatesAria"
                 >
-                    <p class="eyebrow">INTELIGENCIA ARTIFICIAL Y DATOS</p>
-                    <h2>IA aplicada, agentes y automatización</h2>
-                    <p>
+                    <p class="eyebrow" data-i18n="cvAiCertificatesEyebrow">INTELIGENCIA ARTIFICIAL Y DATOS</p>
+                    <h2 data-i18n="cvAiCertificatesTitle">IA aplicada, agentes y automatización</h2>
+                    <p data-i18n="cvAiCertificatesDescription">
                         Inteligencia Artificial y Productividad; Introducción
                         a Python; Google AI Studio con Antigravity;
                         Automatización y Agentes IA con n8n; Vibe Coding;
@@ -304,10 +403,11 @@
                     role="button"
                     aria-haspopup="dialog"
                     aria-label="Ver certificados de gestión y negocio"
+                    data-i18n-aria-label="cvManagementAria"
                 >
-                    <p class="eyebrow">GESTIÓN Y NEGOCIO</p>
-                    <h2>Proyectos, análisis y liderazgo</h2>
-                    <p>
+                    <p class="eyebrow" data-i18n="cvManagementEyebrow">GESTIÓN Y NEGOCIO</p>
+                    <h2 data-i18n="cvManagementTitle">Proyectos, análisis y liderazgo</h2>
+                    <p data-i18n="cvManagementDescription">
                         Gestión de Proyectos; Scrum Fundamentos; Liderazgo
                         y Gestión de Equipos; Business Analysis.
                     </p>
@@ -320,10 +420,11 @@
                     role="button"
                     aria-haspopup="dialog"
                     aria-label="Ver certificados de marketing digital y analítica"
+                    data-i18n-aria-label="cvMarketingAria"
                 >
-                    <p class="eyebrow">MARKETING DIGITAL Y ANALÍTICA</p>
-                    <h2>Estrategia, publicidad y medición</h2>
-                    <p>
+                    <p class="eyebrow" data-i18n="cvMarketingEyebrow">MARKETING DIGITAL Y ANALÍTICA</p>
+                    <h2 data-i18n="cvMarketingTitle">Estrategia, publicidad y medición</h2>
+                    <p data-i18n="cvMarketingDescription">
                         Growth Marketing; Publicidad en Redes Avanzado;
                         Marketing Digital: Community Manager & Publicidad
                         Flex; Certificación de Publicidad en Búsqueda de
@@ -333,9 +434,9 @@
                 </article>
 
                 <article class="cv-experience-card">
-                    <p class="eyebrow">DESARROLLO CONTINUO</p>
-                    <h2>Aprendizaje autodidacta y proyectos propios</h2>
-                    <p>
+                    <p class="eyebrow" data-i18n="cvSelfLearningEyebrow">DESARROLLO CONTINUO</p>
+                    <h2 data-i18n="cvSelfLearningTitle">Aprendizaje autodidacta y proyectos propios</h2>
+                    <p data-i18n="cvSelfLearningDescription">
                         Aplicación práctica de conocimientos mediante el
                         desarrollo del portfolio, pruebas funcionales,
                         validación de APIs, automatización y exploración de
@@ -344,12 +445,14 @@
                 </article>
 
                 <article class="cv-experience-card">
-                    <p class="eyebrow">FORMACIÓN ACADÉMICA</p>
-                    <h2>Técnico Mecánico Electricista</h2>
+                    <p class="eyebrow" data-i18n="cvAcademicEyebrow">FORMACIÓN ACADÉMICA</p>
+                    <h2 data-i18n="cvAcademicTitle">Técnico Mecánico Electricista</h2>                    
                     <h3>Escuela Provincial de Enseñanza Técnica N.º 9</h3>
                     <p>
-                        Secundario completo. Plottier, Neuquén, Argentina.
+                        <span data-i18n="cvAcademicDescription">Secundario completo.</span>
+                        <span>Plottier, Neuquén, Argentina.</span>
                     </p>
+
                 </article>
             </div>
 
@@ -360,8 +463,8 @@
 
             <div class="certificate-dialog-header">
                 <div>
-                    <p class="eyebrow">FORMACIÓN Y DESARROLLO</p>
-                    <h2 id="certificateDialogTitle">Mis certificados</h2>
+                    <p class="eyebrow" data-i18n="cvGalleryEyebrow">FORMACIÓN Y DESARROLLO</p>
+                    <h2 id="certificateDialogTitle" data-i18n="cvGalleryTitle">Mis certificados</h2>
                 </div>
 
                 <button
@@ -369,6 +472,7 @@
                     class="certificate-dialog-close"
                     id="closeCertificateDialog"
                     aria-label="Cerrar galería"
+                    data-i18n-aria-label="cvGalleryCloseAria"
                 >
                     ×
                 </button>
@@ -383,15 +487,71 @@
 
         </dialog>
 
-        </main>
+</main>
+        
+    <footer class="cv-bottom-bar">
+        <a
+            class="cv-back-button"
+            href="index.html#about"
+            data-i18n="cvBackButton"
+        >
+            Volver a SOBRE MÍ
+        </a>
+        
+        <div class="cv-language-selector">
+            <select
+                id="cv-language-select"
+                class="cv-language-select"
+                aria-label="Seleccionar idioma" data-i18n-aria-label="cvLanguageSelectorAria"
+            >
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="pt">Português</option>
+            </select>
+        </div>
+    </footer>
 
-        <footer class="cv-bottom-bar">
-            <a class="cv-back-button" href="index.html#about">
-                <span class="button-brace">{</span>
-                Volver al perfil
-                <span class="button-brace">}</span>
-            </a>
-        </footer>
-<script src="js/certificates.js"></script>
+    <script>
+        const indiceCV = document.getElementById("indice-contenidos");
+
+        if (indiceCV) {
+            indiceCV.querySelectorAll(".index-link").forEach(enlace => {
+                enlace.addEventListener("click", () => {
+                    indiceCV.open = false;
+                });
+            });
+        }
+    </script>
+    <script>
+        /* Cerrar el menú al utilizar el buscador */
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const menu = document.getElementById("indice-contenidos");
+            const buscador = document.getElementById("portfolio-search-input");
+
+            if (!menu || !buscador) return;
+
+            const cerrarMenu = () => {
+                if (menu.open) {
+                    menu.open = false;
+                }
+            };
+
+            buscador.addEventListener("focus", cerrarMenu);
+            buscador.addEventListener("input", cerrarMenu);
+        });
+    </script>
+    
+    <!-- Diccionario compartido de traducciones -->
+    <script src="js/translations.js"></script>
+
+    <!-- Internacionalización de páginas internas -->
+    <script src="js/page-i18n.js"></script>
+
+    <!-- Funcionalidades existentes -->
+    <script src="js/search.js" defer></script>
+    <script src="js/certificates.js"></script>
+
+    
 </body>
 </html>

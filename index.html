@@ -4,6 +4,8 @@
 <head>
 
     <meta charset="UTF-8">
+    <!-- FAVICON — MF. -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon-mf.ico">
 
     <meta
         name="viewport"
@@ -39,7 +41,6 @@
 
         <section class="access-card">
             <div class="language-selector">
-                <label for="languageSelect">Idioma / Language / Idioma</label>
                 <select id="languageSelect" name="language">
                     <option value="es" selected>Español</option>
                     <option value="en">English</option>
@@ -70,7 +71,7 @@
                 </h2>
 
                 <p data-i18n="accessIntro">
-                    Para acceder a mi portfolio profesional,
+                    Para acceder a mi portfolio profesional interactivo,
                     completá tus datos de contacto.
                 </p>
 
@@ -286,64 +287,123 @@
                     <span class="logo-initials">MF<span class="logo-dot">.</span></span>
                     <span class="logo-divider" aria-hidden="true"></span>
                     <span class="logo-label">PORTFOLIO</span>
-                </a>
+                </a>                
                 
-                <nav>
-                    <a href="#about">
-                        <span class="button-brace" aria-hidden="true">{</span>
-                        <span>Sobre mí</span>
-                        <span class="button-brace" aria-hidden="true">}</span>
-                    </a>
+                <!-- BUSCADOR GLOBAL -->
+                <div class="portfolio-search" role="search">
 
-                    <a href="#specialties">
-                        <span class="button-brace" aria-hidden="true">{</span>
-                        <span>Especialidades</span>
-                        <span class="button-brace" aria-hidden="true">}</span>
-                    </a>
+                    <div class="portfolio-search-field">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        
+                        <input
+                            type="search"
+                            id="portfolio-search-input"
+                            class="portfolio-search-input"
+                            placeholder="Buscar en el portfolio..."
+                            data-i18n-placeholder="searchPlaceholder"
+                            autocomplete="off"
+                            aria-label="Buscar en el portfolio"
+                            data-i18n-aria-label="searchAriaLabel"
+                            aria-controls="portfolio-search-results"
+                            aria-expanded="false"                            
+                        >
+                    </div>
 
-                    <a href="#projects">
-                        <span class="button-brace" aria-hidden="true">{</span>
-                        <span>Proyectos</span>
-                        <span class="button-brace" aria-hidden="true">}</span>
-                    </a>
+                    <div
+                        class="portfolio-search-results"
+                        id="portfolio-search-results"
+                        role="region"
+                        aria-label="Resultados de búsqueda"
+                        data-i18n-aria-label="searchResultsAriaLabel"
+                        hidden
+                    ></div>
 
-                    <a href="#contact">
-                        <span class="button-brace" aria-hidden="true">{</span>
-                        <span>Contacto</span>
-                        <span class="button-brace" aria-hidden="true">}</span>
-                    </a>
-                </nav>
+                </div>
 
+                <!-- ÍNDICE DE CONTENIDOS — HOME -->
+                <details class="showcase-index" id="indice-contenidos">                    
+                    <summary class="index-toggle">
+                        <span data-i18n="navMenu">Menú</span>
+                    </summary>
+
+                    <nav class="index-grid" aria-label="Índice de contenidos">
+                        
+                        <a class="index-link" href="#about">
+                            <span class="index-number">01</span>
+                            <strong data-i18n="navAbout">Sobre mí</strong>
+                            <small data-i18n="navAboutDescription">
+                                Perfil y trayectoria profesional
+                            </small>
+                        </a>
+
+                        <a class="index-link" href="#specialties">
+                            <span class="index-number">02</span>
+                            <strong data-i18n="navSpecialties">Especialidades</strong>
+                            <small data-i18n="navSpecialtiesDescription">
+                                QA Testing e inteligencia artificial
+                            </small>
+                        </a>
+
+                        <a class="index-link" href="#projects">
+                            <span class="index-number">03</span>
+                            <strong data-i18n="navProjects">Proyectos</strong>
+                            <small data-i18n="navProjectsDescription">
+                                Desarrollo y aplicaciones prácticas
+                            </small>
+                        </a>
+
+                        <a class="index-link" href="#contact">
+                            <span class="index-number">04</span>
+                            <strong data-i18n="navContact">Contacto</strong>
+                            <small data-i18n="navContactDescription">
+                                Formulario y vías de comunicación
+                            </small>
+                        </a>
+
+                    </nav>
+                </details>
             </div>
 
         </header>
 
-
+        
 
         <!-- HOME -->
 
-        <section
-            id="home"
-            class="hero section"
-        >
+        
+        <section id="home" class="hero section">
 
             <div class="hero-content">
 
-            <p id="welcomeMessage" class="welcome-message"></p>
+                <p id="welcomeMessage" class="welcome-message"></p>
 
-                <p class="eyebrow">
+                <p class="eyebrow" data-i18n="heroEyebrow">
                     QA TESTER · AI CONSULTANT · VISIÓN DE NEGOCIO
                 </p>
 
                 <h1>
-                    Experiencia real.
+                    <span data-i18n="heroTitle1">Experiencia real.</span>
                     <br>
-                    Tecnología.
+                    <span data-i18n="heroTitle2">Tecnología.</span>
                     <br>
-                    <span>Calidad.</span>
+                    <span data-i18n="heroTitle3">Calidad.</span>
                 </h1>
 
-                <p class="hero-description">
+                <p class="hero-description" data-i18n="heroDescription">
                     Mi experiencia en negocios y mi visión estratégica me permiten
                     abordar la tecnología desde sus objetivos: reducir riesgos,
                     optimizar recursos y generar valor. Integro el testing de software,
@@ -351,45 +411,56 @@
                     soluciones y mejorar procesos con foco en la calidad y los
                     resultados del negocio.
                 </p>
+
             </div>
 
-            <div class="hero-panel">
-                <p class="hero-panel-title">
+            <a
+                class="hero-panel hero-panel-link"
+                href="#qa"
+                aria-label="Ir a la sección Quality Assurance"
+            >
+
+                <p class="hero-panel-title" data-i18n="heroAreasTitle">
                     ÁREAS PROFESIONALES
                 </p>
 
                 <div class="hero-panel-item">
-                    <strong>QA TESTER AUTOMATION</strong>
-                    <p>Calidad de software, diseño y ejecución de pruebas, 
-                        validación de APIs y detección de defectos.</p>
+                    <strong data-i18n="heroQaTitle">
+                        QA TESTER AUTOMATION
+                    </strong>
+
+                    <p data-i18n="heroQaDescription">
+                        Calidad de software, diseño y ejecución de pruebas,
+                        validación de APIs y detección de defectos.
+                    </p>
                 </div>
 
                 <div class="hero-panel-item">
-                    <strong>AI CONSULTANT</strong>
-                    <p>Aplicación de IA, automatización de tareas 
-                        y exploración de soluciones para mejorar procesos.</p>
-                </div>
-            </div>
+                    <strong data-i18n="heroAiTitle">
+                        AI CONSULTANT
+                    </strong>
 
+                    <p data-i18n="heroAiDescription">
+                        Aplicación de IA, automatización de tareas
+                        y exploración de soluciones para mejorar procesos.
+                    </p>
+                </div>
+
+            </a>
 
         </section>
 
-
-
-               <!-- ABOUT -->
-
-        <section
-            id="about"
-            class="section content-section"
-        >
+        <!-- ABOUT -->
+        
+        <section id="about" class="section content-section">
 
             <div class="section-heading">
 
-                <p class="eyebrow">
+                <p class="eyebrow" data-i18n="aboutEyebrow">
                     SOBRE MÍ
                 </p>
 
-                <h2>
+                <h2 data-i18n="aboutTitle">
                     Tecnología con criterio. Calidad con visión de negocio.
                 </h2>
 
@@ -399,66 +470,125 @@
 
                 <div>
 
-                    <p>
+                    <p data-i18n="aboutParagraph1">
                         Mi recorrido profesional me permitió comprender las necesidades de las personas, los procesos de trabajo y los objetivos comerciales. Esa experiencia es hoy una base para abordar la tecnología con una perspectiva práctica: entender qué problema debe resolverse, cómo evaluar una solución y qué valor puede aportar.
                     </p>
 
-                    <p>
+                    <p data-i18n="aboutParagraph2">
                         En QA Testing, me enfoco en evaluar la calidad del software mediante pruebas, validación de APIs, detección de defectos y automatización. En Inteligencia Artificial, exploro cómo integrar APIs, interfaces, agentes y automatizaciones para responder a necesidades concretas y optimizar procesos.
                     </p>
 
-                    <p>
+                    <p data-i18n="aboutParagraph3">
                         Son dos perspectivas complementarias: desarrollar soluciones tecnológicas con inteligencia y evaluar su comportamiento con criterio, considerando tanto las necesidades del usuario como los objetivos del negocio.
                     </p>
 
                 </div>
 
-                
                 <a href="cv.html" class="info-card info-card-link">
-                    <span>TRAYECTORIA PROFESIONAL</span>
 
-                    <h3>Una evolución orientada a la tecnología</h3>
+                    <span data-i18n="aboutCardEyebrow">
+                        TRAYECTORIA PROFESIONAL
+                    </span>
 
-                    <p>
+                    <h3 data-i18n="aboutCardTitle">
+                        Una evolución orientada a la tecnología
+                    </h3>
+
+                    <p data-i18n="aboutCardDescription">
                         Desde la atención al cliente, las ventas y la gestión comercial
                         hasta mi desarrollo actual en calidad de software e inteligencia
                         artificial.
                     </p>
 
-                    <span class="button">
+                    <span class="button" data-i18n="aboutCardButton">
                         Explorar mi experiencia ↗
                     </span>
-                </a>
 
+                </a>
 
             </div>
 
         </section>
        
+        <!-- ESPECIALIDADES -->
 
-        
-        <!-- SPECIALTIES INTRO -->
-
-        <section
-            id="specialties"
-            class="section content-section"
-        >
+        <section id="specialties" class="section content-section">
 
             <div class="section-heading">
 
-                <p class="eyebrow">
+                <p class="eyebrow" data-i18n="specialtiesEyebrow">
                     ESPECIALIDADES
                 </p>
 
-                <h2>
+                <h2 data-i18n="specialtiesTitle">
                     Calidad de software e inteligencia artificial.
                 </h2>
 
-                <p>
-                    Dos áreas complementarias para desarrollar,
-                    validar y mejorar soluciones tecnológicas
-                    con foco en las necesidades del usuario
-                    y los objetivos del negocio.
+            </div>
+
+            <div class="specialties-intro">
+
+                <p data-i18n="specialtiesDescription">
+                    Te invito a explorar dos áreas complementarias de mi desarrollo
+                    profesional: Quality Assurance e Inteligencia Artificial.
+                    A través de este portfolio podrás conocer cómo aplico
+                    herramientas, metodologías y conocimientos técnicos para
+                    desarrollar, evaluar y mejorar soluciones tecnológicas,
+                    siempre considerando las necesidades del usuario y los
+                    objetivos del negocio.
+                </p>
+
+                <h3 data-i18n="specialtiesQaHeading">
+                    Explorá Quality Assurance
+                </h3>
+
+                <p data-i18n="specialtiesQaParagraph1">
+                    Te invito a hacer clic en las tarjetas de Quality Assurance,
+                    donde podrás recorrer cuatro dimensiones de un proyecto
+                    tecnológico real. En Frontend, descubrirás cómo se construye
+                    y valida una interfaz, incluyendo formularios,
+                    internacionalización, diseño responsive y experiencia de
+                    usuario. En Backend, podrás interactuar con APIs, ejecutar
+                    pruebas y observar validaciones, respuestas HTTP y
+                    persistencia de datos.
+                </p>
+
+                <p data-i18n="specialtiesQaParagraph2">
+                    En QA, encontrarás casos de prueba documentados,
+                    automatización con Selenium, pruebas de regresión,
+                    defectos identificados y evidencias de los resultados
+                    obtenidos. Finalmente, en Gestión de la Calidad, podrás
+                    conocer cómo se organizan los requisitos, las historias
+                    de usuario, los criterios de aceptación, los sprints
+                    y el seguimiento de las actividades de calidad.
+                </p>
+
+                <h3 data-i18n="specialtiesAiHeading">
+                    Descubrí las posibilidades de la Inteligencia Artificial
+                </h3>
+
+                <p data-i18n="specialtiesAiParagraph1">
+                    Más adelante encontrarás cuatro líneas de desarrollo
+                    que forman parte de mi enfoque en Inteligencia Artificial:
+                    IA Generativa, orientada al análisis de información y la
+                    creación de contenido; Automatización inteligente, para
+                    conectar herramientas y optimizar procesos; Vibe Coding,
+                    que permite construir, revisar y perfeccionar aplicaciones
+                    con asistencia de IA; y AI Apps, enfocada en integrar
+                    modelos y APIs en soluciones digitales con funcionalidades
+                    concretas.
+                </p>
+
+                <p data-i18n="specialtiesAiParagraph2">
+                    Estas áreas representan oportunidades de aplicación y
+                    evolución tecnológica que continuaré desarrollando
+                    e incorporando al portfolio.
+                </p>
+
+                <p class="specialties-closing" data-i18n="specialtiesClosing">
+                    Dos especialidades, un mismo propósito: comprender los
+                    desafíos, aplicar tecnología con criterio y demostrar
+                    resultados que aporten valor real.
                 </p>
 
             </div>
@@ -466,13 +596,10 @@
         </section>
 
 
-        
+
         <!-- QA -->
 
-        <section
-            id="qa"
-            class="section content-section"
-        >
+        <section id="qa" class="section content-section">
 
             <div class="section-heading">
 
@@ -484,7 +611,7 @@
                     QA Testing
                 </h2>
 
-                <p>
+                <p data-i18n="qaIntro">
                     Este portfolio también funciona
                     como aplicación bajo prueba.
                 </p>
@@ -495,8 +622,12 @@
 
                 <a class="skill-card" href="frontend.html">
                     <span>FRONTEND</span>
-                    <h3>La interfaz bajo prueba</h3>
-                    <p>
+
+                    <h3 data-i18n="qaFrontendTitle">
+                        La interfaz bajo prueba
+                    </h3>
+
+                    <p data-i18n="qaFrontendDescription">
                         HTML, CSS, JavaScript, validaciones,
                         internacionalización, responsive
                         y experiencia de usuario.
@@ -505,8 +636,12 @@
 
                 <a class="skill-card" href="backend.html">
                     <span>BACKEND</span>
-                    <h3>APIs y datos</h3>
-                    <p>
+
+                    <h3 data-i18n="qaBackendTitle">
+                        APIs y datos
+                    </h3>
+
+                    <p data-i18n="qaBackendDescription">
                         Node.js, Express, endpoints,
                         validaciones, SQLite, SMTP
                         y respuestas ante errores.
@@ -515,8 +650,12 @@
 
                 <a class="skill-card" href="qa.html">
                     <span>QA</span>
-                    <h3>Evidencia verificable</h3>
-                    <p>
+
+                    <h3 data-i18n="qaEvidenceTitle">
+                        Evidencia verificable
+                    </h3>
+
+                    <p data-i18n="qaEvidenceDescription">
                         Casos de prueba, Selenium,
                         pruebas de API, regresión,
                         bugs, resultados y documentación.
@@ -525,11 +664,16 @@
 
                 <a class="skill-card" href="quality-management.html">
                     <span>QUALITY MANAGEMENT</span>
-                    <h3>Trazabilidad</h3>
-                    <p>
-                        Épicas, historias de usuario,
-                        criterios de aceptación, escenarios
-                        Gherkin, bugs y sprints.
+
+                    <h3 data-i18n="qaManagementTitle">
+                        Gestión de la calidad
+                    </h3>
+
+                    <p data-i18n="qaManagementDescription">
+                        Requisitos, historias de usuario,
+                        criterios de aceptación y planificación
+                        de sprints. Organización, seguimiento
+                        y mejora continua del proceso de calidad.
                     </p>
                 </a>
 
@@ -538,14 +682,9 @@
         </section>
 
 
-
-
         <!-- AI -->
 
-        <section
-            id="ai"
-            class="section dark-section"
-        >
+        <section id="ai" class="section dark-section">
 
             <div class="section-heading">
 
@@ -553,195 +692,164 @@
                     ARTIFICIAL INTELLIGENCE
                 </p>
 
-                <h2>
+                <h2 data-i18n="aiTitle">
                     Consultoría de IA
                 </h2>
 
-                <p>
+                <p data-i18n="aiIntro">
                     Diseño, automatización y desarrollo
                     de soluciones utilizando IA.
                 </p>
 
             </div>
 
-
             <div class="cards-grid">
 
-
                 <article class="ai-card">
+                    <span>01</span>
 
-                    <span>
-                        01
-                    </span>
-
-                    <h3>
+                    <h3 data-i18n="aiGenerativeTitle">
                         IA Generativa
                     </h3>
 
-                    <p>
-                        Diseño de prompts,
-                        análisis y generación
-                        de contenido.
+                    <p data-i18n="aiGenerativeDescription">
+                        Diseño de prompts, análisis de información
+                        y generación de contenido mediante modelos
+                        de inteligencia artificial.
                     </p>
-
                 </article>
 
-
                 <article class="ai-card">
+                    <span>02</span>
 
-                    <span>
-                        02
-                    </span>
-
-                    <h3>
-                        Automatización
+                    <h3 data-i18n="aiAutomationTitle">
+                        Automatización inteligente
                     </h3>
 
-                    <p>
-                        Automatización de tareas
-                        y procesos utilizando IA.
+                    <p data-i18n="aiAutomationDescription">
+                        Diseño de flujos de trabajo,
+                        integración de herramientas y
+                        automatización de procesos mediante IA.
                     </p>
-
                 </article>
 
-
                 <article class="ai-card">
-
-                    <span>
-                        03
-                    </span>
+                    <span>03</span>
 
                     <h3>
                         Vibe Coding
                     </h3>
 
-                    <p>
-                        Desarrollo iterativo de
-                        aplicaciones utilizando
-                        IA como asistente.
+                    <p data-i18n="aiVibeCodingDescription">
+                        Desarrollo iterativo de aplicaciones
+                        con asistencia de IA, desde la creación
+                        de código hasta su revisión y mejora.
                     </p>
-
                 </article>
 
-
                 <article class="ai-card">
-
-                    <span>
-                        04
-                    </span>
+                    <span>04</span>
 
                     <h3>
                         AI Apps
                     </h3>
 
-                    <p>
-                        Desarrollo de aplicaciones
-                        prácticas impulsadas por IA.
+                    <p data-i18n="aiAppsDescription">
+                        Integración de modelos y APIs de IA
+                        en aplicaciones con interfaces,
+                        funcionalidades y casos de uso concretos.
                     </p>
-
                 </article>
-
 
             </div>
 
         </section>
 
-
-
         <!-- PROJECTS -->
 
-        <section
-            id="projects"
-            class="section content-section"
-        >
+        <section id="projects" class="section content-section">
 
             <div class="section-heading">
 
-                <p class="eyebrow">
-                    PORTFOLIO
+                <p class="eyebrow" data-i18n="projectsEyebrow">
+                    PROYECTOS
                 </p>
 
-                <h2>
-                    Proyectos
+                <h2 data-i18n="projectsTitle">
+                    Tecnología aplicada. Resultados verificables.
                 </h2>
 
-                <p>
-                    Proyectos desarrollados para demostrar
-                    conocimientos técnicos y de QA.
+                <p data-i18n="projectsDescription">
+                    Proyectos prácticos que integran desarrollo,
+                    calidad de software e inteligencia artificial.
+                    Cada iniciativa refleja su alcance, estado
+                    de evolución y resultados disponibles.
                 </p>
 
             </div>
-
 
             <div class="project-card">
 
                 <div>
 
-                    <span>
-                        PROJECT 001
+                    <span data-i18n="project001Label">
+                        PROYECTO 001
                     </span>
 
-                    <h3>
-                        Personal Portfolio Testing
+                    <h3 data-i18n="project001Title">
+                        Portfolio profesional | Desarrollo y QA
                     </h3>
 
-                    <p>
-
-                        Esta aplicación funciona como
-                        portfolio profesional y como
-                        proyecto de pruebas.
-
+                    <p data-i18n="project001Description">
+                        Aplicación web desarrollada como portfolio
+                        profesional y entorno de pruebas real.
+                        Integra frontend, backend, persistencia
+                        de datos y automatización, con resultados
+                        documentados y funcionalidades verificables.
                     </p>
 
                 </div>
 
-
                 <div class="project-status">
-
-                    <span>
-                        IN DEVELOPMENT
+                    <span data-i18n="project001Status">
+                        EN EVOLUCIÓN
                     </span>
-
                 </div>
 
             </div>
-
 
             <div class="project-card">
 
                 <div>
 
-                    <span>
-                        PROJECT 002
+                    <span data-i18n="project002Label">
+                        PROYECTO 002
                     </span>
 
                     <h3>
                         AI Test Case Generator
                     </h3>
 
-                    <p>
-
-                        Aplicación experimental para
-                        generar casos de prueba
-                        utilizando Inteligencia Artificial.
-
+                    <p data-i18n="project002Description">
+                        Proyecto planificado para explorar
+                        la generación asistida de casos de prueba
+                        mediante inteligencia artificial,
+                        a partir de requisitos funcionales
+                        y criterios de aceptación.
                     </p>
 
                 </div>
 
-
                 <div class="project-status">
-
-                    <span>
-                        PLANNED
+                    <span data-i18n="project002Status">
+                        PLANIFICADO
                     </span>
-
                 </div>
 
             </div>
 
-
         </section>
+
 
         <!-- CONTACT -->
 
@@ -749,16 +857,17 @@
             id="contact"
             class="section contact-section"
         >
-
-            <p class="eyebrow">
+            
+            <p class="eyebrow" data-i18n="contactEyebrow">
                 CONTACTO
             </p>
 
-            <h2>
+            <h2 data-i18n="contactTitle">
                 ¿Trabajamos en un proyecto?
             </h2>
 
-            <p>
+
+            <p data-i18n="homePortfolioDescription">
                 Portfolio de Miguel Flor
                 · QA Testing · AI Consulting
             </p>
@@ -766,7 +875,7 @@
             <form id="contactForm" class="contact-form">
 
                 <div class="form-group">
-                    <label for="contactMessage">
+                    <label for="contactMessage" data-i18n="contactMessageLabel">
                         Mensaje *
                     </label>
 
@@ -776,10 +885,11 @@
                         rows="5"
                         maxlength="5000"
                         placeholder="Escribí tu consulta, sugerencia o propuesta laboral..."
+                        data-i18n-placeholder="contactMessagePlaceholder"
                         required
                     ></textarea>
 
-                    <small class="field-hint">
+                    <small class="field-hint" data-i18n="contactMessageHint">
                         Máximo 5000 caracteres.
                     </small>
 
@@ -800,26 +910,28 @@
                 <button
                     type="submit"
                     id="contactButton"
-                    class="button primary"
-                >
-                    <span class="button-brace" aria-hidden="true">{</span>
-                    <span>Enviar mensaje</span>
-                    <span class="button-brace" aria-hidden="true">}</span>
+                    class="button primary"                >
+                    
+                    <span data-i18n="contactSendButton">Enviar mensaje</span>
+                    
                 </button>
 
             </form>
 
             <!-- TARJETA DE LINKEDIN -->
+            
             <a
+                id="linkedin"
                 class="linkedin-card"
                 href="https://www.linkedin.com/in/miguelgabrielflor/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visitar mi perfil profesional de LinkedIn"
+                data-i18n-aria-label="linkedinAriaLabel"
             >
                 <img
                     class="linkedin-avatar"
-                    src="https://media.licdn.com/dms/image/v2/D4D03AQHMrcKxCP9rNg/profile-displayphoto-scale_200_200/B4DaCw40r9GUAc-/0/1789674082307?e=1793836800&amp;v=beta&amp;t=vWcW3yYmawG-uJC4Dc5H1KQPjt-CKzE9qd3zzvahamo"
+                    src="assets/images/linkedin-profile.jpg"
                     alt="Foto de perfil de Miguel Gabriel Flor"
                     loading="lazy"
                 >
@@ -829,37 +941,41 @@
                         <span class="linkedin-logo" aria-hidden="true">in</span>
 
                         <div class="linkedin-identity-text">
-                            <span class="linkedin-label">
+                            <span class="linkedin-label" data-i18n="linkedinLabel">
                                 MI PERFIL PROFESIONAL
                             </span>
 
                             <h3>Miguel Gabriel Flor</h3>
 
-                            <p class="linkedin-complement">
+                            <p class="linkedin-complement" data-i18n="linkedinComplement">
                                 Calidad Estratégica
                             </p>
                         </div>
                     </div>
 
-                    <p class="linkedin-headline">
+                    <p class="linkedin-headline" data-i18n="linkedinHeadline">
                         QA Automation Jr. | Calidad de Software &amp; UX |
                         Consultor de IA &amp; Marketing Digital |
                         +10 años transformando Procesos y Experiencia del Cliente
                     </p>
 
-                    <span class="button linkedin-button">
+                    <span class="button linkedin-button" data-i18n="linkedinButton">
                         Conectemos en LinkedIn ↗
                     </span>
                 </div>
             </a>
+            
             <!-- FIN TARJETA DE LINKEDIN -->
             <!-- TARJETA DE GITHUB -->
+
             <a
+                id="github"
                 class="github-card"
                 href="https://github.com/MiguelGabrielFlor"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visitar mi perfil profesional de GitHub"
+                data-i18n-aria-label="githubAriaLabel"
             >
                 <div class="github-info">
                     <div class="github-identity">
@@ -870,30 +986,30 @@
                         </span>
 
                         <div class="github-identity-text">
-                            <span class="github-label">
+                            <span class="github-label" data-i18n="githubLabel">
                                 MI PERFIL EN GITHUB
                             </span>
 
                             <h3>Miguel Gabriel Flor</h3>
 
-                            <p class="github-complement">
+                            <p class="github-complement" data-i18n="githubComplement">
                                 QA Testing · Automatización · Inteligencia Artificial
                             </p>
                         </div>
                     </div>
 
-                    <p class="github-headline">
+                    <p class="github-headline" data-i18n="githubHeadline">
                         Explorá mis proyectos, pruebas de software y soluciones tecnológicas.
                     </p>
 
-                    <span class="button github-button">
+                    <span class="button github-button" data-i18n="githubButton">
                         Explorar mis proyectos en GitHub ↗
                     </span>
                 </div>
             </a>
             <!-- FIN TARJETA DE GITHUB -->
         </section>
-
+        
         <!-- FOOTER -->
 
         <footer class="main-footer">
@@ -902,6 +1018,20 @@
                 © 2026 Miguel Flor
             </p>
 
+            <div class="footer-language">
+                
+                <select
+                    id="footerLanguageSelect"
+                    name="footerLanguage"
+                    data-i18n-aria-label="accessLanguageSelectAria"
+                    aria-label="Seleccionar idioma"
+                >
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                </select>
+            </div>
+
             <p>
                 QA · AI · Automation
             </p>
@@ -909,10 +1039,45 @@
         </footer>
 
 
-    </div>
+    </div>    
+    <script>
+        // Cerrar el menú del Home al seleccionar una sección.
+        const menuHome = document.getElementById("indice-contenidos");
 
+        if (menuHome) {
+            menuHome.querySelectorAll(".index-link").forEach((enlace) => {
+                enlace.addEventListener("click", () => {
+                    menuHome.open = false;
+                });
+            });
+        }
+    </script>
+    <script>
+        /* Cerrar el menú cuando se utiliza el buscador */
 
+        document.addEventListener("DOMContentLoaded", () => {
+            const menu = document.getElementById("indice-contenidos");
+            const buscador = document.getElementById("portfolio-search-input");
+
+            if (!menu || !buscador) return;
+
+            const cerrarMenu = () => {
+                if (menu.open) {
+                    menu.open = false;
+                }
+            };
+
+            buscador.addEventListener("focus", cerrarMenu);
+            buscador.addEventListener("input", cerrarMenu);
+        });
+    </script>
+    
+    <script src="js/search.js" defer></script>
+    
+    <script src="js/translations.js"></script>
     <script src="js/app.js"></script>
+
+
 
 </body>
 

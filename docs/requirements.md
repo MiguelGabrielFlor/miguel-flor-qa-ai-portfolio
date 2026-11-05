@@ -142,21 +142,59 @@ telefono123
 
 ---
 
-## FR-009 — Language Selection
+
+## FR-009 — Language Selection and Cross-Page Internationalization
 
 El sistema debe permitir al visitante seleccionar
-el idioma de la pantalla de acceso entre:
+el idioma de la aplicación entre:
 
-- Español (es)
-- Inglés (en)
-- Portugués (pt)
+- Español (es).
+- Inglés (en).
+- Portugués (pt).
 
-Al seleccionar un idioma, los textos de la interfaz
-que cuentan con traducción deben actualizarse
-al idioma elegido.
+El idioma seleccionado debe aplicarse a todas
+las páginas del portfolio, incluyendo:
 
-El saludo de bienvenida debe mostrar el texto
-correspondiente al idioma seleccionado.
+- Pantalla de acceso y Home.
+- Trayectoria profesional (CV).
+- Backend y laboratorios de API.
+- QA y evidencia verificable.
+- Quality Management.
+- Otras páginas incorporadas al proyecto.
+
+La internacionalización debe contemplar:
+
+- Encabezados, navegación y menús.
+- Títulos, descripciones y contenido informativo.
+- Formularios, etiquetas y mensajes de validación.
+- Botones, CTA y pies de página.
+- Componentes interactivos y sus estados.
+- Textos técnicos y documentación presentada
+  dentro de la interfaz, cuando corresponda.
+
+Criterios de aceptación:
+
+1. El visitante puede seleccionar ES, EN o PT.
+2. Los textos traducibles se muestran en el idioma elegido.
+3. El idioma se conserva al navegar entre páginas.
+4. La preferencia permanece durante la sesión.
+5. El atributo lang del documento refleja el idioma activo.
+6. Los componentes dinámicos respetan el idioma seleccionado.
+7. Los textos pendientes de traducción utilizan un idioma
+   de respaldo definido, sin generar errores de interfaz.
+
+Estado de implementación:
+
+- Selector de idioma en pantalla de acceso: implementado.
+- Internacionalización integral del portfolio: pendiente.
+- Persistencia de idioma entre páginas: pendiente de
+  verificación e implementación completa.
+
+Estado de verificación: parcial.
+
+La validación del selector de idioma en la pantalla
+de acceso no demuestra el cumplimiento integral
+del requisito en todas las páginas.
 
 ---
 
@@ -186,6 +224,165 @@ Cobertura automatizada actual:
 
 La cobertura automatizada es parcial y no demuestra
 por sí sola todos los comportamientos enumerados.
+
+---
+
+## FR-011 — Global Search
+
+El sistema debe proporcionar un buscador global
+que permita localizar contenidos y navegar hacia
+las diferentes páginas y secciones del portfolio.
+
+El buscador debe:
+
+- Estar disponible en las seis páginas principales.
+- Permitir búsquedas por títulos, descripciones,
+  tecnologías y palabras clave.
+- Mostrar resultados relacionados con la consulta.
+- Ordenar los resultados según su relevancia textual.
+- Permitir seleccionar resultados mediante mouse.
+- Permitir navegar mediante teclado.
+- Admitir las teclas ArrowDown, ArrowUp, Tab,
+  Shift+Tab, Enter y Escape según corresponda.
+- Informar cuando no existan coincidencias.
+- Permitir realizar búsquedas consecutivas.
+- Normalizar mayúsculas, acentos y espacios
+  internos consecutivos.
+- Mantener los mensajes y resultados traducibles
+  en español, inglés y portugués.
+- Comunicar el estado del componente mediante
+  los atributos accesibles correspondientes.
+- Permitir navegar hacia páginas, secciones
+  y elementos internos del portfolio.
+
+### Acceptance Criteria
+
+1. El buscador permite encontrar contenidos
+   mediante términos relevantes.
+2. Los resultados permiten acceder al destino
+   correspondiente.
+3. La navegación mediante teclado funciona
+   correctamente.
+4. Las búsquedas sin coincidencias muestran
+   un mensaje informativo.
+5. El buscador permite iniciar nuevas consultas
+   después de cerrar o seleccionar resultados.
+6. Las consultas equivalentes producen resultados
+   consistentes independientemente de mayúsculas,
+   acentos o espacios repetidos.
+7. Los textos del componente respetan el idioma
+   seleccionado.
+8. El componente mantiene su funcionalidad en
+   los navegadores y resoluciones evaluados.
+
+### Implementation Status
+
+IMPLEMENTED.
+
+### Verification Status
+
+Automated Selenium regression — 30/10/2026.
+
+- Google Chrome: 43 PASS.
+- Mozilla Firefox: 43 PASS.
+- Microsoft Edge: 43 PASS.
+
+Total: 129 PASS / 0 FAIL.
+
+Manual functional regression:
+
+- 17 PASS / 0 FAIL.
+
+Related defects:
+
+- BUG-006 — CLOSED.
+- BUG-SEARCH-001 — CLOSED.
+
+Verification scope:
+
+Los resultados acreditan los escenarios ejecutados,
+pero no representan una auditoría integral de
+accesibilidad, rendimiento o compatibilidad visual.
+
+---
+
+## FR-012 — First Name and Last Name Validation
+
+El sistema debe validar el formato de los campos
+Nombre y Apellido del formulario de acceso.
+
+Ambos campos deben:
+
+- Contener entre 2 y 50 caracteres.
+- Admitir letras, incluyendo caracteres Unicode.
+- Permitir espacios, apóstrofes y guiones.
+- Rechazar caracteres numéricos.
+- Rechazar símbolos no permitidos.
+- Rechazar valores que no cumplan las reglas establecidas.
+
+Cuando un campo sea inválido, el sistema debe
+mostrar el mensaje de validación correspondiente
+e impedir el acceso al portfolio.
+
+### Criterios de aceptación
+
+1. Un nombre con números debe ser rechazado.
+2. Un apellido con números debe ser rechazado.
+3. Un nombre de menos de 2 caracteres debe ser rechazado.
+4. Un apellido de menos de 2 caracteres debe ser rechazado.
+5. Los errores deben mostrarse en el campo correspondiente.
+6. El portfolio debe permanecer oculto cuando exista
+   un nombre o apellido inválido.
+
+
+### Evidencia de verificación
+
+**Tipo:** Regresión automatizada Selenium.
+
+**Fecha:** 30/10/2026.
+
+| Escenario | Archivo Selenium | Validación |
+|---|---|---|
+| UI-004 | `invalid-first-name.test.js` | Nombre demasiado corto (`M`) |
+| UI-005 | `invalid-last-name.test.js` | Apellido demasiado corto (`F`) |
+| BUG-002 | `invalid-first-name-numeric.test.js` | Nombre con números (`sdfh567`) |
+| BUG-003 | `invalid-last-name-numeric.test.js` | Apellido con números (`Flor567`) |
+
+**Resultados por navegador:**
+
+| Navegador | PASS | FAIL |
+|---|---:|---:|
+| Google Chrome | 4 | 0 |
+| Mozilla Firefox | 4 | 0 |
+| Microsoft Edge | 4 | 0 |
+| **Total** | **12** | **0** |
+
+**Resultado:** 12/12 PASS — 0 FAIL.
+
+### Alcance de la verificación
+
+Los escenarios ejecutados verifican:
+- Rechazo de nombres demasiado cortos.
+- Rechazo de apellidos demasiado cortos.
+- Rechazo de nombres con caracteres numéricos.
+- Rechazo de apellidos con caracteres numéricos.
+
+La ejecución no constituye una cobertura exhaustiva
+de FR-012.
+
+Quedan pendientes de verificación específica:
+- Longitud máxima de 50 caracteres.
+- Rechazo de valores superiores a 50 caracteres.
+- Aceptación de letras Unicode.
+- Aceptación de espacios, apóstrofes y guiones.
+- Rechazo de otros símbolos no permitidos.
+
+**Defectos relacionados:** BUG-002 y BUG-003.
+
+**Documentación complementaria:**
+- `docs/test-cases.md`
+- `docs/bug-reports.md`
+- `docs/test-report.md`
 
 ---
 
@@ -253,32 +450,53 @@ Para cada navegador se debe registrar:
 - Resultados PASS/FAIL.
 - Evidencias de los defectos detectados.
 
+Estado de verificación (21/10/2026):
 
-Estado de verificación (20/10/2026):
+- Google Chrome: 12 pruebas Selenium PASS, 0 FAIL, 0 SKIP.
+- Mozilla Firefox: 12 pruebas Selenium PASS, 0 FAIL, 0 SKIP.
+- Microsoft Edge: 12 pruebas Selenium PASS, 0 FAIL, 0 SKIP.
 
-- Google Chrome: 11 pruebas Selenium PASS, 0 FAIL.
-- Mozilla Firefox: 11 pruebas Selenium PASS, 0 FAIL.
-- Microsoft Edge: 11 pruebas Selenium PASS, 0 FAIL.
+Resultado de la última regresión general:
 
-Resultado de regresión automatizada:
-
-- Escenarios distintos: 11.
-- Ejecuciones totales: 33.
-- PASS: 33.
+- Escenarios distintos: 12.
+- Ejecuciones totales: 36.
+- PASS: 36.
 - FAIL: 0.
 - SKIP: 0.
 
-Los resultados verifican los comportamientos cubiertos
-por la suite Selenium en los tres navegadores.
+Cobertura verificada:
 
-Estado del requisito: verificación parcial.
+- Formulario de acceso y validaciones.
+- Consentimiento obligatorio.
+- Registro válido.
+- Selector de idioma ES/EN/PT.
+- Envío del formulario de contacto con servicio simulado.
+- Validación de mensaje de contacto vacío.
+- Manejo de error HTTP 500 mediante API simulada.
 
-Queda pendiente completar la comprobación integral
-de navegación, presentación visual y demás
-funcionalidades no cubiertas por la suite automatizada.
+Evidencia adicional (30/10/2026):
 
-La ejecución satisfactoria de Selenium no demuestra
-por sí sola la compatibilidad completa de la aplicación.
+- Regresión Selenium del buscador global.
+- 43 escenarios ejecutados en cada navegador.
+- Chrome: 43 PASS.
+- Firefox: 43 PASS.
+- Edge: 43 PASS.
+- Total: 129 PASS, 0 FAIL.
+
+Estas ejecuciones corresponden a suites con alcances
+diferentes y se documentan por separado en
+docs/test-report.md.
+
+Estado del requisito: VERIFICACIÓN PARCIAL.
+
+Queda pendiente una evaluación integral de
+compatibilidad visual, diseño responsive,
+navegación y funcionalidades no cubiertas
+por las suites automatizadas.
+
+Los resultados PASS acreditan los escenarios
+ejecutados, pero no demuestran por sí solos
+la compatibilidad completa del portfolio.
 
 ---
 
@@ -311,11 +529,18 @@ Criterios de verificación:
 
 Estado de verificación:
 
-- Última regresión Selenium multinavegador (21/10/2026):
+- Regresión Selenium de acceso y contacto (21/10/2026):
   12 escenarios automatizados ejecutados en Chrome,
   Firefox y Microsoft Edge.
-- Resultado total: 36 PASS, 0 FAIL, 0 SKIP.
+- Resultado: 36 PASS, 0 FAIL, 0 SKIP.
+
+- Regresión Selenium del buscador global (30/10/2026):
+  43 escenarios automatizados ejecutados en Chrome,
+  Firefox y Microsoft Edge.
+- Resultado: 129 PASS, 0 FAIL, 0 SKIP.
+
 - Revisión integral de mantenibilidad: pendiente.
+
 
 La ejecución satisfactoria de las pruebas
 aporta evidencia de estabilidad funcional,
@@ -324,6 +549,151 @@ cumpla todos los criterios de mantenibilidad.
 Es necesario revisar la organización del proyecto,
 la separación de responsabilidades y las posibles
 duplicaciones de código.
+
+---
+
+## NFR-005 — Accessibility and Interaction
+
+El portfolio debe proporcionar una interfaz accesible,
+comprensible y operable mediante diferentes métodos
+de interacción, incluyendo teclado y tecnologías
+de asistencia.
+
+La accesibilidad debe contemplarse en todas las
+páginas, formularios, menús, tarjetas interactivas
+y componentes dinámicos del proyecto.
+
+### Criterios de aceptación
+
+1. Los enlaces, botones, formularios y controles
+   interactivos deben poder utilizarse mediante teclado.
+
+2. Los elementos interactivos deben presentar un
+   indicador de foco visible y claramente identificable.
+
+3. Los formularios deben disponer de etiquetas
+   accesibles asociadas a sus campos.
+
+4. Los mensajes de error y confirmación deben
+   comunicarse mediante mecanismos accesibles,
+   como role="alert", role="status" o aria-live,
+   según corresponda.
+
+5. Los textos y componentes visuales deben mantener
+   un contraste suficiente respecto de sus fondos.
+
+6. Las páginas deben utilizar una estructura HTML
+   semántica, con encabezados y regiones de
+   navegación correctamente organizados.
+
+7. Los controles desplegables deben comunicar
+   adecuadamente su función y estado.
+
+8. Los elementos exclusivamente decorativos no
+   deben introducir información innecesaria
+   para las tecnologías de asistencia.
+
+9. Las animaciones y transiciones deben respetar
+   la preferencia prefers-reduced-motion.
+
+10. La información y las funcionalidades principales
+    deben permanecer disponibles cuando se reduzcan
+    o eliminen los efectos de movimiento.
+
+11. Los componentes deben mantener su operabilidad
+    y legibilidad en diferentes tamaños de pantalla.
+
+### Verificaciones previstas
+
+- Navegación completa mediante teclado.
+- Revisión de indicadores de foco.
+- Validación de etiquetas y mensajes accesibles.
+- Comprobación de estructura semántica.
+- Evaluación de contraste.
+- Verificación de controles desplegables.
+- Pruebas con movimiento reducido.
+- Evaluación mediante herramientas de accesibilidad
+  y comprobaciones manuales.
+
+### Estado de implementación
+
+- Estructura semántica y atributos accesibles:
+  parcialmente implementados.
+- Navegación mediante teclado:
+  pendiente de verificación integral.
+- Contraste y tecnologías de asistencia:
+  pendientes de evaluación.
+- Movimiento reducido:
+  implementado en algunos componentes;
+  pendiente de revisión global.
+
+### Estado de verificación
+
+PENDIENTE — Requiere evaluación integral.
+
+La presencia de atributos ARIA y elementos HTML
+semánticos no demuestra por sí sola el cumplimiento
+de los criterios de accesibilidad.
+
+---
+
+## NFR-006 — Visual Consistency and Component Design
+
+El portfolio debe mantener una identidad visual coherente
+en todas sus páginas y componentes de navegación.
+
+El sistema de diseño debe tomar como referencia
+la estética oscura del proyecto, inspirada en VS Code,
+y los componentes de navegación aprobados
+en el área QA.
+
+Alcance:
+
+- Menú principal del Home.
+- Menús e índices de navegación de páginas internas.
+- Botones de los pies de página.
+- Enlaces y botones de llamada a la acción (CTA).
+- Tarjetas interactivas y elementos informativos.
+- Estados de interacción y adaptación responsive.
+
+Criterios de aceptación:
+
+1. Los componentes equivalentes utilizan tipografía,
+   colores, bordes, radios y espaciados coherentes.
+2. Las tarjetas que redirigen a otra página o sección
+   presentan movimiento suave e iluminación del borde
+   al pasar el cursor sobre ellas.
+3. Las tarjetas exclusivamente informativas presentan
+   únicamente iluminación del borde, sin desplazamiento,
+   escalado ni movimiento decorativo.
+4. El movimiento de las tarjetas navegables debe ser
+   sutil, uniforme y coherente con la identidad visual
+   del portfolio.
+5. La iluminación debe utilizar los colores definidos
+   en el sistema visual, evitando efectos diferentes
+   entre componentes equivalentes.
+6. La navegación conserva una presentación coherente
+   en escritorio, tablet y móvil.
+7. Los estilos compartidos se centralizan, cuando
+   corresponda, en css/style.css.
+8. Las modificaciones visuales no alteran
+   la navegación ni las funcionalidades existentes.
+9. Las animaciones respetan la preferencia
+   de movimiento reducido del usuario.
+
+Estado de implementación:
+
+- Estética general del portfolio: implementada.
+- Unificación de menú Home, CTA y pies de página:
+  pendiente.
+- Centralización de componentes visuales:
+  pendiente de revisión.
+
+Estado de verificación: pendiente.
+
+La aceptación del requisito requiere una revisión
+visual y funcional de los componentes afectados
+en las diferentes páginas y tamaños de pantalla.
 
 ---
 
@@ -482,10 +852,14 @@ planificadas para futuras etapas:
 | FR-008 | Validación del teléfono | TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, UI-006 |
 | FR-009 | Selección de idioma ES/EN/PT | UI-009 |
 | FR-010 | Formulario de contacto: validación, envío y confirmación | UI-010, UI-011 |
+| FR-011 | Buscador global: consultas, resultados, navegación, teclado e internacionalización | Manuales: TC-SEARCH-001 a TC-SEARCH-017; Selenium: SEARCH-TC-001 a SEARCH-TC-038 y SEARCH-TC-040 a SEARCH-TC-044 |
+| FR-012 | Validación de Nombre y Apellido: longitud y caracteres permitidos | UI-004, UI-005; Selenium: invalid-first-name-numeric.test.js, invalid-last-name-numeric.test.js |
 | NFR-001 | Usabilidad | TC-009 |
 | NFR-002 | Performance | TC-010 |
 | NFR-003 | Compatibilidad | TC-011 |
 | NFR-004 | Mantenibilidad del código | Revisión técnica pendiente |
+| NFR-005 | Accesibilidad e interacción | Cobertura parcial: pruebas de navegación mediante teclado y atributos accesibles del buscador global (SEARCH-TC); auditoría integral pendiente |
+| NFR-006 | Consistencia visual y diseño de componentes | Revisión visual y funcional integral pendiente |
 | API-001 | Estado de la API | API-TC-001 |
 | API-002 | Registro de visitantes mediante API | API-TC-002 |
 | API-003 | Validación de email en la API | API-TC-003 |

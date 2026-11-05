@@ -1,723 +1,1299 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Backend y API Testing: arquitectura, validaciones, persistencia de datos y pruebas automatizadas del portfolio de Miguel Flor."
-    >
-    <title>Backend & API Testing | Miguel Flor</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8"/>
+    <!-- FAVICON — MF. -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon-mf.ico">
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Backend y API Testing: arquitectura, validaciones, persistencia de datos y pruebas automatizadas del portfolio de Miguel Flor." data-i18n-content="backendMeta" name="description"/>
+    <title>Backend &amp; API Testing | Miguel Flor</title>
+    <link href="css/style.css" rel="stylesheet"/>
     <style>
-        /* Contenido técnico */
-        .showcase {
-            width: min(1100px, calc(100% - 32px));
-            margin: 0 auto;
-            padding: 48px 0 110px;
-        }
-
-        .showcase-header {
-            margin-bottom: 42px;
-        }
-
-        .eyebrow {
-            color: var(--primary-hover);
-            font-size: 12px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .showcase-header h1 {
-            margin: 12px 0 18px;
-        }
-
-        .showcase-header > p:last-child {
-            max-width: none;
-            width: 100%;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            text-align: justify;
-        }
-
-        .showcase-section {
-            margin-bottom: 28px;
-            padding: 28px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            scroll-margin-top: 100px;
-            transition: border-color 0.2s ease;
-        }
-
-        .showcase-section:hover {
-            border-color: var(--primary);
-        }
-
-        .showcase-section h2 {
-            margin-top: 0;
-        }
-
-        .showcase-section p,
-        .showcase-section li {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .showcase-section ul {
-            padding-left: 22px;
-        }
-
-        /* Índice flotante */
-        .showcase-index {
-            position: relative;
-            margin: 0;
-            flex-shrink: 0;
-            align-self: center;
-        }
-
-        .index-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 12px 18px;
-            color: var(--text);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font: inherit;
-            font-size: 14px;
-            cursor: pointer;
-            list-style: none;
-        }
-
-        .index-toggle::-webkit-details-marker {
-            display: none;
-        }
-
-        .index-toggle::after {
-            content: "+";
-            color: var(--primary);
-            font-size: 20px;
-            line-height: 1;
-        }
-
-        .showcase-index[open] .index-toggle::after {
-            content: "−";
-        }
-
-        .index-grid {
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            width: min(520px, calc(100vw - 32px));
-            margin: 0;
-            padding: 12px;
-            background: #080B12;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .index-link {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            min-width: 0;
-            padding: 16px;
-            color: var(--text);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            text-decoration: none;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .index-link:hover,
-        .index-link:focus-visible {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            outline: none;
-        }
-
-        .index-number {
-            color: var(--primary-hover);
-            font-size: 12px;
-        }
-
-        .index-link strong {
-            font-size: 14px;
-        }
-
-        .index-link small {
-            color: var(--text-secondary);
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        /* Pie fijo */
-        .cv-bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 12px 25px;
-            background: rgba(8, 11, 18, 0.9);
-            backdrop-filter: blur(15px);
-            border-top: 1px solid var(--border);
-        }
-
-        .cv-back-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 18px;
-            color: #FFFFFF;
-            font-family: inherit;
-            font-size: 13px;
-            text-decoration: none;
-            position: relative;
-            transition: color 0.4s ease, transform 0.4s ease;
-            transform-origin: center;
-        }
-
-        .cv-back-button:hover {
-            color: #3794FF;
-            transform: scale(1.15);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        @media (max-width: 760px) {
+            /* Contenido técnico */
             .showcase {
-                padding-top: 30px;
-                padding-bottom: 100px;
+                width: min(1100px, calc(100% - 32px));
+                margin: 0 auto;
+                padding: 48px 0 110px;
+            }
+
+            .showcase-header {
+                margin-bottom: 42px;
+            }
+
+            .eyebrow {
+                color: var(--primary-hover);
+                font-size: 12px;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+            }
+
+            .showcase-header h1 {
+                margin: 12px 0 18px;
+            }
+
+            .showcase-header > p:last-child {
+                max-width: none;
+                width: 100%;
+                color: var(--text-secondary);
+                line-height: 1.8;
+                text-align: justify;
             }
 
             .showcase-section {
-                padding: 20px;
+                margin-bottom: 28px;
+                padding: 28px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                scroll-margin-top: 100px;
+                transition: border-color 0.2s ease;
+            }
+
+            .showcase-section:hover {
+                border-color: var(--primary);
+            }
+
+            .showcase-section h2 {
+                margin-top: 0;
+            }
+
+            .showcase-section p,
+            .showcase-section li {
+                color: var(--text-secondary);
+                line-height: 1.8;
+            }
+
+            .showcase-section ul {
+                padding-left: 22px;
+            }
+
+            /* Índice flotante */
+            .showcase-index {
+                position: relative;
+                margin: 0;
+                flex-shrink: 0;
+                align-self: center;
+            }
+
+            .index-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding: 12px 18px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font: inherit;
+                font-size: 14px;
+                cursor: pointer;
+                list-style: none;
+            }
+
+            .index-toggle::-webkit-details-marker {
+                display: none;
+            }
+
+            .index-toggle::after {
+                content: "+";
+                color: var(--primary);
+                font-size: 20px;
+                line-height: 1;
+            }
+
+            .showcase-index[open] .index-toggle::after {
+                content: "−";
             }
 
             .index-grid {
-                grid-template-columns: minmax(0, 1fr);
-                width: min(360px, calc(100vw - 32px));
+                position: absolute;
+                top: calc(100% + 10px);
+                right: 0;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+                width: min(520px, calc(100vw - 32px));
+                margin: 0;
+                padding: 12px;
+                background: #080B12;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
             }
-        }
 
-        @media (prefers-reduced-motion: reduce) {
-            html {
-                scroll-behavior: auto;
-            }
-
-            .index-link,
-            .cv-back-button {
-                transition: none;
+            .index-link {
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
+                min-width: 0;
+                padding: 16px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                text-decoration: none;
+                transition: transform 0.2s ease, border-color 0.2s ease;
             }
 
             .index-link:hover,
             .index-link:focus-visible {
-                transform: none;
+                border-color: var(--primary);
+                transform: translateY(-3px);
+                outline: none;
+            }
+
+            .index-number {
+                color: var(--primary-hover);
+                font-size: 12px;
+            }
+
+            .index-link strong {
+                font-size: 14px;
+            }
+
+            .index-link small {
+                color: var(--text-secondary);
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            /* Pie fijo */
+            .cv-bottom-bar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 12px 25px;
+                background: rgba(8, 11, 18, 0.9);
+                backdrop-filter: blur(15px);
+                border-top: 1px solid var(--border);
             }
 
             .cv-back-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 18px;
+                color: #FFFFFF;
+                font-family: inherit;
+                font-size: 13px;
+                text-decoration: none;
+                position: relative;
                 transition: color 0.4s ease, transform 0.4s ease;
+                transform-origin: center;
             }
 
             .cv-back-button:hover {
-                transform: scale(1.45);
+                color: #3794FF;
+                transform: scale(1.15);
             }
-        }
 
-        /* Laboratorios interactivos de QA */
-        .validation-lab {
-            margin-top: 28px;
-            padding: 22px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-        }
+            html {
+                scroll-behavior: smooth;
+            }
 
-        .validation-lab h3 {
-            margin-top: 0;
-            color: var(--text);
-        }
+            @media (max-width: 760px) {
+                .showcase {
+                    padding-top: 30px;
+                    padding-bottom: 100px;
+                }
 
-        .validation-lab label {
-            display: block;
-            margin: 18px 0 8px;
-            color: var(--text);
-            font-size: 14px;
-        }
+                .showcase-section {
+                    padding: 20px;
+                }
 
-        .validation-lab select {
-            display: block;
-            width: 100%;
-            max-width: 420px;
-            padding: 11px 12px;
-            color: var(--text);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font: inherit;
-        }
+                .index-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                    width: min(360px, calc(100vw - 32px));
+                }
+            }
 
-        .validation-lab button {
-            margin-top: 14px;
-            padding: 10px 16px;
-            color: var(--text);
-            background: transparent;
-            border: 1px solid var(--primary);
-            border-radius: 6px;
-            font: inherit;
-            cursor: pointer;
-            transition: color 0.2s ease, background 0.2s ease;
-        }
+            @media (prefers-reduced-motion: reduce) {
+                html {
+                    scroll-behavior: auto;
+                }
 
-        .validation-lab button:hover {
-            color: #fff;
-            background: var(--primary);
-        }
+                .index-link,
+                .cv-back-button {
+                    transition: none;
+                }
 
-        .validation-lab button:disabled {
-            opacity: 0.65;
-            cursor: wait;
-        }
+                .index-link:hover,
+                .index-link:focus-visible {
+                    transform: none;
+                }
 
-        .validation-lab #persistencia-resultado {
-            margin-top: 18px;
-            overflow-wrap: anywhere;
-        }
+                .cv-back-button {
+                    transition: color 0.4s ease, transform 0.4s ease;
+                }
 
-        .validation-lab #persistencia-resultado pre {
-            max-height: 320px;
-            overflow: auto;
-        }
+                .cv-back-button:hover {
+                    transform: scale(1.45);
+                }
+            }
+            /* PIE DE PÁGINA — SELECTOR CENTRADO Y BOTÓN A LA DERECHA */
 
-        /* Arquitectura y explorador de endpoints */
-        .explorador-api {
-            margin-top: 24px;
-        }
+            .cv-bottom-bar {
+                position: fixed;
+                justify-content: center;
+            }
 
-        .explorador-descripcion {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+            .cv-bottom-bar .cv-language-selector {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
 
-        .endpoint-resumen {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin: 24px 0;
-        }
+            .cv-bottom-bar .cv-back-button {
+                margin-left: auto;
+            }
+            /* BACKEND — FOOTER RESPONSIVE */
 
-        .endpoint-item {
-            min-width: 0;
-            padding: 16px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            transition: border-color 0.2s ease;
-        }
+            @media (max-width: 600px) {
 
-        .endpoint-item:hover {
-            border-color: #569CD6;
-        }
+                .cv-bottom-bar {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    flex-wrap: nowrap;
+                    gap: 8px;
+                    padding: 12px 8px;
+                }
 
-        .endpoint-item code {
-            display: inline-block;
-            margin-top: 12px;
-            color: #9CDCFE;
-            overflow-wrap: anywhere;
-        }
+                .cv-bottom-bar .cv-language-selector {
+                    position: static;
+                    left: auto;
+                    transform: none;
+                    flex: 0 1 auto;
+                    min-width: 0;
+                }
 
-        .endpoint-item p {
-            margin-bottom: 0;
-            color: var(--text-secondary);
-            font-size: 13px;
-            line-height: 1.5;
-        }
+                .cv-bottom-bar .cv-language-select {
+                    width: 100%;
+                    max-width: 120px;
+                    min-width: 0;
+                    font-size: 12px;
+                }
 
-        .metodo-http {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
+                .cv-bottom-bar .cv-back-button {
+                    margin-left: 0;
+                    flex: 0 1 auto;
+                    min-width: 0;
+                    padding: 10px 8px;
+                    font-size: 11px;
+                    white-space: normal;
+                    text-align: center;
+                }
 
-        .metodo-get {
-            color: #9CDCFE;
-            background: rgba(86, 156, 214, 0.14);
-        }
+            }
+            /* =========================================
+            GUÍA INTERACTIVA DE CÓDIGOS HTTP
+            ========================================= */
 
-        .metodo-post {
-            color: #DCDCAA;
-            background: rgba(220, 220, 170, 0.12);
-        }
+            .http-guide {
+                margin: 36px 0 54px;
+                padding: 30px;
+                border: 1px solid rgba(55, 148, 255, 0.28);
+                border-radius: 16px;
+                background: rgba(55, 148, 255, 0.035);
+            }
 
-        .consulta-health {
-            padding: 20px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
+            .http-guide-header {
+                margin-bottom: 24px;
+            }
 
-        .consulta-health-cabecera > div {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+            .http-guide-label {
+                display: block;
+                margin-bottom: 10px;
+                color: #3794FF;
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 0.12em;
+            }
 
-        .consulta-health-cabecera code {
-            color: #9CDCFE;
-        }
+            .http-guide-header h2 {
+                margin: 0 0 14px;
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
 
-        .consulta-health-cabecera p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-        }
+            .http-guide-header p {
+                margin: 0;
+                line-height: 1.8;
+                text-align: justify;
+            }
 
-        .consulta-health button {
-            margin-top: 8px;
-        }
+            /* Botones de familias HTTP */
 
-        #health-resultado {
-            margin-top: 18px;
-            padding: 14px;
-            background: #080b12;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            overflow-wrap: anywhere;
-        }
+            .http-guide-buttons {
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 12px;
+                margin-bottom: 24px;
+            }
 
-        #health-resultado .health-mensaje-inicial {
-            margin: 0;
-            color: var(--text-secondary);
-        }
+            .http-guide-button {
+                padding: 13px 10px;
+                border: 1px solid rgba(55, 148, 255, 0.2);
+                border-radius: 9px;
+                background: rgba(255, 255, 255, 0.025);
+                color: #D4D4D4;
+                font: inherit;
+                font-weight: 600;
+                cursor: pointer;
+                transition:
+                    border-color 0.2s ease,
+                    background-color 0.2s ease,
+                    color 0.2s ease;
+            }
 
-        @media (max-width: 650px) {
+            .http-guide-button:hover {
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.09);
+            }
+
+            .http-guide-button.active {
+                border-color: #3794FF;
+                background: rgba(55, 148, 255, 0.15);
+                color: #9CDCFE;
+            }
+
+            .http-guide-button:focus-visible {
+                outline: 2px solid #3794FF;
+                outline-offset: 3px;
+            }
+            .http-guide-detail[hidden] {
+                display: none;
+            }
+
+            /* Panel de explicación */
+
+            .http-guide-detail {
+                padding: 22px 24px;
+                border: 1px solid rgba(255, 255, 255, 0.09);
+                border-radius: 12px;
+                background: rgba(0, 0, 0, 0.13);
+            }
+
+            .http-guide-detail h3 {
+                margin: 0 0 12px;
+                color: #9CDCFE;
+                font-size: 1.15rem;
+            }
+
+            .http-guide-detail > p {
+                margin: 0 0 20px;
+                line-height: 1.75;
+                text-align: justify;
+            }
+
+            /* Ejemplos de respuestas */
+
+            .http-guide-examples {
+                display: grid;
+                gap: 10px;
+            }
+
+            .http-guide-example {
+                display: flex;
+                align-items: baseline;
+                gap: 16px;
+                padding: 12px 14px;
+                border: 1px solid rgba(255, 255, 255, 0.07);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.025);
+            }
+
+            .http-guide-example strong {
+                min-width: 42px;
+                color: #DCDCAA;
+                font-size: 1rem;
+            }
+
+            .http-guide-example span {
+                color: #D4D4D4;
+                line-height: 1.6;
+            }
+
+            /* Nota educativa de QA */
+
+            .http-guide-note {
+                margin: 22px 0 0;
+                padding-top: 18px;
+                border-top: 1px solid rgba(55, 148, 255, 0.18);
+                line-height: 1.8;
+                text-align: justify;
+            }
+
+            .http-guide-note strong {
+                color: #3794FF;
+            }
+
+            /* Adaptación responsive */
+
+            @media (max-width: 760px) {
+                .http-guide {
+                    padding: 22px 18px;
+                    margin: 28px 0 40px;
+                }
+
+                .http-guide-buttons {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                    gap: 9px;
+                }
+
+                .http-guide-detail {
+                    padding: 18px;
+                }
+            }
+
+            @media (max-width: 420px) {
+                .http-guide-buttons {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+
+                .http-guide-example {
+                    gap: 10px;
+                }
+            }
+
+
+            /* Laboratorios interactivos de QA */
+            .validation-lab {
+                margin-top: 28px;
+                padding: 22px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+
+            .validation-lab h3 {
+                margin-top: 0;
+                color: var(--text);
+            }
+
+            .validation-lab label {
+                display: block;
+                margin: 18px 0 8px;
+                color: var(--text);
+                font-size: 14px;
+            }
+
+            .validation-lab select {
+                display: block;
+                width: 100%;
+                max-width: 420px;
+                padding: 11px 12px;
+                color: var(--text);
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                font: inherit;
+            }
+
+            .validation-lab button {
+                margin-top: 14px;
+                padding: 10px 16px;
+                color: var(--text);
+                background: transparent;
+                border: 1px solid var(--primary);
+                border-radius: 6px;
+                font: inherit;
+                cursor: pointer;
+                transition: color 0.2s ease, background 0.2s ease;
+            }
+
+            .validation-lab button:hover {
+                color: #fff;
+                background: var(--primary);
+            }
+
+            .validation-lab button:disabled {
+                opacity: 0.65;
+                cursor: wait;
+            }
+
+            .validation-lab #persistencia-resultado {
+                margin-top: 18px;
+                overflow-wrap: anywhere;
+            }
+
+            .validation-lab #persistencia-resultado pre {
+                max-height: 320px;
+                overflow: auto;
+            }
+
+            /* Arquitectura y explorador de endpoints */
+            .explorador-api {
+                margin-top: 24px;
+            }
+
+            .explorador-descripcion {
+                color: var(--text-secondary);
+                line-height: 1.6;
+            }
+
             .endpoint-resumen {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 14px;
+                margin: 24px 0;
             }
-        }
 
-        /* Panel de resultados de pruebas automatizadas */
-        .resumen-pruebas {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin: 24px 0;
-        }
+            .endpoint-item {
+                min-width: 0;
+                padding: 16px;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                transition: border-color 0.2s ease;
+            }
 
-        .resumen-pruebas > div {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 18px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
+            .endpoint-item:hover {
+                border-color: #569CD6;
+            }
 
-        .pruebas-etiqueta {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
+            .endpoint-item code {
+                display: inline-block;
+                margin-top: 12px;
+                color: #9CDCFE;
+                overflow-wrap: anywhere;
+            }
 
-        .pruebas-pass {
-            color: #6A9955;
-            font-size: 28px;
-        }
+            .endpoint-item p {
+                margin-bottom: 0;
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.5;
+            }
 
-        .pruebas-fail {
-            color: #CE9178;
-            font-size: 28px;
-        }
+            .metodo-http {
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+            }
 
-        .pruebas-skip {
-            color: #DCDCAA;
-            font-size: 28px;
-        }
+            .metodo-get {
+                color: #9CDCFE;
+                background: rgba(86, 156, 214, 0.14);
+            }
 
-        .graficos-pruebas {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 24px;
-            margin-top: 28px;
-        }
+            .metodo-post {
+                color: #DCDCAA;
+                background: rgba(220, 220, 170, 0.12);
+            }
 
-        .grafico-pruebas {
-            min-width: 0;
-            padding: 20px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
+            .consulta-health {
+                padding: 20px;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+            }
 
-        .grafico-pruebas h4 {
-            margin-top: 0;
-            color: var(--text);
-        }
+            .consulta-health-cabecera > div {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
 
-        .dona-pruebas {
-            display: block;
-            width: 100%;
-            max-width: 220px;
-            margin: 0 auto;
-        }
+            .consulta-health-cabecera code {
+                color: #9CDCFE;
+            }
 
-        .leyenda-dona {
-            display: grid;
-            gap: 10px;
-            margin-top: 18px;
-        }
+            .consulta-health-cabecera p {
+                color: var(--text-secondary);
+                font-size: 14px;
+                line-height: 1.5;
+            }
 
-        .leyenda-dona > div {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            font-size: 14px;
-        }
+            .consulta-health button {
+                margin-top: 8px;
+            }
 
-        .indicador-color {
-            width: 11px;
-            height: 11px;
-            flex-shrink: 0;
-            border-radius: 3px;
-        }
+            #health-resultado {
+                margin-top: 18px;
+                padding: 14px;
+                background: #080b12;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                overflow-wrap: anywhere;
+            }
 
-        .barra-categoria {
-            margin: 22px 0;
-        }
+            #health-resultado .health-mensaje-inicial {
+                margin: 0;
+                color: var(--text-secondary);
+            }
 
-        .barra-categoria-cabecera {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 9px;
-            font-size: 13px;
-        }
+            @media (max-width: 650px) {
+                .endpoint-resumen {
+                    grid-template-columns: 1fr;
+                }
+            }
+            
+            /* Solicitud enviada — desplegable */
 
-        .barra-fondo {
-            height: 10px;
-            overflow: hidden;
-            background: var(--border);
-            border-radius: 999px;
-        }
+            .api-solicitud-desplegable {
+                margin-top: 20px;
+                border: 1px solid rgba(55, 148, 255, 0.25);
+                border-radius: 10px;
+                background: rgba(55, 148, 255, 0.035);
+                overflow: hidden;
+            }
 
-        .barra-valor {
-            height: 100%;
-            border-radius: 999px;
-        }
+            .api-solicitud-desplegable summary {
+                padding: 15px 18px;
+                color: #9CDCFE;
+                font-weight: 600;
+                cursor: pointer;
+            }
 
-        @media (max-width: 650px) {
-            .resumen-pruebas,
+            .api-solicitud-desplegable summary:hover {
+                background: rgba(55, 148, 255, 0.08);
+            }
+
+            .api-solicitud-desplegable summary:focus-visible {
+                outline: 2px solid #3794FF;
+                outline-offset: -3px;
+            }
+
+            .api-solicitud-contenido {
+                padding: 0 18px 18px;
+            }
+
+            .api-solicitud-contenido > p {
+                margin: 10px 0;
+                color: #DCDCAA;
+                overflow-wrap: anywhere;
+            }
+
+            .api-solicitud-contenido pre {
+                margin: 12px 0 0;
+                padding: 16px;
+                border-radius: 8px;
+                background: rgba(0, 0, 0, 0.22);
+                overflow-x: auto;
+            }
+
+            .api-solicitud-contenido code {
+                color: #CE9178;
+                font-size: 0.9rem;
+                line-height: 1.7;
+            }
+
+
+            /* Panel de resultados de pruebas automatizadas */
+            .resumen-pruebas {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 14px;
+                margin: 24px 0;
+            }
+
+            .resumen-pruebas > div {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                padding: 18px;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+            }
+
+            .pruebas-etiqueta {
+                color: var(--text-secondary);
+                font-size: 13px;
+            }
+
+            .pruebas-pass {
+                color: #6A9955;
+                font-size: 28px;
+            }
+
+            .pruebas-fail {
+                color: #CE9178;
+                font-size: 28px;
+            }
+
+            .pruebas-skip {
+                color: #DCDCAA;
+                font-size: 28px;
+            }
+
             .graficos-pruebas {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 24px;
+                margin-top: 28px;
             }
-        }
 
-        /* Explorador de endpoints: cuatro tarjetas interactivas */
-        .endpoint-resumen-cuatro {
-            grid-template-columns: repeat(2, minmax(0, 1fr))!important;
-            gap: 16px;
-            margin: 24px 0;
-        }
+            .grafico-pruebas {
+                min-width: 0;
+                padding: 20px;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+            }
 
-        .endpoint-tarjeta {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-            width: 100%;
-            min-width: 0;
-            padding: 20px;
-            text-align: left;
-            color: inherit;
-            font: inherit;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition:
-                transform 0.2s ease,
-                border-color 0.2s ease,
-                background-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
+            .grafico-pruebas h4 {
+                margin-top: 0;
+                color: var(--text);
+            }
 
-        .endpoint-tarjeta:hover {
-            transform: translateY(-3px);
-            border-color: #569CD6;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-        }
+            .dona-pruebas {
+                display: block;
+                width: 100%;
+                max-width: 220px;
+                margin: 0 auto;
+            }
 
-        .endpoint-tarjeta:focus-visible {
-            outline: 2px solid #569CD6;
-            outline-offset: 3px;
-        }
+            .leyenda-dona {
+                display: grid;
+                gap: 10px;
+                margin-top: 18px;
+            }
 
-        .endpoint-tarjeta.activa {
-            border-color: var(--border);
-            background: var(--bg);
-        }
+            .leyenda-dona > div {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                font-size: 14px;
+            }
 
-        .endpoint-tarjeta.activa:hover {
-            border-color: #569CD6;
-        }
+            .indicador-color {
+                width: 11px;
+                height: 11px;
+                flex-shrink: 0;
+                border-radius: 3px;
+            }
 
-        .endpoint-tarjeta code {
-            color: #9CDCFE;
-            overflow-wrap: anywhere;
-        }
+            .barra-categoria {
+                margin: 22px 0;
+            }
 
-        .endpoint-titulo {
-            font-weight: 700;
-        }
+            .barra-categoria-cabecera {
+                display: flex;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 9px;
+                font-size: 13px;
+            }
 
-        .endpoint-descripcion {
-            color: var(--text-secondary);
-            font-size: 13px;
-            line-height: 1.5;
-        }
+            .barra-fondo {
+                height: 10px;
+                overflow: hidden;
+                background: var(--border);
+                border-radius: 999px;
+            }
 
-        .metodo-qa {
-            color: #C586C0;
-            background: rgba(197, 134, 192, 0.14);
-        }
+            .barra-valor {
+                height: 100%;
+                border-radius: 999px;
+            }
 
-        @media (max-width: 650px) {
+            @media (max-width: 650px) {
+                .resumen-pruebas,
+                .graficos-pruebas {
+                    grid-template-columns: 1fr;
+                }
+            }
+            
+            /* Interpretación de resultados API */
+
+            .api-interpretacion-qa {
+                margin-top: 22px;
+                padding: 20px 22px;
+                border: 1px solid rgba(55, 148, 255, 0.35);
+                border-radius: 12px;
+                background: rgba(55, 148, 255, 0.045);
+            }
+
+            .api-interpretacion-qa h4 {
+                margin: 0 0 14px;
+                color: #3794FF;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .api-interpretacion-qa > strong {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .api-interpretacion-qa p {
+                margin: 0 0 12px;
+                line-height: 1.7;
+                text-align: justify;
+            }
+
+            .api-interpretacion-qa p:last-child {
+                margin-bottom: 0;
+            }
+
+
+            /* Explorador de endpoints: cuatro tarjetas interactivas */
             .endpoint-resumen-cuatro {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+                margin: 24px 0;
             }
-        }
 
-        /* Tarjetas de endpoints con CTA alineado a la derecha */
-        .endpoint-resumen-cuatro {
-            grid-template-columns: 1fr;
-            gap: 14px;
-        }
-
-        .endpoint-tarjeta {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .endpoint-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-            min-width: 0;
-        }
-
-        .endpoint-ejecutar {
-            flex-shrink: 0;
-            align-self: center;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 520px) {
             .endpoint-tarjeta {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+
+                width: 100%;
+                min-width: 0;
+                padding: 20px;
+
+                text-align: left;
+                color: inherit;
+                font: inherit;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                cursor: pointer;
+
+                transition:
+                    transform 0.2s ease,
+                    border-color 0.2s ease,
+                    background-color 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+
+            .endpoint-tarjeta:hover {
+                transform: translateY(-3px);
+                border-color: #569CD6;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            }
+
+            .endpoint-tarjeta:focus-visible {
+                outline: 2px solid #569CD6;
+                outline-offset: 3px;
+            }
+
+            .endpoint-tarjeta.activa {
+                border-color: var(--border);
+                background: var(--bg);
+            }
+
+            .endpoint-tarjeta.activa:hover {
+                border-color: #569CD6;
+            }
+
+            .endpoint-tarjeta code {
+                color: #9CDCFE;
+                overflow-wrap: anywhere;
+            }
+
+            .endpoint-titulo {
+                font-weight: 700;
+            }
+
+            .endpoint-descripcion {
+                color: var(--text-secondary);
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .metodo-qa {
+                color: #C586C0;
+                background: rgba(197, 134, 192, 0.14);
+            }
+
+            @media (max-width: 650px) {
+                .endpoint-resumen-cuatro {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .endpoint-info {
+                display: flex;
+                flex-direction: column;
                 align-items: flex-start;
+                gap: 8px;
+
+                flex: 1 1 150px;
+                width: auto;
+                min-width: 0;
+            }
+
+            .endpoint-ejecutar {
+                flex: 0 0 auto;
+                align-self: center;
+                width: auto;
+                max-width: 100%;
+                margin-left: auto;
+                white-space: nowrap;
+                box-sizing: border-box;
+            }
+
+            @media (max-width: 520px) {
+                .endpoint-tarjeta {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+                .endpoint-ejecutar {
+                    align-self: flex-end;
+                }
+            }
+
+            @media (max-width: 650px) {
+                .endpoint-tarjeta {
+                    align-items: flex-start;
+                }
+
+                .endpoint-ejecutar {
+                    align-self: center;
+                    white-space: normal;
+                }
+            }
+
+            /* Persistencia: pruebas independientes en dos columnas */
+            .persistencia-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+                margin: 24px 0;
+                align-items: stretch;
+            }
+
+            .persistencia-caso {
+                min-width: 0;
+                display: flex;
                 flex-direction: column;
             }
 
-            .endpoint-ejecutar {
-                align-self: flex-end;
-            }
-        }
-
-        .endpoint-tarjeta {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .endpoint-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-            min-width: 0;
-            flex: 1;
-        }
-
-        .endpoint-ejecutar {
-            flex-shrink: 0;
-            align-self: center;
-        }
-
-        @media (max-width: 650px) {
-            .endpoint-tarjeta {
-                align-items: flex-start;
-            }
-
-            .endpoint-ejecutar {
+            .persistencia-caso > button {
                 align-self: center;
-                white-space: normal;
+                margin-top: auto;
+                margin-bottom: 16px;
             }
-        }
 
-        /* Persistencia: pruebas independientes en dos columnas */
-        .persistencia-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px;
-            margin: 24px 0;
-            align-items: stretch;
-        }
-
-        .persistencia-caso {
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .persistencia-caso > button {
-            align-self: center;
-            margin-top: auto;
-            margin-bottom: 16px;
-        }
-
-        .persistencia-caso [role="status"] {
-            min-width: 0;
-            overflow-wrap: anywhere;
-        }
-
-        .persistencia-caso pre {
-            max-width: 100%;
-            white-space: pre-wrap;
-            overflow-wrap: anywhere;
-        }
-
-        @media (max-width: 700px) {
-            .persistencia-grid {
-                grid-template-columns: 1fr;
+            .persistencia-caso [role="status"] {
+                min-width: 0;
+                overflow-wrap: anywhere;
             }
-        }
-        .persistencia-caso > p {
-            text-align: justify;
-        }
 
+            .persistencia-caso pre {
+                max-width: 100%;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+            }
+
+            @media (max-width: 700px) {
+                .persistencia-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .persistencia-caso > p {
+                text-align: justify;
+            }
+            /* PERSISTENCIA — Tarjetas independientes */
+
+            #persistencia .validation-lab {
+                align-self: start;
+                height: auto;
+            }
+
+            #persistencia .validation-lab button {
+                align-self: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            /* ==========================================
+            BACKEND — EVIDENCIA REAL DE SQLITE
+            ========================================== */
+
+            .sqlite-evidence-panel {
+                margin-top: 20px;
+                padding: 22px;
+                border: 1px solid rgba(55, 148, 255, 0.35);
+                border-radius: 12px;
+                background: rgba(55, 148, 255, 0.045);
+            }
+
+            .sqlite-evidence-panel h4 {
+                margin: 0 0 12px;
+                color: #9CDCFE;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .sqlite-evidence-panel > p {
+                margin: 0 0 18px;
+                color: #C8D0DC;
+                font-size: 0.92rem;
+                line-height: 1.7;
+                text-align: justify;
+            }
+
+            .sqlite-evidence-details {
+                display: grid;
+                gap: 0;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .sqlite-evidence-details > div {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 8px 16px;
+                padding: 12px 14px;
+                background: rgba(0, 0, 0, 0.12);
+            }
+
+            .sqlite-evidence-details > div + div {
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
+            }
+
+            .sqlite-evidence-details span {
+                color: #AEBACA;
+                font-size: 0.87rem;
+            }
+
+            .sqlite-evidence-details strong {
+                color: #DCDCAA;
+                font-size: 0.87rem;
+                font-weight: 600;
+                overflow-wrap: anywhere;
+            }
+
+            .sqlite-evidence-status {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 18px 0 0 !important;
+                color: #4EC9B0 !important;
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+
+            @media (max-width: 480px) {
+                .sqlite-evidence-panel {
+                    padding: 16px;
+                }
+
+                .sqlite-evidence-details > div {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+            }
+            /* ==========================================
+            BACKEND — EXPLORADOR API RESPONSIVE
+            ========================================== */
+
+            @media (max-width: 768px) {
+
+                #arquitectura .endpoint-resumen-cuatro {
+                    display: grid;
+                    grid-template-columns: minmax(0, 1fr);
+                    gap: 16px;
+                }
+
+                #arquitectura .endpoint-tarjeta {
+                    width: 100%;
+                    min-width: 0;
+                    box-sizing: border-box;
+                }
+
+                #arquitectura .endpoint-info code {
+                    overflow-wrap: anywhere;
+                }
+
+            }
+
+            @media (max-width: 480px) {
+
+                #arquitectura .endpoint-tarjeta {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 16px;
+                }
+
+                #arquitectura .endpoint-ejecutar {
+                    align-self: flex-end;
+                }
+            }
+            
+            /* =========================================
+            BACKEND — BIBLIOTECA DE PRUEBAS
+            ========================================= */
+
+            #pruebas-api .api-tests-library {
+                margin-top: 28px;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                background: rgba(30, 30, 30, 0.35);
+                overflow: hidden;
+            }
+
+            #pruebas-api .api-tests-library > summary {
+                padding: 18px 22px;
+                cursor: pointer;
+                color: #9CDCFE;
+                font-weight: 600;
+                list-style: none;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                transition: background 0.2s ease, color 0.2s ease;
+            }
+
+            #pruebas-api .api-tests-library > summary::-webkit-details-marker {
+                display: none;
+            }
+
+            #pruebas-api .api-tests-library > summary::after {
+                content: "+";
+                font-size: 24px;
+                font-weight: 400;
+                color: #DCDCAA;
+            }
+
+            #pruebas-api .api-tests-library[open] > summary::after {
+                content: "−";
+            }
+
+            #pruebas-api .api-tests-library > summary:hover {
+                background: rgba(55, 148, 255, 0.08);
+            }
+
+            #pruebas-api .api-tests-library > summary:focus-visible {
+                outline: 2px solid #3794FF;
+                outline-offset: -3px;
+            }
+
+            #pruebas-api .api-tests-library-content {
+                padding: 22px;
+                border-top: 1px solid var(--border);
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 18px;
+            }
+            /* Biblioteca de pruebas — Una columna hasta 768px */
+
+            @media (max-width: 768px) {
+
+                #pruebas-api .api-tests-library-content {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+
+            }
+
+            #pruebas-api .api-tests-group {
+                min-width: 0;
+                padding: 20px;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                background: rgba(37, 37, 38, 0.55);
+                transition: border-color 0.2s ease;
+            }
+
+            #pruebas-api .api-tests-group:hover {
+                border-color: #3794FF;
+            }
+
+            #pruebas-api .api-tests-group h4 {
+                margin: 0 0 12px;
+                color: #9CDCFE;
+            }
+
+            #pruebas-api .api-tests-group > code {
+                display: inline-block;
+                max-width: 100%;
+                overflow-wrap: anywhere;
+                color: #DCDCAA;
+                font-size: 0.85rem;
+            }
+
+            #pruebas-api .api-tests-group p {
+                margin: 16px 0;
+                line-height: 1.7;
+                text-align: justify;
+            }
+
+            #pruebas-api .api-tests-group ol {
+                margin: 0;
+                padding-left: 22px;
+                line-height: 1.8;
+            }
+
+            #pruebas-api .api-tests-group li {
+                padding-left: 4px;
+                margin-bottom: 8px;
+            }
+
+            /* Responsive */
+
+            @media (max-width: 1000px) {
+                #pruebas-api .api-tests-library-content {
+                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+            }
+
+            @media (max-width: 680px) {
+                #pruebas-api .api-tests-library-content {
+                    grid-template-columns: minmax(0, 1fr);
+                    padding: 14px;
+                }
+
+                #pruebas-api .api-tests-group {
+                    padding: 16px;
+                }
+
+                #pruebas-api .api-tests-library > summary {
+                    padding: 16px;
+                }
+            }
+        
+            /* Selector global de idioma: compartido con CV */
+            .cv-bottom-bar { justify-content: space-between; gap: 16px; }
+            .cv-language-select { min-width: 140px; padding: 10px 12px; color: var(--text); background: var(--card); border: 1px solid var(--border); border-radius: 8px; font: inherit; cursor: pointer; }
+            @media (max-width: 600px) { .cv-bottom-bar { padding: 10px 12px; gap: 8px; } .cv-language-select { min-width: 115px; max-width: 44vw; font-size: 12px; } .cv-back-button { font-size: 11px; padding: 9px 5px; } }
+
+            /* BACKEND — TIPOGRAFÍA RESPONSIVE */
+
+            @media (max-width: 600px) {
+
+                .showcase-section > p,
+                .showcase-section .section-description,
+                .showcase-panel .explanation-content p,
+                .showcase-panel .explanation-content li {
+                    font-size: 15px;
+                    line-height: 1.8;
+                    text-align: justify;
+                    text-align-last: left;
+                    hyphens: none;
+                    overflow-wrap: break-word;
+                    word-spacing: normal;
+                    letter-spacing: normal;
+                }
+
+            }
+            
 
     </style>
 </head>
@@ -727,41 +1303,68 @@
     <!-- ENCABEZADO -->
     <header class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo"
-               aria-label="Volver al inicio del portfolio">
-                <span class="logo-initials">MF<span class="logo-dot">.</span></span>
-                <span class="logo-divider" aria-hidden="true"></span>
-                <span class="logo-label">PORTFOLIO</span>
+            <a aria-label="Volver al inicio del portfolio" class="logo" data-i18n-aria-label="backendLogoAria" href="index.html">
+            <span class="logo-initials">MF<span class="logo-dot">.</span></span>
+            <span aria-hidden="true" class="logo-divider"></span>
+            <span class="logo-label">PORTFOLIO</span>
             </a>
-
+            <!-- BUSCADOR GLOBAL -->
+            <div class="portfolio-search" role="search">
+                <div class="portfolio-search-field">
+                    <svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input
+                        type="search"
+                        id="portfolio-search-input"
+                        class="portfolio-search-input"
+                        placeholder="Buscar en el portfolio..."
+                        data-i18n-placeholder="backendSearchPlaceholder"
+                        autocomplete="off"
+                        aria-label="Buscar en el portfolio"
+                        data-i18n-aria-label="backendSearchAria"
+                        aria-controls="portfolio-search-results"
+                        aria-expanded="false"
+                    >
+                </div>
+                <div
+                    class="portfolio-search-results"
+                    id="portfolio-search-results"
+                    role="region"
+                    aria-label="Resultados de búsqueda"
+                    data-i18n-aria-label="backendSearchResultsAria"
+                    aria-live="polite"
+                    hidden
+                ></div>
+            </div>
             <details class="showcase-index" id="indice-contenidos">
                 <summary class="index-toggle">
-                    <span>Ir a una sección</span>
+                    <span data-i18n="backendStatic003">Índice</span>
                 </summary>
-
-                <nav class="index-grid" aria-label="Índice de contenidos">
+                <nav aria-label="Índice de contenidos" class="index-grid" data-i18n-aria-label="backendIndexAria">
                     <a class="index-link" href="#arquitectura">
-                        <span class="index-number">01</span>
-                        <strong>Arquitectura de la API</strong>
-                        <small>Node.js y Express</small>
+                    <span class="index-number">01</span>
+                    <strong data-i18n="backendStatic004">Arquitectura de la API</strong>
+                    <small data-i18n="backendIndexTechnology">Node.js y Express</small>
                     </a>
 
                     <a class="index-link" href="#validaciones">
-                        <span class="index-number">02</span>
-                        <strong>Validaciones y reglas</strong>
-                        <small>Datos, errores y respuestas HTTP</small>
+                    <span class="index-number">02</span>
+                    <strong data-i18n="backendStatic006">Validaciones y reglas</strong>
+                    <small data-i18n="backendStatic007">Datos, errores y respuestas HTTP</small>
                     </a>
 
                     <a class="index-link" href="#persistencia">
-                        <span class="index-number">03</span>
-                        <strong>Persistencia de datos</strong>
-                        <small>SQLite y restricciones</small>
+                    <span class="index-number">03</span>
+                    <strong data-i18n="backendStatic008">Persistencia de datos</strong>
+                    <small data-i18n="backendStatic009">SQLite y restricciones</small>
                     </a>
-
+                    
                     <a class="index-link" href="#pruebas-api">
-                        <span class="index-number">04</span>
-                        <strong>Pruebas automatizadas</strong>
-                        <small>Casos y resultados</small>
+                    <span class="index-number">04</span>
+                    <strong data-i18n="backendStatic010">Pruebas automatizadas</strong>
+                    <small data-i18n="backendStatic011">Casos y resultados</small>
                     </a>
                 </nav>
             </details>
@@ -773,47 +1376,87 @@
         <!-- PRESENTACIÓN -->
         <header class="showcase-header">
             <p class="eyebrow">BACKEND · API TESTING</p>
-
-            <h1>La lógica también debe demostrar su calidad.</h1>
-
-            <p>
-                Una API conecta las interfaces con las reglas de negocio,
-                los datos y los servicios externos. Verificar su comportamiento
-                permite detectar errores, validar respuestas y reducir riesgos
-                antes de que impacten en la experiencia del usuario.
-            </p>
+            <h1 data-i18n="backendStatic013">La lógica también debe demostrar su calidad.</h1>
+            <p data-i18n="backendStatic014">
+                            Una API conecta las interfaces con las reglas de negocio, los datos y los servicios externos. Verificar su comportamiento permite detectar errores, validar respuestas y reducir riesgos antes de que impacten en la experiencia del usuario.
+                        </p>
         </header>
-
+        <!-- GUÍA INTERACTIVA DE CÓDIGOS HTTP -->
+        <section aria-labelledby="http-guide-title" class="http-guide" id="guia-http">
+            <div class="http-guide-header">
+                <span class="http-guide-label" data-i18n="backendStatic015">REFERENCIA INTERACTIVA</span>
+                <h2 data-i18n="backendStatic016" id="http-guide-title">
+                                    Guía de códigos de estado HTTP
+                                </h2>
+                <p data-i18n="backendStatic017">
+                                    Las respuestas HTTP indican cómo procesó el servidor una solicitud. Seleccioná una familia para conocer su significado, sus códigos más habituales y su relación con las pruebas de API.
+                                </p>
+            </div>
+            <div aria-label="Familias de códigos HTTP" class="http-guide-buttons" data-i18n-aria-label="backendFamiliesAria" role="group">
+                <button aria-pressed="false" class="http-guide-button" data-http-family="1xx" type="button">
+                                    1xx
+                                </button>
+                <button aria-pressed="true" class="http-guide-button active" data-http-family="2xx" type="button">
+                                    2xx
+                                </button>
+                <button aria-pressed="false" class="http-guide-button" data-http-family="3xx" type="button">
+                                    3xx
+                                </button>
+                <button aria-pressed="false" class="http-guide-button" data-http-family="4xx" type="button">
+                                    4xx
+                                </button>
+                <button aria-pressed="false" class="http-guide-button" data-http-family="5xx" type="button">
+                                    5xx
+                                </button>
+            </div>
+            <div aria-live="polite" class="http-guide-detail" hidden="" id="http-guide-detail">
+                <h3 data-i18n="backendStatic023" id="http-guide-family-title">
+                                    2xx — Respuestas exitosas
+                                </h3>
+                <p data-i18n="backendStatic024" id="http-guide-description">
+                                    El servidor procesó correctamente la solicitud.
+                                </p>
+                <div class="http-guide-examples" id="http-guide-examples">
+                    <div class="http-guide-example">
+                        <strong>200</strong>
+                        <span data-i18n="backendStatic025">OK — Solicitud procesada correctamente.</span>
+                    </div>
+                    <div class="http-guide-example">
+                        <strong>201</strong>
+                        <span data-i18n="backendStatic026">Created — Recurso creado correctamente.</span>
+                    </div>
+                    <div class="http-guide-example">
+                        <strong>204</strong>
+                        <span data-i18n="backendStatic027">No Content — Solicitud exitosa sin contenido.</span>
+                    </div>
+                </div>
+            </div>
+            <p class="http-guide-note">
+                <strong data-i18n="backendStatic028">Perspectiva QA:</strong>
+                <span data-i18n="backendStatic029">un código HTTP no determina por sí solo si una prueba fue aprobada. La evaluación depende del resultado esperado. Por ejemplo, HTTP 400 puede ser correcto cuando se verifica el rechazo de datos inválidos.</span>
+            </p>
+        </section>        
         <!-- 01. ARQUITECTURA -->
 
         <section class="showcase-section" id="arquitectura">
-            <h2>01. Arquitectura de la API</h2>
-
-            <p>
-                El backend del portfolio está desarrollado con Node.js y
-                Express. Expone endpoints para comprobar el estado del
-                servicio, registrar visitantes y procesar mensajes de contacto.
+            <h2 data-i18n="backendStatic030">01. Arquitectura de la API</h2>
+            <p data-i18n="backendStatic031">
+                            El backend del portfolio está desarrollado con Node.js y Express. Expone endpoints para comprobar el estado del servicio, registrar visitantes y procesar mensajes de contacto.
             </p>
 
             <ul>
-                <li><strong>GET /api/health:</strong> verifica la disponibilidad de la API.</li>
-                <li><strong>POST /api/visitors:</strong> recibe los datos del visitante y su consentimiento.</li>
-                <li><strong>POST /api/contact:</strong> valida y procesa mensajes de contacto.</li>
+                <li><strong>GET /api/health:</strong> <span data-i18n="backendStatic033">verifica la disponibilidad de la API.</span></li>
+                <li><strong>POST /api/visitors:</strong> <span data-i18n="backendStatic035">recibe los datos del visitante y su consentimiento.</span></li>
+                <li><strong>POST /api/contact:</strong> <span data-i18n="backendStatic037">valida y procesa mensajes de contacto.</span></li>
             </ul>
 
             <p>
-                <strong>Objetivo de QA:</strong> comprobar que cada endpoint
-                responda de acuerdo con su propósito y gestione correctamente
-                las solicitudes recibidas.
+            <strong data-i18n="backendStatic038">Objetivo de QA:</strong> <span data-i18n="backendStatic039">comprobar que cada endpoint responda de acuerdo con su propósito y gestione correctamente las solicitudes recibidas.</span>
             </p>
 
             <div class="validation-lab explorador-api">
-
-                <h3>Explorador de endpoints</h3>
-
-                <p class="explorador-descripcion">
-                    Seleccioná un endpoint para ejecutar una prueba real y consultar
-                    su respuesta HTTP.
+                <h3 data-i18n="backendStatic040">Explorador de endpoints</h3>
+                <p class="explorador-descripcion" data-i18n="backendStatic041"> Seleccioná un endpoint para ejecutar una prueba real y consultar su respuesta HTTP.
                 </p>
 
                 <div class="endpoint-resumen endpoint-resumen-cuatro">
@@ -822,51 +1465,46 @@
                         <div class="endpoint-info">
                             <span class="metodo-http metodo-get">GET</span>
                             <code>/api/health</code>
-                            <span class="endpoint-titulo">Disponibilidad</span>
-                            <span class="endpoint-descripcion">Estado del servicio</span>
+                            <span class="endpoint-titulo" data-i18n="backendStatic043">Disponibilidad</span>
+                            <span class="endpoint-descripcion" data-i18n="backendStatic044">Estado del servicio</span>
                         </div>
-                        <button type="button" class="endpoint-ejecutar"
-                            data-api-prueba="health">Ejecutar prueba</button>
+                        <button class="endpoint-ejecutar" data-api-prueba="health" data-i18n="backendStatic045" type="button">Ejecutar prueba</button>
                     </article>
 
                     <article class="endpoint-tarjeta">
                         <div class="endpoint-info">
                             <span class="metodo-http metodo-post">POST</span>
                             <code>/api/visitors</code>
-                            <span class="endpoint-titulo">Visitantes</span>
-                            <span class="endpoint-descripcion">Validación del registro</span>
+                            <span class="endpoint-titulo" data-i18n="backendStatic047">Visitantes</span>
+                            <span class="endpoint-descripcion" data-i18n="backendStatic048">Validación del registro</span>
                         </div>
-                        <button type="button" class="endpoint-ejecutar"
-                            data-api-prueba="visitors">Ejecutar prueba</button>
+                        <button class="endpoint-ejecutar" data-api-prueba="visitors" data-i18n="backendStatic049" type="button">Ejecutar prueba</button>
                     </article>
 
                     <article class="endpoint-tarjeta">
                         <div class="endpoint-info">
                             <span class="metodo-http metodo-post">POST</span>
                             <code>/api/contact</code>
-                            <span class="endpoint-titulo">Contacto</span>
-                            <span class="endpoint-descripcion">Validación del mensaje</span>
+                            <span class="endpoint-titulo" data-i18n="backendStatic051">Contacto</span>
+                            <span class="endpoint-descripcion" data-i18n="backendStatic052">Validación del mensaje</span>
                         </div>
-                        <button type="button" class="endpoint-ejecutar"
-                            data-api-prueba="contact">Ejecutar prueba</button>
+                        <button class="endpoint-ejecutar" data-api-prueba="contact" data-i18n="backendStatic053" type="button">Ejecutar prueba</button>
                     </article>
 
                     <article class="endpoint-tarjeta">
                         <div class="endpoint-info">
                             <span class="metodo-http metodo-qa">QA</span>
                             <code>API + Validaciones</code>
-                            <span class="endpoint-titulo">Integración</span>
-                            <span class="endpoint-descripcion">Rechazo de datos inválidos</span>
+                            <span class="endpoint-titulo" data-i18n="backendStatic055">Integración</span>
+                            <span class="endpoint-descripcion" data-i18n="backendStatic056">Rechazo de datos inválidos</span>
                         </div>
-                        <button type="button" class="endpoint-ejecutar"
-                            data-api-prueba="integration">Ejecutar prueba</button>
+                        <button class="endpoint-ejecutar" data-api-prueba="integration" data-i18n="backendStatic057" type="button">Ejecutar prueba</button>
                     </article>
 
                 </div>
                 <div class="consulta-health">
-                    <div id="api-resultado" role="status" aria-live="polite">
-                        <p class="health-mensaje-inicial">
-                            Seleccioná una tarjeta y ejecutá la prueba.
+                    <div aria-live="polite" id="api-resultado" role="status">
+                        <p class="health-mensaje-inicial" data-i18n="backendStatic058"> Seleccioná una tarjeta y ejecutá la prueba.
                         </p>
                     </div>
                 </div>
@@ -876,198 +1514,148 @@
 
         <!-- 02. VALIDACIONES -->
         <section class="showcase-section" id="validaciones">
-            <h2>02. Validaciones y reglas de negocio</h2>
-
-            <p>
-                Las validaciones verifican que los datos recibidos cumplan
-                las reglas de negocio antes de procesar una solicitud.
-            </p>
-
+            <h2 data-i18n="backendStatic059">02. Validaciones y reglas de negocio</h2>
+            <p data-i18n="backendStatic060">
+                            Las validaciones verifican que los datos recibidos cumplan las reglas de negocio antes de procesar una solicitud.
+                        </p>
             <div class="validation-lab">
-                <h3>02.1. Registro de visitantes</h3>
-
-                <p>
-                    Comprobá cómo responde la API ante datos obligatorios
-                    vacíos, formatos incorrectos y falta de consentimiento.
+                <h3 data-i18n="backendStatic061">02.1. Registro de visitantes</h3>
+                <p data-i18n="backendStatic062"> Comprobá cómo responde la API ante datos obligatorios vacíos, formatos incorrectos y falta de consentimiento.
                 </p>
-
-                <label for="qa-caso">Caso de prueba</label>
+                <label data-i18n="backendStatic063" for="qa-caso">Caso de prueba</label>
                 <select id="qa-caso">
-                    <option value="nombre">Nombre vacío</option>
-                    <option value="apellido">Apellido vacío</option>
-                    <option value="email-visitante">Email inválido</option>
-                    <option value="telefono-visitante">Teléfono inválido</option>
-                    <option value="consentimiento">Sin consentimiento</option>
+                    <option data-i18n="backendStatic064" value="nombre">Nombre vacío</option>
+                    <option data-i18n="backendStatic065" value="apellido">Apellido vacío</option>
+                    <option data-i18n="backendStatic066" value="email-visitante">Email inválido</option>
+                    <option data-i18n="backendStatic067" value="telefono-visitante">Teléfono inválido</option>
+                    <option data-i18n="backendStatic068" value="consentimiento">Sin consentimiento</option>
                 </select>
-
-                <button type="button" id="qa-ejecutar">
-                    Ejecutar prueba
+                <button data-i18n="backendStatic069" id="qa-ejecutar" type="button">
+                                    Ejecutar prueba
                 </button>
-
-                <div id="qa-resultado" role="status" aria-live="polite">
-                    <p class="health-mensaje-inicial">
-                        Seleccioná un caso y ejecutá la prueba.
+                <div aria-live="polite" id="qa-resultado" role="status">
+                    <p class="health-mensaje-inicial" data-i18n="backendStatic070">
+                                            Seleccioná un caso y ejecutá la prueba.
                     </p>
                 </div>
             </div>
 
             <div class="validation-lab">
-                <h3>02.2. Formulario de contacto</h3>
-
-                <p>
-                    Verificá el rechazo de mensajes vacíos, textos que superan
-                    el límite permitido y datos de contacto inválidos.
-                    Estos casos no deben enviar correos.
-                </p>
-
-                <label for="contacto-qa-caso">Caso de prueba</label>
+                <h3 data-i18n="backendStatic071">02.2. Formulario de contacto</h3>
+                <p data-i18n="backendStatic072">
+                                    Verificá el rechazo de mensajes vacíos, textos que superan el límite permitido y datos de contacto inválidos. Estos casos no deben enviar correos.
+                                </p>
+                <label data-i18n="backendStatic073" for="contacto-qa-caso">Caso de prueba</label>
                 <select id="contacto-qa-caso">
-                    <option value="mensaje-vacio">Mensaje vacío</option>
-                    <option value="mensaje-largo">Mensaje de más de 5000 caracteres</option>
-                    <option value="email-contacto">Email inválido</option>
-                    <option value="telefono-contacto">Teléfono inválido</option>
+                    <option data-i18n="backendStatic074" value="mensaje-vacio">Mensaje vacío</option>
+                    <option data-i18n="backendStatic075" value="mensaje-largo">Mensaje de más de 5000 caracteres</option>
+                    <option data-i18n="backendStatic076" value="email-contacto">Email inválido</option>
+                    <option data-i18n="backendStatic077" value="telefono-contacto">Teléfono inválido</option>
                 </select>
-
-                <button type="button" id="contacto-qa-ejecutar">
-                    Ejecutar prueba
+                <button data-i18n="backendStatic078" id="contacto-qa-ejecutar" type="button">
+                                    Ejecutar prueba
                 </button>
-
-                <div id="contacto-qa-resultado" role="status" aria-live="polite">
-                    <p class="health-mensaje-inicial">
-                        Seleccioná un caso y ejecutá la prueba.
+                <div aria-live="polite" id="contacto-qa-resultado" role="status">
+                    <p class="health-mensaje-inicial" data-i18n="backendStatic079">
+                                            Seleccioná un caso y ejecutá la prueba.
                     </p>
                 </div>
             </div>
 
             <p>
-                <strong>Objetivo de QA:</strong> confirmar que la API rechace
-                las solicitudes inválidas con respuestas HTTP coherentes y
-                mensajes de error controlados.
+                <strong data-i18n="backendStatic080">Objetivo de QA:</strong> <span data-i18n="backendStatic081">confirmar que la API rechace las solicitudes inválidas con respuestas HTTP coherentes y mensajes de error controlados.</span>
             </p>
         </section>
 
         <!-- 03. PERSISTENCIA -->
         <section class="showcase-section" id="persistencia">
-            <h2>03. Persistencia de datos</h2>
-
-            <p>
-                SQLite almacena los registros de visitantes. Estas pruebas
-                comprueban que los datos válidos se acepten y que las
-                restricciones de integridad impidan registros no autorizados.
+            <h2 data-i18n="backendStatic082">03. Persistencia de datos</h2>
+            <p data-i18n="backendStatic083">
+                            SQLite almacena los registros de visitantes. Estas pruebas comprueban que los datos válidos se acepten y que las restricciones de integridad impidan registros no autorizados.
             </p>
 
             <div class="persistencia-grid">
 
                 <article class="validation-lab persistencia-caso">
-                    <h3>03.1. Registro válido</h3>
-
-                    <p>
-                        Comprueba que la API acepte un visitante válido y lo
-                        almacene en SQLite, devolviendo su identificador.
+                    <h3 data-i18n="backendStatic084">03.1. Registro válido</h3>
+                    <p data-i18n="backendStatic085">
+                                            Comprueba que la API acepte un visitante válido y lo almacene en SQLite, devolviendo su identificador.
+                    </p>
+                    <p class="explorador-descripcion">
+                        <strong data-i18n="backendStatic086">Resultado esperado:</strong> <span data-i18n="backendStatic087">HTTP 201 y un ID entero.</span>
                     </p>
 
                     <p class="explorador-descripcion">
-                        <strong>Resultado esperado:</strong> HTTP 201 y un ID entero.
+                        <strong data-i18n="backendStatic088">Efecto:</strong> <span data-i18n="backendStatic089">crea un registro real en la base de datos.</span>
                     </p>
-
-                    <p class="explorador-descripcion">
-                        <strong>Efecto:</strong> crea un registro real en la base de datos.
-                    </p>
-
-                    <button type="button" id="persistencia-valido-ejecutar">
-                        Ejecutar prueba
+                    <button data-i18n="backendStatic090" id="persistencia-valido-ejecutar" type="button">
+                                            Ejecutar prueba
                     </button>
-
-                    <div id="persistencia-valido-resultado"
-                        role="status" aria-live="polite">
-                        <p class="health-mensaje-inicial">
-                            Esperando ejecución de la prueba.
+                    <div aria-live="polite" id="persistencia-valido-resultado" role="status">
+                        <p class="health-mensaje-inicial" data-i18n="backendStatic091">
+                                                    Esperando ejecución de la prueba.
                         </p>
                     </div>
                 </article>
 
                 <article class="validation-lab persistencia-caso">
-                    <h3>03.2. Sin consentimiento</h3>
-
-                    <p>
-                        Comprueba que la API rechace el registro cuando el visitante
-                        no ha otorgado el consentimiento obligatorio.
+                    <h3 data-i18n="backendStatic092">03.2. Sin consentimiento</h3>
+                    <p data-i18n="backendStatic093">
+                                            Comprueba que la API rechace el registro cuando el visitante no ha otorgado el consentimiento obligatorio.
+                    </p>
+                    <p class="explorador-descripcion">
+                        <strong data-i18n="backendStatic094">Resultado esperado:</strong> <span data-i18n="backendStatic095">HTTP 400 y errores de validación.</span>
                     </p>
 
                     <p class="explorador-descripcion">
-                        <strong>Resultado esperado:</strong> HTTP 400 y errores de validación.
+                        <strong data-i18n="backendStatic096">Efecto:</strong> <span data-i18n="backendStatic097">no debe crear un registro.</span>
                     </p>
-
-                    <p class="explorador-descripcion">
-                        <strong>Efecto:</strong> no debe crear un registro.
-                    </p>
-
-                    <button type="button" id="persistencia-sin-consentimiento-ejecutar">
-                        Ejecutar prueba
+                    <button data-i18n="backendStatic098" id="persistencia-sin-consentimiento-ejecutar" type="button">
+                                            Ejecutar prueba
                     </button>
-
-                    <div id="persistencia-sin-consentimiento-resultado"
-                        role="status" aria-live="polite">
-                        <p class="health-mensaje-inicial">
-                            Esperando ejecución de la prueba.
+                    <div aria-live="polite" id="persistencia-sin-consentimiento-resultado" role="status">
+                        <p class="health-mensaje-inicial" data-i18n="backendStatic099">
+                                                    Esperando ejecución de la prueba.
                         </p>
                     </div>
                 </article>
 
             </div>
             <p>
-                <strong>Objetivo de QA:</strong> verificar la aceptación de
-                registros válidos y el rechazo de datos que incumplan las
-                reglas de integridad.
+                <strong data-i18n="backendStatic100">Objetivo de QA:</strong> <span data-i18n="backendStatic101">verificar la aceptación de registros válidos y el rechazo de datos que incumplan las reglas de integridad.</span>
             </p>
         </section>
 
         <!-- 04. PRUEBAS -->
         <section class="showcase-section" id="pruebas-api">
-            <h2>04. Pruebas automatizadas</h2>
-
-            <p>
-                Las pruebas automatizadas del backend permiten comprobar
-                los contratos de la API, los escenarios negativos y el
-                tratamiento de errores.
+            <h2 data-i18n="backendStatic102">04. Pruebas automatizadas</h2>
+            <p data-i18n="backendStatic103">
+                            La suite automatizada verifica el comportamiento del backend mediante pruebas de API, validaciones unitarias y operaciones sobre SQLite. Su ejecución permite detectar regresiones y comprobar que los resultados obtenidos coincidan con los esperados.
             </p>
 
-            <ul>
-                <li>Disponibilidad y respuesta del servicio.</li>
-                <li>Validación de solicitudes correctas e incorrectas.</li>
-                <li>Procesamiento de mensajes de contacto.</li>
-                <li>Gestión de fallos del proveedor de correo.</li>
-                <li>Regresión para detectar cambios que afecten comportamientos existentes.</li>
-            </ul>
-
             <p>
-                <strong>Objetivo de QA:</strong> obtener resultados
-                reproducibles y detectar regresiones durante los cambios
-                del backend.
+                <strong data-i18n="backendStatic104">Objetivo de QA:</strong> <span data-i18n="backendStatic105">obtener resultados reproducibles y detectar regresiones durante los cambios del backend.</span>
             </p>
-
             <!-- Resultados de la última ejecución verificada -->
             <div class="validation-lab" id="resultados-pruebas-api">
-                <h3>Resultados de la suite automatizada</h3>
-
+                <h3 data-i18n="backendStatic106">Resultados de la suite automatizada</h3>
                 <p>
-                    Última ejecución verificada manualmente mediante
-                    <code>npm.cmd test</code>.
+                    <span data-i18n="backendStatic107">Última ejecución verificada: 23/10/2026, mediante</span> <code>npm.cmd test</code><span data-i18n="backendStatic108">. Se ejecutaron 15 pruebas automatizadas, sin fallos ni omisiones.</span>
                 </p>
 
                 <div class="resumen-pruebas">
                     <div>
-                        <span class="pruebas-etiqueta">Pruebas aprobadas</span>
+                        <span class="pruebas-etiqueta" data-i18n="backendStatic109">Pruebas aprobadas</span>
                         <strong class="pruebas-pass">15 PASS</strong>
                     </div>
 
                     <div>
-                        <span class="pruebas-etiqueta">Pruebas fallidas</span>
+                        <span class="pruebas-etiqueta" data-i18n="backendStatic111">Pruebas fallidas</span>
                         <strong class="pruebas-fail">0 FAIL</strong>
                     </div>
 
                     <div>
-                        <span class="pruebas-etiqueta">Pruebas omitidas</span>
+                        <span class="pruebas-etiqueta" data-i18n="backendStatic113">Pruebas omitidas</span>
                         <strong class="pruebas-skip">0 SKIP</strong>
                     </div>
                 </div>
@@ -1076,157 +1664,128 @@
 
                     <!-- Gráfico 1: estado de las pruebas -->
                     <div class="grafico-pruebas">
-                        <h4>Estado de ejecución</h4>
-
-                        <svg
-                            class="dona-pruebas"
-                            viewBox="0 0 220 220"
-                            role="img"
-                            aria-label="15 pruebas aprobadas, 0 fallidas y 0 omitidas"
-                        >
-                            <circle
-                                cx="110"
-                                cy="110"
-                                r="72"
-                                fill="none"
-                                stroke="var(--border)"
-                                stroke-width="24"
-                            />
-
-                            <circle
-                                cx="110"
-                                cy="110"
-                                r="72"
-                                fill="none"
-                                stroke="#6A9955"
-                                stroke-width="24"
-                                stroke-dasharray="452.39 452.39"
-                                stroke-linecap="butt"
-                                transform="rotate(-90 110 110)"
-                            />
-
-                            <text
-                                x="110"
-                                y="105"
-                                text-anchor="middle"
-                                fill="var(--text)"
-                                font-size="34"
-                                font-weight="600"
-                            >15/15</text>
-
-                            <text
-                                x="110"
-                                y="130"
-                                text-anchor="middle"
-                                fill="var(--text)"
-                                font-size="13"
-                            >PASS</text>
+                        <h4 data-i18n="backendStatic115">Estado de ejecución</h4>
+                        <svg aria-label="15 pruebas aprobadas, 0 fallidas y 0 omitidas" class="dona-pruebas" data-i18n-aria-label="backendChartAria" role="img" viewbox="0 0 220 220">
+                            <circle cx="110" cy="110" fill="none" r="72" stroke="var(--border)" stroke-width="24"></circle>
+                            <circle cx="110" cy="110" fill="none" r="72" stroke="#6A9955" stroke-dasharray="452.39 452.39" stroke-linecap="butt" stroke-width="24" transform="rotate(-90 110 110)"></circle>
+                            <text fill="var(--text)" font-size="34" font-weight="600" text-anchor="middle" x="110" y="105">15/15</text>
+                            <text fill="var(--text)" font-size="13" text-anchor="middle" x="110" y="130">PASS</text>
                         </svg>
 
                         <div class="leyenda-dona">
                             <div>
-                                <span
-                                    class="indicador-color"
-                                    style="background:#6A9955"
-                                ></span>
-                                <span>PASS — 15 aprobadas</span>
+                                <span class="indicador-color" style="background:#6A9955"></span>
+                                <span data-i18n="backendStatic117">PASS — 15 aprobadas</span>
                             </div>
 
                             <div>
-                                <span
-                                    class="indicador-color"
-                                    style="background:#CE9178"
-                                ></span>
-                                <span>FAIL — 0 fallidas</span>
+                                <span class="indicador-color" style="background:#CE9178"></span>
+                                <span data-i18n="backendStatic118">FAIL — 0 fallidas</span>
                             </div>
 
                             <div>
-                                <span
-                                    class="indicador-color"
-                                    style="background:#DCDCAA"
-                                ></span>
-                                <span>SKIP — 0 omitidas</span>
+                                <span class="indicador-color" style="background:#DCDCAA"></span>
+                                <span data-i18n="backendStatic119">SKIP — 0 omitidas</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Gráfico 2: distribución por categoría -->
                     <div class="grafico-pruebas">
-                        <h4>Distribución por categoría</h4>
-
+                        <h4 data-i18n="backendStatic120">Distribución por categoría</h4>
                         <div class="barra-categoria">
                             <div class="barra-categoria-cabecera">
-                                <span>API e integración</span>
-                                <strong>9 · 60 %</strong>
+                                <span data-i18n="backendStatic121">API e integración</span>
+                                <strong data-i18n="backendMetricsApi">9 · 60 %</strong>
                             </div>
-
-                            <div
-                                class="barra-fondo"
-                                role="img"
-                                aria-label="API e integración: 9 de 15 pruebas, 60 por ciento"
-                            >
-                                <div
-                                    class="barra-valor"
-                                    style="width:60%;background:#569CD6"
-                                ></div>
+                            <div aria-label="API e integración: 9 de 15 pruebas, 60 por ciento" class="barra-fondo" data-i18n-aria-label="backendBarAria0" role="img">
+                                <div class="barra-valor" style="width:60%;background:#569CD6"></div>
                             </div>
                         </div>
 
                         <div class="barra-categoria">
                             <div class="barra-categoria-cabecera">
-                                <span>Persistencia SQLite</span>
-                                <strong>2 · 13,3 %</strong>
+                                <span data-i18n="backendStatic122">Persistencia SQLite</span>
+                                <strong data-i18n="backendMetricsSqlite">2 · 13,3 %</strong>
                             </div>
-
-                            <div
-                                class="barra-fondo"
-                                role="img"
-                                aria-label="Persistencia SQLite: 2 de 15 pruebas, 13,3 por ciento"
-                            >
-                                <div
-                                    class="barra-valor"
-                                    style="width:13.3333%;background:#9CDCFE"
-                                ></div>
+                            <div aria-label="Persistencia SQLite: 2 de 15 pruebas, 13,3 por ciento" class="barra-fondo" data-i18n-aria-label="backendBarAria1" role="img">
+                                <div class="barra-valor" style="width:13.3333%;background:#9CDCFE"></div>
                             </div>
                         </div>
 
                         <div class="barra-categoria">
                             <div class="barra-categoria-cabecera">
-                                <span>Validaciones unitarias</span>
-                                <strong>4 · 26,7 %</strong>
+                                <span data-i18n="backendStatic123">Validaciones unitarias</span>
+                                <strong data-i18n="backendMetricsUnit">4 · 26,7 %</strong>
                             </div>
-
-                            <div
-                                class="barra-fondo"
-                                role="img"
-                                aria-label="Validaciones unitarias: 4 de 15 pruebas, 26,7 por ciento"
-                            >
-                                <div
-                                    class="barra-valor"
-                                    style="width:26.6667%;background:#C586C0"
-                                ></div>
+                            <div aria-label="Validaciones unitarias: 4 de 15 pruebas, 26,7 por ciento" class="barra-fondo" data-i18n-aria-label="backendBarAria2" role="img">
+                                <div class="barra-valor" style="width:26.6667%;background:#C586C0"></div>
                             </div>
                         </div>
 
                         <p>
-                            <small>
-                                Total: 15 pruebas distribuidas en tres categorías.
+                            <small data-i18n="backendStatic124">
+                                                            Total: 15 pruebas distribuidas en tres categorías.
                             </small>
                         </p>
                     </div>
 
                 </div>
 
+                <!-- Biblioteca de pruebas automatizadas -->
+                <details class="api-tests-library">
+                    <summary data-i18n="backendStatic125">Consultar pruebas automatizadas</summary>
+                    <div class="api-tests-library-content">
+                        <article class="api-tests-group">
+                            <h4 data-i18n="backendStatic126">01. API e integración</h4>
+                            <code>backend/tests/api.test.js</code>
+                            <p data-i18n="backendStatic127">
+                                                            Nueve pruebas que verifican las respuestas HTTP, las validaciones de visitantes y el tratamiento de mensajes de contacto.
+                            </p>
+                            <ol>
+                                <li data-i18n="backendStatic128">Disponibilidad de la API.</li>
+                                <li data-i18n="backendStatic129">Registro válido de visitantes.</li>
+                                <li data-i18n="backendStatic130">Rechazo de correo inválido.</li>
+                                <li data-i18n="backendStatic131">Rechazo de teléfono inválido.</li>
+                                <li data-i18n="backendStatic132">Rechazo por falta de consentimiento.</li>
+                                <li data-i18n="backendStatic133">Servicio de correo no configurado.</li>
+                                <li data-i18n="backendStatic134">Envío correcto mediante el servicio de correo.</li>
+                                <li data-i18n="backendStatic135">Rechazo de mensaje vacío.</li>
+                                <li data-i18n="backendStatic136">Gestión de fallos del proveedor SMTP.</li>
+                            </ol>
+                        </article>
+                        <article class="api-tests-group">
+                            <h4 data-i18n="backendStatic137">02. Persistencia SQLite</h4>
+                            <code>backend/tests/database.test.js</code>
+                            <p data-i18n="backendStatic138">
+                                                            Dos pruebas independientes sobre una base de datos temporal en memoria.
+                            </p>
+                            <ol>
+                                <li data-i18n="backendStatic139">Inserción y recuperación de un visitante.</li>
+                                <li data-i18n="backendStatic140">Rechazo de inserción sin consentimiento.</li>
+                            </ol>
+                        </article>
+                        <article class="api-tests-group">
+                            <h4 data-i18n="backendStatic141">03. Validaciones unitarias</h4>
+                            <code>backend/tests/visitor.validator.test.js</code>
+                            <p data-i18n="backendStatic142">
+                                                            Cuatro pruebas que comprueban las reglas de validación de los datos del visitante.
+                            </p>
+                            <ol>
+                            <li data-i18n="backendStatic143">Aceptación de un visitante válido.</li>
+                            <li data-i18n="backendStatic144">Rechazo de correo inválido.</li>
+                            <li data-i18n="backendStatic145">Rechazo de teléfono inválido.</li>
+                            <li data-i18n="backendStatic146">Rechazo por falta de consentimiento.</li>
+                            </ol>
+                        </article>
+                    </div>
+                </details>
                 <p>
-                    <strong>Resultado:</strong> suite completada con 15 pruebas
-                    aprobadas, 0 fallidas y 0 omitidas.
+                    <strong data-i18n="backendStatic147">Resultado:</strong> <span data-i18n="backendStatic148">suite completada con 15 pruebas aprobadas, 0 fallidas y 0 omitidas.</span>
                 </p>
-
                 <p>
-                    <small>
-                        Estos datos corresponden a la última ejecución verificada
-                        manualmente. Los gráficos son representaciones estáticas:
-                        no ejecutan ni actualizan las pruebas automáticamente.
+                    <small data-i18n="backendStatic149">
+                                            Estos datos corresponden a la última ejecución verificada manualmente. Los gráficos son representaciones estáticas: no ejecutan ni actualizan las pruebas automáticamente.
                     </small>
                 </p>
             </div>
@@ -1234,500 +1793,1155 @@
     </main>
 
     <!-- PIE FIJO -->
-    <footer class="cv-bottom-bar">
-        <a class="cv-back-button" href="index.html#qa">
-            <span class="button-brace" aria-hidden="true">{</span>
-            Volver a QA
-            <span class="button-brace" aria-hidden="true">}</span>
+    <footer class="cv-bottom-bar"><div class="cv-language-selector"><select aria-label="Seleccionar idioma" class="cv-language-select" data-i18n-aria-label="backendLanguageAria" id="cv-language-select"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></select></div>
+        <a class="cv-back-button" data-i18n="backendStatic150" href="index.html#qa">            
+                    Volver a QUALITY ASSURANCE            
         </a>
     </footer>
-    <script src="js/backend/api-client.js"></script>
+    <script src="js/translations.js"></script><script src="js/page-i18n.js"></script><script>
+    /* Traducción de los textos generados por los laboratorios; no altera datos ni respuestas API. */
+    function backendText(key, fallback) {
+        const language = localStorage.getItem("portfolioLanguage") || "es";
+        return window.portfolioTranslations?.[language]?.[key] ?? fallback;
+    }
+    </script><script src="js/backend/api-client.js"></script>
     <script src="js/backend/result-renderer.js"></script>
     <script>
-        // Cerrar el índice después de elegir una sección.
-        const showcaseIndex = document.querySelector(".showcase-index");
+            // Cerrar el índice después de elegir una sección.
+            const showcaseIndex = document.querySelector(".showcase-index");
 
-        showcaseIndex.querySelectorAll(".index-link").forEach(link => {
-            link.addEventListener("click", () => {
-                showcaseIndex.open = false;
+            showcaseIndex.querySelectorAll(".index-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    showcaseIndex.open = false;
+                });
             });
-        });
-    </script>
-
+        </script>
     <script>
+        (() => {
+            const guide = document.getElementById("guia-http");
+            if (!guide) return;
 
-        const apiResultado = document.getElementById('api-resultado');
-        const tarjetasPrueba = document.querySelectorAll('[data-api-prueba]');
+            const buttons = guide.querySelectorAll("[data-http-family]");
+            const detail = document.getElementById("http-guide-detail");
+            let activeFamily = null;
+            const title = document.getElementById("http-guide-family-title");
+            const description = document.getElementById("http-guide-description");
+            const examples = document.getElementById("http-guide-examples");
 
-        const casosVisitante = {
-            nombre: {
-                nombre: '   ',
-                apellido: 'Tester',
-                email: 'qa.demo@example.com',
-                telefono: '1123456789',
-                consentimiento: true
-            }
-        };
+            const obtenerFamiliasHTTP = () => ({
+                "1xx": {
+                    title: backendText("backendDynamic000", "1xx — Respuestas informativas"),
+                    description: backendText("backendDynamic001", "El servidor recibió la solicitud y comunica información sobre su procesamiento."),
+                    codes: [
+                        ["100", backendText("backendDynamic002", "Continue — El cliente puede continuar enviando la solicitud.")],
+                        ["101", backendText("backendDynamic003", "Switching Protocols — El servidor acepta cambiar de protocolo.")],
+                        ["103", backendText("backendDynamic004", "Early Hints — Permite anticipar recursos que podrían necesitarse.")]
+                    ]
+                },
 
-        const casosContacto = {
-            'mensaje-vacio': {
-                nombre: 'QA Demo',
-                apellido: 'Tester',
-                email: 'qa.demo@example.com',
-                telefono: '1123456789',
-                mensaje: ''
-            }
-        };
+                "2xx": {
+                    title: backendText("backendDynamic005", "2xx — Respuestas exitosas"),
+                    description: backendText("backendDynamic006", "La solicitud se recibió, comprendió y procesó correctamente."),
+                    codes: [
+                        ["200", backendText("backendDynamic007", "OK — La solicitud se completó correctamente.")],
+                        ["201", backendText("backendDynamic008", "Created — Se creó un nuevo recurso.")],
+                        ["202", backendText("backendDynamic009", "Accepted — La solicitud fue aceptada para su procesamiento.")],
+                        ["204", backendText("backendDynamic010", "No Content — La operación fue exitosa y no devuelve contenido.")]
+                    ]
+                },
 
-        async function ejecutarSolicitud(url, opciones = {}) {
-            const baseUrl = window.BackendAPI.baseUrl;
+                "3xx": {
+                    title: backendText("backendDynamic011", "3xx — Redirecciones"),
+                    description: backendText("backendDynamic012", "Se requiere una acción adicional para completar la solicitud o utilizar una respuesta almacenada."),
+                    codes: [
+                        ["301", backendText("backendDynamic013", "Moved Permanently — El recurso cambió de ubicación permanentemente.")],
+                        ["302", backendText("backendDynamic014", "Found — El recurso se encuentra temporalmente en otra ubicación.")],
+                        ["304", backendText("backendDynamic015", "Not Modified — Puede reutilizarse una respuesta almacenada en caché.")],
+                        ["307", backendText("backendDynamic016", "Temporary Redirect — Redirección temporal que conserva el método HTTP.")]
+                    ]
+                },
 
-            const path = url.startsWith(baseUrl)
-                ? url.slice(baseUrl.length)
-                : url;
+                "4xx": {
+                    title: backendText("backendDynamic017", "4xx — Errores del cliente"),
+                    description: backendText("backendDynamic018", "La solicitud presenta un problema, como datos inválidos, falta de autorización o un recurso inexistente."),
+                    codes: [
+                        ["400", backendText("backendDynamic019", "Bad Request — La solicitud no puede procesarse por un problema del cliente.")],
+                        ["401", backendText("backendDynamic020", "Unauthorized — Se requiere autenticación válida.")],
+                        ["403", backendText("backendDynamic021", "Forbidden — El servidor rechaza el acceso al recurso.")],
+                        ["404", backendText("backendDynamic022", "Not Found — No se encontró el recurso solicitado.")],
+                        ["405", backendText("backendDynamic023", "Method Not Allowed — El método HTTP no está permitido.")],
+                        ["409", backendText("backendDynamic024", "Conflict — La solicitud entra en conflicto con el estado actual del recurso.")],
+                        ["422", backendText("backendDynamic025", "Unprocessable Content — El contenido es correcto en formato, pero no puede procesarse según sus instrucciones.")],
+                        ["429", backendText("backendDynamic026", "Too Many Requests — Se excedió el límite de solicitudes.")]
+                    ]
+                },
 
-            const resultado = await window.BackendAPI.request(
-                path,
-                opciones
-            );
-
-            return {
-                respuesta: resultado.response,
-                datos: resultado.data
-            };
-        }
-
-        async function probarHealth() {
-            const resultado = await ejecutarSolicitud('/api/health');
-
-            return {
-                ...resultado,
-                aprobado: resultado.respuesta.ok &&
-                    resultado.datos.status === 'ok'
-            };
-        }
-
-        async function probarVisitantes() {
-            const resultado = await ejecutarSolicitud(
-                '/api/visitors',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(casosVisitante.nombre)
-                }
-            );
-
-            return {
-                ...resultado,
-                aprobado: resultado.respuesta.status === 400 &&
-                    Array.isArray(resultado.datos.errors) &&
-                    resultado.datos.errors.length > 0
-            };
-        }
-
-        async function probarContacto() {
-            const resultado = await ejecutarSolicitud(
-                '/api/contact',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(casosContacto['mensaje-vacio'])
-                }
-            );
-
-            return {
-                ...resultado,
-                aprobado: resultado.respuesta.status === 400 &&
-                    Array.isArray(resultado.datos.errors) &&
-                    resultado.datos.errors.length > 0
-            };
-        }
-
-        async function probarIntegracion() {
-            const health = await probarHealth();
-            const visitante = await probarVisitantes();
-
-            return {
-                aprobado: health.aprobado && visitante.aprobado,
-                respuesta: visitante.respuesta,
-                datos: {
-                    disponibilidad: {
-                        aprobado: health.aprobado,
-                        http: health.respuesta.status,
-                        respuesta: health.datos
-                    },
-                    rechazoVisitanteInvalido: {
-                        aprobado: visitante.aprobado,
-                        http: visitante.respuesta.status,
-                        respuesta: visitante.datos
-                    }
-                }
-            };
-        }
-        async function ejecutarPrueba(tipo, boton) {
-            tarjetasPrueba.forEach((tarjeta) => {
-                tarjeta.disabled = true;
+                "5xx": {
+                    title: backendText("backendDynamic027", "5xx — Errores del servidor"),
+                    description: backendText("backendDynamic028", "El servidor no pudo completar correctamente la solicitud debido a un error o una condición del servicio."),
+                    codes: [
+                        ["500", backendText("backendDynamic029", "Internal Server Error — Se produjo un error interno inesperado.")],
+                        ["501", backendText("backendDynamic030", "Not Implemented — El servidor no admite la funcionalidad necesaria.")],
+                        ["502", backendText("backendDynamic031", "Bad Gateway — Un servidor intermediario recibió una respuesta inválida.")],
+                        ["503", backendText("backendDynamic032", "Service Unavailable — El servicio no está disponible temporalmente.")],
+                        ["504", backendText("backendDynamic033", "Gateway Timeout — Un servidor intermediario no recibió respuesta a tiempo.")]
+                    ]
+                },
+                
             });
 
-            apiResultado.replaceChildren();
+            function showFamily(familyId) {
+                const family = obtenerFamiliasHTTP()[familyId];
+                if (!family) return;
 
-            const progreso = document.createElement('p');
-            progreso.style.color = '#DCDCAA';
-            progreso.textContent = 'Ejecutando prueba...';
-            apiResultado.appendChild(progreso);
+                activeFamily = familyId;
+                detail.hidden = false;
 
-            try {
-                let resultado;
+                title.textContent = family.title;
+                description.textContent = family.description;
 
-                switch (tipo) {
-                    case 'health':
-                        resultado = await probarHealth();
-                        break;
+                examples.replaceChildren();
 
-                    case 'visitors':
-                        resultado = await probarVisitantes();
-                        break;
+                family.codes.forEach(([code, meaning]) => {
+                    const item = document.createElement("div");
+                    item.className = "http-guide-example";
 
-                    case 'contact':
-                        resultado = await probarContacto();
-                        break;
+                    const number = document.createElement("strong");
+                    number.textContent = code;
 
-                    case 'integration':
-                        resultado = await probarIntegracion();
-                        break;
+                    const text = document.createElement("span");
+                    text.textContent = meaning;
 
-                    default:
-                        throw new Error('Tipo de prueba desconocido.');
-                }
+                    item.append(number, text);
+                    examples.appendChild(item);
+                });
 
-                const estado = resultado.respuesta
-                    ? `HTTP ${resultado.respuesta.status} — ${resultado.respuesta.statusText}`
-                    : 'Resultado de integración';
+                buttons.forEach(button => {
+                    const active = button.dataset.httpFamily === familyId;
 
-                window.BackendResultRenderer.render(
-                    apiResultado,
-                    resultado.aprobado,
-                    estado,
-                    resultado.datos
-                );
-
-            } catch (error) {
-                window.BackendResultRenderer.render(
-                    apiResultado,
-                    false,
-                    'No se pudo completar la solicitud',
-                    {
-                        error: 'No se pudo conectar con la API.',
-                        indicacion: 'Verificá que el backend esté iniciado en localhost:3000.',
-                        detalle: error.message
-                    }
-                );
-
-            } finally {
-                tarjetasPrueba.forEach((tarjeta) => {
-                    tarjeta.disabled = false;
+                    button.classList.toggle("active", active);
+                    button.setAttribute("aria-pressed", String(active));
                 });
             }
-        }
-        tarjetasPrueba.forEach((boton) => {
-            boton.addEventListener('click', () => {
-                ejecutarPrueba(boton.dataset.apiPrueba, boton);
+
+            buttons.forEach(button => {
+                button.addEventListener("click", () => {
+                    const selectedFamily = button.dataset.httpFamily;
+
+                    if (activeFamily === selectedFamily) {
+                        activeFamily = null;
+                        detail.hidden = true;
+
+                        buttons.forEach(item => {
+                            item.classList.remove("active");
+                            item.setAttribute("aria-pressed", "false");
+                            item.setAttribute("aria-expanded", "false");
+                        });
+
+                        return;
+                    }
+
+                    showFamily(selectedFamily);
+
+                    buttons.forEach(item => {
+                        item.setAttribute(
+                            "aria-expanded",
+                            String(item.dataset.httpFamily === selectedFamily)
+                        );
+                    });
+                });
+
+                button.setAttribute("aria-controls", "http-guide-detail");
+                button.setAttribute("aria-expanded", "false");
             });
-        });
-    </script>
+            // Actualizar la familia HTTP seleccionada al cambiar de idioma.
+            document.addEventListener("portfolio:languagechange", () => {
 
+                // Si no hay una familia seleccionada, mantener el panel cerrado.
+                if (!activeFamily || detail.hidden) return;
+
+                // Reconstruir los textos utilizando el idioma actual.
+                showFamily(activeFamily);
+            });
+
+            /* Estado inicial: todos los paneles cerrados */
+            detail.hidden = true;
+            activeFamily = null;
+
+            buttons.forEach(button => {
+                button.classList.remove("active");
+                button.setAttribute("aria-pressed", "false");
+            });
+        })();
+        </script>
     <script>
-        // PUNTO 02 — LABORATORIO DE VALIDACIONES
 
-        const casosValidacionVisitante = {
-            nombre: {
-                nombre: ' ',
-                apellido: 'Tester',
-                email: 'qa.validacion@example.com',
-                telefono: '1123456789',
-                consentimiento: true
-            },
-            apellido: {
-                nombre: 'QA',
-                apellido: ' ',
-                email: 'qa.validacion@example.com',
-                telefono: '1123456789',
-                consentimiento: true
-            },
-            'email-visitante': {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'correo-invalido',
-                telefono: '1123456789',
-                consentimiento: true
-            },
-            'telefono-visitante': {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'qa.validacion@example.com',
-                telefono: 'abc',
-                consentimiento: true
-            },
-            consentimiento: {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'qa.validacion@example.com',
-                telefono: '1123456789',
-                consentimiento: false
-            }
-        };
+            const apiResultado = document.getElementById('api-resultado');
+            const tarjetasPrueba = document.querySelectorAll('[data-api-prueba]');
 
-        const casosValidacionContacto = {
-            'mensaje-vacio': {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'qa.validacion@example.com',
-                telefono: '1123456789',
-                mensaje: ''
-            },
-            'mensaje-largo': {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'qa.validacion@example.com',
-                telefono: '1123456789',
-                mensaje: 'A'.repeat(5001)
-            },
-            'email-contacto': {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'correo-invalido',
-                telefono: '1123456789',
-                mensaje: 'Prueba de validación del contacto.'
-            },
-            'telefono-contacto': {
-                nombre: 'QA',
-                apellido: 'Tester',
-                email: 'qa.validacion@example.com',
-                telefono: 'abc',
-                mensaje: 'Prueba de validación del contacto.'
-            }
-        };
+            let ultimaPruebaAPI = null;
 
-        async function solicitarValidacion(url, datos) {
-            const resultado = await window.BackendAPI.post(url, datos);
-
-            const cuerpo = resultado.data;
-
-            return {
-                http: resultado.status,
-                ok: resultado.status === 400 &&
-                    Array.isArray(cuerpo.errors) &&
-                    cuerpo.errors.length > 0,
-                cuerpo
+            const casosVisitante = {
+                nombre: {
+                    nombre: '   ',
+                    apellido: 'Tester',
+                    email: 'qa.demo@example.com',
+                    telefono: '1123456789',
+                    consentimiento: true
+                }
             };
-        }
 
-        async function ejecutarValidacion(
-            boton,
-            contenedor,
-            obtenerDatos,
-            endpoint
-        ) {
-            boton.disabled = true;
-            contenedor.replaceChildren();
+            const casosContacto = {
+                'mensaje-vacio': {
+                    nombre: 'QA Demo',
+                    apellido: 'Tester',
+                    email: 'qa.demo@example.com',
+                    telefono: '1123456789',
+                    mensaje: ''
+                }
+            };
 
-            const progreso = document.createElement('p');
-            progreso.style.color = '#DCDCAA';
-            progreso.textContent = 'Ejecutando validación...';
-            contenedor.appendChild(progreso);
+            async function ejecutarSolicitud(url, opciones = {}) {
+                const baseUrl = window.BackendAPI.baseUrl;
 
-            try {
-                const resultado = await solicitarValidacion(
-                    endpoint,
-                    obtenerDatos()
+                const path = url.startsWith(baseUrl)
+                    ? url.slice(baseUrl.length)
+                    : url;
+
+                const resultado = await window.BackendAPI.request(
+                    path,
+                    opciones
                 );
 
-                window.BackendResultRenderer.render(
-                    contenedor,
-                    resultado.ok,
-                    `HTTP ${resultado.http}`,
-                    resultado.cuerpo
-                );
+                return {
+                    respuesta: resultado.response,
+                    datos: resultado.data
+                };
+            }
 
-            } catch (error) {
-                window.BackendResultRenderer.render(
-                    contenedor,
-                    false,
-                    'HTTP sin respuesta',
+            async function probarHealth() {
+                const resultado = await ejecutarSolicitud('/api/health');
+
+                return {
+                    ...resultado,
+                    aprobado: resultado.respuesta.ok &&
+                        resultado.datos.status === 'ok'
+                };
+            }
+
+            async function probarVisitantes() {
+                const resultado = await ejecutarSolicitud(
+                    '/api/visitors',
                     {
-                        error: 'No se pudo conectar con la API.',
-                        detalle: error.message,
-                        indicacion:
-                            'Verificá que el backend esté iniciado en localhost:3000.'
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(casosVisitante.nombre)
                     }
                 );
 
-            } finally {
-                boton.disabled = false;
+                return {
+                    ...resultado,
+                    aprobado: resultado.respuesta.status === 400 &&
+                        Array.isArray(resultado.datos.errors) &&
+                        resultado.datos.errors.length > 0
+                };
             }
-        }
 
-
-        // 02.1 — Registro de visitantes
-
-        const selectorVisitante = document.getElementById('qa-caso');
-        const botonVisitante = document.getElementById('qa-ejecutar');
-        const resultadoVisitante = document.getElementById('qa-resultado');
-
-        if (selectorVisitante && botonVisitante && resultadoVisitante) {
-            botonVisitante.addEventListener('click', () => {
-                const caso = selectorVisitante.value;
-
-                ejecutarValidacion(
-                    botonVisitante,
-                    resultadoVisitante,
-                    () => casosValidacionVisitante[caso],
-                    '/api/visitors'
+            async function probarContacto() {
+                const resultado = await ejecutarSolicitud(
+                    '/api/contact',
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(casosContacto['mensaje-vacio'])
+                    }
                 );
-            });
-        }
 
-        // 02.2 — Formulario de contacto
+                return {
+                    ...resultado,
+                    aprobado: resultado.respuesta.status === 400 &&
+                        Array.isArray(resultado.datos.errors) &&
+                        resultado.datos.errors.length > 0
+                };
+            }
 
-        const selectorContacto = document.getElementById('contacto-qa-caso');
-        const botonContacto = document.getElementById('contacto-qa-ejecutar');
-        const resultadoContacto = document.getElementById('contacto-qa-resultado');
+            async function probarIntegracion() {
+                const health = await probarHealth();
+                const visitante = await probarVisitantes();
 
-        if (selectorContacto && botonContacto && resultadoContacto) {
-            botonContacto.addEventListener('click', () => {
-                const caso = selectorContacto.value;
+                return {
+                    aprobado: health.aprobado && visitante.aprobado,
+                    respuesta: visitante.respuesta,
+                    datos: {
+                        disponibilidad: {
+                            aprobado: health.aprobado,
+                            http: health.respuesta.status,
+                            respuesta: health.datos
+                        },
+                        rechazoVisitanteInvalido: {
+                            aprobado: visitante.aprobado,
+                            http: visitante.respuesta.status,
+                            respuesta: visitante.datos
+                        }
+                    }
+                };
+            }        
+            function obtenerInterpretacionQA(tipo, resultado) {
+                const interpretaciones = {
+                    health: {
+                        titulo: backendText("backendDynamic034", "Disponibilidad de la API"),
+                        aprobado: backendText("backendDynamic035", "El servicio respondió correctamente y confirmó su disponibilidad."),
+                        fallido: backendText("backendDynamic036", "La respuesta no cumplió las condiciones esperadas para comprobar la disponibilidad."),
+                        esperado: backendText("backendDynamic037", "HTTP 200 y status igual a ok.")
+                    },
 
-                ejecutarValidacion(
-                    botonContacto,
-                    resultadoContacto,
-                    () => casosValidacionContacto[caso],
-                    '/api/contact'
+                    visitors: {
+                        titulo: backendText("backendDynamic038", "Validación del registro"),
+                        aprobado: backendText("backendDynamic039", "La API rechazó correctamente un visitante con el nombre vacío."),
+                        fallido: backendText("backendDynamic040", "La API no devolvió el rechazo esperado para el registro inválido."),
+                        esperado: backendText("backendDynamic041", "HTTP 400 y una lista de errores de validación.")
+                    },
+
+                    contact: {
+                        titulo: backendText("backendDynamic042", "Validación del contacto"),
+                        aprobado: backendText("backendDynamic043", "La API rechazó correctamente un mensaje vacío."),
+                        fallido: backendText("backendDynamic044", "La API no devolvió el rechazo esperado para el mensaje vacío."),
+                        esperado: backendText("backendDynamic041", "HTTP 400 y una lista de errores de validación.")
+                    },
+
+                    integration: {
+                        titulo: backendText("backendDynamic045", "Integración de servicios"),
+                        aprobado: backendText("backendDynamic046", "Se verificó la disponibilidad de la API y el rechazo de un visitante inválido."),
+                        fallido: backendText("backendDynamic047", "Al menos una de las verificaciones de integración no cumplió el resultado esperado."),
+                        esperado: backendText("backendDynamic048", "Disponibilidad correcta y rechazo HTTP 400 del registro inválido.")
+                    }
+                };
+
+                const escenario = interpretaciones[tipo];
+
+                if (!escenario) return null;
+
+                return {
+                    titulo: escenario.titulo,
+                    descripcion: resultado.aprobado
+                        ? escenario.aprobado
+                        : escenario.fallido,
+                    esperado: escenario.esperado
+                };
+            }
+
+            function mostrarInterpretacionQA(contenedor, interpretacion) {
+                if (!interpretacion) return;
+
+                const bloque = document.createElement("div");
+                bloque.className = "api-interpretacion-qa";
+
+                const titulo = document.createElement("h4");
+                titulo.textContent = backendText("backendDynamic049", "¿Qué demuestra esta prueba?");
+
+                const escenario = document.createElement("strong");
+                escenario.textContent = interpretacion.titulo;
+
+                const descripcion = document.createElement("p");
+                descripcion.textContent = interpretacion.descripcion;
+
+                const esperado = document.createElement("p");
+
+                const etiqueta = document.createElement("strong");
+                etiqueta.textContent = backendText("backendDynamic050", "Resultado esperado: ");
+
+                esperado.append(
+                    etiqueta,
+                    document.createTextNode(interpretacion.esperado)
                 );
-            });
-        }
-    </script>
 
+                bloque.append(titulo, escenario, descripcion, esperado);
+                contenedor.appendChild(bloque);
+            }
+            
+            function mostrarSolicitudEnviada(contenedor, tipo) {
+                const solicitudes = {
+                    health: {
+                        metodo: "GET",
+                        ruta: "/api/health",
+                        datos: null
+                    },
+
+                    visitors: {
+                        metodo: "POST",
+                        ruta: "/api/visitors",
+                        datos: casosVisitante.nombre
+                    },
+
+                    contact: {
+                        metodo: "POST",
+                        ruta: "/api/contact",
+                        datos: casosContacto["mensaje-vacio"]
+                    },
+
+                    integration: {
+                        metodo: "GET + POST",
+                        ruta: "/api/health + /api/visitors",
+                        datos: casosVisitante.nombre
+                    }
+                };
+
+                const solicitud = solicitudes[tipo];
+                if (!solicitud) return;
+                if (tipo === "integration") {
+                    const desplegable = document.createElement("details");
+                    desplegable.className = "api-solicitud-desplegable";
+
+                    const encabezado = document.createElement("summary");
+                    encabezado.textContent = backendText("backendDynamic051", "Ver solicitudes enviadas");
+
+                    const contenido = document.createElement("div");
+                    contenido.className = "api-solicitud-contenido";
+
+                    const tituloHealth = document.createElement("p");
+                    tituloHealth.textContent = "1. GET /api/health";
+
+                    const descripcionHealth = document.createElement("p");
+                    descripcionHealth.textContent =
+                        backendText("backendDynamic052", "Consulta de disponibilidad sin cuerpo JSON.");
+
+                    const tituloVisitantes = document.createElement("p");
+                    tituloVisitantes.textContent = "2. POST /api/visitors";
+
+                    const codigo = document.createElement("pre");
+                    const json = document.createElement("code");
+
+                    json.textContent = JSON.stringify(
+                        casosVisitante.nombre,
+                        null,
+                        2
+                    );
+
+                    codigo.appendChild(json);
+
+                    contenido.append(
+                        tituloHealth,
+                        descripcionHealth,
+                        tituloVisitantes,
+                        codigo
+                    );
+
+                    desplegable.append(encabezado, contenido);
+                    contenedor.appendChild(desplegable);
+
+                    return;
+                }
+
+                const desplegable = document.createElement("details");
+                desplegable.className = "api-solicitud-desplegable";
+
+                const encabezado = document.createElement("summary");
+                encabezado.textContent = backendText("backendDynamic053", "Ver solicitud enviada");
+
+                const contenido = document.createElement("div");
+                contenido.className = "api-solicitud-contenido";
+
+                const metodo = document.createElement("p");
+                metodo.textContent =
+                    `${solicitud.metodo} ${solicitud.ruta}`;
+
+                contenido.appendChild(metodo);
+
+                if (solicitud.datos !== null) {
+                    const codigo = document.createElement("pre");
+                    const json = document.createElement("code");
+
+                    json.textContent = JSON.stringify(
+                        solicitud.datos,
+                        null,
+                        2
+                    );
+
+                    codigo.appendChild(json);
+                    contenido.appendChild(codigo);
+                } else {
+                    const mensaje = document.createElement("p");
+                    mensaje.textContent =
+                        backendText("backendDynamic054", "Esta solicitud GET no envía un cuerpo JSON.");
+
+                    contenido.appendChild(mensaje);
+                }
+
+                desplegable.append(encabezado, contenido);
+                contenedor.appendChild(desplegable);
+            }
+
+            async function ejecutarPrueba(tipo, boton) {
+                tarjetasPrueba.forEach((tarjeta) => {
+                    tarjeta.disabled = true;
+                });
+
+                apiResultado.replaceChildren();
+
+                const progreso = document.createElement('p');
+                progreso.style.color = '#DCDCAA';
+                progreso.textContent = backendText("backendDynamic055", "Ejecutando prueba...");
+                apiResultado.appendChild(progreso);
+
+                try {
+                    let resultado;
+
+                    switch (tipo) {
+                        case 'health':
+                            resultado = await probarHealth();
+                            break;
+
+                        case 'visitors':
+                            resultado = await probarVisitantes();
+                            break;
+
+                        case 'contact':
+                            resultado = await probarContacto();
+                            break;
+
+                        case 'integration':
+                            resultado = await probarIntegracion();
+                            break;
+
+                        default:
+                            throw new Error(backendText("backendDynamic056", "Tipo de prueba desconocido."));
+                    }
+
+                    ultimaPruebaAPI = {
+                        tipo,
+                        resultado
+                    };
+
+                    const estado = resultado.respuesta
+                        ? `HTTP ${resultado.respuesta.status} — ${resultado.respuesta.statusText}`
+                        : backendText("backendDynamic057", "Resultado de integración");
+
+                    window.BackendResultRenderer.render(
+                        apiResultado,
+                        resultado.aprobado,
+                        estado,
+                        resultado.datos
+                    );
+                    mostrarSolicitudEnviada(
+                        apiResultado,
+                        tipo
+                    );
+                    const interpretacion = obtenerInterpretacionQA(tipo, resultado);
+
+                    mostrarInterpretacionQA(
+                        apiResultado,
+                        interpretacion
+                    );
+
+                } catch (error) {
+                    window.BackendResultRenderer.render(
+                        apiResultado,
+                        false,
+                        backendText("backendDynamic058", "No se pudo completar la solicitud"),
+                        {
+                            error: backendText("backendDynamic059", "No se pudo conectar con la API."),
+                            indicacion: backendText("backendDynamic060", "Verificá que el backend esté iniciado en localhost:3000."),
+                            detalle: error.message
+                        }
+                    );
+
+                } finally {
+                    tarjetasPrueba.forEach((tarjeta) => {
+                        tarjeta.disabled = false;
+                    });
+                }
+
+                }
+                
+                function actualizarIdiomaResultadoAPI() {
+                    if (!ultimaPruebaAPI) return;
+
+                    const { tipo, resultado } = ultimaPruebaAPI;
+
+                    const estado = resultado.respuesta
+                        ? `HTTP ${resultado.respuesta.status} — ${resultado.respuesta.statusText}`
+                        : backendText("backendDynamic057", "Resultado de integración");
+
+                    window.BackendResultRenderer.render(
+                        apiResultado,
+                        resultado.aprobado,
+                        estado,
+                        resultado.datos
+                    );
+
+                    mostrarSolicitudEnviada(apiResultado, tipo);
+
+                    const interpretacion = obtenerInterpretacionQA(tipo, resultado);
+
+                    mostrarInterpretacionQA(
+                        apiResultado,
+                        interpretacion
+                    );                       
+
+                }
+
+            document.addEventListener(
+                "portfolio:languagechange",
+                actualizarIdiomaResultadoAPI
+            );
+            tarjetasPrueba.forEach((boton) => {
+                boton.addEventListener('click', () => {
+                    ejecutarPrueba(boton.dataset.apiPrueba, boton);
+                });
+            });
+        </script>
     <script>
-        // PUNTO 03 — LABORATORIO DE PERSISTENCIA
+            // PUNTO 02 — LABORATORIO DE VALIDACIONES
+                    
+            function mostrarDatosValidacion(contenedor, endpoint, datos) {
+                const desplegable = document.createElement("details");
+                desplegable.className = "api-solicitud-desplegable";
 
-        const botonPersistenciaValido = document.getElementById(
-            'persistencia-valido-ejecutar'
-        );
-        const resultadoPersistenciaValido = document.getElementById(
-            'persistencia-valido-resultado'
-        );
+                const encabezado = document.createElement("summary");
+                encabezado.textContent = backendText("backendDynamic053", "Ver solicitud enviada");
 
-        const botonPersistenciaSinConsentimiento = document.getElementById(
-            'persistencia-sin-consentimiento-ejecutar'
-        );
-        const resultadoPersistenciaSinConsentimiento = document.getElementById(
-            'persistencia-sin-consentimiento-resultado'
-        );
+                const contenido = document.createElement("div");
+                contenido.className = "api-solicitud-contenido";
 
-        async function solicitarPersistencia(datos) {
-            const resultado = await window.BackendAPI.post(
-                '/api/visitors',
-                datos
+                const ruta = document.createElement("p");
+                ruta.textContent = `POST ${endpoint}`;
+
+                const codigo = document.createElement("pre");
+                const json = document.createElement("code");
+
+                json.textContent = JSON.stringify(datos, null, 2);
+
+                codigo.appendChild(json);
+                contenido.append(ruta, codigo);
+                desplegable.append(encabezado, contenido);
+
+                contenedor.appendChild(desplegable);
+            }
+
+            const casosValidacionVisitante = {
+                nombre: {
+                    nombre: ' ',
+                    apellido: 'Tester',
+                    email: 'qa.validacion@example.com',
+                    telefono: '1123456789',
+                    consentimiento: true
+                },
+                apellido: {
+                    nombre: 'QA',
+                    apellido: ' ',
+                    email: 'qa.validacion@example.com',
+                    telefono: '1123456789',
+                    consentimiento: true
+                },
+                'email-visitante': {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'correo-invalido',
+                    telefono: '1123456789',
+                    consentimiento: true
+                },
+                'telefono-visitante': {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'qa.validacion@example.com',
+                    telefono: 'abc',
+                    consentimiento: true
+                },
+                consentimiento: {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'qa.validacion@example.com',
+                    telefono: '1123456789',
+                    consentimiento: false
+                }
+            };
+
+            const casosValidacionContacto = {
+                'mensaje-vacio': {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'qa.validacion@example.com',
+                    telefono: '1123456789',
+                    mensaje: ''
+                },
+                'mensaje-largo': {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'qa.validacion@example.com',
+                    telefono: '1123456789',
+                    mensaje: 'A'.repeat(5001)
+                },
+                'email-contacto': {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'correo-invalido',
+                    telefono: '1123456789',
+                    mensaje: 'Prueba de validación del contacto.'
+                },
+                'telefono-contacto': {
+                    nombre: 'QA',
+                    apellido: 'Tester',
+                    email: 'qa.validacion@example.com',
+                    telefono: 'abc',
+                    mensaje: 'Prueba de validación del contacto.'
+                }
+            };
+
+            async function solicitarValidacion(url, datos) {
+                const resultado = await window.BackendAPI.post(url, datos);
+
+                const cuerpo = resultado.data;
+
+                return {
+                    http: resultado.status,
+                    ok: resultado.status === 400 &&
+                        Array.isArray(cuerpo.errors) &&
+                        cuerpo.errors.length > 0,
+                    cuerpo
+                };
+            }
+            // Conserva los resultados de ambos laboratorios de validación.
+            const ultimasValidaciones = new Map();
+
+            async function ejecutarValidacion(
+                boton,
+                contenedor,
+                obtenerDatos,
+                endpoint
+            ) {
+                boton.disabled = true;
+                contenedor.replaceChildren();
+
+                const progreso = document.createElement('p');
+                progreso.style.color = '#DCDCAA';
+                progreso.textContent = backendText("backendDynamic061", "Ejecutando validación...");
+                contenedor.appendChild(progreso);
+
+                try {
+                    const datosEnviados = obtenerDatos();
+
+                    const resultado = await solicitarValidacion(
+                        endpoint,
+                        datosEnviados
+                    );
+
+                    // Guardar el resultado para actualizar su idioma
+                    // sin realizar otra solicitud a la API.
+                    ultimasValidaciones.set(contenedor.id, {
+                        endpoint,
+                        datosEnviados,
+                        resultado
+                    });
+
+                    window.BackendResultRenderer.render(
+                        contenedor,
+                        resultado.ok,
+                        `HTTP ${resultado.http}`,
+                        resultado.cuerpo
+                    );
+                    mostrarDatosValidacion(
+                        contenedor,
+                        endpoint,
+                        datosEnviados
+                    );
+
+                } catch (error) {
+                    window.BackendResultRenderer.render(
+                        contenedor,
+                        false,
+                        backendText("backendDynamic062", "HTTP sin respuesta"),
+                        {
+                            error: backendText("backendDynamic059", "No se pudo conectar con la API."),
+                            detalle: error.message,
+                            indicacion:
+                                backendText("backendDynamic060", "Verificá que el backend esté iniciado en localhost:3000.")
+                        }
+                    );
+
+                } finally {
+                    boton.disabled = false;
+                }
+            }
+            // Actualizar los resultados de validación al cambiar de idioma,
+            // sin volver a enviar solicitudes HTTP.
+            function actualizarIdiomaValidaciones() {
+
+                ultimasValidaciones.forEach((datosGuardados, idContenedor) => {
+
+                    const contenedor = document.getElementById(idContenedor);
+
+                    if (!contenedor) return;
+
+                    const { endpoint, datosEnviados, resultado } = datosGuardados;
+
+                    window.BackendResultRenderer.render(
+                        contenedor,
+                        resultado.ok,
+                        `HTTP ${resultado.http}`,
+                        resultado.cuerpo
+                    );
+
+                    mostrarDatosValidacion(
+                        contenedor,
+                        endpoint,
+                        datosEnviados
+                    );
+                });
+            }
+
+            // Escuchar los cambios de idioma de la página.
+            document.addEventListener(
+                "portfolio:languagechange",
+                actualizarIdiomaValidaciones
             );
 
-            return {
-                http: resultado.status,
-                cuerpo: resultado.data
-            };
-        }
 
-        async function ejecutarPersistencia(
-            boton,
-            contenedor,
-            datos,
-            validarResultado
-        ) {
-            boton.disabled = true;
-            contenedor.replaceChildren();
+            // 02.1 — Registro de visitantes
 
-            const progreso = document.createElement('p');
-            progreso.style.color = '#DCDCAA';
-            progreso.textContent = 'Ejecutando prueba de persistencia...';
-            contenedor.appendChild(progreso);
+            const selectorVisitante = document.getElementById('qa-caso');
+            const botonVisitante = document.getElementById('qa-ejecutar');
+            const resultadoVisitante = document.getElementById('qa-resultado');
 
-            try {
-                const resultado = await solicitarPersistencia(datos);
-                const aprobado = validarResultado(resultado);
+            if (selectorVisitante && botonVisitante && resultadoVisitante) {
+                botonVisitante.addEventListener('click', () => {
+                    const caso = selectorVisitante.value;
 
-                window.BackendResultRenderer.render(
-                    contenedor,
-                    aprobado,
-                    `HTTP ${resultado.http}`,
-                    resultado.cuerpo
-                );
-
-            } catch (error) {
-                window.BackendResultRenderer.render(
-                    contenedor,
-                    false,
-                    'Sin respuesta',
-                    {
-                        error: 'No se pudo conectar con la API.',
-                        detalle: error.message,
-                        indicacion:
-                            'Verificá que el backend esté iniciado en localhost:3000.'
-                    }
-                );
-
-            } finally {
-                boton.disabled = false;
+                    ejecutarValidacion(
+                        botonVisitante,
+                        resultadoVisitante,
+                        () => casosValidacionVisitante[caso],
+                        '/api/visitors'
+                    );
+                });
             }
-        }
 
-        // 03.1 — Registro válido
-        if (botonPersistenciaValido && resultadoPersistenciaValido) {
-            botonPersistenciaValido.addEventListener('click', () => {
-                ejecutarPersistencia(
-                    botonPersistenciaValido,
-                    resultadoPersistenciaValido,
-                    {
-                        nombre: 'QA Persistencia',
-                        apellido: 'Demo',
-                        email: 'qa.persistencia@example.com',
-                        telefono: '1123456789',
-                        consentimiento: true
-                    },
-                    resultado => {
-                        const id = resultado.cuerpo?.visitor?.id;
+            // 02.2 — Formulario de contacto
 
-                        return resultado.http === 201 &&
-                            Number.isInteger(id);
-                    }
+            const selectorContacto = document.getElementById('contacto-qa-caso');
+            const botonContacto = document.getElementById('contacto-qa-ejecutar');
+            const resultadoContacto = document.getElementById('contacto-qa-resultado');
+
+            if (selectorContacto && botonContacto && resultadoContacto) {
+                botonContacto.addEventListener('click', () => {
+                    const caso = selectorContacto.value;
+
+                    ejecutarValidacion(
+                        botonContacto,
+                        resultadoContacto,
+                        () => casosValidacionContacto[caso],
+                        '/api/contact'
+                    );
+                });
+            }
+        </script>
+    <script>
+            // PUNTO 03 — LABORATORIO DE PERSISTENCIA
+            
+            function mostrarEvidenciaSQLite(contenedor, persistencia) {
+                if (!persistencia || persistencia.verificada !== true) {
+                    return;
+                }
+
+                const panel = document.createElement("div");
+                panel.className = "sqlite-evidence-panel";
+
+                const titulo = document.createElement("h4");
+                titulo.textContent = backendText("backendDynamic063", "Verificación real en SQLite");
+
+                const descripcion = document.createElement("p");
+                descripcion.textContent =
+                    backendText("backendDynamic064", "El registro fue recuperado mediante una consulta SELECT a la base de datos.");
+
+                const detalles = document.createElement("div");
+                detalles.className = "sqlite-evidence-details";
+
+                const campos = [
+                    [backendText("backendDynamic065", "Motor de base de datos"), persistencia.motor],
+                    [backendText("backendDynamic066", "Identificador del registro"), persistencia.registroId],
+                    [backendText("backendDynamic067", "Consentimiento"), persistencia.consentimiento ? backendText("backendDynamic068", "Válido") : backendText("backendDynamic069", "Inválido")],
+                    [backendText("backendDynamic070", "Fecha de registro"), persistencia.fechaRegistro]
+                ];
+
+                campos.forEach(([etiqueta, valor]) => {
+                    const fila = document.createElement("div");
+
+                    const nombre = document.createElement("span");
+                    nombre.textContent = etiqueta;
+
+                    const dato = document.createElement("strong");
+                    dato.textContent = String(valor);
+
+                    fila.append(nombre, dato);
+                    detalles.appendChild(fila);
+                });
+
+                const estado = document.createElement("p");
+                estado.className = "sqlite-evidence-status";
+                estado.textContent = backendText("backendDynamic071", "✓ Registro encontrado en SQLite");
+
+                panel.append(titulo, descripcion, detalles, estado);
+                contenedor.appendChild(panel);
+            }
+            
+            function mostrarRechazoSQLite(contenedor, persistencia) {
+                if (!persistencia || persistencia.insercionEjecutada !== false) {
+                    return;
+                }
+
+                const panel = document.createElement("div");
+                panel.className = "sqlite-evidence-panel";
+
+                const titulo = document.createElement("h4");
+                titulo.textContent = backendText("backendDynamic072", "Protección de datos en SQLite");
+
+                const descripcion = document.createElement("p");
+                descripcion.textContent =
+                    backendText("backendDynamic073", "La API rechazó la solicitud durante la validación, antes de ejecutar una operación INSERT.");
+
+                const detalles = document.createElement("div");
+                detalles.className = "sqlite-evidence-details";
+
+                const campos = [
+                    [backendText("backendDynamic074", "Resultado HTTP"), "400 — Bad Request"],
+                    [backendText("backendDynamic075", "Validación"), backendText("backendDynamic076", "Consentimiento obligatorio")],
+                    [backendText("backendDynamic077", "Operación INSERT"), backendText("backendDynamic078", "No ejecutada")],
+                    [backendText("backendDynamic079", "Motivo"), persistencia.motivo]
+                ];
+
+                campos.forEach(([etiqueta, valor]) => {
+                    const fila = document.createElement("div");
+
+                    const nombre = document.createElement("span");
+                    nombre.textContent = etiqueta;
+
+                    const dato = document.createElement("strong");
+                    dato.textContent = String(valor);
+
+                    fila.append(nombre, dato);
+                    detalles.appendChild(fila);
+                });
+
+                const estado = document.createElement("p");
+                estado.className = "sqlite-evidence-status";
+                estado.textContent = backendText("backendDynamic080", "✓ Solicitud rechazada antes de insertar datos");
+
+                panel.append(titulo, descripcion, detalles, estado);
+                contenedor.appendChild(panel);
+            }
+
+            const botonPersistenciaValido = document.getElementById(
+                'persistencia-valido-ejecutar'
+            );
+            const resultadoPersistenciaValido = document.getElementById(
+                'persistencia-valido-resultado'
+            );
+
+            const botonPersistenciaSinConsentimiento = document.getElementById(
+                'persistencia-sin-consentimiento-ejecutar'
+            );
+            const resultadoPersistenciaSinConsentimiento = document.getElementById(
+                'persistencia-sin-consentimiento-resultado'
+            );
+
+            async function solicitarPersistencia(datos) {
+                const resultado = await window.BackendAPI.post(
+                    '/api/visitors',
+                    datos
                 );
-            });
-        }
 
-        // 03.2 — Registro sin consentimiento
-        if (
-            botonPersistenciaSinConsentimiento &&
-            resultadoPersistenciaSinConsentimiento
-        ) {
-            botonPersistenciaSinConsentimiento.addEventListener('click', () => {
-                ejecutarPersistencia(
-                    botonPersistenciaSinConsentimiento,
-                    resultadoPersistenciaSinConsentimiento,
-                    {
-                        nombre: 'QA Persistencia',
-                        apellido: 'Demo',
-                        email: 'qa.persistencia@example.com',
-                        telefono: '1123456789',
-                        consentimiento: false
-                    },
-                    resultado => {
-                        return resultado.http === 400 &&
-                            Array.isArray(resultado.cuerpo?.errors) &&
-                            resultado.cuerpo.errors.length > 0;
+                return {
+                    http: resultado.status,
+                    cuerpo: resultado.data
+                };
+            }
+            // Conservar los resultados de ambas pruebas de persistencia.
+            const ultimasPersistencias = new Map();
+
+            async function ejecutarPersistencia(
+                boton,
+                contenedor,
+                datos,
+                validarResultado
+            ) {
+                boton.disabled = true;
+                contenedor.replaceChildren();
+
+                const progreso = document.createElement('p');
+                progreso.style.color = '#DCDCAA';
+                progreso.textContent = backendText("backendDynamic081", "Ejecutando prueba de persistencia...");
+                contenedor.appendChild(progreso);
+
+                try {
+                    const resultado = await solicitarPersistencia(datos);
+                    const aprobado = validarResultado(resultado);
+
+                    // Guardar la respuesta original para reconstruir la interfaz
+                    // sin repetir el POST ni generar nuevos registros en SQLite.
+                    ultimasPersistencias.set(contenedor.id, {
+                        datos,
+                        resultado,
+                        aprobado
+                    });
+
+                    window.BackendResultRenderer.render(
+                        contenedor,
+                        aprobado,
+                        `HTTP ${resultado.http}`,
+                        resultado.cuerpo
+                    );
+                    mostrarDatosValidacion(
+                        contenedor,
+                        '/api/visitors',
+                        datos
+                    );
+                    mostrarEvidenciaSQLite(
+                        contenedor,
+                        resultado.cuerpo?.persistencia
+                    );
+                    if (resultado.cuerpo?.persistencia?.insercionEjecutada === false) {
+                        mostrarRechazoSQLite(
+                            contenedor,
+                            resultado.cuerpo.persistencia
+                        );
                     }
-                );
+
+                } catch (error) {
+                    window.BackendResultRenderer.render(
+                        contenedor,
+                        false,
+                        backendText("backendDynamic082", "Sin respuesta"),
+                        {
+                            error: backendText("backendDynamic059", "No se pudo conectar con la API."),
+                            detalle: error.message,
+                            indicacion:
+                                backendText("backendDynamic060", "Verificá que el backend esté iniciado en localhost:3000.")
+                        }
+                    );
+
+                } finally {
+                    boton.disabled = false;
+                }
+            }
+            // Actualizar los resultados de persistencia al cambiar de idioma,
+            // sin repetir solicitudes POST ni insertar nuevos registros.
+            function actualizarIdiomaPersistencias() {
+
+                ultimasPersistencias.forEach((datosGuardados, idContenedor) => {
+
+                    const contenedor = document.getElementById(idContenedor);
+
+                    if (!contenedor) return;
+
+                    const { datos, resultado, aprobado } = datosGuardados;
+
+                    // Reconstruir el resultado HTTP y JSON original.
+                    window.BackendResultRenderer.render(
+                        contenedor,
+                        aprobado,
+                        `HTTP ${resultado.http}`,
+                        resultado.cuerpo
+                    );
+
+                    // Reconstruir la solicitud enviada.
+                    mostrarDatosValidacion(
+                        contenedor,
+                        '/api/visitors',
+                        datos
+                    );
+
+                    // Reconstruir la evidencia de SQLite.
+                    mostrarEvidenciaSQLite(
+                        contenedor,
+                        resultado.cuerpo?.persistencia
+                    );
+
+                    // Reconstruir la evidencia de rechazo, si corresponde.
+                    if (resultado.cuerpo?.persistencia?.insercionEjecutada === false) {
+                        mostrarRechazoSQLite(
+                            contenedor,
+                            resultado.cuerpo.persistencia
+                        );
+                    }
+                });
+            }
+
+            // Escuchar los cambios de idioma de la página.
+            document.addEventListener(
+                "portfolio:languagechange",
+                actualizarIdiomaPersistencias
+            );
+
+            // 03.1 — Registro válido
+            if (botonPersistenciaValido && resultadoPersistenciaValido) {
+                botonPersistenciaValido.addEventListener('click', () => {
+                    ejecutarPersistencia(
+                        botonPersistenciaValido,
+                        resultadoPersistenciaValido,
+                        {
+                            nombre: 'QA Persistencia',
+                            apellido: 'Demo',
+                            email: 'qa.persistencia@example.com',
+                            telefono: '1123456789',
+                            consentimiento: true
+                        },
+                        resultado => {
+                            const id = resultado.cuerpo?.visitor?.id;
+
+                            return resultado.http === 201 &&
+                                Number.isInteger(id);
+                        }
+                    );
+                });
+            }
+
+            // 03.2 — Registro sin consentimiento
+            if (
+                botonPersistenciaSinConsentimiento &&
+                resultadoPersistenciaSinConsentimiento
+            ) {
+                botonPersistenciaSinConsentimiento.addEventListener('click', () => {
+                    ejecutarPersistencia(
+                        botonPersistenciaSinConsentimiento,
+                        resultadoPersistenciaSinConsentimiento,
+                        {
+                            nombre: 'QA Persistencia',
+                            apellido: 'Demo',
+                            email: 'qa.persistencia@example.com',
+                            telefono: '1123456789',
+                            consentimiento: false
+                        },
+                        resultado => {
+                            return resultado.http === 400 &&
+                                Array.isArray(resultado.cuerpo?.errors) &&
+                                resultado.cuerpo.errors.length > 0;
+                        }
+                    );
+                });
+            }
+        </script>
+        <script>
+            /* Cerrar el menú al utilizar el buscador */
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const menu = document.getElementById("indice-contenidos");
+                const buscador = document.getElementById("portfolio-search-input");
+
+                if (!menu || !buscador) return;
+
+                const cerrarMenu = () => {
+                    if (menu.open) {
+                        menu.open = false;
+                    }
+                };
+
+                buscador.addEventListener("focus", cerrarMenu);
+                buscador.addEventListener("input", cerrarMenu);
             });
-        }
-    </script>
+        </script>
+
+        <script defer="" src="js/search.js"></script>
 
 
 </body>
+
 </html>
