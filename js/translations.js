@@ -1033,6 +1033,8 @@ const translations = {
         qaEvidenceBug003: "BUG-003 · Validación del apellido",
         qaEvidenceBug004: "BUG-004 · Validación del email",
         qaEvidenceBug005: "BUG-005 · Longitud máxima del teléfono",
+        qaMarkdownViewerTitle: "Documentación QA",
+        qaMarkdownClose: "Cerrar documento",
 
 // PIE DE PÁGINA
         qaText126: "Volver a QUALITY ASSURANCE",
@@ -3020,6 +3022,8 @@ const translations = {
         qaEvidenceBug003: "BUG-003 · Last name validation",
         qaEvidenceBug004: "BUG-004 · Email validation",
         qaEvidenceBug005: "BUG-005 · Maximum phone number length",
+        qaMarkdownViewerTitle: "QA Documentation",
+        qaMarkdownClose: "Close document",
 
 // PIE DE PÁGINA
         qaText126: "Back to QUALITY ASSURANCE",
@@ -4997,6 +5001,8 @@ const translations = {
         qaEvidenceBug003: "BUG-003 · Validação do sobrenome",
         qaEvidenceBug004: "BUG-004 · Validação do e-mail",
         qaEvidenceBug005: "BUG-005 · Comprimento máximo do telefone",
+        qaMarkdownViewerTitle: "Documentação de QA",
+        qaMarkdownClose: "Fechar documento",
 
 // PIE DE PÁGINA
         qaText126: "Voltar para QUALITY ASSURANCE",

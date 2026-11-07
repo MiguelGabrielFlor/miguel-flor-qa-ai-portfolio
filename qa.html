@@ -891,6 +891,169 @@
                 grid-template-columns: minmax(0, 1fr);
             }
         }
+        /* VISOR DE DOCUMENTACIÓN QA */
+
+        .qa-markdown-dialog {
+            width: min(1000px, 94vw);
+            max-width: 1000px;
+            max-height: 90vh;
+            padding: 0;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .qa-markdown-dialog[open] {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-markdown-dialog::backdrop {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .qa-markdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .qa-markdown-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        #qaMarkdownClose {
+            flex-shrink: 0;
+            padding: 6px 12px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        #qaMarkdownClose:hover {
+            background: #334155;
+        }
+
+        .qa-markdown-content {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 24px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .qa-markdown-content h1,
+        .qa-markdown-content h2,
+        .qa-markdown-content h3 {
+            margin: 24px 0 12px;
+            color: #f8fafc;
+        }
+
+        .qa-markdown-content p,
+        .qa-markdown-content ul,
+        .qa-markdown-content ol {
+            margin-bottom: 16px;
+        }
+
+        .qa-markdown-content pre {
+            overflow-x: auto;
+            padding: 16px;
+            border-radius: 8px;
+            background: #020617;
+        }
+
+        .qa-markdown-content code {
+            font-family: Consolas, monospace;
+        }
+
+        .qa-markdown-content table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .qa-markdown-content th,
+        .qa-markdown-content td {
+            padding: 10px 14px;
+            border: 1px solid #475569;
+            text-align: left;
+        }
+
+        .qa-markdown-content a {
+            color: #38bdf8;
+        }
+
+        @media (max-width: 600px) {
+            .qa-markdown-dialog {
+                width: 96vw;
+                max-height: 94vh;
+            }
+
+            .qa-markdown-header {
+                padding: 14px 16px;
+            }
+
+            .qa-markdown-content {
+                padding: 16px;
+            }
+        }
+        /* Tipografía compacta del visor Markdown */
+
+        .qa-markdown-content {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .qa-markdown-content h1 {
+            font-size: 1.5rem;
+            line-height: 1.3;
+            margin: 20px 0 12px;
+        }
+
+        .qa-markdown-content h2 {
+            font-size: 1.2rem;
+            line-height: 1.4;
+            margin: 18px 0 10px;
+        }
+
+        .qa-markdown-content h3 {
+            font-size: 1rem;
+            line-height: 1.4;
+            margin: 16px 0 8px;
+        }
+
+        .qa-markdown-content h4 {
+            font-size: 0.9rem;
+            margin: 12px 0 6px;
+        }
+
+        .qa-markdown-content p,
+        .qa-markdown-content ul,
+        .qa-markdown-content ol {
+            margin-bottom: 10px;
+        }
+
+        .qa-markdown-content th,
+        .qa-markdown-content td {
+            font-size: 0.85rem;
+            padding: 8px 10px;
+        }
+
+        .qa-markdown-header h2 {
+            font-size: 1.1rem;
+        }
 
     </style>
 </head>
@@ -6038,8 +6201,8 @@
                                     con requisitos asociados, precondiciones, datos de
                                     entrada, pasos de ejecución y resultados esperados.
                     </p>
-                    <a data-i18n="qaText114" href="docs/test-cases.md" rel="noopener" target="_blank">
-                    Consultar casos de prueba →
+                    <a data-i18n="qaText114" href="docs/test-cases.md" class="qa-markdown-link">
+                        Consultar casos de prueba →
                     </a>
                 </article>
 
@@ -6064,8 +6227,8 @@
                                     criterios de entrada y salida, y entregables
                                     definidos para el proyecto.
                     </p>
-                    <a data-i18n="qaText117" href="docs/test-plan.md" rel="noopener" target="_blank">
-                    Consultar plan de pruebas →
+                    <a data-i18n="qaText117" href="docs/test-plan.md" class="qa-markdown-link">
+                        Consultar plan de pruebas →
                     </a>
                 </article>
 
@@ -6122,8 +6285,8 @@
                         Laboratorio Backend · Internacionalización ES/EN/PT:
                         15/15 PASS en Chrome, Firefox y Edge.
                     </p>
-                    <a data-i18n="qaText120" href="docs/test-report.md" rel="noopener" target="_blank">
-                    Consultar resultados →
+                    <a data-i18n="qaText120" href="docs/test-report.md" class="qa-markdown-link">
+                        Consultar resultados →
                     </a>
                 </article>
 
@@ -6150,8 +6313,8 @@
                                     impacto, seguimiento de correcciones y evidencias
                                     disponibles para su consulta.
                     </p>
-                    <a data-i18n="qaText123" href="docs/bug-reports.md" rel="noopener" target="_blank">
-                    Consultar registro de defectos →
+                    <a data-i18n="qaText123" href="docs/bug-reports.md" class="qa-markdown-link">
+                        Consultar registro de defectos →
                     </a>
                     <details class="evidence-disclosure">
                         <summary data-i18n="qaEvidenceDisclosure">Evidencias</summary>
@@ -6782,6 +6945,126 @@
                 buscador.addEventListener("input", cerrarMenu);
             });
         </script>
+        <!-- VISOR DE DOCUMENTACIÓN QA -->
+        <dialog id="qaMarkdownDialog" class="qa-markdown-dialog"
+                aria-labelledby="qaMarkdownTitle">
+
+            <div class="qa-markdown-header">
+                <h2 id="qaMarkdownTitle"
+                    data-i18n="qaMarkdownViewerTitle">
+                    Documentación QA
+                </h2>
+
+                <button type="button"
+                        id="qaMarkdownClose"
+                        data-i18n-aria-label="qaMarkdownClose"
+                        aria-label="Cerrar documento">
+                    &times;
+                </button>
+            </div>
+
+            <div id="qaMarkdownContent"
+                class="qa-markdown-content"
+                aria-live="polite">
+            </div>
+
+        </dialog>
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dialog = document.getElementById("qaMarkdownDialog");
+            const content = document.getElementById("qaMarkdownContent");
+            const closeButton = document.getElementById("qaMarkdownClose");
+
+            if (!dialog || !content || !closeButton) return;
+
+            let activeController = null;
+
+            document.querySelectorAll(".qa-markdown-link").forEach(function (link) {
+                link.addEventListener("click", async function (event) {
+                    event.preventDefault();
+
+                    if (activeController) {
+                        activeController.abort();
+                    }
+
+                    activeController = new AbortController();
+
+                    const url = link.getAttribute("href");
+
+                    content.replaceChildren();
+
+                    // Mantener el texto visible en el idioma seleccionado.
+                    const language = localStorage.getItem("portfolioLanguage") || "es";
+
+                    const messages = {
+                        es: {
+                            loading: "Cargando documento...",
+                            error: "No se pudo cargar el documento."
+                        },
+                        en: {
+                            loading: "Loading document...",
+                            error: "Could not load the document."
+                        },
+                        pt: {
+                            loading: "Carregando documento...",
+                            error: "Não foi possível carregar o documento."
+                        }
+                    };
+
+                    const message = messages[language] || messages.es;
+
+                    content.textContent = message.loading;
+
+                    if (!dialog.open) {
+                        dialog.showModal();
+                    }
+
+                    try {
+                        const response = await fetch(url, {
+                            signal: activeController.signal
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("HTTP " + response.status);
+                        }
+
+                        const markdown = await response.text();
+
+                        if (typeof marked === "undefined" ||
+                            typeof DOMPurify === "undefined") {
+                            throw new Error("Bibliotecas Markdown no disponibles");
+                        }
+
+                        const html = await marked.parse(markdown);
+
+                        content.innerHTML = DOMPurify.sanitize(html);
+
+                        content.scrollTop = 0;
+
+                    } catch (error) {
+                        if (error.name === "AbortError") return;
+
+                        console.error("Error al cargar documento QA:", error);
+                        content.textContent = message.error;
+                    }
+                });
+            });
+
+            closeButton.addEventListener("click", function () {
+                dialog.close();
+            });
+
+            dialog.addEventListener("close", function () {
+                if (activeController) {
+                    activeController.abort();
+                    activeController = null;
+                }
+            });
+        });
+        </script>
+        <!-- Bibliotecas para el visor Markdown -->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 
         <script defer="" src="js/search.js">
         </script>
