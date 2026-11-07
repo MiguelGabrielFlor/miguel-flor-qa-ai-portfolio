@@ -1,0 +1,45 @@
+
+name: Deploy Portfolio to Hostinger
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          command_timeout: 10m
+          script: |
+            set -e
+
+            cd /var/www/portfolio
+            git pull --ff-only origin master
+
+            cd backend
+            npm ci --omit=dev
+            npm test
+
+            sudo -n systemctl restart portfolio-backend.service
+            systemctl is-active --quiet portfolio-backend.service
+
+            curl --fail --silent --show-error \
+              http://127.0.0.1:3000/api/health
