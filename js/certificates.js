@@ -14,10 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const basePath = "assets/Cursos%20y%20certificaciones/";
     const pdfjsPromise = import(
-        "./assets/pdfjs/pdf.min.mjs"
+        "../assets/pdfjs/pdf.min.mjs"
     ).then(function (pdfjsLib) {
         pdfjsLib.GlobalWorkerOptions.workerSrc =
-            "./assets/pdfjs/pdf.worker.min.mjs";
+            "/assets/pdfjs/pdf.worker.min.mjs";
 
         return pdfjsLib;
     });
