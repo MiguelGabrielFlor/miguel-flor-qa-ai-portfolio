@@ -41,5 +41,17 @@ jobs:
             sudo -n systemctl restart portfolio-backend.service
             systemctl is-active --quiet portfolio-backend.service
 
-            curl --fail --silent --show-error \
-              http://127.0.0.1:3000/api/health
+                        # Esperar hasta 30 segundos a que la API esté disponible
+            for i in $(seq 1 15); do
+              if curl --fail --silent --show-error \
+                http://127.0.0.1:3000/api/health; then
+                echo "API disponible - despliegue exitoso"
+                exit 0
+              fi
+
+              echo "Esperando inicio del backend... intento $i/15"
+              sleep 2
+            done
+
+            echo "ERROR: La API no respondió después de 30 segundos"
+            exit 1
