@@ -165,6 +165,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
     }
+    const previewObserver = new IntersectionObserver(
+        function (entries, observer) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+
+                const canvas = entry.target;
+                const url = canvas.dataset.pdfUrl;
+
+                observer.unobserve(canvas);
+
+                renderPdfPreview(url, canvas);
+            });
+        },
+        {
+            root: gallery,
+            rootMargin: "200px 0px",
+            threshold: 0
+        }
+    );
 
     let categoriaActiva = null;
     
@@ -195,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
         title.textContent =
             translations[translationKey] || category.title;
 
+        previewObserver.disconnect();
         gallery.replaceChildren();
 
 
@@ -241,7 +261,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 item.appendChild(canvas);
 
-                renderPdfPreview(url, canvas);
+                canvas.dataset.pdfUrl = url;
+                previewObserver.observe(canvas);
             }
             const link = document.createElement("a");
             link.href = url;            
