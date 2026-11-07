@@ -36,7 +36,7 @@ function createEmailService() {
         });
 
         return transporter.sendMail({
-            from: `"Portfolio QA & AI" <${process.env.SMTP_USER}>`,
+            from: '"Miguel Flor - Portfolio" <contacto@mfportfolio.com.ar>',
             to: process.env.CONTACT_EMAIL,
             replyTo: email,
             subject: `Nuevo mensaje de contacto de ${nombre} ${apellido}`,
