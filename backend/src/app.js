@@ -9,7 +9,16 @@ const { createEmailService } = require('./services/email.service');
 function createApp(db = defaultDb, emailService = createEmailService()) {
     const app = express();
 
-    app.use(cors());
+    const allowedOrigins = process.env.NODE_ENV === 'production'
+        ? [
+            'https://mfportfolio.com.ar',
+            'https://www.mfportfolio.com.ar'
+        ]
+        : null;
+
+    app.use(cors({
+        origin: allowedOrigins || true
+    }));
     app.use(express.json({ limit: '10kb' }));
     
     app.get('/api/health', (req, res) => {

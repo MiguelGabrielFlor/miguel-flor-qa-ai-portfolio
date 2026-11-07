@@ -5,7 +5,10 @@
  * de respuestas, sin evaluar resultados de negocio.
  */
 
-const BACKEND_API_URL = 'http://localhost:3000';
+const BACKEND_API_URL =
+    ['localhost', '127.0.0.1'].includes(window.location.hostname)
+        ? 'http://localhost:3000'
+        : window.location.origin;
 
 async function backendRequest(path, options = {}) {
     const response = await fetch(

@@ -1,7 +1,10 @@
-﻿const { DatabaseSync } = require('node:sqlite');
+﻿
+const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
 
-const databasePath = path.join(__dirname, 'portfolio.sqlite');
+const databasePath = process.env.DATABASE_PATH ||
+    path.join(__dirname, 'portfolio.sqlite');
+
 const db = new DatabaseSync(databasePath);
 
 db.exec(`

@@ -456,7 +456,7 @@ form.addEventListener("submit", async function (event) {
         accessButton.disabled = true;
 
         try {
-            const response = await fetch("http://localhost:3000/api/visitors", {
+            const response = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3000' : ''}/api/visitors`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -593,7 +593,7 @@ contactForm.addEventListener("submit", async function (event) {
         getContactTranslations()[contactStatusKey];
 
     try {
-        const response = await fetch("http://localhost:3000/api/contact", {
+        const response = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3000' : ''}/api/contact`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

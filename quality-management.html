@@ -4694,6 +4694,13 @@
                 role="group"
                 aria-label="Seleccionar requisito para trazabilidad"
                 data-i18n-aria-label="qmTraceSelectorAria">
+                <button type="button"
+                        class="qm-trace-button"
+                        data-trace="acceso"
+                        aria-pressed="false">
+                    <span>RF-01</span>
+                    <strong data-i18n="qmTraceAccessShort">Acceso</strong>
+                </button>
 
                 <button type="button"
                         class="qm-trace-button"
@@ -4709,14 +4716,6 @@
                         aria-pressed="false">
                     <span>RF-03</span>
                     <strong data-i18n="qmTraceConsentShort">Consentimiento</strong>
-                </button>
-
-                <button type="button"
-                        class="qm-trace-button"
-                        data-trace="navegacion"
-                        aria-pressed="false">
-                    <span>RF-07</span>
-                    <strong data-i18n="qmTraceNavigationShort">Navegación</strong>
                 </button>
 
                 <button type="button"
@@ -4741,6 +4740,14 @@
                         aria-pressed="false">
                     <span>RF-06</span>
                     <strong data-i18n="qmTraceSearchShort">Buscador global</strong>
+                </button>
+
+                <button type="button"
+                        class="qm-trace-button"
+                        data-trace="navegacion"
+                        aria-pressed="false">
+                    <span>RF-07</span>
+                    <strong data-i18n="qmTraceNavigationShort">Navegación</strong>
                 </button>
 
             </div>
@@ -6988,6 +6995,20 @@
 
         const qmTraceData = [
             {
+                id: "acceso",
+                titleKey: "qmTraceAccessTitle",
+                requirement: "RF-01",
+                requirementNameKey: "qmTraceAccessRequirement",
+                story: "HU-001",
+                storyNameKey: "qmTraceAccessStory",
+                bdd: "BDD-001",
+                bddNameKey: "qmTraceAccessBDD",
+                statusKey: "qmTraceAccessStatus",
+                statusType: "implemented",
+                verificationKey: "qmTraceAccessVerification",
+                tests: ["TC-001", "TC-002"]
+            },
+            {
                 id: "registro",
                 titleKey: "qmTraceRegistrationTitle",
                 requirement: "RF-02",
@@ -7014,20 +7035,6 @@
                 statusType: "implemented",
                 verificationKey: "qmTraceConsentVerification",
                 tests: ["TC-005", "UI-007"]
-            },            
-            {
-                id: "navegacion",
-                titleKey: "qmTraceNavigationTitle",
-                requirement: "RF-07",
-                requirementNameKey: "qmTraceNavigationRequirement",
-                story: "HU-002",
-                storyNameKey: "qmTraceNavigationStory",
-                bdd: "BDD-003",
-                bddNameKey: "qmTraceNavigationBDD",
-                statusKey: "qmTraceNavigationStatus",
-                statusType: "implemented",
-                verificationKey: "qmTraceNavigationVerification",
-                tests: ["TC-006", "TC-007", "TC-019", "TC-020"]
             },
             {
                 id: "contacto",
@@ -7055,7 +7062,11 @@
                 statusKey: "qmTraceLanguageStatus",
                 statusType: "implemented",
                 verificationKey: "qmTraceLanguageVerification",
-                tests: ["ACCESS-I18N-005"]
+                tests: [
+                    "ACCESS-I18N-005",
+                    "LANG-NAV-006",
+                    "NAV-ALL"
+                ]
             },
             {
                 id: "buscador",
@@ -7113,6 +7124,27 @@
                     "SEARCH-TC-042",
                     "SEARCH-TC-043",
                     "SEARCH-TC-044"
+                ]
+            },
+            {
+                id: "navegacion",
+                titleKey: "qmTraceNavigationTitle",
+                requirement: "RF-07",
+                requirementNameKey: "qmTraceNavigationRequirement",
+                story: "HU-002",
+                storyNameKey: "qmTraceNavigationStory",
+                bdd: "BDD-003",
+                bddNameKey: "qmTraceNavigationBDD",
+                statusKey: "qmTraceNavigationStatus",
+                statusType: "implemented",
+                verificationKey: "qmTraceNavigationVerification",
+                tests: [
+                    "TC-006",
+                    "TC-007",
+                    "TC-019",
+                    "TC-020",
+                    "NAV-ALL",
+                    "LANG-NAV-006"
                 ]
             }
         ];

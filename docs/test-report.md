@@ -1799,3 +1799,117 @@ La verificación se realizó manualmente en Chrome, Firefox y Edge.
 Estos resultados se registran de manera independiente de las regresiones automatizadas Selenium documentadas anteriormente.
 
 ---
+## Regresión multinavegador — Navegación integral y persistencia del idioma
+
+### Información de ejecución
+
+- **Proyecto:** Miguel Flor — QA & AI Portfolio
+- **Fecha:** 05/11/2026
+- **Sistema operativo:** Windows
+- **Herramientas:** Selenium WebDriver / Node.js Test Runner
+- **Navegadores:** Google Chrome, Mozilla Firefox y Microsoft Edge
+- **Idiomas:** Español (ES), Inglés (EN) y Portugués (PT)
+- **Entorno:** http://127.0.0.1:8000
+
+### Objetivo
+
+Verificar la navegación integral entre las seis páginas del portfolio, el comportamiento del logo y los botones de retorno, así como la selección y persistencia del idioma durante el acceso, la navegación y la recarga.
+
+### Suites ejecutadas
+
+**NAV-ALL — Navegación integral**
+
+Archivo: `tests/selenium/portfolio-navigation-all-directions.test.js`
+
+Alcance:
+
+- Navegación entre las seis páginas del portfolio.
+- Verificación de las 30 combinaciones dirigidas entre páginas distintas, utilizando Home como intermediario cuando corresponde.
+- Retorno al inicio de Home mediante el logo.
+- Retorno a las secciones correspondientes mediante los botones Volver.
+- Verificación de los destinos y anclas.
+- Conservación del idioma ES/EN/PT durante la navegación.
+
+**LANG-NAV-006 — Internacionalización y persistencia**
+
+Archivo: `tests/selenium/portfolio-language-navigation-persistence.test.js`
+
+Alcance:
+
+- Selección de ES/EN/PT.
+- Persistencia mediante `localStorage`.
+- Conservación del idioma en `sessionStorage` durante la sesión de acceso.
+- Verificación del saludo traducido.
+- Navegación por las seis páginas.
+- Persistencia después de recargar.
+- Retorno a Home mediante el logo.
+- Comparación de textos visibles traducidos en ES/EN/PT.
+
+### Resultados por navegador
+
+| Navegador | NAV-ALL | LANG-NAV-006 | Resultado |
+|---|---|---|---|
+| Google Chrome | PASS | PASS | APROBADO |
+| Mozilla Firefox | PASS | PASS | APROBADO |
+| Microsoft Edge | PASS | PASS | APROBADO |
+| **Total** | **3/3 PASS** | **3/3 PASS** | **6/6 PASS** |
+
+### Cobertura de navegación
+
+La suite NAV-ALL ejecutó satisfactoriamente, por navegador:
+
+- 15 verificaciones de retorno mediante el logo.
+- 15 verificaciones de retorno mediante los botones Volver.
+- 90 recorridos dirigidos entre páginas distintas.
+
+Total: **120 verificaciones internas por navegador**, distribuidas entre los tres idiomas.
+
+### Verificación de traducciones visibles
+
+La suite LANG-NAV-006 identificó las siguientes claves con textos visibles diferenciados en ES, EN y PT:
+
+| Página | Claves |
+|---|---:|
+| index.html | 65 |
+| cv.html | 47 |
+| frontend.html | 99 |
+| backend.html | 103 |
+| qa.html | 316 |
+| quality-management.html | 227 |
+| **Total** | **857** |
+
+Los mismos resultados se registraron en Chrome, Firefox y Edge.
+
+### Trazabilidad relacionada
+
+- **RF-05:** Selección y persistencia del idioma.
+- **HU-002:** Navegación por el portfolio.
+- **HU-004:** Persistencia del idioma.
+- **BDD-003:** Navegación por el portfolio.
+- **BDD-005:** Persistencia del idioma.
+- **TC-019:** Navegación entre páginas.
+- **TC-020:** Navegación de retorno.
+
+La actualización formal de los vínculos se realizará en la matriz de trazabilidad.
+
+### Limitaciones
+
+Las seis ejecuciones corresponden a dos suites automatizadas, una por navegador para cada suite. Las verificaciones internas no se contabilizan como suites independientes.
+
+La comprobación de 857 claves demuestra traducciones visibles diferenciadas, pero no constituye una auditoría exhaustiva de todos los textos del portfolio.
+
+### Conclusión
+
+Las pruebas de navegación integral y persistencia del idioma finalizaron satisfactoriamente en Google Chrome, Mozilla Firefox y Microsoft Edge.
+
+Suites ejecutadas: 6
+
+PASS: 6
+
+FAIL: 0
+
+Omitidas: 0
+
+Estado: APROBADO — REGRESIÓN MULTINAVEGADOR CERRADA.
+
+La evidencia obtenida permite completar el respaldo de navegación y persistencia del idioma de BDD-003 y BDD-005, sujeto a la actualización de sus referencias documentales.

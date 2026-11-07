@@ -124,26 +124,26 @@ const translationsBDD004 = {
 const translationsBDD005 = {
     es: {
         title: 'Persistencia del idioma',
-        status: 'Parcialmente implementado',
+        status: 'Implementado',
         given: 'El visitante selecciona portugués durante el ingreso de sus datos.',
-        when: 'El visitante accede al portfolio y navega desde la página de inicio hasta la página del currículum.',
-        then: 'El sistema debe mantener el idioma seleccionado durante la navegación y mostrar en portugués los contenidos correspondientes en las páginas de inicio y trayectoria profesional. La verificación integral de este comportamiento permanece pendiente.'
+        when: 'El visitante accede al portfolio, navega por las seis páginas y recarga las páginas visitadas.',
+        then: 'El sistema mantiene el idioma portugués durante la navegación y después de la recarga, mostrando los contenidos correspondientes en el idioma seleccionado.'
     },
 
     en: {
         title: 'Language persistence',
-        status: 'Partially implemented',
+        status: 'Implemented',
         given: 'The visitor selects Portuguese while entering their details.',
-        when: 'The visitor accesses the portfolio and navigates from the home page to the CV page.',
-        then: 'The system must preserve the selected language during navigation and display the corresponding content in Portuguese on the home and professional experience pages. Full verification of this behavior remains pending.'
+        when: 'The visitor accesses the portfolio, navigates through all six pages and reloads the visited pages.',
+        then: 'The system preserves the Portuguese language during navigation and after reloading, displaying the corresponding content in the selected language.'
     },
 
     pt: {
         title: 'Persistência do idioma',
-        status: 'Parcialmente implementado',
+        status: 'Implementado',
         given: 'O visitante seleciona português durante o preenchimento dos dados.',
-        when: 'O visitante acessa o portfólio e navega da página inicial até a página do currículo.',
-        then: 'O sistema deve manter o idioma selecionado durante a navegação e exibir em português os conteúdos correspondentes nas páginas inicial e do currículo. A verificação integral desse comportamento permanece pendente.'
+        when: 'O visitante acessa o portfólio, navega pelas seis páginas e recarrega as páginas visitadas.',
+        then: 'O sistema mantém o idioma português durante a navegação e após o recarregamento, exibindo os conteúdos correspondentes no idioma selecionado.'
     }
 };
 
@@ -725,7 +725,7 @@ test('BDD-004 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
     }
 });
 
-test('BDD-005 — Traducción dinámica ES/EN/PT y estado parcial', async (t) => {
+test('BDD-005 — Traducción dinámica ES/EN/PT y estado implementado', async (t) => {
     const driver = await new Builder()
         .forBrowser(browser)
         .build();
@@ -834,7 +834,7 @@ test('BDD-005 — Traducción dinámica ES/EN/PT y estado parcial', async (t) =>
         // Verificar el estado técnico del escenario.
         assert.equal(
             await status.getAttribute('data-status'),
-            'partial',
+            'implemented',
             `Estado técnico incorrecto en ${language}`
         );
 
@@ -871,7 +871,7 @@ test('BDD-005 — Traducción dinámica ES/EN/PT y estado parcial', async (t) =>
         assert.equal(storedLanguage, language);
 
         console.log(
-            `BDD-005 | ${language.toUpperCase()} | Traducción, estado parcial y trazabilidad: PASS`
+            `BDD-005 | ${language.toUpperCase()} | Traducción, estado implementado y trazabilidad: PASS`
         );
     }
 });
