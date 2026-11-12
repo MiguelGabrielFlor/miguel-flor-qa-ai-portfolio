@@ -1,6 +1,8 @@
 ﻿const express = require('express');
 
 const cors = require('cors');
+const helmet = require('helmet');
+const { rateLimit } = require('express-rate-limit');
 const defaultDb = require('../database/connection');
 const { validateVisitor } = require('./validators/visitor.validator');
 const { validateContactMessage } = require('./validators/contact.validator');
@@ -8,6 +10,24 @@ const { createEmailService } = require('./services/email.service');
 
 function createApp(db = defaultDb, emailService = createEmailService()) {
     const app = express();
+    if (process.env.NODE_ENV === 'production') {
+        app.set('trust proxy', 'loopback');
+    }
+    app.disable('x-powered-by');
+
+    app.use(helmet({
+        contentSecurityPolicy: false
+    }));
+
+    const publicApiLimiter = rateLimit({
+        windowMs: 15 * 60 * 1000,
+        limit: 30,
+        standardHeaders: 'draft-8',
+        legacyHeaders: false,
+        message: {
+            message: 'Demasiadas solicitudes. Intentá nuevamente en 15 minutos.'
+        }
+    });
 
     const allowedOrigins = process.env.NODE_ENV === 'production'
         ? [
@@ -28,7 +48,7 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
         });
     });
 
-    app.post('/api/visitors', (req, res) => {
+    app.post('/api/visitors', publicApiLimiter, (req, res) => {
         const validation = validateVisitor(req.body);
 
         if (!validation.valid) {
@@ -90,7 +110,7 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
         }
     });
 
-    app.post('/api/contact', async (req, res) => {
+    app.post('/api/contact', publicApiLimiter, async (req, res) => {
         const validation = validateContactMessage(req.body);
 
         if (!validation.valid) {
