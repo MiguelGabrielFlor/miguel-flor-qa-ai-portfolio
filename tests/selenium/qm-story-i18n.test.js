@@ -1,9 +1,10 @@
+const { createDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { Builder, By, until } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 const { Select } = require('selenium-webdriver/lib/select');
 
 const browser = process.env.SELENIUM_BROWSER || 'chrome';
@@ -56,9 +57,7 @@ const translations = {
 };
 
 test('HU-001 — Traducción dinámica ES/EN/PT sin cambiar de historia', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -226,9 +225,7 @@ test('HU-001 — Traducción dinámica ES/EN/PT sin cambiar de historia', async 
 });
 
 test('HU-002 — Cobertura completa de las cinco historias ES/EN/PT', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();

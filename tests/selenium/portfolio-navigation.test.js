@@ -1,7 +1,8 @@
+const { createDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Builder, By, until } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 
 const BASE_URL = 'http://127.0.0.1:8000';
 const TEST_BROWSER = process.env.TEST_BROWSER || 'chrome';
@@ -15,9 +16,7 @@ const paginas = [
 ];
 
 test('TC-019 — Navegación entre páginas del portfolio', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await createDriver(TEST_BROWSER);
 
     t.after(async () => {
         await driver.quit();
@@ -54,9 +53,7 @@ test('TC-019 — Navegación entre páginas del portfolio', async (t) => {
 });
 
 test('TC-019 — Navegación mediante enlaces del portfolio', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await createDriver(TEST_BROWSER);
 
     t.after(async () => {
         await driver.quit();
@@ -126,9 +123,7 @@ test('TC-019 — Navegación mediante enlaces del portfolio', async (t) => {
 });
 test('TC-020 — Retorno al perfil desde páginas internas', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await createDriver(TEST_BROWSER);
 
     t.after(async () => {
         await driver.quit();
@@ -177,9 +172,7 @@ test('TC-020 — Retorno al perfil desde páginas internas', async (t) => {
 });
 test('TC-020 — Retorno mediante botones a secciones del Home', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await createDriver(TEST_BROWSER);
 
     t.after(async () => {
         await driver.quit();

@@ -1,3 +1,4 @@
+const { createDriver: createSharedDriver } = require('./selenium-config');
 
 'use strict';
 
@@ -5,8 +6,7 @@
 // TEST_BROWSER=chrome|firefox|MicrosoftEdge (PowerShell: $env:TEST_BROWSER='firefox').
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Builder, By, until } = require('selenium-webdriver');
-const firefox = require('selenium-webdriver/firefox');
+const { By, until } = require('selenium-webdriver');
 
 const BASE = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:8000';
 const BROWSER = process.env.TEST_BROWSER || 'chrome';
@@ -182,17 +182,7 @@ async function verifyAnchor(driver, hash) {
 
 test('NAV-ALL — navegación entre seis páginas, logo y retornos ES/EN/PT', async t => {
 
-    const builder = new Builder().forBrowser(BROWSER);
-
-    if (BROWSER === 'firefox') {
-        const options = new firefox.Options().setBinary(
-            'C:\\Program Files\\WindowsApps\\Mozilla.Firefox_159.0.1.0_x64__n80bbvh6b1yt2\\VFS\\ProgramFiles\\Firefox Package Root\\firefox.exe'
-        );
-
-        builder.setFirefoxOptions(options);
-    }
-
-    const driver = await builder.build();
+    const driver = await createSharedDriver(BROWSER);
 
     t.after(async () => driver.quit());
     const actual = String((await driver.getCapabilities()).get('browserName')).toLowerCase();

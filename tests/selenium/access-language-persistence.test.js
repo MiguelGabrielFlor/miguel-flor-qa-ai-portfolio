@@ -1,17 +1,15 @@
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const path = require('node:path');
-const { pathToFileURL } = require('node:url');
-const { Builder, By, until } = require('selenium-webdriver');
+
+const { By, until } = require('selenium-webdriver');
+const { createDriver } = require('./selenium-config');
 const { Select } = require('selenium-webdriver/lib/select');
 
 test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
     const browser = process.env.TEST_BROWSER || 'chrome';
 
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -27,13 +25,10 @@ test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
         `Se solicitó ${browser}, pero Selenium abrió ${actualBrowser}`
     );
 
-    const indexUrl = pathToFileURL(
-        path.resolve(__dirname, '../../index.html')
-    ).href;
+    const baseUrl = process.env.TEST_BASE_URL || 'http://127.0.0.1:5500';
 
-    const frontendUrl = pathToFileURL(
-        path.resolve(__dirname, '../../frontend.html')
-    ).href;
+    const indexUrl = `${baseUrl}/index.html`;
+    const frontendUrl = `${baseUrl}/frontend.html`;
 
     await driver.get(indexUrl);
 
@@ -44,6 +39,29 @@ test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
     `);
 
     await driver.navigate().refresh();
+
+    // HU-004 / Criterio 05: idioma predeterminado sin preferencia guardada.
+    const defaultLanguage = await driver.findElement(
+        By.id('languageSelect')
+    ).getAttribute('value');
+
+    assert.equal(
+        defaultLanguage,
+        'es',
+        'El idioma predeterminado debe ser español'
+    );
+
+    assert.equal(
+        await driver.executeScript(
+            'return document.documentElement.lang'
+        ),
+        'es',
+        'El documento debe iniciar en español'
+    );
+
+    console.log(
+        `ACCESS-I18N-005 | ${actualBrowser} | DEFAULT ES | PASS`
+    );
 
     const languages = [
         { code: 'es', welcome: 'Te doy la bienvenida, MIGUEL' },
@@ -98,22 +116,77 @@ test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
         );
 
         // Completar el formulario de acceso.
+        // Abrir el formulario de registro del flujo actual.
+        await driver.findElement(
+            By.id('registeredAccessButton')
+        ).click();
+
+        await driver.wait(
+            until.elementIsVisible(
+                await driver.findElement(By.id('accessForm'))
+            ),
+            10000,
+            'El formulario de registro no se mostró'
+        );
+
+        // Completar el formulario de acceso.
         await driver.findElement(By.id('firstName')).sendKeys('Miguel');
         await driver.findElement(By.id('lastName')).sendKeys('Flor');
         await driver.findElement(By.id('email')).sendKeys(
             'selenium.test@example.com'
         );
         await driver.findElement(By.id('phone')).sendKeys('1123456789');
-        await driver.findElement(By.id('consent')).click();
+        const consentCheckbox = await driver.findElement(By.id('consent'));
+
+        await driver.executeScript(
+            "arguments[0].scrollIntoView({ block: 'center', behavior: 'instant' });",
+            consentCheckbox
+        );
+
+        await driver.wait(
+            until.elementIsVisible(consentCheckbox),
+            10000
+        );
+
+        await driver.wait(
+            until.elementIsEnabled(consentCheckbox),
+            10000
+        );
+
+        await consentCheckbox.click();
+
+        assert.equal(
+            await consentCheckbox.isSelected(),
+            true,
+            'La casilla de consentimiento debe quedar seleccionada'
+        );
 
         await driver.findElement(By.id('accessButton')).click();
 
         await driver.wait(
-            until.elementIsVisible(
-                await driver.findElement(By.id('portfolio'))
-            ),
+            until.urlContains('home.html'),
             10000,
-            `${language.code}: el portfolio no se mostró`
+            `${language.code}: no se produjo la redirección a home.html`
+        );
+
+        await driver.wait(
+            async () => {
+                const currentLanguage = await driver.executeScript(
+                    'return document.documentElement.lang'
+                );
+
+                return currentLanguage === language.code;
+            },
+            10000,
+            `${language.code}: home.html no aplicó el idioma esperado`
+        );
+
+        assert.equal(
+            await driver.executeScript(
+                'return document.documentElement.lang'
+            ),
+            language.code,
+            `${language.code}: home.html no conservó el idioma`
         );
 
         const session = await driver.executeScript(`
@@ -129,8 +202,21 @@ test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
             `${language.code}: idioma incorrecto en sessionStorage`
         );
 
+        const welcomeMessage = await driver.findElement(
+            By.id('welcomeMessage')
+        );
+
+        await driver.wait(
+            async () => {
+                const text = await welcomeMessage.getText();
+                return text.trim() !== '';
+            },
+            10000,
+            `${language.code}: el saludo no se cargó`
+        );
+
         assert.equal(
-            await driver.findElement(By.id('welcomeMessage')).getText(),
+            await welcomeMessage.getText(),
             language.welcome,
             `${language.code}: saludo incorrecto`
         );

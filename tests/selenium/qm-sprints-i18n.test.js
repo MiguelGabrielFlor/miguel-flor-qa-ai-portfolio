@@ -1,3 +1,4 @@
+const { createDriver: createSharedDriver } = require('./selenium-config');
 
 'use strict';
 
@@ -5,7 +6,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { Builder, By, until } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 
 const browser = process.env.SELENIUM_BROWSER || 'chrome';
 
@@ -46,9 +47,7 @@ function normalize(value) {
 }
 
 async function createDriver(t) {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createSharedDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -363,7 +362,7 @@ async function checkResults(driver, dictionary, cycle) {
 test(
     'SPRINT-001 — Cuatro ciclos y 24 etapas ES/EN/PT',
     async t => {
-        const driver = await createDriver(t);
+        const driver = await createSharedDriver(t);
 
         for (const language of languages) {
             await changeLanguage(driver, language);
@@ -423,7 +422,7 @@ test(
 test(
     'SPRINT-002 — Resultados documentados y selectores ES/EN/PT',
     async t => {
-        const driver = await createDriver(t);
+        const driver = await createSharedDriver(t);
 
         for (const language of languages) {
             await changeLanguage(driver, language);

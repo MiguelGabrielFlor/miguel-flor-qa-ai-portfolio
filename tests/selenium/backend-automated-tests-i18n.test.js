@@ -1,7 +1,8 @@
+const { createDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Builder, By } = require('selenium-webdriver');
+const { By } = require('selenium-webdriver');
 
 const browser = process.env.TEST_BROWSER || 'chrome';
 const URL = 'http://127.0.0.1:8000/backend.html';
@@ -52,9 +53,7 @@ async function cambiarIdioma(driver, idioma) {
 }
 
 test('BACKEND-I18N-004 — Pruebas automatizadas ES/EN/PT', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();

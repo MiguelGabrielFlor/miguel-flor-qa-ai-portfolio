@@ -1,9 +1,10 @@
+const { createDriver: createSharedDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { Builder, By } = require('selenium-webdriver');
+const { By } = require('selenium-webdriver');
 
 const BROWSER = process.env.SELENIUM_BROWSER || 'chrome';
 
@@ -86,9 +87,7 @@ function normalize(value) {
 }
 
 async function createDriver() {
-    return new Builder()
-        .forBrowser(BROWSER)
-        .build();
+    return createSharedDriver(BROWSER);
 }
 
 async function openPage(driver) {

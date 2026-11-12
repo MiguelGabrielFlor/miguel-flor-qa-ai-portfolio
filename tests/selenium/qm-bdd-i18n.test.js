@@ -1,9 +1,10 @@
+const { createDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { Builder, By } = require('selenium-webdriver');
+const { By } = require('selenium-webdriver');
 const { Select } = require('selenium-webdriver/lib/select');
 
 const browser = process.env.SELENIUM_BROWSER || 'chrome';
@@ -175,9 +176,7 @@ const translationsBDD006 = {
 
 
 test('BDD-001 — Traducción dinámica ES/EN/PT sin cambiar de escenario', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -301,9 +300,7 @@ test('BDD-001 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
 });
 
 test('BDD-002 — Traducción dinámica ES/EN/PT sin cambiar de escenario', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -438,9 +435,7 @@ test('BDD-002 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
 });
 
 test('BDD-003 — Traducción dinámica ES/EN/PT sin cambiar de escenario', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -582,9 +577,7 @@ test('BDD-003 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
 });
 
 test('BDD-004 — Traducción dinámica ES/EN/PT sin cambiar de escenario', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -726,9 +719,7 @@ test('BDD-004 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
 });
 
 test('BDD-005 — Traducción dinámica ES/EN/PT y estado implementado', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();
@@ -877,9 +868,7 @@ test('BDD-005 — Traducción dinámica ES/EN/PT y estado implementado', async (
 });
 
 test('BDD-006 — Traducción dinámica ES/EN/PT y búsqueda global', async (t) => {
-    const driver = await new Builder()
-        .forBrowser(browser)
-        .build();
+    const driver = await createDriver(browser);
 
     t.after(async () => {
         await driver.quit();

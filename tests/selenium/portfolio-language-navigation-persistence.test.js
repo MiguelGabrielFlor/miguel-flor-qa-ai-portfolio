@@ -1,3 +1,4 @@
+const { createDriver } = require('./selenium-config');
 
 'use strict';
 
@@ -9,7 +10,7 @@
  */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Builder, By, Select, until } = require('selenium-webdriver');
+const { By, Select, until } = require('selenium-webdriver');
 
 const BASE = (process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
 const BROWSER = process.env.TEST_BROWSER || 'chrome';
@@ -123,7 +124,7 @@ async function visibleTranslatedTexts(driver) {
 }
 
 test('LANG-NAV-006 — ES/EN/PT, contenido visible, recarga y navegación por seis páginas', async t => {
-    const driver = await new Builder().forBrowser(BROWSER).build();
+    const driver = await createDriver(BROWSER);
     t.after(async () => driver.quit());
     const actual = String((await driver.getCapabilities()).get('browserName') || '').toLowerCase();
     const expectedBrowser = BROWSER.toLowerCase() === 'edge' ? 'msedge' : BROWSER.toLowerCase();

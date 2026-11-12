@@ -1,13 +1,13 @@
+const { createDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Builder } = require('selenium-webdriver');
 
 const browser = process.env.TEST_BROWSER || 'chrome';
 const URL = 'http://127.0.0.1:8000/qa.html';
 
 test('QA-I18N-003 — Biblioteca Selenium ES/EN/PT', async (t) => {
-    const driver = await new Builder().forBrowser(browser).build();
+    const driver = await createDriver(browser);
     t.after(async () => driver.quit());
 
     await driver.get(URL);

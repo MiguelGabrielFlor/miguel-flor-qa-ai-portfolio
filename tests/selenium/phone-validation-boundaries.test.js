@@ -1,9 +1,10 @@
+const { createDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { Builder, By, until } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 
 const casosTelefono = [
     { id: 'PHONE-001', descripcion: 'mínimo de 7 dígitos', valor: '1234567', valido: true },
@@ -22,7 +23,7 @@ const casosTelefono = [
 for (const caso of casosTelefono) {
     test(`${caso.id}: teléfono con ${caso.descripcion}`, async (t) => {
         const browser = process.env.TEST_BROWSER || 'chrome';
-        const driver = await new Builder().forBrowser(browser).build();
+        const driver = await createDriver(browser);
 
         t.after(async () => {
             await driver.quit();

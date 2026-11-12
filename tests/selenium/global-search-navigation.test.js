@@ -1,24 +1,14 @@
+const { createDriver: createSharedDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Builder, By, until } = require('selenium-webdriver');
-const firefox = require('selenium-webdriver/firefox');
+const { By, until } = require('selenium-webdriver');
 
 const BASE_URL = 'http://127.0.0.1:5500';
 
 const TEST_BROWSER = process.env.TEST_BROWSER || 'chrome';
 function crearDriver() {
-    const builder = new Builder().forBrowser(TEST_BROWSER);
-
-    if (TEST_BROWSER === 'firefox') {
-        const options = new firefox.Options().setBinary(
-            'C:\\Program Files\\WindowsApps\\Mozilla.Firefox_159.0.1.0_x64__n80bbvh6b1yt2\\VFS\\ProgramFiles\\Firefox Package Root\\firefox.exe'
-        );
-
-        builder.setFirefoxOptions(options);
-    }
-
-    return builder.build();
+    return createSharedDriver(TEST_BROWSER);
 }
 
 const searchCases = [
