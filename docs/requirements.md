@@ -97,6 +97,27 @@ La navegación hacia páginas específicas del
 portfolio técnico se documentará por separado,
 según los enlaces implementados.
 
+### Relación con RF-07 — Navegación por el portfolio
+
+FR-006 documenta originalmente la navegación interna hacia
+las secciones Sobre mí, Especialidades, Proyectos y Contacto.
+
+RF-07, definido en Gestión de Calidad, amplía este alcance
+para incluir la navegación entre páginas, los índices de
+contenidos y los controles de retorno.
+
+Trazabilidad histórica:
+- FR-006 → TC-006, TC-007.
+- RF-07 → HU-002 → BDD-003.
+- Evidencias relacionadas con RF-07:
+  TC-006, TC-007, TC-019, TC-020, NAV-ALL y LANG-NAV-006.
+
+Los identificadores originales se conservan para mantener
+la trazabilidad de las ejecuciones documentadas.
+
+Los resultados históricos y las regresiones posteriores
+se consideran evidencias independientes.
+
 ---
 
 ## FR-007 — Responsive Design
