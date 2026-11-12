@@ -1,9 +1,5 @@
 const form = document.getElementById("accessForm");
 
-const accessPage = document.getElementById("accessPage");
-
-const portfolio = document.getElementById("portfolio");
-
 const firstName = document.getElementById("firstName");
 
 const lastName = document.getElementById("lastName");
@@ -20,7 +16,6 @@ const serverError = document.getElementById("serverError");
 
 const languageSelect = document.getElementById("languageSelect");
 // Estado del formulario de contacto para internacionalización.
-let contactStatusKey = "";
 
 const savedLanguage = localStorage.getItem("portfolioLanguage");
 
@@ -28,22 +23,7 @@ if (["es", "en", "pt"].includes(savedLanguage)) {
     languageSelect.value = savedLanguage;
 }
 
-// Restaurar el idioma cuando el documento esté cargado.
-window.addEventListener("DOMContentLoaded", function () {
-    applyLanguage(languageSelect.value);
-});
-
-
-const contactForm = document.getElementById("contactForm");
-
-const contactMessage = document.getElementById("contactMessage");
-
-const contactButton = document.getElementById("contactButton");
-
-const contactStatus = document.getElementById("contactStatus");
-
-const contactMessageError = document.getElementById("contactMessageError");
-
+applyLanguage(languageSelect.value);
 
 
 function applyLanguage(language) {
@@ -128,57 +108,60 @@ function applyLanguage(language) {
         errorElement.textContent =
             selectedTranslations[translationKey] ||
             errorElement.textContent;
-    });
-
+    });   
     
-    // Actualizar el saludo personalizado al cambiar de idioma.
-    const welcomeMessage = document.getElementById("welcomeMessage");
-
-    if (welcomeMessage && welcomeMessage.textContent.trim()) {
-        const savedSession = sessionStorage.getItem("portfolioSession");
-
-        if (savedSession) {
-            try {
-                const session = JSON.parse(savedSession);
-
-                if (typeof session.firstName === "string" &&
-                    session.firstName.trim() !== "") {
-
-                    welcomeMessage.textContent =
-                        `${selectedTranslations.greeting} ${session.firstName.trim().toUpperCase()}`;
-                }
-            } catch (error) {
-                // Mantener el saludo existente si la sesión no es válida.
-            }
-        }
-    }
-    
-    // Actualizar el error de validación del formulario de contacto.
-    const contactMessageError =
-        document.getElementById("contactMessageError");
-
-    const contactMessage =
-        document.getElementById("contactMessage");
-
-    if (
-        contactMessageError &&
-        contactMessage &&
-        contactMessageError.textContent.trim() !== "" &&
-        contactMessage.value.trim() === ""
-    ) {
-        contactMessageError.textContent =
-            selectedTranslations.contactRequiredError;
-    }
-    // Traducir el estado actual del formulario de contacto.
-    const contactStatusElement =
-        document.getElementById("contactStatus");
-
-    if (contactStatusElement && contactStatusKey) {
-        contactStatusElement.textContent =
-            selectedTranslations[contactStatusKey] || "";
-    }
 
 }
+
+function restorePortfolioSession() {
+    const savedSession = sessionStorage.getItem("portfolioSession");
+
+    if (!savedSession) {
+        return;
+    }
+
+    try {
+        const session = JSON.parse(savedSession);
+
+        const validLanguage =
+            ["es", "en", "pt"].includes(session?.language);
+
+        const isGuest =
+            session?.accessType === "guest";
+
+        const isRegistered =
+            (session?.accessType === "registered" ||
+             session?.accessType === undefined) &&
+            typeof session?.firstName === "string" &&
+            session.firstName.trim() !== "";
+
+        if (!validLanguage || (!isGuest && !isRegistered)) {
+            sessionStorage.removeItem("portfolioSession");
+            return;
+        }
+
+        const preferredLanguage =
+            localStorage.getItem("portfolioLanguage");
+
+        session.language =
+            ["es", "en", "pt"].includes(preferredLanguage)
+                ? preferredLanguage
+                : session.language;
+
+        sessionStorage.setItem(
+            "portfolioSession",
+            JSON.stringify(session)
+        );
+
+        window.location.replace("home.html");
+
+    } catch (error) {
+        sessionStorage.removeItem("portfolioSession");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", restorePortfolioSession);
+
 applyLanguage(languageSelect.value);
 
 languageSelect.addEventListener("change", function () {
@@ -217,71 +200,8 @@ languageSelect.addEventListener("change", function () {
     }
 });
 
-const footerLanguageSelect = document.getElementById(
-    "footerLanguageSelect"
-);
-
-if (footerLanguageSelect) {
-
-    // Mostrar el idioma actualmente seleccionado.
-    footerLanguageSelect.value = languageSelect.value;
-
-    // Cambiar el idioma desde el footer.
-    footerLanguageSelect.addEventListener("change", function () {
-
-        const selectedLanguage = footerLanguageSelect.value;
-
-        // Sincronizar con el selector del registro.
-        languageSelect.value = selectedLanguage;
-
-        // Reutilizar el evento existente para aplicar
-        // traducciones y guardar la preferencia.
-        languageSelect.dispatchEvent(
-            new Event("change")
-        );
-
-    });
-
-    // Mantener actualizado el selector del footer.
-    languageSelect.addEventListener("change", function () {
-        footerLanguageSelect.value = languageSelect.value;
-    });
-
-}
-
-const savedSession = sessionStorage.getItem("portfolioSession");
-
-if (savedSession) {
-    try {
-        const session = JSON.parse(savedSession);
-
-        if (
-            typeof session.firstName === "string" &&
-            session.firstName.trim() !== "" &&
-            ["es", "en", "pt"].includes(session.language)
-        ) {
-            
-            const preferredLanguage =
-                localStorage.getItem("portfolioLanguage");
-
-            const activeLanguage =
-                ["es", "en", "pt"].includes(preferredLanguage)
-                    ? preferredLanguage
-                    : session.language;
-
-            languageSelect.value = activeLanguage;
-            applyLanguage(activeLanguage);
 
 
-            firstName.value = session.firstName;
-            showPortfolio();
-        } else {
-            sessionStorage.removeItem("portfolioSession");
-        }
-    } catch (error) {
-        sessionStorage.removeItem("portfolioSession");
-    }
-}
 
 form.addEventListener("submit", async function (event) {
 
@@ -470,9 +390,7 @@ form.addEventListener("submit", async function (event) {
                 })
             });
 
-            const result = await response.json();
-
-
+            
             if (!response.ok) {
                 serverError.textContent =
                     currentTranslations.registrationFailed;
@@ -495,37 +413,29 @@ form.addEventListener("submit", async function (event) {
 
 });
 
-
-
-
 function showPortfolio() {
-
-    const welcomeMessage = document.getElementById("welcomeMessage");
-
     const selectedLanguage = languageSelect.value;
     const visitorName = firstName.value.trim();
+    
+    sessionStorage.setItem(
+        "portfolioSession",
+        JSON.stringify({
+            accessType: "registered",
+            firstName: visitorName,
+            lastName: lastName.value.trim(),
+            email: email.value.trim(),
+            phone: phone.value.trim(),
+            language: selectedLanguage
+        })
+    );
 
-    const currentTranslations = translations[selectedLanguage] || translations.es;
+    localStorage.setItem(
+        "portfolioLanguage",
+        selectedLanguage
+    );
 
-    // Mantener la sesión durante la navegación en esta pestaña.
-    sessionStorage.setItem("portfolioSession", JSON.stringify({
-        firstName: visitorName,
-        language: selectedLanguage
-    }));
-
-    welcomeMessage.textContent =
-        `${currentTranslations.greeting} ${visitorName.toLocaleUpperCase()}`;
-
-    accessPage.classList.add("hidden");
-    portfolio.classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    window.location.assign("home.html");
 }
-
 
 
 function showError(
@@ -564,77 +474,64 @@ function clearErrors() {
 
 }
 
-contactForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+    const guestButton = document.getElementById("guestAccessButton");
+    const registeredButton = document.getElementById("registeredAccessButton");
+    const accessForm = document.getElementById("accessForm");
 
-    contactMessageError.textContent = "";
-    contactStatus.textContent = "";
-    contactStatusKey = "";
-
-    const getContactTranslations = () => {
-        const language = document.documentElement.lang || "es";
-        return translations[language] || translations.es;
-    };
-
-    const mensaje = contactMessage.value.trim();
-
-    if (!mensaje) {
-        contactMessageError.textContent =
-            getContactTranslations().contactRequiredError;
-
-        contactMessage.focus();
+    if (!guestButton || !registeredButton || !accessForm) {
         return;
     }
 
-    contactButton.disabled = true;
+    // El formulario se muestra únicamente al elegir registrarse.
+    accessForm.hidden = true;
 
-    contactStatusKey = "contactSending";
-    contactStatus.textContent =
-        getContactTranslations()[contactStatusKey];
+    registeredButton.setAttribute("aria-expanded", "false");
 
-    try {
-        const response = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3000' : ''}/api/contact`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nombre: firstName.value.trim(),
-                apellido: lastName.value.trim(),
-                email: email.value.trim(),
-                telefono: phone.value.trim(),
-                mensaje
-            })
+    registeredButton.addEventListener("click", () => {
+        accessForm.hidden = false;
+        registeredButton.setAttribute("aria-expanded", "true");
+
+        accessForm.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
         });
 
-        await response.json();
+        accessForm.querySelector("input")?.focus({
+            preventScroll: true
+        });
+    });
 
-        if (!response.ok) {
-            contactStatusKey =
-                response.status === 503
-                    ? "contactServiceUnavailable"
-                    : "contactSendError";
+    guestButton.addEventListener("click", () => {
+        const language = languageSelect.value;
 
-            contactStatus.textContent =
-                getContactTranslations()[contactStatusKey];
+        const safeLanguage = ["es", "en", "pt"].includes(language)
+            ? language
+            : "es";
 
-            return;
-        }
+        sessionStorage.setItem(
+            "portfolioSession",
+            JSON.stringify({
+                accessType: "guest",
+                language: safeLanguage
+            })
+        );
 
-        contactStatusKey = "contactSuccess";
-        contactStatus.textContent =
-            getContactTranslations()[contactStatusKey];
-
-        contactForm.reset();
-
-    } catch (error) {
-        contactStatusKey = "contactConnectionError";
-
-        contactStatus.textContent =
-            getContactTranslations()[contactStatusKey];
-
-    } finally {
-        contactButton.disabled = false;
-    }
+        window.location.href = "home.html";
+    });
 });
+document.querySelectorAll(".access-option-card[data-access-target]")
+    .forEach(card => {
+        const button = document.getElementById(card.dataset.accessTarget);
+
+        if (!button) return;
+
+        card.addEventListener("click", event => {
+            if (event.target.closest("button, a, input, select, textarea")) {
+                return;
+            }
+
+            button.click();
+        });
+    });
 

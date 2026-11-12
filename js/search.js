@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Índice de páginas y secciones reales.
-    const searchIndex = [
+    const searchHome = [
         {
             title: "Inicio",
             description: "Presentación del Portfolio QA & AI",
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "home inicio portfolio perfil",
-            url: "index.html#home"
+            url: "home.html#home"
         },
         {
             title: "Sobre mí",
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "experiencia perfil trayectoria",
-            url: "index.html#about"
+            url: "home.html#about"
         },        
         {
             title: "Especialidades",
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "qa inteligencia artificial ai testing",
-            url: "index.html#specialties"
+            url: "home.html#specialties"
         },
         {
             title: "Proyectos",
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "proyectos desarrollo portfolio",
-            url: "index.html#projects"
+            url: "home.html#projects"
         },
         {
             title: "Contacto",
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "contacto mensaje email",
-            url: "index.html#contact"
+            url: "home.html#contact"
         },        
         {
             title: "Currículum y trayectoria",
@@ -751,7 +751,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "idioma language idioma selector traduccion translation traducao",
-            url: "index.html#footerLanguageSelect"
+            url: "home.html#footerLanguageSelect"
         },
         {
             title: "Pruebas automatizadas de Frontend",
@@ -795,7 +795,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "linkedin perfil profesional red profesional empleo contactos",
-            url: "index.html#linkedin"
+            url: "home.html#linkedin"
         },        
         {
             title: "GitHub",
@@ -817,7 +817,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             keywords: "github repositorio repositorios codigo fuente proyectos git desarrollo",
-            url: "index.html#github"
+            url: "home.html#github"
         }
 
     ];
@@ -829,7 +829,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchKeywords = {
         
         // HOME
-        "index.html#home": [
+        "home.html#home": [
             "inicio", "bienvenida", "presentación",
             "portfolio profesional", "portafolio",
             "miguel flor", "qa tester", "ai consultant",
@@ -846,7 +846,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "consultor de ia"
         ],
 
-        "index.html#about": [
+        "home.html#about": [
             "sobre mí", "biografía", "experiencia",
             "perfil", "trayectoria", "competencias",
             "habilidades", "freelance", "trabajo",
@@ -864,7 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "experiência profissional", "emprego"
         ],
 
-        "index.html#specialties": [
+        "home.html#specialties": [
             "especialidades", "qa", "testing",
             "inteligencia artificial", "ia",
             "automatización", "consultoría",
@@ -882,7 +882,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "qualidade de software", "tecnologia"
         ],
 
-        "index.html#projects": [
+        "home.html#projects": [
             "proyectos", "portfolio testing",
             "desarrollo tecnológico",
             "aplicaciones prácticas",
@@ -903,7 +903,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "projetos de software"
         ],
 
-        "index.html#contact": [
+        "home.html#contact": [
             "contacto", "mensaje", "correo",
             "email", "formulario", "consultas",
             "comunicación",
@@ -921,7 +921,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "entre em contato"
         ],
 
-        "index.html#footerLanguageSelect": [
+        "home.html#footerLanguageSelect": [
             "idioma", "idiomas", "selector de idioma",
             "cambiar idioma", "cambio de idioma",
             "español", "espanol", "castellano",
@@ -1737,7 +1737,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input.setAttribute("aria-expanded", "false");
         
         results.replaceChildren();
-        activeResultIndex = -1;
+        activeResultHome = -1;
 
         if (clearInput) {
             input.value = "";
@@ -1746,7 +1746,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showResults(query) {
 
-        activeResultIndex = -1;
+        activeResultHome = -1;
         results.replaceChildren();
 
         const term = normalize(query.trim());
@@ -1757,7 +1757,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         
-        const matches = searchIndex
+        const matches = searchHome
             .map(item => {
 
                 // Buscar utilizando también los textos del idioma activo.
@@ -1824,13 +1824,13 @@ document.addEventListener("DOMContentLoaded", () => {
             results.append(empty);
         }
         else {
-            matches.forEach((item, index) => {
+            matches.forEach((item, Home) => {
 
                 const link = document.createElement("a");
                 link.className = "portfolio-search-result";
                 link.href = item.url;
 
-                link.id = `portfolio-search-result-${index}`;                
+                link.id = `portfolio-search-result-${Home}`;                
 
                 // Obtener los textos correspondientes al idioma activo.
                 const language = getSearchLanguage();
@@ -1854,7 +1854,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     input.addEventListener("input", () => {
-        activeResultIndex = -1;
+        activeResultHome = -1;
         showResults(input.value);
     });
 
@@ -1868,7 +1868,7 @@ document.addEventListener("DOMContentLoaded", () => {
     NAVEGACIÓN POR TECLADO
     ========================================= */
 
-    let activeResultIndex = -1;
+    let activeResultHome = -1;
 
     function updateActiveResult() {
 
@@ -1876,9 +1876,9 @@ document.addEventListener("DOMContentLoaded", () => {
             results.querySelectorAll(".portfolio-search-result")
         );
 
-        links.forEach((link, index) => {
+        links.forEach((link, Home) => {
 
-            const isActive = index === activeResultIndex;
+            const isActive = Home === activeResultHome;
 
             link.classList.toggle(
                 "portfolio-search-result-active",
@@ -1904,7 +1904,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (event.key === "Escape") {
             closeResults();
-            activeResultIndex = -1;
+            activeResultHome = -1;
             input.blur();
             return;
         }
@@ -1917,8 +1917,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
-            activeResultIndex =
-                (activeResultIndex + 1) % links.length;
+            activeResultHome =
+                (activeResultHome + 1) % links.length;
 
             updateActiveResult();
         }
@@ -1927,8 +1927,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
-            activeResultIndex =
-                (activeResultIndex - 1 + links.length)
+            activeResultHome =
+                (activeResultHome - 1 + links.length)
                 % links.length;
 
             updateActiveResult();
@@ -1938,12 +1938,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
-            const selectedIndex =
-                activeResultIndex >= 0
-                    ? activeResultIndex
+            const selectedHome =
+                activeResultHome >= 0
+                    ? activeResultHome
                     : 0;
 
-            const selectedLink = links[selectedIndex];
+            const selectedLink = links[selectedHome];
 
             if (selectedLink) {
                 const destination = selectedLink.href;
@@ -1968,16 +1968,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!links.length) return;
 
-        const currentIndex = links.indexOf(document.activeElement);
+        const currentHome = links.indexOf(document.activeElement);
 
-        if (currentIndex === -1) return;
+        if (currentHome === -1) return;
 
         if (event.key === "ArrowDown") {
 
             event.preventDefault();
 
-            activeResultIndex =
-                (currentIndex + 1) % links.length;
+            activeResultHome =
+                (currentHome + 1) % links.length;
 
             updateActiveResult();
         }
@@ -1986,8 +1986,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
-            activeResultIndex =
-                (currentIndex - 1 + links.length)
+            activeResultHome =
+                (currentHome - 1 + links.length)
                 % links.length;
 
             updateActiveResult();
@@ -2026,7 +2026,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        activeResultIndex = -1;
+        activeResultHome = -1;
 
         results.querySelectorAll(
             ".portfolio-search-result-active"
@@ -2050,7 +2050,7 @@ document.addEventListener("DOMContentLoaded", () => {
             results.querySelectorAll(".portfolio-search-result")
         );
 
-        activeResultIndex = links.indexOf(link);
+        activeResultHome = links.HomeOf(link);
 
         updateActiveResult();
 

@@ -2,10 +2,24 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { Builder, By, until } = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
 
 const BASE_URL = 'http://127.0.0.1:5500';
 
 const TEST_BROWSER = process.env.TEST_BROWSER || 'chrome';
+function crearDriver() {
+    const builder = new Builder().forBrowser(TEST_BROWSER);
+
+    if (TEST_BROWSER === 'firefox') {
+        const options = new firefox.Options().setBinary(
+            'C:\\Program Files\\WindowsApps\\Mozilla.Firefox_159.0.1.0_x64__n80bbvh6b1yt2\\VFS\\ProgramFiles\\Firefox Package Root\\firefox.exe'
+        );
+
+        builder.setFirefoxOptions(options);
+    }
+
+    return builder.build();
+}
 
 const searchCases = [
     {
@@ -50,9 +64,7 @@ for (const caso of searchCases) {
 
     test(`${caso.id} — Navegación a ${caso.destination}`, async (t) => {
 
-        const driver = await new Builder()
-            .forBrowser(TEST_BROWSER)
-            .build();
+        const driver = await crearDriver();
 
         t.after(async () => {
             await driver.quit();
@@ -150,9 +162,7 @@ for (const caso of searchCases) {
 
 test('SEARCH-TC-001 — Búsquedas consecutivas sin recargar', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -168,11 +178,11 @@ test('SEARCH-TC-001 — Búsquedas consecutivas sin recargar', async (t) => {
     const escenarios = [
         {
             query: 'repositorio',
-            destination: 'index.html#github'
+            destination: 'home.html#github'
         },
         {
             query: 'linkedin',
-            destination: 'index.html#linkedin'
+            destination: 'home.html#linkedin'
         },
         {
             query: 'marketing',
@@ -258,9 +268,7 @@ test('SEARCH-TC-001 — Búsquedas consecutivas sin recargar', async (t) => {
 
 test('SEARCH-TC-002 — Navegación con teclado', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -312,9 +320,7 @@ test('SEARCH-TC-002 — Navegación con teclado', async (t) => {
 
 test('SEARCH-TC-003 — Cerrar resultados con Escape', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -417,9 +423,7 @@ test('SEARCH-TC-003 — Cerrar resultados con Escape', async (t) => {
 
 test('SEARCH-TC-004 — Búsqueda sin resultados ES/EN/PT', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -490,9 +494,7 @@ test('SEARCH-TC-004 — Búsqueda sin resultados ES/EN/PT', async (t) => {
 
 test('SEARCH-TC-005 — Búsqueda con y sin acentos', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -542,9 +544,7 @@ test('SEARCH-TC-005 — Búsqueda con y sin acentos', async (t) => {
 
 test('SEARCH-TC-006 — Resultados traducidos ES/EN/PT', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -640,9 +640,7 @@ test('SEARCH-TC-006 — Resultados traducidos ES/EN/PT', async (t) => {
 
 test('SEARCH-TC-007 — Cierre y reapertura por foco', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -712,9 +710,7 @@ test('SEARCH-TC-007 — Cierre y reapertura por foco', async (t) => {
 
 test('SEARCH-TC-008 — Navegación con ArrowUp y ArrowDown', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -787,13 +783,23 @@ test('SEARCH-TC-008 — Navegación con ArrowUp y ArrowDown', async (t) => {
 
 test('SEARCH-TC-009 — Abrir segundo resultado con teclado', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
     });
+
+    await driver.get(`${BASE_URL}/index.html`);
+
+    await driver.executeScript(`
+        sessionStorage.setItem(
+            'portfolioSession',
+            JSON.stringify({
+                firstName: 'QA',
+                language: 'es'
+            })
+        );
+    `);
 
     await driver.get(`${BASE_URL}/quality-management.html`);
 
@@ -856,14 +862,14 @@ test('SEARCH-TC-009 — Abrir segundo resultado con teclado', async (t) => {
 
     // 6. Verificar el destino exacto.
     await driver.wait(
-        until.urlContains('index.html#specialties'),
+        until.urlContains('home.html#specialties'),
         10000
     );
 
     const currentUrl = await driver.getCurrentUrl();
 
     assert.ok(
-        currentUrl.endsWith('index.html#specialties'),
+        currentUrl.endsWith('home.html#specialties'),
         `Destino incorrecto: ${currentUrl}`
     );
 
@@ -872,9 +878,7 @@ test('SEARCH-TC-009 — Abrir segundo resultado con teclado', async (t) => {
 
 test('SEARCH-TC-010 — Búsqueda con espacios adicionales', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -929,9 +933,7 @@ test('SEARCH-TC-010 — Búsqueda con espacios adicionales', async (t) => {
 
 test('SEARCH-TC-011 — Búsqueda sin distinguir mayúsculas y minúsculas', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -987,9 +989,7 @@ test('SEARCH-TC-011 — Búsqueda sin distinguir mayúsculas y minúsculas', asy
 
 test('SEARCH-TC-012 — Limpiar consulta y cerrar resultados', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1054,9 +1054,7 @@ test('SEARCH-TC-012 — Limpiar consulta y cerrar resultados', async (t) => {
 
 test('SEARCH-TC-013 — Búsqueda con caracteres especiales', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1111,9 +1109,7 @@ test('SEARCH-TC-013 — Búsqueda con caracteres especiales', async (t) => {
 
 test('SEARCH-TC-014 — Actualización de resultados al cambiar consulta', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1149,7 +1145,7 @@ test('SEARCH-TC-014 — Actualización de resultados al cambiar consulta', async
     await driver.wait(async () => {
         const resultados = await driver.findElements(
             By.css(
-                '.portfolio-search-result[href="index.html#linkedin"]'
+                '.portfolio-search-result[href="home.html#linkedin"]'
             )
         );
 
@@ -1181,13 +1177,23 @@ test('SEARCH-TC-014 — Actualización de resultados al cambiar consulta', async
 
 test('SEARCH-TC-015 — Seleccionar segundo resultado con clic', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
     });
+
+    await driver.get(`${BASE_URL}/index.html`);
+
+    await driver.executeScript(`
+        sessionStorage.setItem(
+            'portfolioSession',
+            JSON.stringify({
+                firstName: 'QA',
+                language: 'es'
+            })
+        );
+    `);
 
     await driver.get(`${BASE_URL}/quality-management.html`);
 
@@ -1203,7 +1209,7 @@ test('SEARCH-TC-015 — Seleccionar segundo resultado con clic', async (t) => {
     const resultado = await driver.wait(
         until.elementLocated(
             By.css(
-                '.portfolio-search-result[href="index.html#specialties"]'
+                '.portfolio-search-result[href="home.html#specialties"]'
             )
         ),
         10000
@@ -1221,22 +1227,22 @@ test('SEARCH-TC-015 — Seleccionar segundo resultado con clic', async (t) => {
 
     assert.equal(
         await resultados[1].getAttribute('href'),
-        `${BASE_URL}/index.html#specialties`
+        `${BASE_URL}/home.html#specialties`
     );
 
     // 4. Seleccionar Especialidades mediante clic.
     await resultado.click();
-
+    
     // 5. Verificar la navegación.
     await driver.wait(
-        until.urlContains('index.html#specialties'),
+        until.urlContains('home.html#specialties'),
         10000
     );
 
     const currentUrl = await driver.getCurrentUrl();
 
     assert.ok(
-        currentUrl.endsWith('index.html#specialties'),
+        currentUrl.endsWith('home.html#specialties'),
         `Destino incorrecto: ${currentUrl}`
     );
 
@@ -1269,9 +1275,7 @@ test('SEARCH-TC-015 — Seleccionar segundo resultado con clic', async (t) => {
 
 test('SEARCH-TC-016 — Buscar después de navegar a otra página', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1358,9 +1362,7 @@ test('SEARCH-TC-016 — Buscar después de navegar a otra página', async (t) =>
 
 test('SEARCH-TC-017 — Verificar orden de resultados', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1402,7 +1404,7 @@ test('SEARCH-TC-017 — Verificar orden de resultados', async (t) => {
     // 5. Verificar el segundo destino.
     assert.ok(
         (await resultados[1].getAttribute('href'))
-            .endsWith('/index.html#specialties'),
+            .endsWith('/home.html#specialties'),
         'El segundo resultado debería ser Especialidades'
     );
 
@@ -1413,9 +1415,7 @@ test('SEARCH-TC-017 — Verificar orden de resultados', async (t) => {
 
 test('SEARCH-TC-018 — Navegación con Tab y Enter', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1496,9 +1496,7 @@ test('SEARCH-TC-018 — Navegación con Tab y Enter', async (t) => {
 
 test('SEARCH-TC-019 — Navegación inversa con Shift + Tab', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1595,9 +1593,7 @@ test('SEARCH-TC-019 — Navegación inversa con Shift + Tab', async (t) => {
 
 test('SEARCH-TC-020 — Recorrido de resultados con flechas', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1640,7 +1636,7 @@ test('SEARCH-TC-020 — Recorrido de resultados con flechas', async (t) => {
     // 4. Avanzar al segundo resultado.
     let activo = await driver.switchTo().activeElement();
     await activo.sendKeys('\uE015');
-
+    
     await verificarFoco(1);
     console.log('PASS — ArrowDown selecciona resultado 2');
 
@@ -1677,9 +1673,7 @@ test('SEARCH-TC-020 — Recorrido de resultados con flechas', async (t) => {
 
 test('SEARCH-TC-021 — Escape desde un resultado seleccionado', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1751,9 +1745,7 @@ test('SEARCH-TC-021 — Escape desde un resultado seleccionado', async (t) => {
 
 test('SEARCH-TC-022 — Nueva búsqueda después de Escape desde un resultado', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1834,9 +1826,7 @@ test('SEARCH-TC-022 — Nueva búsqueda después de Escape desde un resultado', 
 
 test('SEARCH-TC-023 — Estado aria-expanded del buscador', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1897,9 +1887,7 @@ test('SEARCH-TC-023 — Estado aria-expanded del buscador', async (t) => {
 
 test('SEARCH-TC-024 — Integridad de enlaces y títulos', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -1962,9 +1950,7 @@ test('SEARCH-TC-024 — Integridad de enlaces y títulos', async (t) => {
 
 test('SEARCH-TC-025 — Verificar resultados sin destinos duplicados', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2017,9 +2003,7 @@ test('SEARCH-TC-025 — Verificar resultados sin destinos duplicados', async (t)
 
 test('SEARCH-TC-026 — Eliminar resultados anteriores cuando no hay coincidencias', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2092,9 +2076,7 @@ test('SEARCH-TC-026 — Eliminar resultados anteriores cuando no hay coincidenci
 
 test('SEARCH-TC-027 — Recuperación después de una búsqueda sin resultados', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2165,9 +2147,7 @@ test('SEARCH-TC-027 — Recuperación después de una búsqueda sin resultados',
 
 test('SEARCH-TC-028 — Búsqueda por término parcial', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2217,9 +2197,7 @@ test('SEARCH-TC-028 — Búsqueda por término parcial', async (t) => {
 
 test('SEARCH-TC-029 — Búsqueda por descripción', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2272,9 +2250,7 @@ test('SEARCH-TC-029 — Búsqueda por descripción', async (t) => {
 
 test('SEARCH-TC-030 — Búsqueda con varias palabras', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2324,9 +2300,7 @@ test('SEARCH-TC-030 — Búsqueda con varias palabras', async (t) => {
 
 test('SEARCH-TC-031 — Búsqueda con espacios internos repetidos', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2376,9 +2350,7 @@ test('SEARCH-TC-031 — Búsqueda con espacios internos repetidos', async (t) =>
 
 test('SEARCH-TC-032 — Búsqueda con tabulaciones entre palabras', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2446,9 +2418,7 @@ test('SEARCH-TC-032 — Búsqueda con tabulaciones entre palabras', async (t) =>
 
 test('SEARCH-TC-033 — Normalización de caracteres Unicode', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2502,9 +2472,7 @@ test('SEARCH-TC-033 — Normalización de caracteres Unicode', async (t) => {
 
 test('SEARCH-TC-034 — Tratamiento de saltos de línea en el input', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2568,9 +2536,7 @@ test('SEARCH-TC-034 — Tratamiento de saltos de línea en el input', async (t) 
 
 test('SEARCH-TC-035 — Consulta compuesta únicamente por espacios', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2628,9 +2594,7 @@ test('SEARCH-TC-035 — Consulta compuesta únicamente por espacios', async (t) 
 
 test('SEARCH-TC-036 — Caracteres especiales combinados con texto válido', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();
@@ -2689,9 +2653,7 @@ test('SEARCH-TC-036 — Caracteres especiales combinados con texto válido', asy
 
 test('SEARCH-TC-037 — Recuperación tras caracteres especiales', async (t) => {
 
-    const driver = await new Builder()
-        .forBrowser(TEST_BROWSER)
-        .build();
+    const driver = await crearDriver();
 
     t.after(async () => {
         await driver.quit();

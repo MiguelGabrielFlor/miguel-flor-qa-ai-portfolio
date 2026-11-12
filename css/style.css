@@ -35,14 +35,31 @@ html {
     --error: #ff6b6b;
 
     --max-width: 1180px;
+    /* =========================================
+    SISTEMA VISUAL — TARJETAS Y BOTONES
+    ========================================= */
+
+    --interactive-color: #3794FF;
+    --interactive-text: #FFFFFF;
+
+    --interactive-duration: 0.60s;
+    --interactive-easing: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --card-hover-lift: -6px;
+    --button-hover-lift: -2px;
+
+    --interactive-glow:
+        0 18px 45px rgba(55, 148, 255, 0.18);
 
 }
 
 body {
 
-    font-family:
+    font-family: "Cascadia Code", monospace;
 
-        "Cascadia Code", monospace;
+    font-size: 14px;
+
+    font-weight: 400;
 
     background: var(--background);
 
@@ -78,9 +95,9 @@ a {
 
     display: flex;
 
-    justify-content: center;
+    justify-content: safe center;
 
-    align-items: center;
+    align-items: safe center;
 
     padding: 30px 20px;
 
@@ -102,7 +119,7 @@ a {
 
     width: 100%;
 
-    max-width: 520px;
+    max-width: 1200px;
 
     background: var(--card);
 
@@ -154,7 +171,9 @@ a {
 
     color: var(--text-secondary);
 
-    font-size: 17px;
+    font-size: 15px;
+
+    font-weight: 400;
 
 }
 
@@ -176,6 +195,10 @@ a {
 
     color: var(--text-secondary);
 
+    font-size: 15px;
+
+    font-weight: 400;
+
 }
 
 .form-group {
@@ -192,7 +215,7 @@ a {
 
     font-size: 14px;
 
-    font-weight: bold;
+    font-weight: 500;
 
 }
 
@@ -213,8 +236,10 @@ input[type="tel"] {
     border-radius: 10px;
 
     color: white;
-
+    font-family: inherit;
     font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
 
     outline: none;
 
@@ -267,12 +292,13 @@ input.input-error {
 .consent label {
 
     color: var(--text-secondary);
-
-    font-size: 13px;
-
+    font-size: 14px;
+    font-weight: 400;
 }
 
-/* Botón de acceso: conserva un diseño destacado */
+/* =====================================================
+   ACCESO — BOTONES GENERALES
+===================================================== */
 
 #accessPage button {
 
@@ -286,14 +312,11 @@ input.input-error {
 
     padding: 12px 18px;
 
-    background: transparent;
-
-    border: 1px solid #3794FF;
-
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 8px;
 
-    color: #3794FF;
-
+    color: var(--interactive-color);
     font-family: inherit;
 
     font-size: 14px;
@@ -303,31 +326,26 @@ input.input-error {
     cursor: pointer;
 
     transition:
-
-        background 0.3s ease,
-
-        color 0.3s ease,
-
-        border-color 0.3s ease,
-
-        transform 0.3s ease;
-
+        background-color var(--interactive-duration) var(--interactive-easing),
+        color var(--interactive-duration) var(--interactive-easing),
+        border-color var(--interactive-duration) var(--interactive-easing);
 }
 
-#accessPage button:hover {
+/* Botón principal del formulario */
 
-    background: #3794FF;
-
-    border-color: #3794FF;
-
-    color: #FFFFFF;
-
-    transform: translateY(-2px);
-
+#accessPage #accessForm button:hover,
+#accessPage #accessForm button:focus-visible {
+    background: var(--interactive-color);
+    border-color: var(--interactive-color);
+    color: var(--interactive-text);
+    transform: none;
 }
+
+/* =====================================================
+   HOME — BOTONES GENERALES
+===================================================== */
 
 #portfolio button,
-
 #portfolio .button {
 
     display: inline-flex;
@@ -338,13 +356,7 @@ input.input-error {
 
     padding: 12px 18px;
 
-    background: transparent;
-
-    border: none;
-
-    border-radius: 0;
-
-    color: #FFFFFF;
+    color: var(--interactive-text);
 
     font-family: inherit;
 
@@ -355,30 +367,14 @@ input.input-error {
     text-decoration: none;
 
     cursor: pointer;
-
-    transform: scale(1);
-
-    transition:
-
-        color 0.4s ease,
-
-        transform 0.4s ease;
-
 }
 
-#portfolio button:hover,
+/* Los estados hover específicos se controlan
+   desde HOME — CTA UNIFICADOS CON EL BOTÓN MENÚ */
 
-#portfolio .button:hover {
-
-    background: transparent;
-
-    border: none;
-
-    color: #3794FF;
-
-    transform: scale(1.50);
-
-}
+/* =====================================================
+   ACCESO — PIE DE PÁGINA
+===================================================== */
 
 .access-footer {
 
@@ -405,6 +401,7 @@ input.input-error {
     opacity: 0.6;
 
 }
+
 
 /* =====================================================
 
@@ -1136,8 +1133,8 @@ body:has(#cv) .navbar .index-link small {
     /* Transición suave */
     transition:
         transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.4s ease,
-        box-shadow 0.4s ease;
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 
     background: linear-gradient(
 
@@ -1339,13 +1336,21 @@ body:has(#cv) .navbar .index-link small {
 
 .ai-card,
 
-.project-card {
+.project-card,
+
+.access-card,
+
+.access-option-card,
+
+.linkedin-card,
+
+.github-card {
 
     position: relative;
 
     isolation: isolate;
 
-    overflow: hidden;
+    overflow: clip;
 
     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
 
@@ -1359,7 +1364,15 @@ body:has(#cv) .navbar .index-link small {
 
 .ai-card::before,
 
-.project-card::before {
+.project-card::before,
+
+.access-card::before,
+
+.access-option-card::before,
+
+.linkedin-card::before,
+
+.github-card::before {
 
     content: "";
 
@@ -1393,7 +1406,15 @@ body:has(#cv) .navbar .index-link small {
 
 .ai-card > *,
 
-.project-card > * {
+.project-card > *,
+
+.access-card > *,
+
+.access-option-card > *,
+
+.linkedin-card > *,
+
+.github-card > * {
 
     position: relative;
 
@@ -1413,7 +1434,15 @@ body:has(#cv) .navbar .index-link small {
 
     .ai-card::before,
 
-    .project-card::before {
+    .project-card::before,
+
+    .access-card::before,
+
+    .access-option-card::before,
+
+    .linkedin-card::before,
+
+    .github-card::before {
 
         animation: none;
 
@@ -1447,7 +1476,7 @@ body:has(#cv) .navbar .index-link small {
 
     margin-bottom: 20px;
 
-    font-size: 18px;
+    font-size: 15px;
 
 }
 
@@ -1528,22 +1557,6 @@ body:has(#cv) .navbar .index-link small {
     padding: 30px;
 
     border-radius: 16px;
-
-    transition: 0.25s;
-
-}
-
-/* Movimiento exclusivo para tarjetas con navegación */
-
-a.experience-card:hover,
-
-a.skill-card:hover,
-
-a.ai-card:hover {
-
-    transform: translateY(-5px);
-
-    border-color: var(--primary);
 
 }
 
@@ -1663,7 +1676,9 @@ a.ai-card:hover {
 
 }
 
-/* CONTACT FORM */
+/* =====================================================
+   CONTACT FORM — ESTILOS UNIFICADOS
+===================================================== */
 
 .contact-form {
 
@@ -1683,6 +1698,8 @@ a.ai-card:hover {
 
 }
 
+/* Etiquetas */
+
 .contact-form label {
 
     display: block;
@@ -1693,12 +1710,16 @@ a.ai-card:hover {
 
     font-family: inherit;
 
+    font-size: 14px;
     font-weight: 500;
-
+    line-height: 1.6;
 }
 
-.contact-form textarea {
+/* =====================================================
+   MENSAJE — TEXTAREA
+===================================================== */
 
+.contact-form textarea {
     display: block;
 
     box-sizing: border-box;
@@ -1710,22 +1731,22 @@ a.ai-card:hover {
     padding: 14px 16px;
 
     background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
 
     color: var(--text);
 
     font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
 
-    font-size: 1rem;
-
-    line-height: 1.5;
-
-    border: 1px solid var(--border);
-
-    border-radius: 12px;
-
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
+/* Placeholder */
 
 .contact-form textarea::placeholder {
 
@@ -1735,8 +1756,9 @@ a.ai-card:hover {
 
 }
 
-.contact-form textarea:focus {
+/* Foco */
 
+.contact-form textarea:focus {
     outline: none;
 
     border-color: var(--primary);
@@ -1745,14 +1767,25 @@ a.ai-card:hover {
 
 }
 
+/* Validación */
+
 .contact-form textarea.input-error {
 
     border-color: var(--error);
 
 }
 
-.contact-form .field-hint {
+.required-asterisk {
 
+    color: #FF5F56;
+
+}
+
+/* =====================================================
+   MENSAJES AUXILIARES
+===================================================== */
+
+.contact-form .field-hint {
     display: block;
 
     text-align: left;
@@ -1787,12 +1820,18 @@ a.ai-card:hover {
 
 }
 
+/* =====================================================
+   BOTÓN DE ENVÍO
+===================================================== */
+
 .contact-form #contactButton {
     display: flex !important;
     width: fit-content;
     margin: 2px 0 0 auto !important;
+
     align-items: center;
     justify-content: center;
+
     float: none;
     position: static;
     transform: none;
@@ -1806,8 +1845,11 @@ a.ai-card:hover {
 
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* =====================================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+===================================================== */
 
+@media (prefers-reduced-motion: reduce) {
     .contact-form textarea {
 
         transition: none;
@@ -2153,7 +2195,9 @@ a.ai-card:hover {
 
    COLORES DE TEXTO — INSPIRACIÓN VS CODE
 
-============================================ */
+   ============================================ */
+
+/* Registro — Index */
 
 #firstName {
 
@@ -2179,6 +2223,20 @@ a.ai-card:hover {
 
 }
 
+/* Correo del visitante — Home */
+
+#guestEmail {
+    color: #4EC9B0;
+    caret-color: #4EC9B0;
+}
+
+/* Mensaje: naranja suave */
+
+#contactMessage {
+    color: #CE9178;
+    caret-color: #CE9178;
+}
+
 /* ============================================
 
    SALUDO PERSONALIZADO
@@ -2201,21 +2259,19 @@ a.ai-card:hover {
 
 }
 
-/* TARJETA DE LINKEDIN */
 
-.linkedin-card {
+/* =====================================================
+   LINKEDIN Y GITHUB — TARJETAS SOCIALES
+===================================================== */
 
-    color: inherit;
+/* Estructura compartida */
 
-    text-decoration: none;
-
-    cursor: pointer;
+.linkedin-card,
+.github-card {
 
     display: flex;
 
     align-items: center;
-
-    gap: 24px;
 
     width: 100%;
 
@@ -2223,11 +2279,14 @@ a.ai-card:hover {
 
     box-sizing: border-box;
 
-    margin: 32px auto 0;
-
+    margin-left: auto;
+    margin-right: auto;
     padding: 28px;
 
+    color: inherit;
+    text-decoration: none;
     text-align: left;
+    cursor: pointer;
 
     background: var(--card);
 
@@ -2237,41 +2296,46 @@ a.ai-card:hover {
 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
-    transition: border-color 0.25s ease,
-
-                transform 0.25s ease,
-
-                box-shadow 0.25s ease;
-
+    transition:
+        border-color var(--interactive-duration) var(--interactive-easing),
+        transform var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
 }
 
-.linkedin-card:focus-visible {
+/* Separación específica */
 
-    outline: 3px solid #0A66C2;
+.linkedin-card {
+    gap: 24px;
+    margin-top: 32px;
+}
 
+.github-card {
+    margin-top: 24px;
+}
+
+/* Iluminación y elevación compartidas */
+
+.linkedin-card:hover,
+.github-card:hover {
+    border-color: var(--interactive-color);
+    transform: translateY(var(--card-hover-lift));
+    box-shadow: var(--interactive-glow);
+}
+
+/* Foco accesible */
+
+.linkedin-card:focus-visible,
+.github-card:focus-visible {
+    outline: 3px solid var(--interactive-color);
     outline-offset: 4px;
-
 }
 
-.linkedin-avatar {
+/* =====================================================
+   INFORMACIÓN E IDENTIDAD
+===================================================== */
 
-    display: block;
-
-    flex-shrink: 0;
-
-    width: 140px;
-
-    height: 140px;
-
-    object-fit: cover;
-
-    border-radius: 50%;
-
-    border: 3px solid #0A66C2;
-
-}
-
-.linkedin-info {
+.linkedin-info,
+.github-info {
 
     display: flex;
 
@@ -2285,7 +2349,8 @@ a.ai-card:hover {
 
 }
 
-.linkedin-identity {
+.linkedin-identity,
+.github-identity {
 
     display: flex;
 
@@ -2299,26 +2364,62 @@ a.ai-card:hover {
 
 }
 
-.linkedin-identity-text {
+.linkedin-identity-text,
+.github-identity-text {
 
     flex: 1;
 
     min-width: 0;
 
     overflow-wrap: anywhere;
+}
 
+.linkedin-info h3,
+.github-info h3 {
+    margin: 0 0 4px;
+    color: var(--text);
+    font-size: 1.5rem;
+}
+
+.linkedin-label,
+.github-label {
+    display: inline-block;
+    margin-bottom: 8px;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.linkedin-label {
+    color: #0A66C2;
+}
+
+.github-label {
+    color: #007ACC;
+}
+
+/* =====================================================
+   LINKEDIN — IDENTIDAD VISUAL
+===================================================== */
+
+.linkedin-avatar {
+    display: block;
+    flex-shrink: 0;
+
+    width: 140px;
+    height: 140px;
+
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #0A66C2;
 }
 
 .linkedin-logo {
-
-    align-self: center;
-
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
+    align-self: center;
     flex-shrink: 0;
 
     width: 42px;
@@ -2338,37 +2439,59 @@ a.ai-card:hover {
     letter-spacing: -2px;
 
     line-height: 1;
-
 }
 
-.linkedin-label {
+/* =====================================================
+   GITHUB — IDENTIDAD VISUAL
+===================================================== */
 
-    display: inline-block;
+.github-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 
-    margin-bottom: 8px;
+    width: 42px;
+    height: 42px;
 
-    color: #0A66C2;
+    border-radius: 50%;
+    background: #24292f;
+    color: #fff;
 
-    font-size: 0.75rem;
-
+    font-size: 15px;
     font-weight: 700;
-
-    letter-spacing: 1.5px;
-
 }
 
-.linkedin-info h3 {
-
-    margin: 0 0 4px;
-
-    color: var(--text);
-
-    font-size: 1.5rem;
-
+.github-logo svg {
+    display: block;
+    width: 28px;
+    height: 28px;
 }
 
-.linkedin-button {
+.github-complement {
+    margin: 0 0 12px;
+    color: var(--text-secondary);
 
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.github-headline {
+    margin: 0 0 20px;
+    color: var(--text-secondary);
+
+    font-size: 0.95rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+/* =====================================================
+   BOTONES — ESTRUCTURA COMPARTIDA
+===================================================== */
+
+.linkedin-button,
+.github-button {
     display: inline-flex;
 
     align-items: center;
@@ -2381,17 +2504,9 @@ a.ai-card:hover {
 
     max-width: 100%;
 
-    gap: 8px;
-
-    background: #0A66C2;
-
-    color: #fff;
-
-    border: 1px solid #0A66C2;
+    padding: 11px 18px;
 
     border-radius: 10px;
-
-    padding: 11px 18px;
 
     text-align: center;
 
@@ -2399,38 +2514,53 @@ a.ai-card:hover {
 
     line-height: 1.4;
 
+    cursor: pointer;
 }
 
-.linkedin-card:hover {
+/* Colores originales de cada plataforma */
 
-    border-color: #007ACC;
-
-    transform: translateY(-4px);
-
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
-
+.linkedin-button {
+    gap: 8px;
+    background: #0A66C2;
+    color: #fff;
+    border: 1px solid #0A66C2;
 }
 
-/* LinkedIn: distribución vertical en dispositivos móviles */
+.github-button {
+    background: #24292f;
+    color: #fff;
+    border: 1px solid #24292f;
+}
+
+/* Foco específico del botón GitHub */
+
+#portfolio .button.github-button:focus-visible {
+    outline: 3px solid var(--interactive-color);
+    outline-offset: 3px;
+}
+
+/* =====================================================
+   RESPONSIVE — DISPOSITIVOS MÓVILES
+===================================================== */
 
 @media (max-width: 600px) {
 
-    .linkedin-card {
-
+    .linkedin-card,
+    .github-card {
         flex-direction: column;
-
-        align-items: center;
-
-        gap: 20px;
-
-        padding: 24px 18px;
 
         width: 100%;
 
         max-width: 100%;
 
-        box-sizing: border-box;
+        padding: 24px 18px;
+    }
 
+    /* LinkedIn */
+
+    .linkedin-card {
+        align-items: center;
+        gap: 20px;
     }
 
     .linkedin-avatar {
@@ -2473,8 +2603,6 @@ a.ai-card:hover {
 
         min-width: 0;
 
-        overflow-wrap: normal;
-
         overflow-wrap: break-word;
 
     }
@@ -2509,277 +2637,41 @@ a.ai-card:hover {
 
     }
 
-}
-
-/* FIN TARJETA DE LINKEDIN */
-
-/* TARJETA DE GITHUB */
-
-.github-card {
-
-    display: flex;
-
-    align-items: center;
-
-    width: 100%;
-
-    max-width: 760px;
-
-    box-sizing: border-box;
-
-    margin: 24px auto 0;
-
-    padding: 28px;
-
-    color: inherit;
-
-    text-decoration: none;
-
-    text-align: left;
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 20px;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
-    transition: border-color 0.25s ease,
-
-                transform 0.25s ease,
-
-                box-shadow 0.25s ease;
-
-    cursor: pointer;
-
-}
-
-.github-card:hover {
-
-    border-color: #007ACC;
-
-    transform: translateY(-4px);
-
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
-
-}
-
-.github-card:focus-visible {
-
-    outline: 3px solid #007ACC;
-
-    outline-offset: 4px;
-
-}
-
-.github-info {
-
-    display: flex;
-
-    flex-direction: column;
-
-    flex: 1;
-
-    min-width: 0;
-
-    align-items: flex-start;
-
-}
-
-.github-identity {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-    width: 100%;
-
-    margin-bottom: 16px;
-
-}
-
-.github-identity-text {
-
-    flex: 1;
-
-    min-width: 0;
-
-    overflow-wrap: anywhere;
-
-}
-
-.github-logo {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    width: 42px;
-
-    height: 42px;
-
-    border-radius: 50%;
-
-    background: #24292f;
-
-    color: #fff;
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-}
-
-.github-logo svg {
-
-    display: block;
-
-    width: 28px;
-
-    height: 28px;
-
-}
-
-.github-label {
-
-    display: inline-block;
-
-    margin-bottom: 8px;
-
-    color: #007ACC;
-
-    font-size: 0.75rem;
-
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-
-}
-
-.github-info h3 {
-
-    margin: 0 0 4px;
-
-    color: var(--text);
-
-    font-size: 1.5rem;
-
-}
-
-.github-complement {
-
-    margin: 0 0 12px;
-
-    color: var(--text-secondary);
-
-    font-size: 1rem;
-
-    font-weight: 600;
-
-    line-height: 1.5;
-
-}
-
-.github-headline {
-
-    margin: 0 0 20px;
-
-    color: var(--text-secondary);
-
-    font-size: 0.95rem;
-
-    line-height: 1.7;
-
-    overflow-wrap: anywhere;
-
-}
-
-.github-button {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    align-self: center;
-
-    box-sizing: border-box;
-
-    max-width: 100%;
-
-    padding: 11px 18px;
-
-    background: #24292f;
-
-    color: #fff;
-
-    border: 1px solid #24292f;
-
-    border-radius: 10px;
-
-    text-align: center;
-
-    white-space: normal;
-
-    line-height: 1.4;
-
-    cursor: pointer;
-
-    transition: background-color 0.25s ease,
-
-                border-color 0.25s ease,
-
-                color 0.25s ease,
-
-                transform 0.25s ease;
-
-}
-
-#portfolio .button.github-button:focus-visible {
-
-    outline: 3px solid #007ACC;
-
-    outline-offset: 3px;
-
-}
-
-@media (max-width: 600px) {
+    /* GitHub */
 
     .github-card {
-
-        flex-direction: column;
-
         align-items: stretch;
-
         gap: 18px;
-
-        padding: 24px 18px;
-
         text-align: left;
-
     }
 
     .github-info h3 {
-
         font-size: 1.3rem;
-
     }
 
     .github-button {
-
         max-width: 100%;
+    }
+}
 
+/* =====================================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .linkedin-card,
+    .github-card {
+        transition: none;
     }
 
+    .linkedin-card:hover,
+    .github-card:hover {
+        transform: none;
+    }
 }
+
+/* FIN TARJETAS SOCIALES */
+
 
 /* =====================================================
 
@@ -2832,14 +2724,13 @@ a.ai-card:hover {
     transform: none;
 
     transition:
-
-        color 0.2s ease,
-
-        border-color 0.2s ease;
-
+        background-color var(--interactive-duration) var(--interactive-easing),
+        color var(--interactive-duration) var(--interactive-easing),
+        border-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
 }
 
-/* Iluminación sin movimiento */
+/* Iluminación azul compartida */
 
 #portfolio #contactButton:hover,
 
@@ -2849,14 +2740,9 @@ a.ai-card:hover {
 
 #portfolio .github-card:hover .github-button {
 
-    background: var(--card);
-
-    color: var(--primary-hover);
-
-    border-color: var(--primary);
-
-    transform: none;
-
+    background: var(--interactive-color);
+    color: var(--interactive-text);
+    border-color: var(--interactive-color);
 }
 
 /* Foco accesible */
@@ -2877,21 +2763,13 @@ a.ai-card:hover {
 
 }
 
-/* Evitar movimiento en el botón de envío */
-
-#portfolio #contactButton:hover {
-
-    transform: none;
-
-}
-
 /* Movimiento reducido */
 
 @media (prefers-reduced-motion: reduce) {
 
     #portfolio #contactButton,
 
-    #portfolio #about .info-card-link .button,
+    #about .info-card-link .button,
 
     #portfolio .linkedin-card .linkedin-button,
 
@@ -2973,9 +2851,9 @@ a.ai-card:hover {
 
     transition:
 
-        color 0.2s ease,
+        color 0.3s ease,
 
-        border-color 0.2s ease;
+        border-color 0.3s ease;
 
 }
 
@@ -3036,7 +2914,7 @@ body:has(.cv-bottom-bar) {
 #cv #experience ,
 
 #cv #education {
-    
+
     scroll-margin-top: 110px;
 
 }
@@ -3277,12 +3155,6 @@ body:has(.cv-bottom-bar) {
 
 }
 
-#about .info-card-link:hover {
-
-    border-color: #3794FF;
-
-}
-
 #about .info-card-link:focus-visible {
 
     outline: 2px solid #3794FF;
@@ -3312,12 +3184,9 @@ body:has(.cv-bottom-bar) {
     transform: none;
 
     transition:
-
-        border-color 0.3s ease,
-
-        box-shadow 0.3s ease,
-
-        transform 0.3s ease;
+        border-color var(--interactive-duration) ease-in-out,
+        box-shadow var(--interactive-duration) ease-in-out,
+        transform var(--interactive-duration) var(--interactive-easing);
 
 }
 
@@ -3333,9 +3202,9 @@ a.ai-card:hover,
 
 a.project-card:hover {
 
-    transform: translateY(-5px);
-
-    border-color: #3794FF;
+    transform: translateY(var(--card-hover-lift));
+    border-color: var(--interactive-color);
+    box-shadow: var(--interactive-glow);
 
 }
 
@@ -3349,11 +3218,11 @@ a.project-card:hover {
 
     transition:
 
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
 
-        border-color 0.35s ease,
+        border-color 0.65s ease,
 
-        box-shadow 0.35s ease;
+        box-shadow 0.65s ease;
 
 }
 
@@ -3415,116 +3284,85 @@ a.project-card:hover {
 
 }
 
-/* INTERACCIÓN DE TARJETAS CON NAVEGACIÓN */
+/* =====================================================
+   INTERACCIÓN DE TARJETAS CON NAVEGACIÓN
+===================================================== */
+
+/* Tarjetas que funcionan como enlaces */
 
 a.info-card-link {
-
     display: flex;
-
     flex-direction: column;
 
     text-decoration: none;
-
     color: inherit;
-
     cursor: pointer;
 
     transition:
-
-        transform 0.3s ease,
-
-        border-color 0.3s ease,
-
-        box-shadow 0.3s ease;
-
+        transform var(--interactive-duration) var(--interactive-easing),
+        border-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
 }
+
+/* Elevación e iluminación */
 
 a.info-card-link:hover {
-
-    transform: translateY(-5px);
-
-    border-color: #3794FF;
-
-    box-shadow: 0 18px 45px rgba(55, 148, 255, 0.18);
-
+    transform: translateY(var(--card-hover-lift));
+    border-color: var(--interactive-color);
+    box-shadow: var(--interactive-glow);
 }
+
+/* Foco accesible */
 
 a.info-card-link:focus-visible {
-
-    outline: 2px solid #3794FF;
-
+    outline: 2px solid var(--interactive-color);
     outline-offset: 4px;
-
 }
 
-/* Respeta la preferencia de reducir movimiento */
+/* =====================================================
+   ILUMINACIÓN DE TARJETAS FIJAS
+===================================================== */
+
+/* Tarjetas informativas sin navegación */
+
+.info-card:not(a),
+.experience-card:not(a),
+.skill-card:not(a),
+.ai-card:not(a),
+.project-card:not(a) {
+    transition:
+        border-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
+}
+
+/* Iluminación sin desplazamiento */
+
+.info-card:not(a):hover,
+.experience-card:not(a):hover,
+.skill-card:not(a):hover,
+.ai-card:not(a):hover,
+.project-card:not(a):hover {
+    border-color: var(--interactive-color);
+    box-shadow: var(--interactive-glow);
+}
+
+/* =====================================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-
-    a.info-card-link {
-
+    a.info-card-link,
+    .info-card:not(a),
+    .experience-card:not(a),
+    .skill-card:not(a),
+    .ai-card:not(a),
+    .project-card:not(a) {
         transition: none;
-
     }
 
     a.info-card-link:hover {
-
         transform: none;
-
     }
-
-}
-
-/* INTERACCIÓN DE TARJETAS CON NAVEGACIÓN */
-
-#about a.info-card-link {
-
-    transition: 0.25s;
-
-}
-
-#about a.info-card-link:hover {
-
-    transform: translateY(-5px);
-
-    border-color: var(--primary);
-
-}
-
-/* ILUMINACIÓN DE TARJETAS FIJAS AL PASAR EL CURSOR */
-
-.info-card:not(a),
-
-.experience-card:not(a),
-
-.skill-card:not(a),
-
-.ai-card:not(a),
-
-.project-card:not(a) {
-
-    transition:
-
-        border-color 0.25s ease,
-
-        box-shadow 0.25s ease;
-
-}
-
-.info-card:not(a):hover,
-
-.experience-card:not(a):hover,
-
-.skill-card:not(a):hover,
-
-.ai-card:not(a):hover,
-
-.project-card:not(a):hover {
-
-    border-color: var(--primary);
-
-    box-shadow: 0 14px 36px rgba(10, 102, 194, 0.18);
-
 }
 
 /* DISTRIBUCIÓN DEL CONTENIDO: TRAYECTORIA PROFESIONAL */
@@ -3577,11 +3415,11 @@ a.info-card-link:focus-visible {
 
     transition:
 
-        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
 
-        border-color 0.35s ease,
+        border-color 0.65s ease,
 
-        background-color 0.35s ease;
+        background-color 0.65s ease;
 
 }
 
@@ -3703,11 +3541,11 @@ a.info-card-link:focus-visible {
 
     transition:
 
-        color 0.2s ease,
+        color 0.3s ease,
 
-        border-color 0.2s ease,
+        border-color 0.3s ease,
 
-        background 0.2s ease;
+        background 0.3s ease;
 
 }
 
@@ -3755,11 +3593,11 @@ a.info-card-link:focus-visible {
 
     transition:
 
-        border-color 0.25s ease,
+        border-color 0.65s ease,
 
-        transform 0.25s ease,
+        transform 0.65s ease,
 
-        background 0.25s ease;
+        background 0.65s ease;
 
 }
 
@@ -3791,7 +3629,7 @@ a.info-card-link:focus-visible {
 
     cursor: zoom-in;
 
-    transition: max-height 0.25s ease;
+    transition: max-height 0.65s ease;
 
 }
 
@@ -3905,9 +3743,9 @@ body:has(> .navbar) .navbar .button {
 
     transition:
 
-        color 0.4s ease,
+        color 0.3s ease,
 
-        transform 0.4s ease;
+        transform 0.3s ease;
 
 }
 
@@ -4435,20 +4273,12 @@ a.hero-panel.hero-panel-link:focus-visible {
 
 @media (max-width: 600px) {
 
-    .cv-bottom-bar {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 16px;
-    }
 
     .cv-language-selector {
         position: static;
         left: auto;
         transform: none;
-        order: 1;
+
     }
 
     .cv-bottom-bar .cv-back-button {
@@ -4457,16 +4287,6 @@ a.hero-panel.hero-panel-link:focus-visible {
 
 }
 
-/* QA — Cobertura de validación telefónica */
-
-.selenium-phone-coverage {
-    width: 100%;
-    margin-top: 20px;
-    overflow-x: auto;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-    background: #0d1117;
-}
 
 .selenium-phone-coverage table {
     width: 100%;
@@ -4712,4 +4532,211 @@ a.hero-panel.hero-panel-link:focus-visible {
         hyphens: none;
     }
 
+}
+
+
+/* =====================================================
+   ACCESO — MODALIDADES Y TEXTOS
+===================================================== */
+
+.access-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 28px 0;
+}
+
+.access-option-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+    padding: 24px;
+
+    border: 1px solid rgba(110, 150, 255, 0.25);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+/* Títulos: conservar su color original */
+
+.access-option-card h3 {
+    margin: 0;
+}
+
+/* Descripciones: contraste más suave */
+
+.access-option-card p {
+    margin: 0;
+    color: #9CA3AF;
+}
+
+/* Botones: conservar su configuración */
+
+.access-option-card .button {
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Formulario desplegable */
+
+#accessForm[hidden] {
+    display: none !important;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 640px) {
+    .access-options {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .access-option-card {
+        padding: 20px;
+    }
+}
+
+
+/* =====================================================
+   ACCESO — EFECTOS INTERACTIVOS UNIFICADOS
+===================================================== */
+
+/* Contenedor principal: iluminación sin desplazamiento */
+
+.access-card {
+    transition:
+        border-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
+}
+
+.access-card:hover,
+.access-card:focus-within {
+    border-color: var(--interactive-color);
+    box-shadow: var(--interactive-glow);
+}
+
+/* =====================================================
+   TARJETAS DE OPCIONES DE ACCESO
+===================================================== */
+
+.access-option-card {
+    transition:
+        transform var(--interactive-duration) var(--interactive-easing),
+        border-color var(--interactive-duration) var(--interactive-easing),
+        background-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
+}
+
+/* Elevación e iluminación compartidas */
+
+.access-option-card:hover,
+.access-option-card:focus-within {
+    transform: translateY(var(--card-hover-lift));
+    border-color: var(--interactive-color);
+    background-color: rgba(55, 148, 255, 0.07);
+    box-shadow: var(--interactive-glow);
+}
+
+/* =====================================================
+   ACCESO — FONDO INDEPENDIENTE DE LOS BOTONES
+===================================================== */
+
+/* Estado normal: fondo oscuro sólido */
+
+#accessPage .access-option-card .button,
+#accessPage #accessForm button {
+    background: var(--card);
+    color: var(--interactive-color);
+    border: 1px solid var(--border);
+    transform: none;
+
+    transition:
+        background-color var(--interactive-duration) var(--interactive-easing),
+        border-color var(--interactive-duration) var(--interactive-easing),
+        color var(--interactive-duration) var(--interactive-easing);
+}
+
+/* Botones de tarjetas: iluminación conjunta */
+
+#accessPage .access-option-card:hover .button,
+#accessPage .access-option-card:focus-within .button {
+    background: var(--interactive-color);
+    color: var(--interactive-text);
+    border-color: var(--interactive-color);
+    transform: none;
+}
+
+/* Botón del formulario: iluminación individual */
+
+#accessPage #accessForm button:hover,
+#accessPage #accessForm button:focus-visible {
+    background: var(--interactive-color);
+    color: var(--interactive-text);
+    border-color: var(--interactive-color);
+    transform: none;
+}
+
+/* Sin desplazamiento independiente */
+
+#accessPage .access-option-card .button:hover,
+#accessPage .access-option-card .button:focus-visible {
+    transform: none;
+}
+
+/* Movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+    #accessPage .access-option-card .button,
+    #accessPage #accessForm button {
+        transition: none;
+    }
+}
+
+/* =====================================================
+   ICONOS DE LAS TARJETAS
+===================================================== */
+
+.access-option-icon {
+    transition:
+        color var(--interactive-duration) var(--interactive-easing),
+        transform var(--interactive-duration) var(--interactive-easing);
+}
+
+.access-option-card:hover .access-option-icon,
+.access-option-card:focus-within .access-option-icon {
+    color: #93baff;
+    transform: scale(1.12);
+}
+
+/* =====================================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .access-card,
+    .access-option-card,
+    .access-option-icon,
+    #accessPage .access-option-card .button {
+        transition: none;
+    }
+
+    .access-option-card:hover,
+    .access-option-card:focus-within {
+        transform: none;
+    }
+
+    .access-option-card:hover .access-option-icon,
+    .access-option-card:focus-within .access-option-icon {
+        transform: none;
+    }
+}
+
+/* FIN EFECTOS INTERACTIVOS DE ACCESO */
+[data-i18n="specialtiesQaParagraph1"],
+[data-i18n="specialtiesQaParagraph2"] {
+    white-space: pre-line;
 }

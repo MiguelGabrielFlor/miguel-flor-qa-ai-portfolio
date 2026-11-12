@@ -1913,3 +1913,65 @@ Omitidas: 0
 Estado: APROBADO — REGRESIÓN MULTINAVEGADOR CERRADA.
 
 La evidencia obtenida permite completar el respaldo de navegación y persistencia del idioma de BDD-003 y BDD-005, sujeto a la actualización de sus referencias documentales.
+## Reejecución de regresión Selenium — Buscador global — 12/11/2026
+
+**Requisito:** FR-011 — Global Search  
+**Herramienta:** Selenium WebDriver / Node.js Test Runner  
+**Archivo:** `tests/selenium/global-search-navigation.test.js`  
+**Entorno:** Windows — `http://127.0.0.1:5500`
+
+### Objetivo
+
+Verificar nuevamente los 43 casos automatizados del buscador global en Google Chrome, Mozilla Firefox y Microsoft Edge, después de las correcciones de navegación y configuración de Selenium.
+
+### Resultados finales
+
+| Navegador | Casos | PASS | FAIL | Modalidad |
+|---|---:|---:|---:|---|
+| Google Chrome | 43 | 43 | 0 | Suite completa |
+| Mozilla Firefox | 43 | 43 | 0 | Ejecuciones parciales |
+| Microsoft Edge | 43 | 43 | 0 | Suite completa |
+| **Total** | **129** | **129** | **0** | |
+
+**Resultado consolidado: 129/129 PASS.**
+
+### Incidencias y correcciones
+
+**1. Configuración de Firefox**
+
+La ejecución integral inicial de Firefox registró 36 PASS y 7 FAIL.
+
+Seis fallos correspondían a intentos de Selenium Manager de descargar Firefox, debido a que determinados casos no utilizaban la configuración explícita del navegador.
+
+Se sustituyó la construcción original de WebDriver por la función compartida `crearDriver()`.
+
+**Verificación posterior:** seis casos ejecutados, seis PASS.
+
+**2. Inicialización de Marionette**
+
+SEARCH-TC-015 registró inicialmente un error `Failed to read marionette port`.
+
+La ejecución individual posterior confirmó la selección del segundo resultado mediante clic y la navegación correcta a `home.html#specialties`.
+
+**Verificación posterior:** SEARCH-TC-015 — PASS.
+
+**3. Navegación y selección de resultados**
+
+Los ocho casos previamente corregidos se verificaron en Chrome, Firefox y Edge.
+
+**Resultado:** 24/24 PASS.
+
+### Observaciones
+
+- Chrome y Edge finalizaron ejecuciones completas de 43 casos.
+- Firefox alcanzó 43 casos satisfactorios mediante ejecuciones parciales posteriores al diagnóstico.
+- No se registra una nueva ejecución integral satisfactoria de Firefox en esta fecha.
+- Los fallos de inicialización del navegador no constituyen defectos funcionales confirmados del buscador.
+- Se eliminaron los mensajes temporales de diagnóstico del código Selenium.
+- Los resultados históricos del 30/10/2026 permanecen independientes de esta reejecución.
+
+### Conclusión
+
+Los 43 escenarios del buscador global cuentan con resultados satisfactorios en los tres navegadores.
+
+**Estado: APROBADO — 129/129 PASS, con validación parcial consolidada en Firefox.**

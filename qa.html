@@ -119,7 +119,7 @@
             border-color: #3794FF;
             box-shadow: inset 0 -3px 0 #3794FF;
         }
-        
+
         .test-spine:nth-last-child(3) {
             transform: rotate(-3.0deg);
             transform-origin: bottom center;
@@ -267,7 +267,7 @@
         .qa-panel p {
             color: var(--text-secondary);
             line-height: 1.7;
-        }        
+        }
         /* Biblioteca de escenarios Selenium */
         .selenium-library {
             display: flex;
@@ -529,8 +529,8 @@
             .index-link:focus-visible {
                 transform: none;
             }
-        }               
-                
+        }
+
         /* Tarjetas de bugs: fondo oscuro y borde luminoso sutil */
         #regresion-bugs .qa-panel {
             background: var(--background, #080B12);
@@ -812,7 +812,7 @@
             .cv-bottom-bar .cv-back-button { margin-left: 0; font-size: 11px; }
             .cv-bottom-bar .cv-language-select { min-width: 110px; max-width: 130px; font-size: 12px; }
         }
-        
+
         /* Tarjetas individuales de métricas Selenium */
 
         #automatizacion .qa-metrics > div {
@@ -867,7 +867,7 @@
             box-shadow:
                 0 0 18px rgba(55, 148, 255, 0.10);
         }
-        
+
         /* Métricas Selenium: distribución responsive */
         #automatizacion .qa-metrics {
             display: grid;
@@ -1063,7 +1063,7 @@
     <!-- CABECERA -->
     <header class="navbar">
         <div class="nav-container">
-            <a aria-label="Volver al perfil de Miguel Flor" class="logo" data-i18n-aria-label="qaLogoAria" href="index.html">
+            <a aria-label="Volver al perfil de Miguel Flor" class="logo" data-i18n-aria-label="qaLogoAria" href="home.html">
                 <span class="logo-initials">
                 MF
                     <span class="logo-dot">
@@ -1463,7 +1463,7 @@
                         <br/>
                         8
                         </span>
-                    </button>                    
+                    </button>
                     <button
                         type="button"
                         class="test-spine"
@@ -1485,7 +1485,7 @@
                             <br>
                             9
                         </span>
-                    </button>                    
+                    </button>
                     <button
                         type="button"
                         class="test-spine"
@@ -1563,7 +1563,7 @@
                             Chrome · Firefox · Edge
                         </span>
                     </div>
-                    
+
                     <!-- Regresión complementaria FR-012 -->
                     <div>
                         <strong>
@@ -1573,7 +1573,7 @@
                         <span data-i18n="qaSeleniumFR012">
                             Suite FR-012 · Validación de nombre y apellido · 30/10/2026
                         </span>
-                    </div>                    
+                    </div>
                     <!-- Suite de validación telefónica -->
                     <div>
                         <strong>
@@ -1583,7 +1583,7 @@
                         <span data-i18n="qaSeleniumPhoneSuite">
                             Suite telefónica · 11 escenarios × 3 navegadores
                         </span>
-                    </div>                    
+                    </div>
                     <!-- Suite de validación de email -->
                     <div>
                         <strong>
@@ -1642,7 +1642,7 @@
 
                     // Prueba 2: navegación desde enlaces del portfolio.
                     for (const pagina of paginas) {
-                        await driver.get(`${BASE_URL}/index.html`);
+                        await driver.get(`${BASE_URL}/home.html`);
                         await driver.executeScript(
                             "sessionStorage.removeItem('portfolioSession');"
                         );
@@ -1670,19 +1670,19 @@
                         </summary>
                         <div class="selenium-test-detail">
                             <h4 data-i18n="qaText033">¿Qué verifica?</h4>
-                            <p data-i18n="qaNavTC020Description">Verifica que el logo de cada página interna regrese a index.html y que los botones de retorno conduzcan a #about desde CV o a #qa desde las otras cuatro páginas, con la sección de destino visible.</p>
+                            <p data-i18n="qaNavTC020Description">Verifica que el logo de cada página interna regrese a home.html y que los botones de retorno conduzcan a #about desde CV o a #qa desde las otras cuatro páginas, con la sección de destino visible.</p>
                             <h4 data-i18n="qaText034">Código Selenium</h4>
                             <pre><code>// Prueba 1: retorno mediante el logo.
                     for (const pagina of paginas) {
                         await driver.get(`${BASE_URL}/${pagina}`);
                         const enlace = await driver.wait(
-                            until.elementLocated(By.css('a.logo[href="index.html"]')),
+                            until.elementLocated(By.css('a.logo[href="home.html"]')),
                             10000
                         );
                         assert.equal(await enlace.isDisplayed(), true);
                         await enlace.click();
-                        await driver.wait(until.urlContains('/index.html'), 10000);
-                        assert.ok((await driver.getCurrentUrl()).endsWith('/index.html'));
+                        await driver.wait(until.urlContains('/home.html'), 10000);
+                        assert.ok((await driver.getCurrentUrl()).endsWith('/home.html'));
                     }
 
                     // Prueba 2: retorno mediante botones a secciones del Home.
@@ -1699,19 +1699,19 @@
                         await driver.get(`${BASE_URL}/${pagina}`);
                         const boton = await driver.wait(
                             until.elementLocated(
-                                By.css(`a.cv-back-button[href="index.html#${seccion}"]`)
+                                By.css(`a.cv-back-button[href="home.html#${seccion}"]`)
                             ),
                             10000
                         );
                         assert.equal(await boton.isDisplayed(), true);
                         await boton.click();
                         await driver.wait(
-                            until.urlIs(`${BASE_URL}/index.html#${seccion}`),
+                            until.urlIs(`${BASE_URL}/home.html#${seccion}`),
                             10000
                         );
                         assert.equal(
                             await driver.getCurrentUrl(),
-                            `${BASE_URL}/index.html#${seccion}`
+                            `${BASE_URL}/home.html#${seccion}`
                         );
                         const destino = await driver.wait(
                             until.elementLocated(By.id(seccion)),
@@ -1975,7 +1975,7 @@
                                                 );</code></pre>
                         </div>
                     </details>
-                    
+
                     <!-- BUG-001: Teléfono con caracteres alfabéticos -->
                     <details class="selenium-test">
                         <summary>
@@ -2112,7 +2112,7 @@
                     );</code></pre>
                         </div>
                     </details>
-                    
+
                     <!-- BUG-003: Apellido con caracteres numéricos -->
                     <details class="selenium-test">
                         <summary>
@@ -2177,7 +2177,7 @@
                     );</code></pre>
                         </div>
                     </details>
-                    
+
                     <!-- BUG-005: Longitud máxima del teléfono -->
                     <details class="selenium-test">
                         <summary>
@@ -2247,7 +2247,7 @@
                                 Escenario BUG-005: 3/3 PASS en Chrome,
                                 Firefox y Edge. Suite telefónica completa:
                                 33/33 PASS.
-                            </p>                            
+                            </p>
                             <h4 data-i18n="qaText184">
                                 Cobertura de la suite telefónica
                             </h4>
@@ -2758,8 +2758,8 @@
                                     <h4 data-i18n="qaText034">Código Selenium</h4>
 
                                     <pre><code>const escenarios = [
-                                { query: 'repositorio', destination: 'index.html#github' },
-                                { query: 'linkedin', destination: 'index.html#linkedin' },
+                                { query: 'repositorio', destination: 'home.html#github' },
+                                { query: 'linkedin', destination: 'home.html#linkedin' },
                                 { query: 'marketing', destination: 'cv.html#education' }
                             ];
 
@@ -2799,7 +2799,7 @@
                                         también verifica que no permanezcan resultados de consultas anteriores.
                                     </p>
                                 </div>
-                            </details>                            
+                            </details>
                             <!-- SEARCH-TC-002: Navegación con teclado -->
                             <details class="selenium-test">
                                 <summary>
@@ -2871,7 +2871,7 @@
                                     </p>
 
                                 </div>
-                            </details>                            
+                            </details>
                             <!-- SEARCH-TC-003: Cerrar resultados con Escape -->
                             <details class="selenium-test">
                                 <summary>
@@ -2979,7 +2979,7 @@
                                     </p>
 
                                 </div>
-                            </details>                            
+                            </details>
                             <!-- SEARCH-TC-004 -->
                             <details class="selenium-test">
                                 <summary>
@@ -3364,20 +3364,20 @@
                             await segundoResultado.sendKeys('\uE007');
 
                             await driver.wait(
-                                until.urlContains('index.html#specialties'),
+                                until.urlContains('home.html#specialties'),
                                 10000
                             );
 
                             const currentUrl = await driver.getCurrentUrl();
 
                             assert.ok(
-                                currentUrl.endsWith('index.html#specialties')
+                                currentUrl.endsWith('home.html#specialties')
                             );</code></pre>
 
                                     <p data-i18n="qaSearchTC009CodeNote">
                                         Fragmento de la prueba real que verifica el foco
                                         del primer y segundo resultado y la navegación
-                                        exacta a index.html#specialties.
+                                        exacta a home.html#specialties.
                                     </p>
                                 </div>
                             </details>
@@ -3625,7 +3625,7 @@
                             await driver.wait(async () =&gt; {
                                 const resultados = await driver.findElements(
                                     By.css(
-                                        '.portfolio-search-result[href="index.html#linkedin"]'
+                                        '.portfolio-search-result[href="home.html#linkedin"]'
                                     )
                                 );
 
@@ -3671,7 +3671,7 @@
                             const resultado = await driver.wait(
                                 until.elementLocated(
                                     By.css(
-                                        '.portfolio-search-result[href="index.html#specialties"]'
+                                        '.portfolio-search-result[href="home.html#specialties"]'
                                     )
                                 ),
                                 10000
@@ -3689,7 +3689,7 @@
 
                             assert.equal(
                                 await resultados[1].getAttribute('href'),
-                                `${BASE_URL}/index.html#specialties`
+                                `${BASE_URL}/home.html#specialties`
                             );
 
                             // 4. Seleccionar Especialidades mediante clic.
@@ -3697,14 +3697,14 @@
 
                             // 5. Verificar la navegación.
                             await driver.wait(
-                                until.urlContains('index.html#specialties'),
+                                until.urlContains('home.html#specialties'),
                                 10000
                             );
 
                             const currentUrl = await driver.getCurrentUrl();
 
                             assert.ok(
-                                currentUrl.endsWith('index.html#specialties'),
+                                currentUrl.endsWith('home.html#specialties'),
                                 `Destino incorrecto: ${currentUrl}`
                             );
 
@@ -3860,7 +3860,7 @@
                             // 5. Verificar el segundo destino.
                             assert.ok(
                                 (await resultados[1].getAttribute('href'))
-                                    .endsWith('/index.html#specialties'),
+                                    .endsWith('/home.html#specialties'),
                                 'El segundo resultado debería ser Especialidades'
                             );</code></pre>
                                     <p data-i18n="qaSearchTC017CodeNote">Verifica el orden de los dos primeros destinos mediante sus enlaces.</p>
@@ -5225,7 +5225,7 @@
             <div class="qa-panel">
                 <h3 data-i18n="qaText049">
                 BUG-001 · Validación del teléfono
-                </h3>                
+                </h3>
                 <p>
                     <strong data-i18n="qaText055">
                         Estado histórico:
@@ -5264,7 +5264,7 @@
                     Requisito:
                     </strong>
                     FR-008
-                </p>                
+                </p>
                 <p>
                     <strong data-i18n="qaText064">
                         Caso relacionado:
@@ -5344,7 +5344,7 @@
                     </p>
                     <h4 data-i18n="qaText079">
                     Resultado actual
-                    </h4>                    
+                    </h4>
                     <p data-i18n="qaText194">
                         El defecto histórico documentó que el formulario
                         permitía continuar con un teléfono que contenía
@@ -5375,7 +5375,7 @@
                                 TC-012 · Teléfono válido
                             </a>
                         </li>
-                    </ul>                    
+                    </ul>
                     <p data-i18n="qaText196">
                         Evidencia automatizada complementaria:
                         el escenario BUG-001 del archivo
@@ -5392,7 +5392,7 @@
                     </p>
                     <h4 data-i18n="qaText083">
                     Conclusión
-                    </h4>                    
+                    </h4>
                     <p data-i18n="qaText197">
                         BUG-001 permanece cerrado según el registro histórico.
                         La regresión Selenium del 30/10/2026 confirmó
@@ -5413,7 +5413,7 @@
                 </h3>
                 <p>
                     <strong data-i18n="qaText055">Estado histórico:</strong>
-                    <span data-i18n="qaBugClosed">Cerrado.</span>                    
+                    <span data-i18n="qaBugClosed">Cerrado.</span>
                     <strong data-i18n="qaText069">
                         Verificación documental:
                     </strong>
@@ -5438,7 +5438,7 @@
                     Alta
                     </span>
                 </p>
-                <p>                    
+                <p>
                     <strong data-i18n="qaText148">
                         Requisito principal:
                     </strong>
@@ -5451,7 +5451,7 @@
                         · FR-002 complementario
                     </span>
                 </p>
-                <p>                    
+                <p>
                     <strong data-i18n="qaText151">
                         Prueba automatizada relacionada:
                     </strong>
@@ -5510,7 +5510,7 @@
                     </p>
                     <h4 data-i18n="qaText079">
                     Resultado actual
-                    </h4>                    
+                    </h4>
                     <p data-i18n="qaText153">
                         El registro histórico indica que el formulario permitía
                         continuar con un nombre inválido. La regresión Selenium
@@ -5527,7 +5527,7 @@
                         Esta evidencia respalda el comportamiento actual del
                         formulario, pero no acredita por sí sola la reproducción
                         del defecto original ni su corrección histórica.
-                    </p>                    
+                    </p>
                     <p data-i18n="qaText154">
                         Como evidencia complementaria, la prueba Selenium
                         invalid-first-name-numeric.test.js verificó el rechazo
@@ -5540,8 +5540,8 @@
                         de un nombre con caracteres numéricos. El campo aparece
                         resaltado en rojo y presenta el mensaje de validación
                         correspondiente.
-                    </p>                    
-                    
+                    </p>
+
                     <a data-i18n="qaText127" href="docs/evidence/Evidencias BUG-002 a BUG-005/Bug telefono y email.jpg" rel="noopener" target="_blank">
                     Ver evidencia de BUG-002 · Validación del nombre →
                     </a>
@@ -5578,7 +5578,7 @@
                     Alta
                     </span>
                 </p>
-                <p>                    
+                <p>
                     <strong data-i18n="qaText148">
                         Requisito principal:
                     </strong>
@@ -5591,7 +5591,7 @@
                         · FR-002 complementario
                     </span>
                 </p>
-                <p>                    
+                <p>
                     <strong data-i18n="qaText151">
                         Prueba automatizada relacionada:
                     </strong>
@@ -5648,7 +5648,7 @@
                     </p>
                     <h4 data-i18n="qaText079">
                     Resultado actual
-                    </h4>                    
+                    </h4>
                     <p data-i18n="qaText158">
                         El registro histórico indica que el formulario permitía
                         continuar con un apellido inválido. La regresión Selenium
@@ -5670,7 +5670,7 @@
                         Esta evidencia respalda el comportamiento actual del
                         formulario, pero no acredita por sí sola la reproducción
                         del defecto original ni su corrección histórica.
-                    </p>                    
+                    </p>
                     <p data-i18n="qaText159">
                         Como evidencia complementaria, la prueba Selenium
                         invalid-last-name-numeric.test.js verificó el rechazo
@@ -5683,8 +5683,8 @@
                     Ver evidencia de BUG-003 · Validación del apellido →
                     </a>
                 </details>
-            </div>            
-            
+            </div>
+
             <!-- BUG-004 · Observación de requisitos -->
             <div class="qa-panel">
 
@@ -5968,7 +5968,7 @@
                 </h3>
                 <p>
                     <strong data-i18n="qaText055">Estado histórico:</strong>
-                    <span data-i18n="qaBugClosed">Cerrado.</span>                    
+                    <span data-i18n="qaBugClosed">Cerrado.</span>
                     <strong data-i18n="qaText069">
                         Verificación documental:
                     </strong>
@@ -5998,7 +5998,7 @@
                     </strong>
                     FR-008
                 </p>
-                <p>                                     
+                <p>
                     <strong data-i18n="qaText064">
                         Caso relacionado:
                     </strong>
@@ -6024,7 +6024,7 @@
                     </summary>
                     <h4 data-i18n="qaText075">
                     Entorno
-                    </h4>                    
+                    </h4>
                     <p data-i18n="qaText156">
                         Windows · Google Chrome · Portfolio v0.1 (dato histórico)
                     </p>
@@ -6050,7 +6050,7 @@
                         <li data-i18n="qaText101">
                         Aceptar el consentimiento e intentar ingresar.
                         </li>
-                    </ol>                    
+                    </ol>
                     <div class="bug-regression-scenarios">
 
                         <h4 data-i18n="qaText169">
@@ -6105,10 +6105,10 @@
                     </h4>
                     <p data-i18n="qaText110">
                     El sistema debe rechazar un teléfono que supere la longitud máxima permitida.
-                    </p>                    
+                    </p>
                     <h4 data-i18n="qaText179">
                         Resultado histórico y verificación posterior
-                    </h4>                
+                    </h4>
                     <p data-i18n="qaText177">
                         El registro histórico indica que el formulario
                         permitía continuar con un teléfono que superaba
@@ -6148,7 +6148,7 @@
                                     Esta evidencia respalda el comportamiento esperado
                                     de TC-018, sin acreditar por sí sola el defecto
                                     original ni la corrección histórica de BUG-005.
-                    </p>                                
+                    </p>
                     <p data-i18n="qaText180">
                         Evidencia automatizada complementaria:
                         phone-validation-boundaries.test.js.
@@ -6254,7 +6254,7 @@
                                     pruebas de integración, validaciones de API y
                                     regresiones automatizadas, con resultados registrados
                                     y seguimiento de las verificaciones realizadas.
-                    </p>                    
+                    </p>
                     <p class="evidence-regression-result"
                     data-i18n="qaEvidenceRegressionResult">
                         TC-019 y TC-020 · Regresión multinavegador:
@@ -6269,12 +6269,12 @@
                     data-i18n="qaEvidenceQualityManagementResult">
                         Gestión de Calidad · Internacionalización ES/EN/PT:
                         66/66 PASS en Chrome, Firefox y Edge.
-                    </p>                                                                               
+                    </p>
                     <p class="evidence-regression-result"
                     data-i18n="qaEvidenceAccessI18nResult">
                         Formulario de acceso · Internacionalización ES/EN/PT:
                         15/15 PASS en Chrome, Firefox y Edge.
-                    </p>                                        
+                    </p>
                     <p class="evidence-regression-result"
                     data-i18n="qaEvidenceFrontendI18nResult">
                         Laboratorio Frontend · Internacionalización ES/EN/PT:
@@ -6284,6 +6284,11 @@
                     data-i18n="qaEvidenceBackendI18nResult">
                         Laboratorio Backend · Internacionalización ES/EN/PT:
                         15/15 PASS en Chrome, Firefox y Edge.
+                    </p>
+                    <p class="evidence-regression-result"
+                    data-i18n="qaEvidenceGlobalSearchRegression">
+                        Buscador global · Regresión multinavegador:
+                        129/129 PASS en Chrome, Firefox y Edge.
                     </p>
                     <a data-i18n="qaText120" href="docs/test-report.md" class="qa-markdown-link">
                         Consultar resultados →
@@ -6331,13 +6336,13 @@
 
             </div>
         </section>
-        
+
 
     </main>
 
     <!-- PIE FIJO -->
     <footer class="cv-bottom-bar">
-        <a class="cv-back-button" data-i18n="qaText126" href="index.html#qa">
+        <a class="cv-back-button" data-i18n="qaText126" href="home.html#qa">
         Volver a QUALITY ASSURANCE
         </a>
         <div class="cv-language-selector">
@@ -6360,7 +6365,7 @@
         </script>
         <script>
         document.addEventListener("DOMContentLoaded", () => {
-            
+
             // Normalizar la indentación visual de los ejemplos Selenium.
             document.querySelectorAll(
                 ".selenium-test-detail pre code"
@@ -6382,7 +6387,7 @@
                     .join("\n")
                     .trim();
             });
-            
+
             // Cerrar el índice al seleccionar una sección.
             const indiceContenidos = document.getElementById(
                 'indice-contenidos'
@@ -6570,7 +6575,7 @@
                         "Observar la sección a la que se desplaza la página."
                     ],
                     expected: 'La página debe desplazarse hasta la sección "Sobre mí".'
-                },            
+                },
                 {
                     id: "TC-007",
                     title: "Navegación a Especialidades",
@@ -6629,7 +6634,7 @@
                         "Registrar los resultados obtenidos.",
                         "Comparar las mediciones con los umbrales de aceptación que se definan."
                     ],
-                                    
+
                     expected: "Las mediciones de carga inicial, interacción y respuesta de la API deben registrarse en condiciones reproducibles y compararse con criterios de aceptación cuantificables, previamente definidos y documentados. El caso permanecerá pendiente hasta establecer dichos criterios y ejecutar las mediciones."
 
                 },
@@ -6640,14 +6645,14 @@
                     priority: "Medium",
                     type: "Compatibility Testing",
                     browsers: ["Chrome", "Firefox", "Edge"],
-                    preconditions: "La aplicación está disponible para probar en Chrome, Firefox y Edge.",                
+                    preconditions: "La aplicación está disponible para probar en Chrome, Firefox y Edge.",
                     steps: [
                         "Abrir la aplicación en Google Chrome, Mozilla Firefox y Microsoft Edge.",
                         "Verificar la navegación y las funcionalidades principales en cada navegador.",
                         "Comprobar la presentación visual de las páginas, formularios y componentes interactivos.",
                         "Verificar que no existan desbordamientos, superposiciones ni diferencias visuales que impidan utilizar la aplicación.",
                         "Registrar los resultados y las diferencias encontradas en cada navegador."
-                    ],                
+                    ],
                     expected: "Las funcionalidades principales deben operar correctamente en Chrome, Firefox y Edge. La interfaz debe conservar su legibilidad, estructura y comportamiento interactivo, sin defectos de compatibilidad que impidan su utilización."
                 },
                 {
@@ -6762,7 +6767,7 @@
                         'Presionar "Ingresar al portfolio".'
                     ],
                     expected: "El sistema debe rechazar el teléfono porque contiene más de 15 dígitos."
-                },                
+                },
                 {
                     id: "TC-019",
                     title: "Navegación entre páginas del portfolio",
@@ -6780,7 +6785,7 @@
                         "Comprobar que cada enlace abra la página correspondiente y que su contenido principal sea accesible."
                     ],
                     expected: "Los enlaces deben dirigir a las páginas correspondientes del portfolio, sin errores de navegación ni destinos incorrectos."
-                },                
+                },
                 {
                     id: "TC-020",
                     title: "Retorno al perfil desde páginas internas",
@@ -6821,7 +6826,7 @@
                 const idioma = localStorage.getItem("portfolioLanguage") || "es";
                 return window.portfolioTranslations?.[idioma]?.[clave] ?? respaldo;
             }
-            
+
             document.addEventListener("portfolio:languagechange", () => {
                 if (casoSeleccionado) {
                     mostrarCaso(casoSeleccionado);
@@ -6877,7 +6882,7 @@
                 }
                 agregarCampo(detalle, traducirQA("qaCaseFieldExpected", "Resultado esperado"),
                     traducir("Expected", caso.expected));
-                
+
                 const estadosEspeciales = {
                     "TC-006": "qaCaseStatusManual",
                     "TC-007": "qaCaseStatusManual",

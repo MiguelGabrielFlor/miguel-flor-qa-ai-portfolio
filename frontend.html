@@ -418,7 +418,7 @@
                     grid-template-columns: 1fr;
                 }
             }
-            
+
             /* FRONTEND — Organización de las modalidades */
 
             .validation-mode {
@@ -1024,8 +1024,8 @@
                     flex-wrap: wrap;
                 }
             }
-            
-            
+
+
             /* Índice flotante: no modifica la altura del encabezado */
             .showcase-index {
                 position: relative;
@@ -1153,7 +1153,7 @@
                     transform: none;
                 }
             }
-        
+
             /* Footer responsive — CV y Frontend */
 
             @media (max-width: 600px) {
@@ -1192,14 +1192,14 @@
                 }
 
             }
-            
+
 
     </style>
 </head>
 <body>
     <header class="navbar">
         <div class="nav-container">
-            <a aria-label="Volver al perfil de Miguel Flor" class="logo" data-i18n-aria-label="frontLogoAria" href="index.html">
+            <a aria-label="Volver al perfil de Miguel Flor" class="logo" data-i18n-aria-label="frontLogoAria" href="home.html">
                 <span class="logo-initials">MF<span class="logo-dot">.</span></span>
                 <span aria-hidden="true" class="logo-divider"></span>
                 <span class="logo-label">PORTFOLIO</span>
@@ -1288,7 +1288,7 @@
                 <article class="showcase-panel">
                     <div class="panel-heading">
                     <h3 data-i18n="frontStructure">Estructura</h3>
-                    <span>index.html</span>
+                    <span>home.html</span>
                     </div>
 
                     <div class="code-block">
@@ -1888,11 +1888,11 @@
         </section>
     </main>
     <footer class="cv-bottom-bar">
-    <a class="cv-back-button" data-i18n="frontBack" href="index.html#qa">            
-                Volver a QUALITY ASSURANCE            
+    <a class="cv-back-button" data-i18n="frontBack" href="home.html#qa">
+                Volver a QUALITY ASSURANCE
     </a>
     <div class="cv-language-selector"><select aria-label="Seleccionar idioma" class="cv-language-select" data-i18n-aria-label="frontFooterLanguageAria" id="cv-language-select"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></select></div></footer>
-        
+
         <script src="js/translations.js"></script>
         <script src="js/page-i18n.js"></script>
         <script>
@@ -1904,7 +1904,7 @@
             };
         </script>
         <script src="js/code-showcase.js"></script>
-        
+
         <script>
             // Cerrar el índice después de elegir una sección.
             const showcaseIndex = document.getElementById(
@@ -2049,7 +2049,7 @@
 
                 showElement("accessPage");
             })();
-            
+
         </script>
         <script>
         // FRONTEND — Laboratorio interactivo de validaciones
@@ -2343,26 +2343,64 @@
                 );
 
                 const scenarios = {
-                    empty: {
-                        name: "",
-                        email: "",
-                        message: ""
+                    es: {
+                        empty: {
+                            name: "",
+                            email: "",
+                            message: ""
+                        },
+                        invalid: {
+                            name: "Juan123",
+                            email: "correo-invalido",
+                            message: ""
+                        },
+                        valid: {
+                            name: "Juan Pérez",
+                            email: "juan@ejemplo.com",
+                            message: "Mensaje de prueba válido."
+                        }
                     },
-                    invalid: {
-                        name: "Juan123",
-                        email: "correo-invalido",
-                        message: ""
+
+                    en: {
+                        empty: {
+                            name: "",
+                            email: "",
+                            message: ""
+                        },
+                        invalid: {
+                            name: "John123",
+                            email: "invalid-email",
+                            message: ""
+                        },
+                        valid: {
+                            name: "John Smith",
+                            email: "john@example.com",
+                            message: "Valid test message."
+                        }
                     },
-                    valid: {
-                        name: "Juan Pérez",
-                        email: "juan@example.com",
-                        message: "Mensaje de prueba válido."
+
+                    pt: {
+                        empty: {
+                            name: "",
+                            email: "",
+                            message: ""
+                        },
+                        invalid: {
+                            name: "João123",
+                            email: "e-mail-inválido",
+                            message: ""
+                        },
+                        valid: {
+                            name: "João Silva",
+                            email: "joao@exemplo.com",
+                            message: "Mensagem de teste válida."
+                        }
                     }
                 };
 
                 scenarioButtons.forEach(button => {
                     button.addEventListener("click", () => {
-                        const scenario = scenarios[button.dataset.languageScenario];
+                        const scenario = scenarios[activeLanguage]?.[button.dataset.languageScenario];
                         if (!scenario) return;
 
                         fields.name.value = scenario.name;
@@ -2395,7 +2433,23 @@
 
                     fields.message.placeholder = selected.placeholder;
                     fields.name.placeholder = selected.namePlaceholder;
-                    
+
+                    // Adaptar los datos precargados al idioma del laboratorio.
+                    const activeScenarioButton = lab.querySelector(
+                        "[data-language-scenario].active"
+                    );
+
+                    if (activeScenarioButton) {
+                        const scenarioKey = activeScenarioButton.dataset.languageScenario;
+                        const scenario = scenarios[language]?.[scenarioKey];
+
+                        if (scenario) {
+                            fields.name.value = scenario.name;
+                            fields.email.value = scenario.email;
+                            fields.message.value = scenario.message;
+                        }
+                    }
+
                     current.textContent = language.toUpperCase();
                     feedback.textContent = selected.feedback;
 
@@ -2477,7 +2531,7 @@
                         check:
                             "Se comprueba que la validación impide continuar con el registro."
                     },
-                                    
+
                     "UI-004": {
                         title: "Nombre demasiado corto",
                         objective:

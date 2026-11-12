@@ -642,7 +642,7 @@
                     grid-template-columns: 1fr;
                 }
             }
-            
+
             /* Solicitud enviada — desplegable */
 
             .api-solicitud-desplegable {
@@ -809,7 +809,7 @@
                     grid-template-columns: 1fr;
                 }
             }
-            
+
             /* Interpretación de resultados API */
 
             .api-interpretacion-qa {
@@ -1018,7 +1018,7 @@
                 margin-left: auto;
                 margin-right: auto;
             }
-            
+
             /* ==========================================
             BACKEND — EVIDENCIA REAL DE SQLITE
             ========================================== */
@@ -1136,7 +1136,7 @@
                     align-self: flex-end;
                 }
             }
-            
+
             /* =========================================
             BACKEND — BIBLIOTECA DE PRUEBAS
             ========================================= */
@@ -1268,7 +1268,7 @@
                     padding: 16px;
                 }
             }
-        
+
             /* Selector global de idioma: compartido con CV */
             .cv-bottom-bar { justify-content: space-between; gap: 16px; }
             .cv-language-select { min-width: 140px; padding: 10px 12px; color: var(--text); background: var(--card); border: 1px solid var(--border); border-radius: 8px; font: inherit; cursor: pointer; }
@@ -1293,7 +1293,7 @@
                 }
 
             }
-            
+
 
     </style>
 </head>
@@ -1303,7 +1303,7 @@
     <!-- ENCABEZADO -->
     <header class="navbar">
         <div class="nav-container">
-            <a aria-label="Volver al inicio del portfolio" class="logo" data-i18n-aria-label="backendLogoAria" href="index.html">
+            <a aria-label="Volver al inicio del portfolio" class="logo" data-i18n-aria-label="backendLogoAria" href="home.html">
             <span class="logo-initials">MF<span class="logo-dot">.</span></span>
             <span aria-hidden="true" class="logo-divider"></span>
             <span class="logo-label">PORTFOLIO</span>
@@ -1360,7 +1360,7 @@
                     <strong data-i18n="backendStatic008">Persistencia de datos</strong>
                     <small data-i18n="backendStatic009">SQLite y restricciones</small>
                     </a>
-                    
+
                     <a class="index-link" href="#pruebas-api">
                     <span class="index-number">04</span>
                     <strong data-i18n="backendStatic010">Pruebas automatizadas</strong>
@@ -1435,7 +1435,7 @@
                 <strong data-i18n="backendStatic028">Perspectiva QA:</strong>
                 <span data-i18n="backendStatic029">un código HTTP no determina por sí solo si una prueba fue aprobada. La evaluación depende del resultado esperado. Por ejemplo, HTTP 400 puede ser correcto cuando se verifica el rechazo de datos inválidos.</span>
             </p>
-        </section>        
+        </section>
         <!-- 01. ARQUITECTURA -->
 
         <section class="showcase-section" id="arquitectura">
@@ -1794,8 +1794,8 @@
 
     <!-- PIE FIJO -->
     <footer class="cv-bottom-bar"><div class="cv-language-selector"><select aria-label="Seleccionar idioma" class="cv-language-select" data-i18n-aria-label="backendLanguageAria" id="cv-language-select"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></select></div>
-        <a class="cv-back-button" data-i18n="backendStatic150" href="index.html#qa">            
-                    Volver a QUALITY ASSURANCE            
+        <a class="cv-back-button" data-i18n="backendStatic150" href="home.html#qa">
+                    Volver a QUALITY ASSURANCE
         </a>
     </footer>
     <script src="js/translations.js"></script><script src="js/page-i18n.js"></script><script>
@@ -1887,7 +1887,7 @@
                         ["504", backendText("backendDynamic033", "Gateway Timeout — Un servidor intermediario no recibió respuesta a tiempo.")]
                     ]
                 },
-                
+
             });
 
             function showFamily(familyId) {
@@ -2085,7 +2085,7 @@
                         }
                     }
                 };
-            }        
+            }
             function obtenerInterpretacionQA(tipo, resultado) {
                 const interpretaciones = {
                     health: {
@@ -2158,7 +2158,7 @@
                 bloque.append(titulo, escenario, descripcion, esperado);
                 contenedor.appendChild(bloque);
             }
-            
+
             function mostrarSolicitudEnviada(contenedor, tipo) {
                 const solicitudes = {
                     health: {
@@ -2352,7 +2352,7 @@
                 }
 
                 }
-                
+
                 function actualizarIdiomaResultadoAPI() {
                     if (!ultimaPruebaAPI) return;
 
@@ -2376,7 +2376,7 @@
                     mostrarInterpretacionQA(
                         apiResultado,
                         interpretacion
-                    );                       
+                    );
 
                 }
 
@@ -2385,14 +2385,15 @@
                 actualizarIdiomaResultadoAPI
             );
             tarjetasPrueba.forEach((boton) => {
-                boton.addEventListener('click', () => {
+                boton.addEventListener('click', (event) => {
+                    event.preventDefault();
                     ejecutarPrueba(boton.dataset.apiPrueba, boton);
                 });
             });
-        </script>
+    </script>
     <script>
             // PUNTO 02 — LABORATORIO DE VALIDACIONES
-                    
+
             function mostrarDatosValidacion(contenedor, endpoint, datos) {
                 const desplegable = document.createElement("details");
                 desplegable.className = "api-solicitud-desplegable";
@@ -2636,7 +2637,7 @@
         </script>
     <script>
             // PUNTO 03 — LABORATORIO DE PERSISTENCIA
-            
+
             function mostrarEvidenciaSQLite(contenedor, persistencia) {
                 if (!persistencia || persistencia.verificada !== true) {
                     return;
@@ -2682,7 +2683,7 @@
                 panel.append(titulo, descripcion, detalles, estado);
                 contenedor.appendChild(panel);
             }
-            
+
             function mostrarRechazoSQLite(contenedor, persistencia) {
                 if (!persistencia || persistencia.insercionEjecutada !== false) {
                     return;

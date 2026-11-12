@@ -33,6 +33,13 @@ const translations = {
         registrationFailed: "No se pudo completar el registro.",
         connectionError: "No se pudo conectar con el servidor. Verificá que la API esté iniciada e intentá nuevamente.",
 
+        guestAccessTitle: "Acceso directo",
+        guestAccessDescription: "Explorá mis proyectos y evidencias de QA sin registrarte.",
+        guestAccessButton: "Explorar portfolio",
+        registeredAccessTitle: "Acceso personalizado",
+        registeredAccessDescription: "Completá tus datos para acceder al portfolio con una bienvenida personalizada.",
+        registeredAccessButton: "Registrarme",
+
         navMenu: "Menú",
         navAbout: "Sobre mí",
         navAboutDescription: "Perfil y trayectoria profesional",
@@ -74,9 +81,9 @@ const translations = {
         specialtiesDescription: "Te invito a explorar dos áreas complementarias de mi desarrollo profesional: Quality Assurance e Inteligencia Artificial. A través de este portfolio podrás conocer cómo aplico herramientas, metodologías y conocimientos técnicos para desarrollar, evaluar y mejorar soluciones tecnológicas, siempre considerando las necesidades del usuario y los objetivos del negocio.",
 
         specialtiesQaHeading: "Explorá Quality Assurance",
-        specialtiesQaParagraph1: "Te invito a hacer clic en las tarjetas de Quality Assurance, donde podrás recorrer cuatro dimensiones de un proyecto tecnológico real. En Frontend, descubrirás cómo se construye y valida una interfaz, incluyendo formularios, internacionalización, diseño responsive y experiencia de usuario. En Backend, podrás interactuar con APIs, ejecutar pruebas y observar validaciones, respuestas HTTP y persistencia de datos.",
-        specialtiesQaParagraph2: "En QA, encontrarás casos de prueba documentados, automatización con Selenium, pruebas de regresión, defectos identificados y evidencias de los resultados obtenidos. Finalmente, en Gestión de la Calidad, podrás conocer cómo se organizan los requisitos, las historias de usuario, los criterios de aceptación, los sprints y el seguimiento de las actividades de calidad.",
-
+        specialtiesQaParagraph1: "Te invito a hacer clic en las tarjetas de Quality Assurance, donde podrás recorrer cuatro dimensiones de un proyecto tecnológico real.\n\nEn Frontend, descubrirás cómo se construye y valida una interfaz, incluyendo formularios, internacionalización, diseño responsive y experiencia de usuario.\nEn Backend, podrás interactuar con APIs, ejecutar pruebas y observar validaciones, respuestas HTTP y persistencia de datos.",
+        specialtiesQaParagraph2: "En QA, encontrarás casos de prueba documentados, automatización con Selenium, pruebas de regresión, defectos identificados y evidencias de los resultados obtenidos.\nFinalmente, en Gestión de la Calidad, podrás conocer cómo se organizan los requisitos, las historias de usuario, los criterios de aceptación, los sprints y el seguimiento de las actividades de calidad.",
+        
         specialtiesAiHeading: "Descubrí las posibilidades de la Inteligencia Artificial",
         specialtiesAiParagraph1: "Más adelante encontrarás cuatro líneas de desarrollo que forman parte de mi enfoque en Inteligencia Artificial: IA Generativa, orientada al análisis de información y la creación de contenido; Automatización inteligente, para conectar herramientas y optimizar procesos; Vibe Coding, que permite construir, revisar y perfeccionar aplicaciones con asistencia de IA; y AI Apps, enfocada en integrar modelos y APIs en soluciones digitales con funcionalidades concretas.",
         specialtiesAiParagraph2: "Estas áreas representan oportunidades de aplicación y evolución tecnológica que continuaré desarrollando e incorporando al portfolio.",
@@ -118,7 +125,13 @@ const translations = {
         contactEyebrow: "CONTACTO",
         contactTitle: "¿Trabajamos en un proyecto?",
         homePortfolioDescription: "Portfolio de Miguel Flor · QA Testing · AI Consulting",
-        contactMessageLabel: "Mensaje *",
+
+        guestEmailLabel: "Correo electrónico *",
+        guestEmailPlaceholder: "Ingresá tu correo electrónico",
+        guestEmailRequiredError: "El correo electrónico es obligatorio.",
+        guestEmailInvalidError: "Ingresá un correo electrónico válido.",
+
+        contactMessageLabel: "Mensaje ",
         contactMessagePlaceholder: "Escribí tu consulta, sugerencia o propuesta laboral...",
         contactMessageHint: "Máximo 5000 caracteres.",
         contactSendButton: "Enviar mensaje",
@@ -1232,7 +1245,7 @@ const translations = {
         qaEvidenceFrontendI18nResult: "Laboratorio Frontend · Internacionalización ES/EN/PT: 15/15 PASS en Chrome, Firefox y Edge.",
         qaEvidenceBackendI18nResult: "Laboratorio Backend · Internacionalización ES/EN/PT: 15/15 PASS en Chrome, Firefox y Edge.",
         qaEvidenceI18nRegression: "Internacionalización CV y QA · 27/27 PASS en Chrome, Firefox y Edge.",
-
+        qaEvidenceGlobalSearchRegression: "Buscador global · Regresión multinavegador: 129/129 PASS en Chrome, Firefox y Edge.",
 
 
         qmHeaderLogoAria: "Volver al inicio del portfolio",
@@ -2021,6 +2034,13 @@ const translations = {
         registrationFailed: "Registration could not be completed.",
         connectionError: "Could not connect to the server. Make sure the API is running and try again.",        
 
+        guestAccessTitle: "Direct access",
+        guestAccessDescription: "Explore my QA projects and evidence without registering.",
+        guestAccessButton: "Explore portfolio",
+        registeredAccessTitle: "Personalized access",
+        registeredAccessDescription: "Enter your details to access the portfolio with a personalized welcome.",
+        registeredAccessButton: "Register",
+
         navMenu: "Menu",
         navAbout: "About me",
         navAboutDescription: "Professional profile and experience",
@@ -2062,9 +2082,9 @@ const translations = {
         specialtiesDescription: "I invite you to explore two complementary areas of my professional development: Quality Assurance and Artificial Intelligence. Through this portfolio, you can discover how I apply tools, methodologies, and technical knowledge to develop, evaluate, and improve technology solutions while considering user needs and business objectives.",
 
         specialtiesQaHeading: "Explore Quality Assurance",
-        specialtiesQaParagraph1: "I invite you to click on the Quality Assurance cards to explore four dimensions of a real technology project. In Frontend, you will discover how an interface is built and validated, including forms, internationalization, responsive design, and user experience. In Backend, you can interact with APIs, run tests, and examine validation, HTTP responses, and data persistence.",
-        specialtiesQaParagraph2: "In QA, you will find documented test cases, Selenium automation, regression testing, identified defects, and evidence of test results. Finally, in Quality Management, you can explore how requirements, user stories, acceptance criteria, sprints, and quality activities are organized and monitored.",
-
+        specialtiesQaParagraph1: "I invite you to click on the Quality Assurance cards, where you can explore four dimensions of a real technology project.\n\nIn Frontend, you will discover how an interface is built and validated, including forms, internationalization, responsive design, and user experience.\nIn Backend, you can interact with APIs, run tests, and observe validations, HTTP responses, and data persistence.",
+        specialtiesQaParagraph2: "In QA, you will find documented test cases, Selenium automation, regression testing, identified defects, and evidence of the results obtained.\nFinally, in Quality Management, you can learn how requirements, user stories, acceptance criteria, sprints, and quality activities are organized and tracked.",
+        
         specialtiesAiHeading: "Discover the possibilities of Artificial Intelligence",
         specialtiesAiParagraph1: "Further down, you will find four development areas that are part of my approach to Artificial Intelligence: Generative AI, focused on information analysis and content creation; Intelligent Automation, for connecting tools and optimizing processes; Vibe Coding, for building, reviewing, and improving applications with AI assistance; and AI Apps, focused on integrating models and APIs into digital solutions with practical features.",
         specialtiesAiParagraph2: "These areas represent opportunities for technological application and evolution that I will continue developing and incorporating into this portfolio.",
@@ -2106,7 +2126,13 @@ const translations = {
         contactEyebrow: "CONTACT",
         contactTitle: "Shall we work on a project?",
         homePortfolioDescription: "Miguel Flor's Portfolio · QA Testing · AI Consulting",
-        contactMessageLabel: "Message *",
+
+        guestEmailLabel: "Email address *",
+        guestEmailPlaceholder: "Enter your email address",
+        guestEmailRequiredError: "Email address is required.",
+        guestEmailInvalidError: "Enter a valid email address.",
+
+        contactMessageLabel: "Message ",
         contactMessagePlaceholder: "Write your inquiry, suggestion, or job opportunity...",
         contactMessageHint: "Maximum 5000 characters.",
         contactSendButton: "Send message",
@@ -3221,7 +3247,7 @@ const translations = {
         qaEvidenceFrontendI18nResult: "Frontend Lab · ES/EN/PT internationalization: 15/15 PASS in Chrome, Firefox and Edge.",
         qaEvidenceBackendI18nResult: "Backend Laboratory · ES/EN/PT Internationalization: 15/15 PASS in Chrome, Firefox, and Edge.",
         qaEvidenceI18nRegression: "CV and QA internationalization · 27/27 PASS in Chrome, Firefox and Edge.",
-
+        qaEvidenceGlobalSearchRegression: "Global search · Cross-browser regression: 129/129 PASS in Chrome, Firefox, and Edge.",
 
         qmHeaderLogoAria: "Return to the portfolio home page",
         qmHeaderSearchPlaceholder: "Search the portfolio...",
@@ -4003,6 +4029,13 @@ const translations = {
         registrationFailed: "Não foi possível concluir o cadastro.",
         connectionError: "Não foi possível conectar ao servidor. Verifique se a API está iniciada e tente novamente.",        
 
+        guestAccessTitle: "Acesso direto",
+        guestAccessDescription: "Explore meus projetos e evidências de QA sem se cadastrar.",
+        guestAccessButton: "Explorar portfólio",
+        registeredAccessTitle: "Acesso personalizado",
+        registeredAccessDescription: "Preencha seus dados para acessar o portfólio com uma saudação personalizada.",
+        registeredAccessButton: "Cadastrar-me",
+
         navMenu: "Menu",
         navAbout: "Sobre mim",
         navAboutDescription: "Perfil e trajetória profissional",
@@ -4043,9 +4076,9 @@ const translations = {
         specialtiesDescription: "Convido você a explorar duas áreas complementares do meu desenvolvimento profissional: Quality Assurance e Inteligência Artificial. Por meio deste portfólio, você poderá conhecer como aplico ferramentas, metodologias e conhecimentos técnicos para desenvolver, avaliar e melhorar soluções tecnológicas, sempre considerando as necessidades dos usuários e os objetivos do negócio.",
 
         specialtiesQaHeading: "Explore Quality Assurance",
-        specialtiesQaParagraph1: "Convido você a clicar nos cartões de Quality Assurance, onde poderá explorar quatro dimensões de um projeto tecnológico real. Em Frontend, descobrirá como uma interface é construída e validada, incluindo formulários, internacionalização, design responsivo e experiência do usuário. Em Backend, poderá interagir com APIs, executar testes e observar validações, respostas HTTP e persistência de dados.",
-        specialtiesQaParagraph2: "Em QA, encontrará casos de teste documentados, automação com Selenium, testes de regressão, defeitos identificados e evidências dos resultados obtidos. Por fim, em Gestão da Qualidade, poderá conhecer como são organizados os requisitos, as histórias de usuário, os critérios de aceitação, os sprints e o acompanhamento das atividades de qualidade.",
-
+        specialtiesQaParagraph1: "Convido você a clicar nos cartões de Quality Assurance, onde poderá explorar quatro dimensões de um projeto tecnológico real.\n\nNo Frontend, você descobrirá como uma interface é construída e validada, incluindo formulários, internacionalização, design responsivo e experiência do usuário.\nNo Backend, poderá interagir com APIs, executar testes e observar validações, respostas HTTP e persistência de dados.",
+        specialtiesQaParagraph2: "Em QA, você encontrará casos de teste documentados, automação com Selenium, testes de regressão, defeitos identificados e evidências dos resultados obtidos.\nPor fim, em Gestão da Qualidade, poderá conhecer como são organizados e acompanhados os requisitos, as histórias de usuário, os critérios de aceitação, as sprints e as atividades de qualidade.",
+        
         specialtiesAiHeading: "Descubra as possibilidades da Inteligência Artificial",
         specialtiesAiParagraph1: "Mais adiante, encontrará quatro áreas de desenvolvimento que fazem parte da minha abordagem em Inteligência Artificial: IA Generativa, voltada à análise de informações e à criação de conteúdo; Automação Inteligente, para conectar ferramentas e otimizar processos; Vibe Coding, que permite construir, revisar e aperfeiçoar aplicações com assistência de IA; e AI Apps, focada na integração de modelos e APIs em soluções digitais com funcionalidades concretas.",
         specialtiesAiParagraph2: "Essas áreas representam oportunidades de aplicação e evolução tecnológica que continuarei desenvolvendo e incorporando ao portfólio.",
@@ -4087,7 +4120,13 @@ const translations = {
         contactEyebrow: "CONTATO",
         contactTitle: "Vamos trabalhar em um projeto?",
         homePortfolioDescription: "Portfólio de Miguel Flor · Testes de QA · Consultoria em IA",
-        contactMessageLabel: "Mensagem *",
+
+        guestEmailLabel: "Endereço de e-mail *",
+        guestEmailPlaceholder: "Digite seu endereço de e-mail",
+        guestEmailRequiredError: "O endereço de e-mail é obrigatório.",
+        guestEmailInvalidError: "Digite um endereço de e-mail válido.",
+
+        contactMessageLabel: "Mensagem ",
         contactMessagePlaceholder: "Escreva sua consulta, sugestão ou proposta de trabalho...",
         contactMessageHint: "Máximo de 5000 caracteres.",
         contactSendButton: "Enviar mensagem",
@@ -5200,7 +5239,7 @@ const translations = {
         qaEvidenceFrontendI18nResult: "Laboratório Frontend · Internacionalização ES/EN/PT: 15/15 PASS no Chrome, Firefox e Edge.",
         qaEvidenceBackendI18nResult: "Laboratório Backend · Internacionalização ES/EN/PT: 15/15 PASS no Chrome, Firefox e Edge.",
         qaEvidenceI18nRegression: "Internacionalização de CV e QA · 27/27 PASS no Chrome, Firefox e Edge.",
-
+        qaEvidenceGlobalSearchRegression: "Busca global · Regressão entre navegadores: 129/129 PASS no Chrome, Firefox e Edge.",
         
         qmHeaderLogoAria: "Voltar à página inicial do portfólio",
         qmHeaderSearchPlaceholder: "Pesquisar no portfólio...",
