@@ -185,23 +185,26 @@ Criterios de aceptación:
 
 Estado de implementación:
 
-- Selector de idioma en pantalla de acceso: implementado.
-- Internacionalización integral del portfolio: pendiente.
-- Persistencia de idioma entre páginas: pendiente de
-  verificación e implementación completa.
+- Selector de idioma ES/EN/PT: implementado.
+- Internacionalización entre páginas: implementada.
+- Persistencia de preferencia de idioma: implementada.
+- Traducción de componentes estáticos y dinámicos: implementada con cobertura de pruebas documentada por módulo.
 
-Estado de verificación: parcial.
+Estado de verificación: PARCIAL.
 
-La validación del selector de idioma en la pantalla
-de acceso no demuestra el cumplimiento integral
-del requisito en todas las páginas.
+Se registraron pruebas automatizadas y verificaciones manuales de internacionalización en diferentes módulos y navegadores.
+
+Los resultados PASS acreditan los escenarios ejecutados, pero no constituyen una auditoría exhaustiva de todos los contenidos dinámicos, estados de interfaz y recorridos posibles.
+
 
 ---
 
 ## FR-010 — Contact Form
 
-El portfolio debe permitir al visitante registrado
-enviar un mensaje mediante el formulario de contacto.
+El portfolio debe permitir que los visitantes envíen
+mensajes mediante el formulario de contacto,
+tanto si accedieron mediante registro como si
+ingresaron directamente como invitados.
 
 El formulario debe:
 
@@ -216,6 +219,16 @@ El formulario debe:
 - Evitar envíos repetidos mientras se procesa
   la solicitud.
 - Limpiar el mensaje después de un envío exitoso.
+
+Verificación manual en producción (12/11/2026):
+
+- Acceso mediante ventana de incógnito.
+- Ingreso al portfolio como invitado, sin registro.
+- Formulario de contacto completado correctamente.
+- Envío del mensaje confirmado: PASS.
+
+Resultado: el formulario permite enviar mensajes
+sin exigir un registro previo.
 
 Cobertura automatizada actual:
 
@@ -235,7 +248,7 @@ las diferentes páginas y secciones del portfolio.
 
 El buscador debe:
 
-- Estar disponible en las seis páginas principales.
+- Estar disponible en las páginas del portfolio donde se encuentra implementado, conforme a la   cobertura funcional documentada.
 - Permitir búsquedas por títulos, descripciones,
   tecnologías y palabras clave.
 - Mostrar resultados relacionados con la consulta.

@@ -110,7 +110,7 @@
         .showcase-index[open] .index-toggle::after {
             content: "−";
         }
-        
+
         .index-grid {
             position: absolute;
             top: calc(100% + 10px);
@@ -239,7 +239,7 @@
                 transform: none;
             }
         }
-        
+
         /* =========================================
         QUALITY MANAGEMENT
         00. DEFINICIÓN Y ALCANCE DE LA ÉPICA
@@ -373,7 +373,7 @@
                 padding: 22px;
             }
         }
-        
+
         /* =========================================
         QUALITY MANAGEMENT
         00. ACTA EJECUTIVA DE LA ÉPICA
@@ -792,7 +792,7 @@
                 transition: none;
             }
         }
-        
+
         /* Estado de implementación del requisito */
 
         .qm-requirement-detail .qm-requirement-status {
@@ -1103,7 +1103,7 @@
                 transition: none;
             }
         }
-        
+
         /* =========================================
         QUALITY MANAGEMENT — LABORATORIO BDD
         ========================================= */
@@ -1697,7 +1697,7 @@
                 transition: none;
             }
         }
-        
+
         /* =========================================
         QUALITY MANAGEMENT — GESTIÓN DE DEFECTOS
         ========================================= */
@@ -2663,7 +2663,7 @@
             .qm-sprint-step[data-step="5"] {
                 left: 0;
             }
-        }    
+        }
         /* =========================================
         QUALITY MANAGEMENT
         07. BACKLOG, PRIORIDADES Y RIESGOS
@@ -2909,7 +2909,7 @@
                 padding: 22px;
             }
         }
-        
+
         /* =========================================
         QUALITY MANAGEMENT
         07. PLANIFICACIÓN, BACKLOG Y RIESGOS
@@ -4024,8 +4024,8 @@
                 requisitos, historias de usuario, criterios de aceptación,
                 escenarios de prueba, defectos y evolución del proyecto.
             </p>
-        </header>    
-       
+        </header>
+
         <!-- 00. DEFINICIÓN Y ALCANCE DE LA ÉPICA -->
         <section class="showcase-section" id="epica">
 
@@ -4223,8 +4223,8 @@
                 establecidos desde su inicio.
             </p>
 
-        </section>                
-        
+        </section>
+
         <!-- 01. REQUISITOS -->
         <section class="showcase-section" id="requisitos">
 
@@ -4352,8 +4352,8 @@
                 verificaciones documentadas en el portfolio.
             </p>
 
-        </section>        
-        
+        </section>
+
         <!-- 02. HISTORIAS DE USUARIO -->
         <section class="showcase-section" id="historias">
 
@@ -4510,7 +4510,7 @@
             </p>
 
         </section>
-        
+
         <!-- 03. ESCENARIOS BDD -->
         <section class="showcase-section" id="bdd">
 
@@ -4674,7 +4674,7 @@
             </p>
 
         </section>
-        
+
         <!-- 04. TRAZABILIDAD -->
         <section class="showcase-section" id="trazabilidad">
 
@@ -4880,8 +4880,8 @@
                 cuando existen referencias verificables.
             </p>
 
-        </section>        
-       
+        </section>
+
         <!-- 05. GESTIÓN DE DEFECTOS -->
         <section class="showcase-section" id="defectos">
 
@@ -5259,8 +5259,8 @@
                 adicionales no registradas.
             </p>
 
-        </section>       
-        
+        </section>
+
         <!-- 06. SPRINTS Y EVOLUCIÓN -->
         <section class="showcase-section" id="sprints">
 
@@ -5467,11 +5467,11 @@
                 documentadas. La evolución continua describe
                 mejoras progresivas, no un sprint cerrado.
             </p>
-            
+
 
         </section>
-        
-        
+
+
         <!-- 07. BACKLOG, PRIORIDADES Y RIESGOS -->
         <section class="showcase-section" id="backlog">
 
@@ -5547,7 +5547,7 @@
                                         <td data-i18n="qmBacklogStatusPending">Pendiente</td>
                                         <td>HU-004</td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>BL-02</td>
 
@@ -5591,7 +5591,7 @@
                                             </p>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>BL-03</td>
 
@@ -5833,8 +5833,8 @@
                 la evolución del proyecto.
             </p>
 
-        </section>     
-        
+        </section>
+
         <!-- 08. RESULTADOS, ACEPTACIÓN Y CIERRE -->
         <section class="showcase-section" id="cierre-epica">
 
@@ -6122,7 +6122,7 @@
             Volver a QUALITY ASSURANCE
         </a>
 
-        <div class="cv-language-switcher">            
+        <div class="cv-language-switcher">
 
             <select id="cv-language-select"
                     aria-label="Seleccionar idioma">
@@ -6147,7 +6147,7 @@
             });
         });
     </script>
-    
+
     <!-- Diccionarios disponibles antes de los laboratorios interactivos -->
     <script src="js/translations.js"></script>
 
@@ -6204,7 +6204,7 @@
                         "qmRF03Application02",
                         "qmRF03Application03"
                     ]
-                },              
+                },
                 {
                     code: "RF-04",
 
@@ -6253,7 +6253,7 @@
                     ],
 
                     statusKey: "qmRF06Status"
-                },                
+                },
                 {
                     code: "RF-07",
 
@@ -6352,7 +6352,7 @@
         };
 
         let qmCurrentRequirementType = "RF";
-        let qmCurrentRequirementIndex = 0;        
+        let qmCurrentRequirementIndex = 0;
 
         // Mostrar el detalle de un requisito.
         function qmShowRequirement(type, index) {
@@ -6408,7 +6408,7 @@
                 item.textContent = text;
                 applications.appendChild(item);
             });
-            
+
             detail.replaceChildren(
                 category,
                 title,
@@ -6738,7 +6738,7 @@
             });
 
             // Actualizar navegación.
-            
+
             const counterSeparator = qmTranslate("qmStoryCounterSeparator");
 
             qmStoryCounter.textContent =
@@ -6777,7 +6777,7 @@
         document.addEventListener("portfolio:languagechange", () => {
             qmShowStory(qmCurrentStoryIndex);
         });
-    </script>    
+    </script>
 
     <script>
         // =========================================
@@ -6987,7 +6987,7 @@
             qmShowBddScenario(selectedBdd);
         });
     </script>
-    
+
     <script>
         // =========================================
         // QUALITY MANAGEMENT — TRAZABILIDAD
@@ -7048,7 +7048,11 @@
                 statusKey: "qmTraceContactStatus",
                 statusType: "implemented",
                 verificationKey: "qmTraceContactVerification",
-                tests: ["API-TC-009"]
+                tests: [
+                    "API-TC-009",
+                    "UI-010",
+                    "UI-011"
+                ]
             },
             {
                 id: "idioma",
@@ -7274,7 +7278,7 @@
                     trace.story,
                     trace.bdd,
                     trace.tests.length
-                        ? trace.tests.join(", ")                        
+                        ? trace.tests.join(", ")
                         : qmTranslate(
                             "qmTracePartialVerification",
                             "Verificación parcial documentada"
@@ -7315,7 +7319,7 @@
         // Inicialización.
         qmBuildTraceTable();
         qmShowTrace("registro");
-        
+
         // Actualizar la trazabilidad al cambiar de idioma.
         document.addEventListener("portfolio:languagechange", () => {
 
@@ -7337,7 +7341,7 @@
         });
 
     </script>
-    
+
     <script>
         // =========================================
         // QUALITY MANAGEMENT — GESTIÓN DE DEFECTOS
@@ -7946,7 +7950,7 @@
             qmShowBug(selectedBug);
         });
     </script>
-    
+
     <script>
         // QUALITY MANAGEMENT — CICLOS INTERACTIVOS
 
@@ -8706,7 +8710,7 @@
             const cycle = qmCycles[qmCurrentCycle];
             const step = cycle?.steps[index];
 
-            if (!step) return;            
+            if (!step) return;
 
             qmStepButtons.forEach((button, buttonIndex) => {
                 button.setAttribute(
@@ -8719,7 +8723,7 @@
             const translatedLabel = step.labelKey
                 ? qmTranslate(step.labelKey, step.label)
                 : step.label;
-            
+
             const stageWord = qmTranslate("qmSprintStageLabel", "ETAPA");
 
             const category = document.createElement("span");

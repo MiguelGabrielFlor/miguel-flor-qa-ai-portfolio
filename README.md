@@ -39,16 +39,19 @@ Este proyecto funciona simultáneamente como:
 - Git
 - GitHub
 
+
 ## Estructura del portfolio
 
 | Página | Funcionalidad |
 |---|---|
-| `index.html` | Acceso al portfolio y presentación profesional |
+| `index.html` | Formulario de acceso y entrada directa como invitado |
+| `home.html` | Página principal y navegación del portfolio |
 | `cv.html` | Trayectoria, formación y certificados |
 | `frontend.html` | Interfaz bajo prueba y laboratorios interactivos |
 | `backend.html` | APIs, validaciones y persistencia |
 | `qa.html` | Casos de prueba, automatización y evidencias |
 | `quality-management.html` | Requisitos, historias de usuario, BDD y gestión de calidad |
+
 
 ## Quality Assurance
 
@@ -83,7 +86,9 @@ Los resultados de ejecución se documentan en `docs/test-report.md`.
 
 ## Internacionalización
 
-**Estado: Implementada y validada en las seis páginas del portfolio.**
+**Estado: Internacionalización ES/EN/PT implementada en el portfolio, con pruebas automatizadas y verificaciones manuales documentadas.**
+
+La cobertura de internacionalización se valida por módulo y tipo de interacción. Los resultados indicados a continuación corresponden a las ejecuciones registradas y no implican una certificación integral de todos los contenidos dinámicos.
 
 La aplicación dispone de soporte para:
 
@@ -122,32 +127,57 @@ Entre sus funcionalidades se encuentran:
 
 Las pruebas de API se documentan mediante Node.js Test Runner y Postman.
 
+### Seguridad del backend
+
+El backend incorpora medidas de protección para su funcionamiento en producción:
+
+- Limitación de solicitudes a los endpoints públicos de registro y contacto: 30 solicitudes cada 15 minutos por IP.
+- Cabeceras HTTP de seguridad mediante Helmet.
+- Restricción de orígenes CORS en producción.
+- Límite de 10 KB para solicitudes JSON.
+- Desactivación de la cabecera `X-Powered-By`.
+- Acceso al backend mediante proxy inverso Nginx, sin exposición pública directa del puerto 3000.
+- Restricción de acceso HTTP a archivos internos, bases de datos y archivos de configuración.
+
+Las protecciones fueron verificadas mediante pruebas automatizadas y comprobaciones HTTP en producción.
+
+Estas medidas reducen la superficie de exposición, pero no sustituyen una auditoría integral de seguridad.
+
+
 ## Inteligencia Artificial
 
 El portfolio incluye un área profesional dedicada a Inteligencia Artificial, con formación y especialización en herramientas, automatización, agentes y aplicaciones de IA.
 
 La incorporación de nuevos proyectos prácticos de IA continúa en desarrollo.
 
+
 ## Estado del proyecto
 
-**En desarrollo — Funcionalidades principales implementadas.**
+**En desarrollo — Funcionalidades principales implementadas y publicadas en producción.**
 
 ### Completado
 
-- Estructura principal del portfolio.
+- Estructura principal del portfolio con siete páginas HTML.
 - Frontend y backend funcionales.
+- Publicación en producción con dominio propio y HTTPS.
+- Acceso directo como invitado y acceso mediante registro.
+- Navegación principal verificada en producción.
+- Formulario de contacto con envío y recepción verificados.
 - Documentación y laboratorios de QA.
-- Automatización Selenium.
-- Internacionalización ES/EN/PT de las seis páginas.
-- Regresión de internacionalización en Chrome, Firefox y Edge.
-- Registro de resultados y evidencias.
+- Automatización de pruebas con Selenium y Node.js Test Runner.
+- Internacionalización ES/EN/PT con pruebas documentadas por módulo.
+- Verificaciones de compatibilidad en Chrome, Firefox y Edge.
+- Verificaciones responsive de Quality Management en producción.
+- Protección de endpoints mediante limitación de solicitudes y cabeceras HTTP de seguridad.
+- Registro de resultados y evidencias de pruebas.
 
 ### Pendiente
 
-- Correcciones y regresión del diseño responsive.
+- Revisión responsive de las secciones que aún no cuentan con validación completa.
 - Auditoría final de requisitos y trazabilidad.
 - Regresión funcional integral multinavegador.
 - Ampliación de proyectos y aplicaciones de Inteligencia Artificial.
+
 
 ## Evidencias
 

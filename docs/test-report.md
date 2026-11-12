@@ -629,8 +629,8 @@ de mantenibilidad ni una auditoría integral del portfolio.
 **Requisito:** FR-011 — Global Search
 
 **Referencia de origen:** BL-02
-**Tipo:** Pruebas funcionales, navegación, teclado y diseño adaptable  
-**Entorno:** Chrome, servidor local del portfolio  
+**Tipo:** Pruebas funcionales, navegación, teclado y diseño adaptable
+**Entorno:** Chrome, servidor local del portfolio
 **Ejecución:** Manual
 
 ### Resumen
@@ -880,7 +880,7 @@ navegadores contemplada en la automatización.
   en Firefox se contemplaron en las pruebas automatizadas.
 - La ejecución satisfactoria no constituye una auditoría
   integral de accesibilidad, seguridad o compatibilidad
-  con todos los navegadores y versiones.  
+  con todos los navegadores y versiones.
 - La regresión final de Google Chrome se repitió después
   de adaptar SEARCH-TC-018 y SEARCH-TC-019, obteniendo
   nuevamente 43/43 PASS.
@@ -1189,9 +1189,9 @@ permanecen sin modificaciones.
 
 ## Regresión multinavegador — Validación del teléfono
 
-**Fecha:** 30/10/2026  
-**Módulo:** Formulario de acceso — Teléfono  
-**Archivo:** `tests/selenium/phone-validation-boundaries.test.js`  
+**Fecha:** 30/10/2026
+**Módulo:** Formulario de acceso — Teléfono
+**Archivo:** `tests/selenium/phone-validation-boundaries.test.js`
 **Herramienta:** Selenium WebDriver / Node.js
 
 ### Objetivo
@@ -1301,11 +1301,11 @@ in Google Chrome, Mozilla Firefox and Microsoft Edge.
 
 ## Regresión multinavegador — Internacionalización de Gestión de Calidad
 
-**Fecha:** 04/11/2026  
-**Módulo:** quality-management.html  
-**Herramienta:** Selenium WebDriver / Node.js Test Runner  
-**Suite:** tests/selenium/qm-*.test.js  
-**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)  
+**Fecha:** 04/11/2026
+**Módulo:** quality-management.html
+**Herramienta:** Selenium WebDriver / Node.js Test Runner
+**Suite:** tests/selenium/qm-*.test.js
+**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)
 **Sistema operativo:** Windows
 
 ### Objetivo
@@ -1388,11 +1388,11 @@ La incidencia BDD-005 quedó corregida en el script de automatización y la suit
 
 ## Regresión multinavegador — Internacionalización del formulario de acceso
 
-**Fecha:** 04/11/2026  
-**Módulo:** index.html  
-**Herramienta:** Selenium WebDriver / Node.js Test Runner  
-**Suite:** tests/selenium/access-*-i18n.test.js y tests/selenium/access-errors-language-switch.test.js  
-**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)  
+**Fecha:** 04/11/2026
+**Módulo:** index.html
+**Herramienta:** Selenium WebDriver / Node.js Test Runner
+**Suite:** tests/selenium/access-*-i18n.test.js y tests/selenium/access-errors-language-switch.test.js
+**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)
 **Sistema operativo:** Windows
 
 ### Objetivo
@@ -1482,8 +1482,8 @@ Se verificaron las traducciones de etiquetas, placeholders, mensajes obligatorio
 El defecto detectado durante ACCESS-I18N-003 fue corregido en `js/app.js` y validado mediante pruebas de regresión en los tres navegadores.
 ### Ampliación de cobertura — ACCESS-I18N-005
 
-**Fecha:** 04/11/2026  
-**Caso:** ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT  
+**Fecha:** 04/11/2026
+**Caso:** ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT
 **Archivo:** `tests/selenium/access-language-persistence.test.js`
 
 **Objetivo:** Verificar que la preferencia de idioma se conserve al recargar la página de acceso, iniciar una sesión y navegar a una página técnica del portfolio.
@@ -1537,11 +1537,11 @@ La cobertura de persistencia queda verificada para `index.html` y la navegación
 
 ## Regresión multinavegador — Internacionalización del laboratorio Frontend
 
-**Fecha:** 04/11/2026  
-**Página:** `frontend.html`  
-**Módulo:** Laboratorio interactivo de internacionalización  
-**Tecnología:** Selenium WebDriver + Node.js Test Runner  
-**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)  
+**Fecha:** 04/11/2026
+**Página:** `frontend.html`
+**Módulo:** Laboratorio interactivo de internacionalización
+**Tecnología:** Selenium WebDriver + Node.js Test Runner
+**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)
 **Navegadores:** Google Chrome, Mozilla Firefox y Microsoft Edge
 
 ### Objetivo
@@ -1596,10 +1596,10 @@ No se confirmó un defecto de internacionalización asociado a esa incidencia.
 La cobertura documentada corresponde al laboratorio interactivo de internacionalización de `frontend.html`. No implica cobertura integral de todos los componentes de la página.
 ## Regresión multinavegador — Internacionalización del laboratorio Backend
 
-**Fecha:** 04/11/2026  
-**Página:** `backend.html`  
-**Herramienta:** Selenium WebDriver / Node.js Test Runner  
-**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)  
+**Fecha:** 04/11/2026
+**Página:** `backend.html`
+**Herramienta:** Selenium WebDriver / Node.js Test Runner
+**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)
 **Navegadores:** Google Chrome, Mozilla Firefox y Microsoft Edge
 
 ### Objetivo
@@ -1656,10 +1656,10 @@ La cobertura documentada corresponde a los cinco casos automatizados de internac
 
 ## Regresión multinavegador — Internacionalización CV y QA
 
-**Fecha:** 04/11/2026  
-**Módulos:** cv.html y qa.html  
-**Herramientas:** Selenium WebDriver / Node.js Test Runner  
-**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)  
+**Fecha:** 04/11/2026
+**Módulos:** cv.html y qa.html
+**Herramientas:** Selenium WebDriver / Node.js Test Runner
+**Idiomas:** Español (ES), Inglés (EN), Portugués (PT)
 **Navegadores:** Google Chrome, Mozilla Firefox y Microsoft Edge
 
 ### Objetivo
@@ -1915,9 +1915,9 @@ Estado: APROBADO — REGRESIÓN MULTINAVEGADOR CERRADA.
 La evidencia obtenida permite completar el respaldo de navegación y persistencia del idioma de BDD-003 y BDD-005, sujeto a la actualización de sus referencias documentales.
 ## Reejecución de regresión Selenium — Buscador global — 12/11/2026
 
-**Requisito:** FR-011 — Global Search  
-**Herramienta:** Selenium WebDriver / Node.js Test Runner  
-**Archivo:** `tests/selenium/global-search-navigation.test.js`  
+**Requisito:** FR-011 — Global Search
+**Herramienta:** Selenium WebDriver / Node.js Test Runner
+**Archivo:** `tests/selenium/global-search-navigation.test.js`
 **Entorno:** Windows — `http://127.0.0.1:5500`
 
 ### Objetivo
@@ -1975,3 +1975,48 @@ Los ocho casos previamente corregidos se verificaron en Chrome, Firefox y Edge.
 Los 43 escenarios del buscador global cuentan con resultados satisfactorios en los tres navegadores.
 
 **Estado: APROBADO — 129/129 PASS, con validación parcial consolidada en Firefox.**
+## Regresión NAV-ALL — Arquitectura con Home independiente
+
+**Fecha:** 12/11/2026
+**Entorno:** Local — http://127.0.0.1:8000
+**Herramientas:** Selenium WebDriver / Node.js Test Runner
+**Archivo:** `tests/selenium/portfolio-navigation-all-directions.test.js`
+
+### Objetivo
+
+Validar la navegación integral después de separar la pantalla de acceso (`index.html`) de la página principal (`home.html`).
+
+### Alcance
+
+- Acceso a Home mediante el flujo de sesión existente o acceso como invitado.
+- Navegación desde Home hacia las cinco páginas internas.
+- Retorno mediante el logo a `home.html`.
+- Verificación de los enlaces Volver y sus anclas.
+- Navegación entre las seis páginas del portfolio.
+- Persistencia del idioma ES/EN/PT.
+
+### Resultados
+
+| Navegador | Resultado | Duración |
+|---|---|---|
+| Google Chrome | PASS | 91,4 s |
+| Mozilla Firefox | PASS | 317,8 s |
+| Microsoft Edge | PASS | 128,5 s |
+| **Total** | **3/3 PASS** | |
+
+### Cobertura por navegador
+
+- 15 verificaciones de retorno mediante el logo.
+- 15 verificaciones de retorno mediante enlaces Volver.
+- 90 recorridos dirigidos entre páginas distintas.
+- **Total: 120 verificaciones internas por navegador.**
+
+### Conclusión
+
+**NAV-ALL: APROBADO en Chrome, Firefox y Edge.**
+
+La prueba fue adaptada a la arquitectura actual y completó satisfactoriamente la regresión multinavegador.
+
+La suite `LANG-NAV-006` no se volvió a ejecutar durante esta regresión. Sus resultados históricos se conservan por separado.
+
+**Trazabilidad:** RF-05, RF-07, HU-002, HU-004, BDD-003, BDD-005, TC-019 y TC-020.

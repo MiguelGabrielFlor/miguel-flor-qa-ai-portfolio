@@ -6,11 +6,23 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { Builder, By, until } = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
 
 const BASE = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:8000';
 const BROWSER = process.env.TEST_BROWSER || 'chrome';
-const PAGES = ['index.html', 'cv.html', 'frontend.html', 'backend.html', 'qa.html', 'quality-management.html'];
-const INTERNAL = PAGES.slice(1);
+
+const HOME = 'home.html';
+
+const INTERNAL = [
+    'cv.html',
+    'frontend.html',
+    'backend.html',
+    'qa.html',
+    'quality-management.html'
+];
+
+const PAGES = [HOME, ...INTERNAL];
+
 const LANGUAGES = ['es', 'en', 'pt'];
 const WAIT = 12000;
 
@@ -24,39 +36,83 @@ function destination(url) {
 async function ready(driver) {
     await driver.wait(async () => (await driver.executeScript('return document.readyState')) === 'complete', WAIT);
 }
+
 async function clickReal(driver, element) {
-    await driver.executeScript('arguments[0].scrollIntoView({block:"center"});', element);
-    await driver.wait(until.elementIsVisible(element), WAIT);
+    await driver.executeScript(`
+        arguments[0].scrollIntoView({
+            behavior: "instant",
+            block: "center",
+            inline: "nearest"
+        });
+    `, element);
+
+    await driver.wait(
+        until.elementIsVisible(element),
+        WAIT
+    );
+
+    await driver.wait(async () => {
+        return await driver.executeScript(`
+            const element = arguments[0];
+            const rect = element.getBoundingClientRect();
+
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            const insideViewport =
+                x >= 0 &&
+                y >= 0 &&
+                x < window.innerWidth &&
+                y < window.innerHeight;
+
+            if (!insideViewport) return false;
+
+            const top = document.elementFromPoint(x, y);
+
+            return top === element || element.contains(top);
+        `, element);
+    }, WAIT);
+
     await element.click();
     await ready(driver);
 }
+
 async function enterHome(driver, language) {
     await driver.get(`${BASE}/index.html`);
     await ready(driver);
-    await driver.executeScript('localStorage.setItem("portfolioLanguage", arguments[0]);', language);
+
+    await driver.executeScript(
+        'localStorage.setItem("portfolioLanguage", arguments[0]);',
+        language
+    );
+
     await driver.navigate().refresh();
     await ready(driver);
-    const portfolio = await driver.findElements(By.id('portfolio'));
-    if (portfolio.length && !(await portfolio[0].isDisplayed())) {
-        const select = await driver.findElements(By.id('languageSelect'));
-        if (select.length) {
-            const { Select } = require('selenium-webdriver');
-            await new Select(select[0]).selectByValue(language);
-        }
-        for (const [id, value] of [
-            ['firstName','Selenium'], ['lastName','Tester'],
-            ['email','navigation.test@example.com'], ['phone','1123456789']
-        ]) {
-            const field = await driver.findElement(By.id(id));
-            await field.clear(); await field.sendKeys(value);
-        }
-        const consent = await driver.findElement(By.id('consent'));
-        if (!(await consent.isSelected())) await consent.click();
-        await driver.findElement(By.id('accessButton')).click();
-        await driver.wait(until.elementIsVisible(portfolio[0]), WAIT);
+
+    // Una sesión válida puede redirigir automáticamente a Home.
+    if (pageName(await driver.getCurrentUrl()) !== HOME) {
+        const guestButton = await driver.findElement(
+            By.id('guestAccessButton')
+        );
+
+        await clickReal(driver, guestButton);
     }
-    assert.equal(pageName(await driver.getCurrentUrl()), 'index.html');
+
+    await driver.wait(
+        until.urlContains('/home.html'),
+        WAIT
+    );
+
+    await ready(driver);
+
+    assert.equal(
+        pageName(await driver.getCurrentUrl()),
+        HOME,
+        'No se llegó a Home'
+    );
 }
+
+
 async function verifyLanguage(driver, language, label) {
     const values = await driver.executeScript('return [document.documentElement.lang,localStorage.getItem("portfolioLanguage")];');
     assert.deepEqual(values, [language, language], `${label}: idioma perdido`);
@@ -66,17 +122,56 @@ async function clickHomeLink(driver, target) {
     const visible = [];
     for (const link of links) if (await link.isDisplayed()) visible.push(link);
     assert.ok(visible.length, `Home no presenta enlace visible hacia ${target}`);
-    await clickReal(driver, visible[0]);
+
+    try {
+        await clickReal(driver, visible[0]);
+    } catch (error) {
+        const diagnostic = await driver.executeScript(`
+            const link = arguments[0];
+            const rect = link.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            const blocker = document.elementFromPoint(x, y);
+
+            return {
+                target: link.outerHTML.slice(0, 300),
+                position: { x, y },
+                blocker: blocker?.outerHTML.slice(0, 500) || null
+            };
+        `, visible[0]);
+
+        console.error(
+            'NAV-ALL | CLICK FAIL |',
+            target,
+            JSON.stringify(diagnostic, null, 2)
+        );
+
+        throw error;
+    }
+
     assert.equal(pageName(await driver.getCurrentUrl()), target, `Enlace Home → ${target}`);
 }
+
 async function findReturn(driver) {
-    // Enlaces de retorno con ancla a Home o a la página QA; no el logo.
-    const links = await driver.findElements(By.css('a[href*="index.html#"], a[href*="qa.html#"]'));
+    // Retornos hacia secciones de Home o QA; excluye el logo.
+    const links = await driver.findElements(
+        By.css('a[href*="home.html#"], a[href*="qa.html#"]')
+    );
+
     for (const link of links) {
-        if (await link.isDisplayed() && !(await link.getAttribute('class') || '').split(/\s+/).includes('logo')) return link;
+        if (
+            await link.isDisplayed() &&
+            !(await link.getAttribute('class') || '')
+                .split(/\s+/)
+                .includes('logo')
+        ) {
+            return link;
+        }
     }
+
     return null;
 }
+
 async function verifyAnchor(driver, hash) {
     if (!hash) return;
     const id = decodeURIComponent(hash.slice(1));
@@ -86,7 +181,19 @@ async function verifyAnchor(driver, hash) {
 }
 
 test('NAV-ALL — navegación entre seis páginas, logo y retornos ES/EN/PT', async t => {
-    const driver = await new Builder().forBrowser(BROWSER).build();
+
+    const builder = new Builder().forBrowser(BROWSER);
+
+    if (BROWSER === 'firefox') {
+        const options = new firefox.Options().setBinary(
+            'C:\\Program Files\\WindowsApps\\Mozilla.Firefox_159.0.1.0_x64__n80bbvh6b1yt2\\VFS\\ProgramFiles\\Firefox Package Root\\firefox.exe'
+        );
+
+        builder.setFirefoxOptions(options);
+    }
+
+    const driver = await builder.build();
+
     t.after(async () => driver.quit());
     const actual = String((await driver.getCapabilities()).get('browserName')).toLowerCase();
     assert.equal(actual, BROWSER.toLowerCase(), `Navegador solicitado ${BROWSER}; abierto ${actual}`);
@@ -100,11 +207,11 @@ test('NAV-ALL — navegación entre seis páginas, logo y retornos ES/EN/PT', as
             await enterHome(driver, language);
             await clickHomeLink(driver, target);
             await verifyLanguage(driver, language, target);
-            const logos = await driver.findElements(By.css('a.logo[href="index.html"]'));
+            const logos = await driver.findElements(By.css('a.logo[href="home.html"]'));
             assert.ok(logos.length, `${target}: falta logo de retorno`);
             await clickReal(driver, logos[0]);
             const url = await driver.getCurrentUrl();
-            assert.equal(pageName(url), 'index.html', `${target}: logo no vuelve a Home`);
+            assert.equal(pageName(url), HOME, `${target}: logo no vuelve a Home`);
             assert.equal(new URL(url).hash, '', `${target}: logo no debe apuntar a una sección`);
             await driver.wait(async () => (await driver.executeScript('return window.scrollY')) <= 5, WAIT);
             await verifyLanguage(driver, language, `${target} → logo`);
@@ -118,7 +225,10 @@ test('NAV-ALL — navegación entre seis páginas, logo y retornos ES/EN/PT', as
             const back = await findReturn(driver);
             assert.ok(back, `${target}: no se encontró botón/enlace Volver hacia su sección de origen`);
             const expected = destination(await back.getAttribute('href'));
-            assert.ok(['index.html', 'qa.html'].includes(expected.page), `${target}: retorno inesperado ${expected.page}`);
+            assert.ok(
+                [HOME, 'qa.html'].includes(expected.page),
+                `${target}: retorno inesperado ${expected.page}`
+            );
             assert.ok(expected.hash, `${target}: Volver no tiene sección de destino`);
             await clickReal(driver, back);
             const url = await driver.getCurrentUrl();
@@ -132,21 +242,54 @@ test('NAV-ALL — navegación entre seis páginas, logo y retornos ES/EN/PT', as
         // Todos los pares ordenados de páginas distintas (6×5=30),
         // utilizando enlaces reales. Para páginas internas, el logo lleva
         // a Home y desde allí se selecciona el destino.
+
         for (const from of PAGES) {
             for (const to of PAGES) {
                 if (from === to) continue;
+
                 await enterHome(driver, language);
-                if (from !== 'index.html') await clickHomeLink(driver, from);
-                if (from !== 'index.html') {
-                    const logo = await driver.findElement(By.css('a.logo[href="index.html"]'));
-                    await clickReal(driver, logo);
-                    assert.equal(pageName(await driver.getCurrentUrl()), 'index.html');
+
+                // Navegar desde Home hasta la página de origen.
+                if (from !== HOME) {
+                    await clickHomeLink(driver, from);
                 }
-                if (to !== 'index.html') await clickHomeLink(driver, to);
-                assert.equal(pageName(await driver.getCurrentUrl()), to, `${from} → ${to}`);
-                await verifyLanguage(driver, language, `${from} → ${to}`);
-                console.log(`NAV-ALL | ${actual} | ${language} | ${from} → ${to} | PASS`);
+
+                // Regresar a Home mediante el logo.
+                if (from !== HOME) {
+                    const logo = await driver.findElement(
+                        By.css('a.logo[href="home.html"]')
+                    );
+
+                    await clickReal(driver, logo);
+
+                    assert.equal(
+                        pageName(await driver.getCurrentUrl()),
+                        HOME
+                    );
+                }
+
+                // Navegar desde Home hasta el destino.
+                if (to !== HOME) {
+                    await clickHomeLink(driver, to);
+                }
+
+                assert.equal(
+                    pageName(await driver.getCurrentUrl()),
+                    to,
+                    `${from} → ${to}`
+                );
+
+                await verifyLanguage(
+                    driver,
+                    language,
+                    `${from} → ${to}`
+                );
+
+                console.log(
+                    `NAV-ALL | ${actual} | ${language} | ${from} → ${to} | PASS`
+                );
             }
         }
+
     }
 });
