@@ -53,10 +53,16 @@ function findFirefox() {
     return null;
 }
 
-function createDriver(browser = process.env.TEST_BROWSER || 'chrome') {
-    const builder = new Builder().forBrowser(browser);
 
-    if (browser.toLowerCase() === 'firefox') {
+function createDriver(browser = process.env.TEST_BROWSER || 'chrome') {
+    const browserName = browser.toLowerCase();
+
+    const seleniumBrowser =
+        browserName === 'edge' ? 'MicrosoftEdge' : browserName;
+
+    const builder = new Builder().forBrowser(seleniumBrowser);
+
+    if (browserName === 'firefox') {
         const firefoxPath = findFirefox();
 
         if (firefoxPath) {

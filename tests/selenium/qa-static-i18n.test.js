@@ -13,7 +13,7 @@ test('QA-I18N-001 — Interfaz estática ES/EN/PT', async (t) => {
 
     assert.equal(
         (await driver.getCapabilities()).get('browserName').toLowerCase(),
-        browser.toLowerCase()
+        browser.toLowerCase() === 'edge' ? 'microsoftedge' : browser.toLowerCase()
     );
 
     await driver.get(URL);

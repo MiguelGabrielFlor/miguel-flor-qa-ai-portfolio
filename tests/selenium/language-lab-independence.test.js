@@ -19,7 +19,7 @@ test('El laboratorio cambia de idioma independientemente del portfolio', async (
 
     assert.equal(
         actualBrowser,
-        browser.toLowerCase(),
+        (browser.toLowerCase() === 'edge' ? 'microsoftedge' : browser.toLowerCase()),
         `Se solicitó ${browser}, pero Selenium abrió ${actualBrowser}`
     );
 

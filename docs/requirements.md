@@ -573,7 +573,43 @@ Estado de verificación:
   Firefox y Microsoft Edge.
 - Resultado: 129 PASS, 0 FAIL, 0 SKIP.
 
-- Revisión integral de mantenibilidad: pendiente.
+- Refactorización de `backend.html` (21/10/2026):
+  verificación técnica y regresión multinavegador
+  completadas, 36 PASS, 0 FAIL.
+
+- Refactorización de `quality-management.html` (13/11/2026):
+  separación de HTML, CSS y JavaScript;
+  organización de módulos funcionales y
+  centralización de traducciones ES/EN/PT.
+
+- Regresión Selenium posterior a la refactorización
+  de `quality-management.html`:
+  Chrome 22/22 PASS;
+  Firefox 22/22 PASS;
+  Microsoft Edge 22/22 PASS.
+  Total: 66 PASS, 0 FAIL.
+
+- Refactorización de `frontend.html` (13/11/2026):
+  separación de HTML, CSS y JavaScript;
+  extracción de laboratorios interactivos a
+  `js/frontend/` y estilos a `css/frontend/frontend.css`;
+  verificación estructural sin bloques internos
+  de JavaScript ni CSS.
+
+- Regresión Selenium posterior a la refactorización
+  de `frontend.html`:
+  Chrome 5/5 PASS;
+  Firefox 5/5 PASS;
+  Microsoft Edge 5/5 PASS.
+  Total: 15 PASS, 0 FAIL.
+
+- Verificación visual y responsive de `frontend.html`:
+  Chrome, resoluciones 375, 768 y 1440 px.
+  Resultado: PASS.
+
+- Revisión integral de mantenibilidad del portfolio:
+  pendiente.
+
 
 
 La ejecución satisfactoria de las pruebas
@@ -651,23 +687,51 @@ y componentes dinámicos del proyecto.
 
 ### Estado de implementación
 
-- Estructura semántica y atributos accesibles:
-  parcialmente implementados.
-- Navegación mediante teclado:
-  pendiente de verificación integral.
-- Contraste y tecnologías de asistencia:
-  pendientes de evaluación.
-- Movimiento reducido:
-  implementado en algunos componentes;
-  pendiente de revisión global.
+- Estructura HTML semántica y atributos accesibles: implementados en los componentes auditados.
+- Navegación mediante teclado e indicadores de foco: verificados satisfactoriamente en los escenarios evaluados.
+- Formularios: etiquetas accesibles, asociaciones de errores y comunicación de estados mediante atributos ARIA.
+- Tecnologías de asistencia: verificaciones realizadas con Narrador de Windows 10.
+- Contraste: revisión mediante herramientas de accesibilidad y Chrome DevTools; correcciones aplicadas y comprobadas en `home.html`.
+- Movimiento reducido: comportamiento verificado en las siete páginas del portfolio.
+- Diseño responsive: verificaciones históricas multinavegador y comprobaciones adicionales de `index.html` y `home.html`.
 
 ### Estado de verificación
 
-PENDIENTE — Requiere evaluación integral.
+**Fecha de cierre:** 16/11/2026.
 
-La presencia de atributos ARIA y elementos HTML
-semánticos no demuestra por sí sola el cumplimiento
-de los criterios de accesibilidad.
+**Resultado: PASS — Aprobado dentro del alcance auditado.**
+
+Se evaluaron los 11 criterios de aceptación de NFR-005 mediante pruebas funcionales, inspecciones estáticas, comprobaciones manuales y herramientas de accesibilidad.
+
+**Evidencias documentadas:**
+
+- NFR-005-ACCESS-001 a NFR-005-ACCESS-014.
+- NFR-005-CONTRAST-001.
+- NFR-005-RESP-001.
+- Auditoría de movimiento reducido en las siete páginas.
+- Comprobaciones con Narrador de Windows.
+- Verificaciones responsive históricas en Chrome, Firefox y Edge.
+
+**Resultados relevantes:**
+
+- Siete páginas verificadas con movimiento reducido.
+- 56 elementos decorativos o potencialmente decorativos analizados mediante revisión estática, sin incidencias detectadas en ese alcance.
+- Correcciones de contraste verificadas en `home.html`, con relaciones finales de 6,8:1, 7,1:1 y 7,71:1 en los elementos comprobados.
+- 18 verificaciones responsive históricas satisfactorias.
+- Cuatro comprobaciones responsive adicionales satisfactorias en las versiones actuales de `index.html` y `home.html`, a 375 px y 768 px en Chrome.
+- Sin defectos confirmados abiertos en los escenarios corregidos y comprobados nuevamente.
+
+**Limitaciones:**
+
+Los resultados corresponden a los componentes, estados, navegadores y resoluciones evaluados. Las comprobaciones automatizadas no garantizan la ausencia de problemas de accesibilidad en escenarios no examinados.
+
+La aprobación de NFR-005 dentro del alcance auditado no constituye una certificación integral de conformidad WCAG.
+
+**Conclusión:**
+
+NFR-005 finaliza su auditoría con resultado satisfactorio dentro del alcance documentado.
+
+Las evidencias detalladas se conservan en `docs/test-report.md` y deberán mantenerse vinculadas al requisito mediante la matriz de trazabilidad de Gestión de Calidad.
 
 ---
 
@@ -891,7 +955,7 @@ planificadas para futuras etapas:
 | NFR-001 | Usabilidad | TC-009 |
 | NFR-002 | Performance | TC-010 |
 | NFR-003 | Compatibilidad | TC-011 |
-| NFR-004 | Mantenibilidad del código | Revisión técnica pendiente |
+| NFR-004 | Mantenibilidad del código | backend.html: modularización HTML/CSS/JS, verificación estructural y regresión Selenium 15/15 PASS (Chrome, Firefox y Edge, 13/11/2026). quality-management.html: regresión Selenium 66/66 PASS. frontend.html: separación HTML/CSS/JS, verificación estructural, revisión visual y responsive en Chrome y regresión FRONTEND-I18N 15/15 PASS (Chrome, Firefox y Edge, 13/11/2026). cv.html: eliminación de 2 bloques JavaScript internos, reutilización de navegación compartida y regresión manual CV-MOD-001 12/12 PASS (Chrome, Firefox y Edge, 13/11/2026); regresión Selenium posterior a la modularización: CV-I18N-001 a CV-I18N-004 4/4 PASS en Chrome y CV-I18N-004 PASS en Firefox y Edge (6 ejecuciones PASS, 13/11/2026). Evidencia: docs/test-report.md. home.html: eliminación de 2 bloques JavaScript internos, reutilización de js/shared/navigation.js, verificación estructural sin CSS/JS internos, regresión manual HOME-MOD-001 12/12 PASS y regresión Selenium HOME-MOD-001 6/6 PASS (Chrome, Firefox y Edge; 24 comprobaciones funcionales, 13/11/2026). qa.html: externalización CSS/JS, reutilización de navegación compartida, verificación estructural sin bloques internos, regresión Selenium QA-I18N-001 a QA-I18N-005 15/15 PASS, visor Markdown QA-MOD-001-MD 36/36 PASS y revisión visual manual QA-VISUAL-MOD-001 12/12 PASS (Chrome, Firefox y Edge; ES/EN/PT; 13/11/2026). Auditoría estructural NFR-004-AUDIT-001: 7/7 páginas sin CSS/JS interno, 61/61 referencias locales existentes, 30/30 archivos JS con sintaxis válida y 5/5 archivos CSS con estructura básica correcta. Sin archivos JS idénticos ni nombres de funciones repetidos detectados. PASS dentro del alcance auditado; limitaciones documentadas en docs/test-report.md (13/11/2026). |
 | NFR-005 | Accesibilidad e interacción | Cobertura parcial: pruebas de navegación mediante teclado y atributos accesibles del buscador global (SEARCH-TC); auditoría integral pendiente |
 | NFR-006 | Consistencia visual y diseño de componentes | Revisión visual y funcional integral pendiente |
 | API-001 | Estado de la API | API-TC-001 |

@@ -21,7 +21,7 @@ test('FRONTEND-I18N-003 — Datos inválidos ES/EN/PT', async (t) => {
 
     assert.equal(
         actualBrowser,
-        browser.toLowerCase(),
+        (browser.toLowerCase() === 'edge' ? 'microsoftedge' : browser.toLowerCase()),
         `Se solicitó ${browser}, pero Selenium abrió ${actualBrowser}`
     );
 
@@ -49,11 +49,23 @@ test('FRONTEND-I18N-003 — Datos inválidos ES/EN/PT', async (t) => {
     const result = await lab.findElement(
         By.id('language-demo-result')
     );
-
+        
     const expectedValues = {
-        name: 'Juan123',
-        email: 'correo-invalido',
-        message: ''
+        es: {
+            name: 'Juan123',
+            email: 'correo-invalido',
+            message: ''
+        },
+        en: {
+            name: 'John123',
+            email: 'invalid-email',
+            message: ''
+        },
+        pt: {
+            name: 'João123',
+            email: 'e-mail-inválido',
+            message: ''
+        }
     };
 
     const scenarios = [
@@ -117,7 +129,7 @@ test('FRONTEND-I18N-003 — Datos inválidos ES/EN/PT', async (t) => {
         for (const key of ['name', 'email', 'message']) {
             assert.equal(
                 await fields[key].getAttribute('value'),
-                expectedValues[key],
+                expectedValues[scenario.language][key],
                 `${scenario.language}: valor de ${key}`
             );
 

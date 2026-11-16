@@ -358,11 +358,17 @@ test('SEARCH-TC-003 — Cerrar resultados con Escape', async (t) => {
         'Escape no limpió el campo de búsqueda'
     );
 
-    // Verificar que el buscador informa que el panel está cerrado.
+    // Verificar que el panel está cerrado y el campo utiliza ARIA válido.
+    assert.equal(
+        await results.getDomAttribute('hidden'),
+        'true',
+        'El panel de resultados no quedó oculto al cerrar'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'false',
-        'El buscador no actualizó aria-expanded al cerrar'
+        null,
+        'El campo de búsqueda no debe utilizar aria-expanded'
     );
 
     // 5. Comprobar que no se produjo navegación.
@@ -398,11 +404,17 @@ test('SEARCH-TC-003 — Cerrar resultados con Escape', async (t) => {
         'El buscador no mostró resultados después de Escape'
     );
 
-    // 9. Comprobar el estado de accesibilidad.
+    // 9. Comprobar el estado accesible del panel al reabrirse.
+    assert.equal(
+        await results.getDomAttribute('hidden'),
+        null,
+        'El panel de resultados debería estar visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true',
-        'El buscador no actualizó aria-expanded al reabrirse'
+        null,
+        'El campo de búsqueda no debe utilizar aria-expanded'
     );
 
     console.log('PASS — Nueva búsqueda después de Escape');
@@ -1006,15 +1018,26 @@ test('SEARCH-TC-012 — Limpiar consulta y cerrar resultados', async (t) => {
 
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El campo de búsqueda no debe utilizar aria-expanded'
+    );
+
+    assert.equal(
+        await driver.executeScript(
+            'return document.querySelector(".portfolio-search-results").hidden;'
+        ),
+        false,
+        'El panel debería estar visible con resultados'
     );
 
     // 2. Borrar completamente la consulta.
     await searchInput.clear();
 
-    // 3. Esperar el cierre del desplegable.
+    // 3. Esperar el cierre del panel de resultados.
     await driver.wait(async () => {
-        const expanded = await searchInput.getAttribute('aria-expanded');
+        const panelOculto = await driver.executeScript(
+            'return document.querySelector(".portfolio-search-results").hidden;'
+        );
 
         const resultados = await driver.findElements(
             By.css('.portfolio-search-result')
@@ -1028,7 +1051,7 @@ test('SEARCH-TC-012 — Limpiar consulta y cerrar resultados', async (t) => {
             }
         }
 
-        return expanded === 'false' && visibles.length === 0;
+        return panelOculto === true && visibles.length === 0;
     }, 10000);
 
     // 4. Verificar el campo vacío.
@@ -1039,7 +1062,7 @@ test('SEARCH-TC-012 — Limpiar consulta y cerrar resultados', async (t) => {
 
     console.log('PASS — Consulta vacía');
     console.log('PASS — Resultados cerrados');
-    console.log('PASS — aria-expanded=false');
+    console.log('PASS — Panel oculto y sin resultados visibles');
 });
 
 test('SEARCH-TC-013 — Búsqueda con caracteres especiales', async (t) => {
@@ -1703,10 +1726,14 @@ test('SEARCH-TC-021 — Escape desde un resultado seleccionado', async (t) => {
     const resultadoActivo = await driver.switchTo().activeElement();
 
     await resultadoActivo.sendKeys('\uE00C');
-
-    // 5. Verificar el cierre del desplegable.
+    
+    // 5. Verificar el cierre del panel de resultados.
     await driver.wait(async () => {
-        return await searchInput.getAttribute('aria-expanded') === 'false';
+        return await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden === true;
+        `);
     }, 10000);
 
     // 6. Verificar que no quedan resultados visibles.
@@ -1773,10 +1800,14 @@ test('SEARCH-TC-022 — Nueva búsqueda después de Escape desde un resultado', 
 
     // 4. Cerrar mediante Escape desde el resultado.
     const activo = await driver.switchTo().activeElement();
-    await activo.sendKeys('\uE00C');
-
+    await activo.sendKeys('\uE00C');    
+    
     await driver.wait(async () => {
-        return await searchInput.getAttribute('aria-expanded') === 'false';
+        return await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden === true;
+        `);
     }, 10000);
 
     console.log('PASS — Escape cierra el desplegable');
@@ -1799,11 +1830,23 @@ test('SEARCH-TC-022 — Nueva búsqueda después de Escape desde un resultado', 
         until.elementIsVisible(resultado),
         10000
     );
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel debe estar visible después de una nueva búsqueda'
+    );
 
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     assert.equal(
         await searchInput.getAttribute('value'),
@@ -1814,7 +1857,7 @@ test('SEARCH-TC-022 — Nueva búsqueda después de Escape desde un resultado', 
     console.log('PASS — Resultados reabiertos correctamente');
 });
 
-test('SEARCH-TC-023 — Estado aria-expanded del buscador', async (t) => {
+test('SEARCH-TC-023 — Estado accesible del panel de búsqueda', async (t) => {
 
     const driver = await crearDriver();
 
@@ -1829,20 +1872,30 @@ test('SEARCH-TC-023 — Estado aria-expanded del buscador', async (t) => {
         10000
     );
 
-    // 1. Verificar el estado inicial.
-    assert.equal(
-        await searchInput.getAttribute('aria-expanded'),
-        'false',
-        'El buscador debería comenzar cerrado'
+    const results = await driver.findElement(
+        By.css('.portfolio-search-results')
     );
 
-    console.log('PASS — Estado inicial cerrado');
+    // 1. Verificar el estado inicial.
+    assert.equal(
+        await results.getAttribute('hidden'),
+        'true',
+        'El panel de resultados debería comenzar oculto'
+    );
+
+    assert.equal(
+        await searchInput.getAttribute('aria-expanded'),
+        null,
+        'El campo de búsqueda no debe utilizar aria-expanded'
+    );
+
+    console.log('PASS — Panel inicialmente oculto y ARIA válido');
 
     // 2. Introducir una consulta válida.
     await searchInput.sendKeys('arquitectura');
 
     await driver.wait(async () => {
-        return await searchInput.getAttribute('aria-expanded') === 'true';
+        return await results.getAttribute('hidden') === null;
     }, 10000);
 
     const resultados = await driver.findElements(
@@ -1854,26 +1907,33 @@ test('SEARCH-TC-023 — Estado aria-expanded del buscador', async (t) => {
         'No aparecen resultados al abrir el buscador'
     );
 
-    console.log('PASS — aria-expanded=true con resultados');
+    console.log('PASS — Panel visible con resultados');
 
     // 3. Limpiar la consulta.
     await searchInput.clear();
 
     await driver.wait(async () => {
-        return await searchInput.getAttribute('aria-expanded') === 'false';
+        return await results.getAttribute('hidden') === 'true';
     }, 10000);
 
-    console.log('PASS — aria-expanded=false después de limpiar');
+    console.log('PASS — Panel oculto después de limpiar');
 
     // 4. Realizar otra búsqueda.
     await searchInput.sendKeys('persistencia');
 
     await driver.wait(async () => {
-        return await searchInput.getAttribute('aria-expanded') === 'true';
+        return await results.getAttribute('hidden') === null;
     }, 10000);
 
-    console.log('PASS — aria-expanded=true al reabrir');
+    assert.equal(
+        await searchInput.getAttribute('aria-expanded'),
+        null,
+        'El buscador no debe incorporar aria-expanded al reabrirse'
+    );
+
+    console.log('PASS — Panel visible al realizar otra búsqueda');
 });
+
 
 test('SEARCH-TC-024 — Integridad de enlaces y títulos', async (t) => {
 
@@ -2124,12 +2184,24 @@ test('SEARCH-TC-027 — Recuperación después de una búsqueda sin resultados',
             'El mensaje sin resultados continúa visible'
         );
     }
+    
+    // 5. Verificar que el panel de resultados está visible.
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel debería estar visible después de recuperar resultados'
+    );
 
-    // 5. Verificar que el desplegable está abierto.
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Resultados recuperados correctamente');
     console.log('PASS — Mensaje anterior eliminado');
@@ -2162,10 +2234,22 @@ test('SEARCH-TC-028 — Búsqueda por término parcial', async (t) => {
         ),
         10000
     );
+    
+    // 4. Verificar el estado accesible del panel.
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel debería estar visible con la búsqueda parcial'
+    );
 
-    await driver.wait(
-        until.elementIsVisible(resultado),
-        10000
+    assert.equal(
+        await searchInput.getAttribute('aria-expanded'),
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
 
     // 3. Verificar el destino.
@@ -2173,12 +2257,6 @@ test('SEARCH-TC-028 — Búsqueda por término parcial', async (t) => {
         (await resultado.getAttribute('href'))
             .endsWith('/backend.html#arquitectura'),
         'La búsqueda parcial no encontró Arquitectura'
-    );
-
-    // 4. Verificar el estado del desplegable.
-    assert.equal(
-        await searchInput.getAttribute('aria-expanded'),
-        'true'
     );
 
     console.log('PASS — Búsqueda parcial: arquitect');
@@ -2279,10 +2357,23 @@ test('SEARCH-TC-030 — Búsqueda con varias palabras', async (t) => {
     );
 
     // 4. Verificar que el desplegable está abierto.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe estar visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Búsqueda con varias palabras');
     console.log('PASS — Resultado Arquitectura de la API encontrado');
@@ -2329,10 +2420,23 @@ test('SEARCH-TC-031 — Búsqueda con espacios internos repetidos', async (t) =>
     );
 
     // 4. Verificar el estado del desplegable.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe estar visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Consulta con espacios internos repetidos');
     console.log('PASS — Resultado Arquitectura encontrado');
@@ -2397,10 +2501,23 @@ test('SEARCH-TC-032 — Búsqueda con tabulaciones entre palabras', async (t) =>
     );
 
     // 5. Verificar el estado del buscador.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe estar visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Tabulaciones normalizadas correctamente');
     console.log('PASS — Resultado Arquitectura encontrado');
@@ -2450,10 +2567,23 @@ test('SEARCH-TC-033 — Normalización de caracteres Unicode', async (t) => {
     );
 
     // Verificar el estado del desplegable.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe estar visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Normalización Unicode correcta');
     console.log('PASS — Resultado Internacionalización encontrado');
@@ -2515,10 +2645,23 @@ test('SEARCH-TC-034 — Tratamiento de saltos de línea en el input', async (t) 
     );
 
     // 4. Verificar que el desplegable permanece abierto.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe permanecer visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — El input elimina el salto de línea');
     console.log('PASS — El buscador procesa el valor real del campo');
@@ -2550,11 +2693,24 @@ test('SEARCH-TC-035 — Consulta compuesta únicamente por espacios', async (t) 
     );
 
     // 3. Verificar que el desplegable está cerrado.
+    
+    // 3. Verificar que el panel permanece oculto.
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        true,
+        'El panel debería permanecer oculto'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'false',
-        'El desplegable debería permanecer cerrado'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     // 4. Verificar que no existen resultados visibles.
     const resultados = await driver.findElements(
@@ -2632,10 +2788,23 @@ test('SEARCH-TC-036 — Caracteres especiales combinados con texto válido', asy
 
     // 4. Verificar que el desplegable está abierto
     // mostrando el mensaje de ausencia de resultados.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe permanecer visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Consulta con símbolos sin coincidencias');
     console.log('PASS — Mensaje de ausencia de resultados correcto');
@@ -2699,10 +2868,23 @@ test('SEARCH-TC-037 — Recuperación tras caracteres especiales', async (t) => 
     );
 
     // 5. Verificar el estado del desplegable.
+    
+    assert.equal(
+        await driver.executeScript(`
+            return document.querySelector(
+                '.portfolio-search-results'
+            ).hidden;
+        `),
+        false,
+        'El panel de resultados debe permanecer visible'
+    );
+
     assert.equal(
         await searchInput.getAttribute('aria-expanded'),
-        'true'
+        null,
+        'El buscador no debe utilizar aria-expanded'
     );
+
 
     console.log('PASS — Recuperación tras consulta con símbolos');
     console.log('PASS — Resultado válido y estado actualizado');

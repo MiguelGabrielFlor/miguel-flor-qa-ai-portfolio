@@ -1734,8 +1734,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function closeResults(clearInput = false) {
         results.hidden = true;
-        input.setAttribute("aria-expanded", "false");
-        
+                
         results.replaceChildren();
         activeResultHome = -1;
 
@@ -1850,7 +1849,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         results.hidden = false;
-        input.setAttribute("aria-expanded", "true");
+        
     }
 
     input.addEventListener("input", () => {
@@ -2050,7 +2049,7 @@ document.addEventListener("DOMContentLoaded", () => {
             results.querySelectorAll(".portfolio-search-result")
         );
 
-        activeResultHome = links.HomeOf(link);
+        activeResultHome = links.indexOf(link);
 
         updateActiveResult();
 

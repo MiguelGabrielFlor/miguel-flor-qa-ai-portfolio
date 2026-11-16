@@ -29,7 +29,6 @@ const BACKLOG_KEYS = [
     'qmBacklogColumnReference',
     'qmBacklogPriorityHigh',
     'qmBacklogPriorityMedium',
-    'qmBacklogStatusPending',
     'qmBacklogStatusCompleted',
     'qmBacklogStatusReview',
     'qmBacklogBL01Title',
@@ -243,13 +242,13 @@ test('BACKLOG-002 — Iniciativas, estados, riesgos y enlaces', async (t) => {
             ['BL-01', 'BL-02', 'BL-03', 'BL-04'],
             `${language}: iniciativas incorrectas`
         );
-
+        
         const expected = [
             {
                 id: 'BL-01',
                 title: 'qmBacklogBL01Title',
                 priority: 'qmBacklogPriorityHigh',
-                status: 'qmBacklogStatusPending'
+                status: 'qmBacklogStatusCompleted'
             },
             {
                 id: 'BL-02',
@@ -267,7 +266,7 @@ test('BACKLOG-002 — Iniciativas, estados, riesgos y enlaces', async (t) => {
                 id: 'BL-04',
                 title: 'qmBacklogBL04Title',
                 priority: 'qmBacklogPriorityHigh',
-                status: 'qmBacklogStatusPending'
+                status: 'qmBacklogStatusReview'
             }
         ];
 

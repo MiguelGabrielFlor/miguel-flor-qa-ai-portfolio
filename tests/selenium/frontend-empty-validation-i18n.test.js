@@ -19,7 +19,7 @@ test('FRONTEND-I18N-002 — Validación vacía ES/EN/PT', async (t) => {
         (await driver.getCapabilities()).get('browserName') || ''
     ).toLowerCase();
 
-    assert.equal(actualBrowser, browser.toLowerCase());
+    assert.equal(actualBrowser, (browser.toLowerCase() === 'edge' ? 'microsoftedge' : browser.toLowerCase()));
 
     const frontendPath = path.resolve(
         __dirname,

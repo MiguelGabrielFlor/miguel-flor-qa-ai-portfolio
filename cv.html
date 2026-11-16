@@ -22,6 +22,12 @@
 
 <body>
 
+    <a href="#cv"
+    class="skip-link"
+    data-i18n="skipToMainContent">
+        Saltar al contenido principal
+    </a>
+
     
 <header class="navbar">
     <div class="nav-container">
@@ -62,8 +68,7 @@
                     autocomplete="off"
                     aria-label="Buscar en el portfolio"
                     data-i18n-aria-label="cvSearchAria"
-                    aria-controls="portfolio-search-results"
-                    aria-expanded="false"
+                    aria-controls="portfolio-search-results"                
                 />
             </div>
             <div
@@ -485,9 +490,42 @@
             >
             </div>
 
+        
+        </dialog>
+
+        <!-- VISOR AMPLIADO DE CERTIFICADOS JPG -->
+        <dialog
+            class="certificate-image-viewer"
+            id="certificateImageViewer"
+            aria-labelledby="certificateImageViewerTitle"
+        >
+            <div class="certificate-image-viewer-header">
+                <h2
+                    id="certificateImageViewerTitle"
+                    class="certificate-image-viewer-title"
+                ></h2>
+
+                <button
+                    type="button"
+                    id="closeCertificateImageViewer"
+                    class="certificate-dialog-close"
+                    aria-label="Cerrar imagen ampliada"
+                    data-i18n-aria-label="cvCertificateViewerClose"
+                >
+                    ×
+                </button>
+            </div>
+
+            <div class="certificate-image-viewer-content">
+                <img
+                    id="certificateImageViewerImg"
+                    alt=""
+                >
+            </div>
         </dialog>
 
 </main>
+
         
     <footer class="cv-bottom-bar">
         <a
@@ -511,36 +549,7 @@
         </div>
     </footer>
 
-    <script>
-        const indiceCV = document.getElementById("indice-contenidos");
-
-        if (indiceCV) {
-            indiceCV.querySelectorAll(".index-link").forEach(enlace => {
-                enlace.addEventListener("click", () => {
-                    indiceCV.open = false;
-                });
-            });
-        }
-    </script>
-    <script>
-        /* Cerrar el menú al utilizar el buscador */
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const menu = document.getElementById("indice-contenidos");
-            const buscador = document.getElementById("portfolio-search-input");
-
-            if (!menu || !buscador) return;
-
-            const cerrarMenu = () => {
-                if (menu.open) {
-                    menu.open = false;
-                }
-            };
-
-            buscador.addEventListener("focus", cerrarMenu);
-            buscador.addEventListener("input", cerrarMenu);
-        });
-    </script>
+    <script src="js/shared/navigation.js" defer></script>
     
     <!-- Diccionario compartido de traducciones -->
     <script src="js/translations.js"></script>

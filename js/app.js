@@ -348,6 +348,7 @@ form.addEventListener("submit", async function (event) {
     }
 
 
+   
     /*
     ============================================
     CONSENT
@@ -355,14 +356,15 @@ form.addEventListener("submit", async function (event) {
     */
 
     if (!consent.checked) {
-
-        document.getElementById(
-            "consentError"
-        ).textContent =
-            currentTranslations.consentRequired;
+        showError(
+            consent,
+            "consentError",
+            currentTranslations.consentRequired
+        );
 
         isValid = false;
     }
+
 
 
     /*
@@ -438,41 +440,78 @@ function showPortfolio() {
 }
 
 
-function showError(
-    input,
-    errorId,
-    message
-) {
+
+function showError(input, errorId, message) {
+    const errorElement = document.getElementById(errorId);
+
+    if (!input || !errorElement) {
+        return;
+    }
 
     input.classList.add("input-error");
+    input.setAttribute("aria-invalid", "true");
 
-    document.getElementById(
-        errorId
-    ).textContent = message;
+    // Conservar las descripciones accesibles existentes.
+    const describedBy = (
+        input.getAttribute("aria-describedby") || ""
+    ).split(/\s+/).filter(Boolean);
 
+    if (!describedBy.includes(errorId)) {
+        describedBy.push(errorId);
+    }
+
+    input.setAttribute(
+        "aria-describedby",
+        describedBy.join(" ")
+    );
+
+    errorElement.textContent = message;
 }
+
 
 
 function clearErrors() {
+    const form = document.getElementById("accessForm");
 
-    document
-        .querySelectorAll(".error-message")
-        .forEach(function (element) {
+    if (!form) {
+        return;
+    }
 
-            element.textContent = "";
+    form.querySelectorAll(".error-message").forEach(function (element) {
+        element.textContent = "";
+    });
 
+    const errorIds = new Set([
+        "firstNameError",
+        "lastNameError",
+        "emailError",
+        "phoneError",
+        "consentError"
+    ]);
+
+    form.querySelectorAll("input").forEach(function (input) {
+        input.classList.remove("input-error");
+        input.removeAttribute("aria-invalid");
+
+        const referencias = (
+            input.getAttribute("aria-describedby") || ""
+        ).split(/\s+/).filter(Boolean);
+
+        const restantes = referencias.filter(function (id) {
+            return !errorIds.has(id);
         });
 
-
-    document
-        .querySelectorAll("input")
-        .forEach(function (input) {
-
-            input.classList.remove("input-error");
-
-        });
-
+        if (restantes.length > 0) {
+            input.setAttribute(
+                "aria-describedby",
+                restantes.join(" ")
+            );
+        } else {
+            input.removeAttribute("aria-describedby");
+        }
+    });
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const guestButton = document.getElementById("guestAccessButton");
@@ -491,9 +530,13 @@ document.addEventListener("DOMContentLoaded", () => {
     registeredButton.addEventListener("click", () => {
         accessForm.hidden = false;
         registeredButton.setAttribute("aria-expanded", "true");
-
+        
         accessForm.scrollIntoView({
-            behavior: "smooth",
+            behavior: window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+                ? "instant"
+                : "smooth",
             block: "start"
         });
 

@@ -429,7 +429,7 @@ async function checkBug(driver, dictionary, index) {
 test(
     'DEFECT-001 — Cinco etapas, navegación e internacionalización ES/EN/PT',
     async t => {
-        const driver = await createSharedDriver(t);
+        const driver = await createDriver(t);
 
         for (const language of languages) {
             await changeLanguage(driver, language);
@@ -504,7 +504,7 @@ test(
 test(
     'DEFECT-002 — Cinco bugs documentados e internacionalización ES/EN/PT',
     async t => {
-        const driver = await createSharedDriver(t);
+        const driver = await createDriver(t);
 
         for (const language of languages) {
             await changeLanguage(driver, language);

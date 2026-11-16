@@ -7,20 +7,59 @@ document.addEventListener("DOMContentLoaded", function () {
     const gallery = document.getElementById("certificateGallery");
     const closeButton = document.getElementById("closeCertificateDialog");
 
+    const imageViewer = document.getElementById("certificateImageViewer");
+    const imageViewerTitle = document.getElementById("certificateImageViewerTitle");
+    const imageViewerImg = document.getElementById("certificateImageViewerImg");
+    const closeImageViewer = document.getElementById("closeCertificateImageViewer");
+
+    let imagenQueAbrioVisor = null;
+
+    function cerrarVisorImagen() {
+        if (imageViewer.open) {
+            imageViewer.close();
+        }
+    }
+
+    function abrirVisorImagen(image, certificateName) {
+        if (!imageViewer || !imageViewerImg || !imageViewerTitle) return;
+
+        imagenQueAbrioVisor = image;
+
+        imageViewerTitle.textContent = certificateName;
+        imageViewerImg.src = image.src;
+        imageViewerImg.alt = certificateName;
+
+        imageViewer.showModal();
+        closeImageViewer.focus();
+    }
+
+    closeImageViewer.addEventListener("click", cerrarVisorImagen);
+
+    imageViewer.addEventListener("close", function () {
+        imageViewerImg.removeAttribute("src");
+
+        if (imagenQueAbrioVisor?.isConnected) {
+            imagenQueAbrioVisor.focus();
+        }
+
+        imagenQueAbrioVisor = null;
+    });
+
     if (!dialog || !title || !gallery || !closeButton) {
         console.error("No se encontraron los elementos de la galería en cv.html.");
         return;
     }
 
     const basePath = "assets/Cursos%20y%20certificaciones/";
-    const pdfjsPromise = import(
-        "../assets/pdfjs/pdf.min.mjs"
-    ).then(function (pdfjsLib) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-            "/assets/pdfjs/pdf.worker.min.mjs";
 
-        return pdfjsLib;
-    });
+    const pdfjsPromise = import("../assets/pdfjs/pdf.min.mjs")
+        .then(function (pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                "/assets/pdfjs/pdf.worker.min.mjs";
+            return pdfjsLib;
+        });
+
+    // Cinco categorías originales.
     const categories = {
         qa: {
             title: "QA Testing y automatización",
@@ -38,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Certificado-Testing-Automation-con-Selenium-EducaciónIT.pdf"
             ]
         },
-        
+
         credenciales: {
             title: "Credenciales profesionales",
             folder: "Credenciales%20profesionales/",
@@ -95,8 +134,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    const titleKeys = {
+        credenciales: "cvCredentialsTitle",
+        qa: "cvQaCertificatesTitle",
+        ia: "cvAiCertificatesTitle",
+        gestion: "cvManagementTitle",
+        marketing: "cvMarketingTitle"
+    };
+
     function traducirCertificado(clave, textoAlternativo = "") {
-        const idioma = localStorage.getItem("portfolioLanguage") || "es";
+        const idioma =
+            localStorage.getItem("portfolioLanguage") || "es";
 
         const diccionario =
             window.portfolioTranslations?.[idioma] ||
@@ -110,14 +158,17 @@ document.addEventListener("DOMContentLoaded", function () {
         return basePath + category.folder + file;
     }
 
-    
     function getDisplayName(file) {
         const decodedFile = decodeURIComponent(file);
 
         if (decodedFile.includes("Certificado-QA-Manager")) {
             return "QA Manager";
         }
-        if (decodedFile === "Certificado_Carrera_Marketing_Digital_Coderhouse.pdf") {
+
+        if (
+            decodedFile ===
+            "Certificado_Carrera_Marketing_Digital_Coderhouse.pdf"
+        ) {
             return "Carrera de Marketing Digital";
         }
 
@@ -132,14 +183,18 @@ document.addEventListener("DOMContentLoaded", function () {
             .replace(/%26/g, "&");
     }
 
+    // Vista previa PDF.
     async function renderPdfPreview(url, canvas) {
         try {
             const pdfjsLib = await pdfjsPromise;
-            const loadingTask = pdfjsLib.getDocument({ url: url });
+            const loadingTask = pdfjsLib.getDocument({ url });
             const pdf = await loadingTask.promise;
             const page = await pdf.getPage(1);
 
-            const originalViewport = page.getViewport({ scale: 1 });
+            const originalViewport = page.getViewport({
+                scale: 1
+            });
+
             const scale = 360 / originalViewport.width;
             const viewport = page.getViewport({ scale });
 
@@ -150,21 +205,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
             await page.render({
                 canvasContext: context,
-                viewport: viewport
+                viewport
             }).promise;
+
         } catch (error) {
-            console.error("No se pudo generar la miniatura del PDF:", url, error);
-            canvas.classList.add("certificate-preview-error");            
-            canvas.setAttribute(
-                "aria-label",
-                traducirCertificado(
-                    "cvCertificatePreviewError",
-                    "Vista previa no disponible"
-                )
+            console.error(
+                "No se pudo generar la miniatura del PDF:",
+                url,
+                error
             );
 
+            canvas.classList.add("certificate-preview-error");
+
+            const mensaje = traducirCertificado(
+                "cvCertificatePreviewError",
+                "Vista previa no disponible"
+            );
+
+            canvas.setAttribute(
+                "aria-label",
+                `${mensaje}: ${canvas.dataset.certificateName || ""}`.trim()
+            );
         }
     }
+
+    // Cargar vistas previas únicamente cuando sean necesarias.
     const previewObserver = new IntersectionObserver(
         function (entries, observer) {
             entries.forEach(function (entry) {
@@ -174,7 +239,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const url = canvas.dataset.pdfUrl;
 
                 observer.unobserve(canvas);
-
                 renderPdfPreview(url, canvas);
             });
         },
@@ -186,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     let categoriaActiva = null;
-    
+
     function renderGallery(categoryKey) {
         const category = categories[categoryKey];
 
@@ -194,20 +258,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         categoriaActiva = categoryKey;
 
-        const language = localStorage.getItem("portfolioLanguage") || "es";
+        const language =
+            localStorage.getItem("portfolioLanguage") || "es";
 
         const translations =
             window.portfolioTranslations?.[language] ||
             window.portfolioTranslations?.es ||
             {};
-
-        const titleKeys = {
-            credenciales: "cvCredentialsTitle",
-            qa: "cvQaCertificatesTitle",
-            ia: "cvAiCertificatesTitle",
-            gestion: "cvManagementTitle",
-            marketing: "cvMarketingTitle"
-        };
 
         const translationKey = titleKeys[categoryKey];
 
@@ -217,64 +274,110 @@ document.addEventListener("DOMContentLoaded", function () {
         previewObserver.disconnect();
         gallery.replaceChildren();
 
-
         category.files.forEach(function (file) {
             const url = getFileUrl(category, file);
             const isImage = /\.(jpg|jpeg)$/i.test(file);
+            const certificateName = getDisplayName(file);
+
             const item = document.createElement("article");
             item.className = "certificate-item";
-
+            
             if (isImage) {
                 const image = document.createElement("img");
+
                 image.src = url;
-                image.alt = getDisplayName(file);
+                image.alt = certificateName;
                 image.loading = "lazy";
                 image.tabIndex = 0;
                 image.className = "certificate-image";
 
-                function toggleImageSize() {
-                    image.classList.toggle("is-enlarged");
+                image.setAttribute("role", "button");
+
+                function actualizarNombreImagen() {
+                    image.setAttribute(
+                        "aria-label",
+                        `${traducirCertificado(
+                            "cvCertificateEnlargeImage",
+                            "Ampliar imagen"
+                        )}: ${certificateName}`
+                    );
                 }
 
-                image.addEventListener("click", toggleImageSize);
+                actualizarNombreImagen();
+
+                function abrirImagen() {
+                    abrirVisorImagen(image, certificateName);
+                }
+
+                image.addEventListener("click", abrirImagen);
 
                 image.addEventListener("keydown", function (event) {
                     if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
-                        toggleImageSize();
+                        abrirImagen();
                     }
                 });
 
                 item.appendChild(image);
             }
-            if (!isImage) {
-                const canvas = document.createElement("canvas");
 
-                canvas.className = "certificate-pdf-preview";
-                canvas.setAttribute("role", "img");                
-                canvas.setAttribute(
-                    "aria-label",
-                    traducirCertificado("cvCertificatePreview", "Vista previa:") +
-                    " " +
-                    getDisplayName(file)
+            // Certificados PDF.
+            if (!isImage) {
+                const canvas =
+                    document.createElement("canvas");
+
+                canvas.className =
+                    "certificate-pdf-preview";
+
+                canvas.setAttribute("role", "img");
+
+                const previewText = traducirCertificado(
+                    "cvCertificatePreview",
+                    "Vista previa:"
                 );
 
-                item.appendChild(canvas);
+                canvas.setAttribute(
+                    "aria-label",
+                    `${previewText} ${certificateName}`
+                );
 
                 canvas.dataset.pdfUrl = url;
+                canvas.dataset.certificateName =
+                    certificateName;
+
+                item.appendChild(canvas);
                 previewObserver.observe(canvas);
             }
+
+            // Enlace de apertura individual.
             const link = document.createElement("a");
-            link.href = url;            
+
+            link.href = url;
+
             link.textContent = isImage
-                ? traducirCertificado("cvCertificateOpenImage", "Abrir imagen")
-                : traducirCertificado("cvCertificateOpenPdf", "Ver certificado PDF");
+                ? traducirCertificado(
+                    "cvCertificateOpenImage",
+                    "Abrir imagen"
+                )
+                : traducirCertificado(
+                    "cvCertificateOpenPdf",
+                    "Ver certificado PDF"
+                );
+
+            // Nombre específico para Narrador.
+            link.setAttribute(
+                "aria-label",
+                `${link.textContent}: ${certificateName}`
+            );
+
             link.target = "_blank";
             link.rel = "noopener noreferrer";
 
+            // Nombre visible del certificado.
             const name = document.createElement("p");
+
             name.className = "certificate-name";
-            name.textContent = getDisplayName(file);
+            name.textContent = certificateName;
 
             item.append(name, link);
             gallery.appendChild(item);
@@ -285,34 +388,57 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    document.querySelectorAll(".cv-training-card[data-certificate-category]")
-        .forEach(function (card) {
-            function openCard() {
-                renderGallery(card.dataset.certificateCategory);
-            }
+    // Apertura de las cinco tarjetas.
+    document.querySelectorAll(
+        ".cv-training-card[data-certificate-category]"
+    ).forEach(function (card) {
 
-            card.addEventListener("click", openCard);
+        function openCard() {
+            renderGallery(
+                card.dataset.certificateCategory
+            );
+        }
 
-            card.addEventListener("keydown", function (event) {
-                if (event.key === "Enter" || event.key === " ") {
+        card.addEventListener("click", openCard);
+
+        card.addEventListener(
+            "keydown",
+            function (event) {
+                if (
+                    event.key === "Enter" ||
+                    event.key === " "
+                ) {
                     event.preventDefault();
                     openCard();
                 }
-            });
-        });
-
-    closeButton.addEventListener("click", function () {
-        dialog.close();
+            }
+        );
     });
 
-    dialog.addEventListener("click", function (event) {
-        if (event.target === dialog) {
+    // Cierre del diálogo.
+    closeButton.addEventListener(
+        "click",
+        function () {
             dialog.close();
         }
-    });
-    document.addEventListener("portfolio:languagechange", function () {
-        if (dialog.open && categoriaActiva) {
-            renderGallery(categoriaActiva);
+    );
+
+    dialog.addEventListener(
+        "click",
+        function (event) {
+            if (event.target === dialog) {
+                dialog.close();
+            }
         }
-    });
+    );
+
+    // Actualizar la galería al cambiar de idioma.
+    document.addEventListener(
+        "portfolio:languagechange",
+        function () {
+            if (dialog.open && categoriaActiva) {
+                renderGallery(categoriaActiva);
+            }
+        }
+    );
 });

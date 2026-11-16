@@ -1576,7 +1576,7 @@ en `docs/test-report.md`.
 | ID | Escenario | Resultado esperado | Requisito |
 |---|---|---|---|
 | SEARCH-TC-011 | Búsqueda sin distinguir mayúsculas y minúsculas | Las consultas en minúsculas, mayúsculas y combinadas encuentran el mismo resultado. | FR-011 |
-| SEARCH-TC-012 | Limpiar consulta y cerrar resultados | Al vaciar el campo desaparecen los resultados y aria-expanded cambia a false. | FR-011, NFR-005 |
+| SEARCH-TC-012 | Limpiar consulta y cerrar resultados | Al vaciar el campo, el panel de resultados queda oculto mediante `hidden`, desaparecen los resultados visibles y el buscador no utiliza `aria-expanded`. | FR-011, NFR-005 |
 | SEARCH-TC-013 | Búsqueda con caracteres especiales | Una consulta sin coincidencias muestra el mensaje correspondiente y no genera resultados seleccionables. | FR-011 |
 | SEARCH-TC-014 | Actualización de resultados al cambiar consulta | Los resultados anteriores desaparecen y se muestran únicamente los correspondientes a la nueva búsqueda. | FR-011 |
 | SEARCH-TC-015 | Seleccionar segundo resultado con clic | El segundo resultado permite navegar a Especialidades y conserva el ancla #specialties. | FR-011, FR-006 |
@@ -1592,7 +1592,8 @@ en `docs/test-report.md`.
 |---|---|---|---|
 | SEARCH-TC-021 | Escape desde un resultado seleccionado | Escape cierra el desplegable, oculta los resultados y no provoca una navegación inesperada. | FR-011, NFR-005 |
 | SEARCH-TC-022 | Nueva búsqueda después de Escape desde un resultado | Después de cerrar el desplegable con Escape, permite realizar otra consulta y mostrar nuevos resultados. | FR-011, NFR-005 |
-| SEARCH-TC-023 | Estado aria-expanded del buscador | El atributo aria-expanded refleja correctamente los estados cerrado, abierto y reabierto del componente. | FR-011, NFR-005 |
+
+| SEARCH-TC-023 | Estado accesible del panel de búsqueda | Verifica que el panel comience oculto, se muestre al buscar, vuelva a ocultarse al limpiar y se reabra con otra consulta. Comprueba que el campo no utiliza `aria-expanded`. | FR-011, NFR-005 |
 | SEARCH-TC-024 | Integridad de enlaces y títulos | Cada resultado dispone de texto visible y un enlace válido que apunta al portfolio. | FR-011 |
 | SEARCH-TC-025 | Verificar resultados sin destinos duplicados | Una búsqueda no presenta enlaces con destinos duplicados. | FR-011 |
 | SEARCH-TC-026 | Eliminar resultados anteriores cuando no hay coincidencias | Al cambiar a una consulta sin coincidencias, desaparecen los enlaces anteriores y se muestra el mensaje correspondiente. | FR-011 |

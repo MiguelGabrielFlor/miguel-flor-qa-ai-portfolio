@@ -624,6 +624,187 @@ de mantenibilidad ni una auditoría integral del portfolio.
 
 ---
 
+## Verificación NFR-004 — Modularización de backend.html
+
+**Fecha:** 13/11/2026
+
+### Objetivo
+
+Mejorar la mantenibilidad de backend.html mediante la
+separación de CSS y JavaScript, la reutilización de
+componentes y la eliminación de código duplicado,
+conservando el comportamiento funcional y la
+internacionalización ES/EN/PT.
+
+### Refactorización realizada
+
+- Extracción del CSS interno a css/backend/backend.css.
+- Extracción de los laboratorios JavaScript a:
+  - js/backend/http-guide.js
+  - js/backend/api-lab.js
+  - js/backend/validation-lab.js
+  - js/backend/persistence-lab.js
+- Incorporación de js/backend/translations-helper.js
+  para las traducciones dinámicas.
+- Reutilización de js/shared/navigation.js para el
+  índice de contenidos y su interacción con el buscador.
+- Reutilización de BackendResultRenderer.showRequest()
+  para presentar las solicitudes enviadas.
+- Eliminación de scripts de navegación duplicados.
+- Conservación de los diccionarios ES/EN/PT.
+
+### Verificación estructural
+
+| Verificación | Resultado |
+|---|---|
+| Bloques CSS internos restantes | 0 |
+| Scripts JavaScript internos restantes | 0 |
+| Archivos CSS externos referenciados | 2 |
+| Archivos JavaScript externos referenciados | 11 |
+| Archivo backend.css | 37.372 bytes |
+| Sintaxis de translations-helper.js | PASS |
+
+### Verificación manual
+
+**Navegador:** Google Chrome.
+
+- Navegación compartida: PASS.
+- Cierre del índice al seleccionar una sección: PASS.
+- Cierre del índice al utilizar el buscador: PASS.
+- Traducciones dinámicas ES/EN/PT: PASS.
+- Presentación visual de componentes: PASS.
+- Presentación responsive: PASS.
+- Carga del CSS externo: PASS.
+
+### Regresión automatizada multinavegador
+
+**Herramienta:** Selenium WebDriver con Node.js.
+
+| Caso | Chrome | Firefox | Edge |
+|---|---|---|---|
+| BACKEND-I18N-001 — Arquitectura API | PASS | PASS | PASS |
+| BACKEND-I18N-002 — Validaciones | PASS | PASS | PASS |
+| BACKEND-I18N-003 — Persistencia | PASS | PASS | PASS |
+| BACKEND-I18N-004 — Pruebas automatizadas | PASS | PASS | PASS |
+| BACKEND-I18N-005 — Guía HTTP | PASS | PASS | PASS |
+| **Total** | **5/5** | **5/5** | **5/5** |
+
+**Resumen de ejecución:**
+
+- Ejecuciones: 15.
+- PASS: 15.
+- FAIL: 0.
+- Navegadores: Chrome, Firefox y Microsoft Edge.
+- Idiomas verificados: español, inglés y portugués.
+
+Durante la ejecución inicial de Chrome se detectó
+un conflicto entre las variables de entorno
+TEST_BROWSER y SELENIUM_BROWSER.
+
+Se eliminó SELENIUM_BROWSER de la sesión PowerShell
+y se confirmó posteriormente la ejecución correcta
+en Chrome.
+
+En Edge aparecieron mensajes internos del navegador
+relacionados con fallback_task_provider.cc, sin
+provocar fallos en los casos Selenium ejecutados.
+
+### Conclusión
+
+La modularización de backend.html superó las
+verificaciones estructurales, funcionales manuales
+y automatizadas realizadas.
+
+La separación de responsabilidades reduce la
+duplicación de código y facilita su mantenimiento.
+
+**Estado del módulo backend.html:** PASS dentro
+del alcance verificado.
+
+**Estado global de NFR-004:** PENDIENTE.
+Continúa la auditoría de las demás páginas
+del portfolio.
+
+---
+
+## Verificación NFR-004 — Mantenibilidad de quality-management.html
+
+**Fecha:** 13/11/2026
+
+### Objetivo
+
+Mejorar la organización y mantenibilidad de
+quality-management.html mediante la separación de
+responsabilidades entre HTML, CSS y JavaScript,
+conservando el comportamiento funcional y la
+internacionalización ES/EN/PT.
+
+### Refactorización realizada
+
+- Extracción del CSS a
+  css/quality-management/quality-management.css.
+- Organización del JavaScript en módulos funcionales:
+  requirements.js, stories.js, bdd.js,
+  traceability.js, defects.js y cycles.js.
+- Centralización de traducciones mediante
+  js/quality-management/translations-helper.js.
+- Reutilización de js/shared/navigation.js.
+- Conservación de las funcionalidades interactivas
+  y de los diccionarios ES/EN/PT.
+
+### Verificación técnica
+
+| Criterio | Resultado |
+|---|---|
+| Separación HTML, CSS y JavaScript | PASS |
+| Organización por responsabilidad funcional | PASS |
+| Declaraciones de funciones duplicadas por nombre | No detectadas en los módulos revisados |
+| Llamadas directas entre módulos funcionales analizados | No detectadas |
+| Reutilización de qmTranslate() | PASS |
+| Lectura UTF-8 del traductor compartido | PASS |
+
+Las verificaciones estáticas realizadas no constituyen
+una auditoría exhaustiva de duplicación de lógica
+ni de todas las dependencias globales.
+
+### Regresión automatizada posterior a la refactorización
+
+**Herramienta:** Selenium WebDriver con Node.js.
+
+**Alcance:** nueve archivos de pruebas de Gestión
+de Calidad, con 22 casos por navegador.
+
+| Navegador | Ejecutadas | PASS | FAIL |
+|---|---:|---:|---:|
+| Google Chrome | 22 | 22 | 0 |
+| Mozilla Firefox | 22 | 22 | 0 |
+| Microsoft Edge | 22 | 22 | 0 |
+| **Total** | **66** | **66** | **0** |
+
+La regresión incluyó verificaciones de
+internacionalización ES/EN/PT, requisitos,
+historias de usuario, escenarios BDD,
+trazabilidad, defectos, ciclos, backlog
+y condiciones de cierre.
+
+### Conclusión
+
+La refactorización de quality-management.html
+superó las verificaciones técnicas realizadas
+y la regresión automatizada multinavegador.
+
+Resultado: 66 PASS, 0 FAIL.
+
+La evidencia respalda la mantenibilidad del
+módulo revisado, pero no constituye una auditoría
+integral del portfolio.
+
+**Estado de NFR-004:** verificación del módulo
+quality-management.html satisfactoria.
+Revisión integral del proyecto pendiente.
+
+---
+
 ## Regresión funcional — Buscador global
 
 **Requisito:** FR-011 — Global Search
@@ -2020,3 +2201,1116 @@ La prueba fue adaptada a la arquitectura actual y completó satisfactoriamente l
 La suite `LANG-NAV-006` no se volvió a ejecutar durante esta regresión. Sus resultados históricos se conservan por separado.
 
 **Trazabilidad:** RF-05, RF-07, HU-002, HU-004, BDD-003, BDD-005, TC-019 y TC-020.
+
+## Regresión FRONTEND-I18N — Modularización NFR-004
+
+**Fecha:** 13/11/2026
+**Página:** `frontend.html`
+**Entorno:** Local
+**Herramientas:** Selenium WebDriver / Node.js Test Runner
+
+### Objetivo
+
+Verificar el comportamiento del laboratorio de internacionalización después de extraer el JavaScript y CSS de `frontend.html` a módulos externos.
+
+### Alcance
+
+- Validación de campos vacíos en ES/EN/PT.
+- Validación de datos inválidos en ES/EN/PT.
+- Validación de datos válidos en ES/EN/PT.
+- Revalidación dinámica al cambiar de idioma.
+- Independencia entre el idioma del laboratorio y el idioma global del portfolio.
+
+### Resultados
+
+| Prueba | Chrome | Firefox | Edge |
+|---|---|---|---|
+| FRONTEND-I18N-002 — Validación vacía | PASS | PASS | PASS |
+| FRONTEND-I18N-003 — Datos inválidos | PASS | PASS | PASS |
+| FRONTEND-I18N-004 — Datos válidos | PASS | PASS | PASS |
+| FRONTEND-I18N-005 — Revalidación dinámica | PASS | PASS | PASS |
+| Independencia del laboratorio | PASS | PASS | PASS |
+| **Total** | **5/5** | **5/5** | **5/5** |
+
+**Resultado consolidado: 15/15 PASS — 0 FAIL.**
+
+### Incidencias y correcciones
+
+1. Se corrigieron las expectativas de datos válidos e inválidos en las pruebas Selenium para reflejar los escenarios ES/EN/PT.
+2. Se actualizó `selenium-config.js` para utilizar el identificador `MicrosoftEdge`.
+3. Se normalizó la comparación entre `edge` y `microsoftedge` en las cinco pruebas.
+4. Los fallos iniciales de Firefox y Edge se resolvieron mediante correcciones de pruebas y configuración, sin confirmar defectos funcionales en `frontend.html`.
+
+### Verificaciones complementarias
+
+- Extracción de los scripts interactivos a `js/frontend/`.
+- Extracción de estilos a `css/frontend/frontend.css`.
+- Sin bloques JavaScript ni CSS internos en `frontend.html`.
+- Verificación visual y responsive en Chrome a 375, 768 y 1440 px.
+- Navegación, buscador y laboratorios interactivos comprobados manualmente en Chrome.
+
+Estas verificaciones manuales se registran separadamente de las 15 ejecuciones Selenium.
+
+### Conclusión
+
+**FRONTEND-I18N: APROBADO — 15/15 PASS.**
+
+La regresión específica de internacionalización de `frontend.html` se completó satisfactoriamente en Chrome, Firefox y Edge.
+
+La modularización de esta página cuenta con evidencia funcional y estructural. El requisito NFR-004 permanece abierto a nivel global hasta completar la auditoría de las demás páginas del portfolio.
+
+## CV-MOD-001 — Modularización de cv.html
+
+### Regresión Selenium posterior a la modularización
+
+**Fecha:** 13/11/2026
+
+| Prueba | Chrome | Firefox | Edge |
+|---|---|---|---|
+| CV-I18N-001 — Trayectoria | PASS | No ejecutada en esta regresión | No ejecutada en esta regresión |
+| CV-I18N-002 — Formación | PASS | No ejecutada en esta regresión | No ejecutada en esta regresión |
+| CV-I18N-003 — Certificados | PASS | No ejecutada en esta regresión | No ejecutada en esta regresión |
+| CV-I18N-004 — Galería abierta | PASS | PASS | PASS |
+
+**Resultados:** 6 ejecuciones Selenium PASS, 0 FAIL finales.
+
+**Incidencia durante la ejecución:** CV-I18N-004 presentó inicialmente `ElementClickInterceptedError` en Chrome.
+
+**Corrección:** se incorporaron espera de visibilidad, desplazamiento centrado y comprobación de interacción en `cv-gallery-live-i18n.test.js`.
+
+**Reejecución:** PASS en Chrome, Firefox y Edge.
+
+**Observación:** no fue necesario modificar el código de `cv.html`. Las pruebas manuales y automatizadas se registran por separado.
+
+
+**Fecha:** 13/11/2026
+**Página:** `cv.html`
+**Tipo:** Verificación estructural y regresión manual multinavegador
+**Requisito:** NFR-004
+
+### Cambios realizados
+
+- Eliminación de dos bloques JavaScript internos.
+- Reutilización de `js/shared/navigation.js`.
+- Conservación de las funcionalidades de navegación, búsqueda, certificados e internacionalización ES/EN/PT.
+
+### Verificación estructural
+
+- JavaScript interno: 0.
+- CSS interno: 0.
+- JavaScript externo: 5.
+- Módulo compartido de navegación: presente.
+
+### Regresión manual
+
+| Funcionalidad | Chrome | Firefox | Edge |
+|---|---|---|---|
+| Índice de contenidos | PASS | PASS | PASS |
+| Buscador | PASS | PASS | PASS |
+| Certificados | PASS | PASS | PASS |
+| Internacionalización ES/EN/PT | PASS | PASS | PASS |
+
+**Resultado: 12/12 PASS — 0 FAIL.**
+
+### Conclusión
+
+CV-MOD-001: APROBADO.
+
+La extracción del JavaScript interno no produjo regresiones en las funcionalidades verificadas.
+
+La auditoría integral de NFR-004 continúa pendiente.
+
+---
+
+## HOME-MOD-001 — Regresión de navegación tras modularización
+
+**Fecha:** 13/11/2026  
+**Requisito:** NFR-004 — Mantenibilidad del código  
+**Página:** home.html  
+**Módulo:** js/shared/navigation.js  
+**Prueba:** tests/selenium/home-navigation-index.test.js
+
+### Alcance
+
+Verificación de los dos métodos de acceso y del comportamiento del índice de contenidos después de la extracción del JavaScript interno a un módulo compartido.
+
+### Escenarios verificados
+
+1. Acceso directo y redirección a Home.
+2. Acceso registrado mediante formulario y redirección a Home.
+3. Cierre del índice al seleccionar una sección.
+4. Cierre del índice al enfocar el buscador.
+5. Cierre del índice al introducir texto en el buscador.
+
+### Resultados Selenium
+
+| Navegador | Acceso directo | Acceso registrado | Total |
+|---|---|---|---|
+| Chrome | PASS | PASS | 2/2 PASS |
+| Firefox | PASS | PASS | 2/2 PASS |
+| Edge | PASS | PASS | 2/2 PASS |
+| **Total** | **3/3 PASS** | **3/3 PASS** | **6/6 PASS** |
+
+- Comprobaciones funcionales: 24/24 PASS.
+- Pruebas fallidas: 0.
+- Pruebas bloqueadas: 0.
+- Regresión manual previa HOME-MOD-001: 12/12 PASS.
+- Verificación estructural: 0 bloques JavaScript internos y 0 bloques CSS internos.
+- Resultado: PASS.
+
+**Conclusión:** La navegación de Home conserva los comportamientos verificados después de la modularización. La auditoría integral de NFR-004 continúa pendiente.
+
+---
+
+## QA-MOD-001 — Modularización de QA
+
+**Requisito:** NFR-004 — Mantenibilidad del código  
+**Página:** qa.html  
+**Estado:** PASS  
+**Navegadores:** Chrome, Firefox y Edge  
+**Idiomas:** ES, EN y PT
+
+### Cambios realizados
+
+- Externalización del CSS a css/qa.css.
+- Externalización de JavaScript a módulos específicos de QA.
+- Reutilización de js/shared/navigation.js.
+- Corrección del orden de carga de las dependencias Markdown.
+- Eliminación de bloques CSS y JavaScript internos.
+
+### Evidencia automatizada
+
+- QA-I18N-001 a QA-I18N-005: 15/15 PASS.
+- QA-MOD-001-MD: 36/36 PASS.
+- Total: 51/51 verificaciones reportadas.
+
+### Evidencia manual
+
+QA-VISUAL-MOD-001:
+
+- Chrome: 4/4 PASS.
+- Firefox: 4/4 PASS.
+- Edge: 4/4 PASS.
+- Total: 12/12 PASS.
+
+Se verificaron presentación visual, cambio de idioma ES/EN/PT,
+despliegue de información y visualización del contenido.
+
+### Resultado
+
+Modularización de qa.html validada funcional y visualmente.
+Sin defectos funcionales detectados en las pruebas realizadas.
+
+---
+
+## NFR-004-AUDIT-001 — Auditoría integral de mantenibilidad
+
+**Fecha:** 13/11/2026  
+**Requisito:** NFR-004 — Mantenibilidad del código  
+**Estado:** PASS en los controles ejecutados.
+
+### Alcance
+
+Auditoría estructural de las siete páginas principales,
+los módulos JavaScript y las hojas CSS del portfolio.
+
+### Resultados
+
+| Control | Resultado |
+|---|---|
+| Páginas sin CSS/JS interno | 7/7 PASS |
+| Referencias locales CSS/JS existentes | 61/61 PASS |
+| Archivos JavaScript con sintaxis válida | 30/30 PASS |
+| Archivos CSS con llaves y comentarios equilibrados | 5/5 PASS |
+| Archivos JavaScript idénticos | 0 detectados |
+| Nombres repetidos de funciones tradicionales | 0 detectados |
+| Nombres repetidos de funciones flecha identificadas | 0 detectados |
+
+### Evidencia funcional
+
+Se conservan las regresiones documentadas de Backend,
+Gestión de Calidad, Frontend, CV, Home y QA.
+
+QA-MOD-001:
+- Regresión Selenium existente: 15/15 PASS.
+- Visor Markdown: 36/36 PASS.
+- Revisión visual manual: 12/12 PASS.
+
+### Limitaciones
+
+Las búsquedas de duplicación mediante expresiones regulares
+no garantizan ausencia de código funcionalmente equivalente.
+
+La comprobación CSS verifica el equilibrio de llaves y
+comentarios, pero no sustituye un validador CSS completo.
+
+La verificación de referencias locales no comprueba la
+disponibilidad de dependencias CDN externas.
+
+### Conclusión
+
+Auditoría estructural NFR-004-AUDIT-001 aprobada dentro
+del alcance definido, sin incidencias detectadas en
+los controles ejecutados.
+
+---
+
+## NFR-005-ACCESS-001 — Selector de idioma accesible
+
+**Fecha:** 13/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Página:** index.html
+**Elemento:** languageSelect
+**Navegador:** Google Chrome
+**Resultado:** 3/3 PASS
+
+### Incidencia detectada
+
+El selector de idioma no disponía de un nombre
+accesible explícito en el HTML.
+
+### Corrección
+
+Se incorporaron los atributos aria-label y
+data-i18n-aria-label, junto con las traducciones
+correspondientes en español, inglés y portugués.
+
+### Validación
+
+| Idioma | Nombre accesible | Resultado |
+|---|---|---|
+| ES | Seleccionar idioma | PASS |
+| EN | Select language | PASS |
+| PT | Selecionar idioma | PASS |
+
+La comprobación se realizó en Chrome mediante
+la lectura del atributo aria-label después de
+cada cambio de idioma.
+
+### Conclusión
+
+Corrección validada: 3/3 PASS.
+
+Pendiente: auditoría integral NFR-005,
+incluidas verificaciones adicionales de
+accesibilidad y compatibilidad.
+
+---
+
+## NFR-005-ACCESS-002 — Selector de idioma de Quality Management
+
+**Fecha:** 13/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Página:** quality-management.html
+**Elemento:** cv-language-select
+**Navegador:** Google Chrome
+**Resultado:** 3/3 PASS
+
+### Incidencia
+
+El atributo aria-label permanecía en español al
+seleccionar inglés o portugués.
+
+Resultado inicial: 1/3 PASS.
+
+### Corrección
+
+Se incorporó data-i18n-aria-label con la clave
+qmLanguageSelectorAria y sus traducciones ES/EN/PT.
+
+### Regresión funcional
+
+| Idioma | Nombre accesible | Resultado |
+|---|---|---|
+| ES | Seleccionar idioma | PASS |
+| EN | Select language | PASS |
+| PT | Selecionar idioma | PASS |
+
+### Conclusión
+
+Corrección validada mediante consola de Chrome.
+Resultado final: 3/3 PASS.
+
+NFR-005 continúa abierto hasta completar la
+auditoría integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-003 — Interacción y navegación mediante teclado
+
+**Fecha:** 13/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Alcance:** Siete páginas HTML y 30 archivos JavaScript
+**Navegador de comprobación dinámica:** Google Chrome
+
+### Auditoría estática
+
+- Cinco atributos tabindex encontrados; ninguno positivo.
+- Cero elementos div/span con onclick declarado en HTML.
+- 67 referencias JavaScript revisadas como candidatos de interacción.
+- No se confirmaron defectos en los fragmentos inspeccionados.
+
+### Biblioteca de casos QA
+
+- 20 controles examinados con etiqueta button.
+- Atributo aria-expanded presente.
+- Foco programático: PASS.
+- Activación mediante Enter: PASS (manual).
+- Activación mediante Espacio: PASS (manual).
+- Apertura y cierre correctos en el control probado.
+
+### Otros componentes
+
+- Tarjetas de acceso: botones internos disponibles.
+- Tarjetas de formación: tabindex, role y manejo de teclado implementados.
+- Buscador: sin incidencia evidente en el fragmento revisado.
+
+### Conclusión
+
+PASS en las comprobaciones realizadas.
+
+La prueba manual de Enter y Espacio corresponde al
+control TC-001 de la biblioteca QA.
+
+NFR-005 permanece abierto hasta completar la
+auditoría integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-004 — Indicadores visibles de foco
+
+**Fecha:** 13/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Página:** qa.html
+**Archivo corregido:** css/qa.css
+**Navegador:** Google Chrome
+**Resultado:** PASS
+
+### Incidencia
+
+La navegación mediante Tab funcionaba en las
+secciones 02 y 03, pero los controles no
+presentaban indicadores visuales suficientemente
+perceptibles.
+
+### Corrección
+
+Se incorporaron estilos :focus-visible y
+:focus-within para destacar los controles y
+sus contenedores.
+
+- Sección 02: indicador azul.
+- Sección 03: indicador rojo.
+- Se conservaron los estilos generales del portfolio.
+- No se modificó la lógica JavaScript.
+
+### Regresión manual
+
+| Comprobación | Resultado |
+|---|---|
+| Sección 02: foco visible | PASS |
+| Sección 02: abrir y cerrar con Enter | PASS |
+| Sección 03: foco visible | PASS |
+| Sección 03: abrir y cerrar con Enter | PASS |
+| Sección 03: enlaces con foco visible | PASS |
+
+### Evidencia
+
+Verificación visual mediante capturas de Chrome
+y comprobación manual de navegación con teclado.
+
+### Conclusión
+
+Incidencia corregida en el alcance comprobado.
+
+NFR-005 continúa abierto hasta completar
+la auditoría integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-005 — Accesibilidad del modal de certificados
+
+**Fecha:** 13/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Página:** cv.html
+**Componente:** Galería de certificados
+**Navegador:** Google Chrome
+**Resultado:** 4/4 PASS
+
+### Implementación verificada
+
+- Elemento HTML nativo dialog.
+- Apertura mediante showModal().
+- Nombre accesible mediante aria-labelledby.
+- Botón de cierre con etiqueta traducible ES/EN/PT.
+- Tarjetas activables mediante Enter y Espacio.
+
+### Prueba manual de teclado
+
+| Comprobación | Resultado |
+|---|---|
+| Enter abre el modal | PASS |
+| Tab permite navegar dentro del modal | PASS |
+| Escape cierra el modal | PASS |
+| El foco regresa a la tarjeta original | PASS |
+
+### Conclusión
+
+No se detectaron incidencias en el escenario
+manual comprobado.
+
+No fue necesario modificar código.
+
+NFR-005 continúa abierto hasta completar
+la auditoría integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-006 — Asociación accesible de errores
+
+**Fecha:** 13/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Página:** index.html
+**Archivo corregido:** js/app.js
+**Navegador:** Google Chrome
+**Resultado:** PASS
+
+### Incidencia
+
+Los cinco campos del formulario mostraban mensajes
+de validación, pero carecían de aria-invalid y de
+asociaciones programáticas con sus errores.
+
+Resultado inicial: 5/5 REVISAR.
+
+### Corrección
+
+- showError() incorpora aria-invalid="true".
+- Los errores se asocian mediante aria-describedby.
+- Se conservan las descripciones accesibles previas.
+- clearErrors() elimina los atributos de error.
+- El consentimiento utiliza el mismo mecanismo.
+- Se conservan las traducciones ES/EN/PT existentes.
+
+### Regresión
+
+| Comprobación | Resultado |
+|---|---|
+| Cinco campos con aria-invalid y error asociado | 5/5 PASS |
+| Nueva validación conserva asociaciones | 5/5 PASS |
+| Limpieza de mensajes y atributos de error | 5/5 PASS |
+
+
+### Alcance
+
+Las verificaciones iniciales se realizaron mediante
+la consola de Google Chrome.
+
+La limpieza de errores se comprobó sin enviar datos
+al backend.
+
+### Validación con lector de pantalla
+
+**Fecha:** 14/11/2026
+**Herramienta:** Narrador de Windows 10
+**Navegador:** Google Chrome
+**Página:** index.html
+**Caso:** NFR-005-ACCESS-006-SR-001
+
+Se generaron errores dejando vacíos los campos
+obligatorios del formulario de registro y sin
+marcar la casilla de consentimiento.
+
+Al regresar a cada control, Narrador anunció
+su etiqueta, el mensaje de error asociado y
+el estado inválido.
+
+| Control | Etiqueta | Error asociado | Estado inválido |
+|---|---|---|---|
+| Nombre | PASS | PASS | PASS |
+| Apellido | PASS | PASS | PASS |
+| Email | PASS | PASS | PASS |
+| Teléfono | PASS | PASS | PASS |
+| Consentimiento | PASS | PASS | PASS |
+
+**Resultado: 15/15 PASS.**
+
+Narrador también anunció que la casilla de
+consentimiento estaba desactivada (sin marcar).
+
+### Conclusión de la validación adicional
+
+La asociación accesible de errores y el anuncio
+del estado inválido funcionan correctamente en
+los cinco controles evaluados.
+
+NFR-005-ACCESS-006: PASS con Narrador en el
+entorno y alcance comprobados.
+
+Esta prueba no constituye una certificación
+integral de conformidad WCAG.
+
+### Conclusión
+
+Incidencia corregida en el alcance comprobado.
+
+NFR-005 continúa abierto hasta completar
+la auditoría integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-007 — Accesibilidad de enlaces en nuevas pestañas
+
+**Fecha:** 13/11/2026  
+**Requisito:** NFR-005 — Accesibilidad e interacción  
+**Páginas:** home.html, qa.html, quality-management.html  
+**Navegadores:** Google Chrome, Mozilla Firefox y Microsoft Edge
+**Alcance multinavegador:** 12 enlaces de qa.html
+**Alcance adicional en Chrome:** 4 enlaces de home.html y quality-management.html
+**Resultado:** PASS en las verificaciones ejecutadas 
+
+### Objetivo
+
+Verificar que los enlaces que abren nuevas pestañas tengan
+nombres accesibles, protección de seguridad y una descripción
+adicional traducida a español, inglés y portugués.
+
+### Implementación
+
+- Se incorporó la clave `newTabNotice` en los diccionarios ES/EN/PT.
+- Se creó `js/shared/new-tab-accessibility.js`.
+- Se incorporó el módulo a las tres páginas correspondientes.
+- Se agregó una descripción compartida mediante `aria-describedby`.
+- Se conservaron los nombres, destinos y atributos `rel` existentes.
+- Se implementó la actualización del aviso según el idioma del documento.
+
+### Resultados
+
+| Página | Enlaces | Nombre no vacío | Aviso asociado | noopener | Resultado |
+|---|---:|---:|---:|---:|---|
+| home.html | 2 | 2/2 | 2/2 | 2/2 | PASS |
+| qa.html | 12 | 12/12 | 12/12 | 12/12 | PASS |
+| quality-management.html | 2 | 2/2 | 2/2 | 2/2 | PASS |
+| **Total** | **16** | **16/16** | **16/16** | **16/16** | **PASS** |
+
+### Internacionalización
+
+Prueba programática realizada en `qa.html`:
+
+| Idioma | Texto esperado | Enlaces asociados | Resultado |
+|---|---|---:|---|
+| ES | Se abre en una nueva pestaña | 12/12 | PASS |
+| EN | Opens in a new tab | 12/12 | PASS |
+| PT | Abre em uma nova aba | 12/12 | PASS |
+
+**Resultado:** 3/3 PASS.
+
+### Seguridad
+
+- 16/16 enlaces contienen `rel="noopener"`.
+- 12/16 enlaces contienen adicionalmente `noreferrer`.
+- Los cuatro enlaces sin `noreferrer` no requieren una corrección obligatoria para esta comprobación.
+
+### Regresión multinavegador
+
+Se verificó la accesibilidad programática de los enlaces
+de evidencias de `qa.html` en tres navegadores.
+
+| Navegador | Enlaces | Nombres | Avisos | noopener | Resultado |
+|---|---:|---:|---:|---:|---|
+| Chrome | 12 | 12/12 | 12/12 | 12/12 | PASS |
+| Firefox | 12 | 12/12 | 12/12 | 12/12 | PASS |
+| Edge | 12 | 12/12 | 12/12 | 12/12 | PASS |
+
+**Resultado:** 3/3 navegadores PASS.
+
+En Edge, la identificación mediante `navigator.userAgent`
+devolvió `Otro`. Se confirmó Microsoft Edge 157 mediante
+`navigator.userAgentData.brands`.
+
+Las verificaciones funcionales fueron satisfactorias.
+No se detectaron defectos de accesibilidad en el alcance
+comprobado.
+
+
+### Validación mediante selector de idioma
+
+Se verificó el cambio de idioma mediante el selector real
+de `qa.html` en Google Chrome.
+
+| Idioma | Traducción correcta | Enlaces asociados | Resultado |
+|---|---|---:|---|
+| ES | Sí | 12/12 | PASS |
+| EN | Sí | 12/12 | PASS |
+| PT | Sí | 12/12 | PASS |
+
+**Resultado:** 3/3 PASS.
+
+### Limitaciones y pendientes
+
+- No se realizó una prueba con lector de pantalla.
+- La regresión multinavegador se completó para los 12 enlaces de `qa.html`.
+- Los cuatro enlaces restantes de `home.html` y `quality-management.html` se verificaron únicamente en Chrome.
+- Estas verificaciones no constituyen una certificación integral de conformidad WCAG.
+
+
+### Estado
+
+NFR-005-ACCESS-007: PASS en el alcance verificado.
+
+NFR-005 permanece abierto hasta completar la auditoría
+integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-008 — Accesibilidad del buscador global
+
+### Objetivo
+
+Corregir el uso indebido de `aria-expanded` en el campo
+de búsqueda global y verificar que el panel de resultados
+mantenga su comportamiento funcional y accesible.
+
+### Requisitos relacionados
+
+- FR-011 — Búsqueda global.
+- NFR-005 — Accesibilidad.
+
+### Corrección implementada
+
+- Eliminación de `aria-expanded` del campo de búsqueda.
+- Eliminación de las actualizaciones dinámicas del atributo
+  en `js/search.js`.
+- Conservación de `aria-controls`.
+- Utilización de la propiedad `hidden` para controlar
+  la visibilidad del panel de resultados.
+- Conservación de la navegación mediante teclado.
+
+### Auditoría automática
+
+Herramienta: axe DevTools.
+Navegador: Google Chrome.
+
+| Alcance | Resultado |
+|---|---|
+| index.html | 0 incidencias automáticas |
+| home.html | 0 incidencias automáticas |
+| cv.html | 0 incidencias automáticas |
+| backend.html | 0 incidencias automáticas |
+| frontend.html | 0 incidencias automáticas |
+| qa.html | 0 incidencias automáticas |
+| quality-management.html | 0 incidencias automáticas |
+
+Resultado: 7/7 páginas sin incidencias automáticas
+en los estados evaluados.
+
+### Regresión funcional manual
+
+Página: home.html.
+
+| Verificación | Resultado |
+|---|---|
+| Mostrar resultados al escribir | PASS |
+| Seleccionar resultados con ArrowDown | PASS |
+| Cerrar resultados con Escape | PASS |
+| Realizar una nueva búsqueda | PASS |
+
+Resultado: 4/4 PASS.
+
+### Regresión automatizada Selenium
+
+Archivo: tests/selenium/global-search-navigation.test.js.
+
+Casos actualizados y ejecutados:
+
+- SEARCH-TC-003
+- SEARCH-TC-012
+- SEARCH-TC-021
+- SEARCH-TC-022
+- SEARCH-TC-023
+- SEARCH-TC-027
+- SEARCH-TC-028
+- SEARCH-TC-030
+- SEARCH-TC-031
+- SEARCH-TC-032
+- SEARCH-TC-033
+- SEARCH-TC-034
+- SEARCH-TC-035
+- SEARCH-TC-036
+- SEARCH-TC-037
+
+| Métrica | Resultado |
+|---|---:|
+| Casos ejecutados | 15 |
+| PASS | 15 |
+| FAIL finales | 0 |
+| Bloqueados | 0 |
+
+Durante la actualización se detectaron fallos en
+SEARCH-TC-022 y SEARCH-TC-028 debido a comprobaciones
+antiguas de `aria-expanded`.
+
+Ambos casos fueron corregidos y ejecutados nuevamente
+con resultado PASS.
+
+### Verificación estática de Selenium
+
+Se revisaron 16 referencias a `aria-expanded`
+en el archivo de pruebas.
+
+Las 16 comprueban que el atributo está ausente (`null`).
+
+No quedaron comprobaciones que esperen los valores
+anteriores `true` o `false`.
+
+### Limitaciones
+
+- Las 15 pruebas actualizadas se ejecutaron en Chrome.
+- No se repitió la batería completa de búsqueda.
+- No se realizó una prueba con lector de pantalla.
+- Los resultados de axe DevTools corresponden a los
+  estados inspeccionados y no constituyen una
+  certificación integral WCAG.
+
+### Estado
+
+NFR-005-ACCESS-008: PASS en el alcance verificado.
+
+NFR-005 permanece abierto hasta completar la auditoría
+integral de accesibilidad.
+
+---
+
+## NFR-005-ACCESS-009 — Navegación semántica de home.html
+
+**Fecha:** 14/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Página:** home.html
+**Navegador:** Google Chrome
+**Lector de pantalla:** Narrador de Windows 10
+**Resultado:** PASS en el alcance verificado
+
+### Incidencia
+
+La página no contenía una región semántica main,
+lo que dificultaba identificar el contenido principal
+mediante la navegación por puntos de referencia.
+
+### Corrección
+
+Se incorporó un elemento main con id="main-content"
+para envolver las secciones principales de home.html.
+
+Se conservaron los identificadores, las clases,
+el contenido y las traducciones ES/EN/PT existentes.
+
+### Validación con lector de pantalla
+
+| Comprobación | Resultado |
+|---|---|
+| Reconocimiento del encabezado (banner) | PASS |
+| Reconocimiento de la región de búsqueda | PASS |
+| Reconocimiento de la región principal | PASS |
+| Reconocimiento del pie de página | PASS |
+| Identificación del selector de idioma | PASS |
+| Lectura continua del contenido | PASS |
+| Navegación entre encabezados | PASS |
+
+**Resultado: 7/7 PASS.**
+
+Las dos últimas comprobaciones corresponden a
+verificaciones manuales realizadas previamente
+durante la misma auditoría.
+
+### Conclusión
+
+NFR-005-ACCESS-009: PASS en el alcance comprobado.
+
+La página permite identificar sus regiones principales
+mediante Narrador y acceder a su contenido textual.
+
+La auditoría integral NFR-005 permanece abierta.
+Estas verificaciones no constituyen una certificación
+integral de conformidad WCAG.
+
+---
+
+## NFR-005-ACCESS-010 — Enlaces de salto al contenido principal
+
+**Fecha:** 14/11/2026
+**Requisito:** NFR-005 — Accesibilidad e interacción
+**Páginas:** 7 páginas del portfolio
+**Navegador:** Google Chrome
+**Resultado:** PASS
+
+### Objetivo
+
+Permitir que los usuarios que navegan mediante
+teclado omitan los controles repetitivos del
+encabezado y accedan directamente al contenido
+principal de cada página.
+
+### Implementación
+
+Se incorporó un enlace de salto al comienzo
+del body de las siete páginas.
+
+Los enlaces utilizan:
+
+- Clase CSS compartida: skip-link.
+- Internacionalización: skipToMainContent.
+- Traducciones completas ES/EN/PT.
+- Visibilidad al recibir el foco del teclado.
+- Destinos asociados a la región main.
+
+Se conservaron los identificadores existentes
+de index.html y cv.html.
+
+### Destinos
+
+| Página | Destino |
+|---|---|
+| index.html | #accessPage |
+| home.html | #main-content |
+| cv.html | #cv |
+| backend.html | #main-content |
+| frontend.html | #main-content |
+| qa.html | #main-content |
+| quality-management.html | #main-content |
+
+### Regresión funcional
+
+| Página | Resultado |
+|---|---|
+| index.html | PASS |
+| home.html | PASS |
+| cv.html | PASS |
+| backend.html | PASS |
+| frontend.html | PASS |
+| qa.html | PASS |
+| quality-management.html | PASS |
+
+**Resultado: 7/7 PASS.**
+
+Se verificó manualmente:
+
+- Visibilidad del enlace al recibir el foco.
+- Activación mediante Enter.
+- Salto al contenido principal.
+- Continuidad de la navegación mediante Tab.
+
+### Internacionalización
+
+Se verificó en home.html:
+
+| Idioma | Resultado |
+|---|---|
+| Español | PASS |
+| Inglés | PASS |
+| Portugués | PASS |
+
+**Resultado: 3/3 PASS.**
+
+Las demás páginas reutilizan la misma clave
+de internacionalización.
+
+### Limitaciones
+
+La regresión funcional se realizó en Chrome.
+
+No se ejecutó una regresión específica de estos
+enlaces en Firefox ni Microsoft Edge.
+
+Estas verificaciones no constituyen una
+certificación integral de conformidad WCAG.
+
+### Estado
+
+NFR-005-ACCESS-010: PASS en el alcance verificado.
+
+NFR-005 permanece abierto hasta completar la
+auditoría integral de accesibilidad.
+
+---
+
+---
+
+## NFR-005-ACCESS-011 — Movimiento reducido en home.html
+
+**Requisito:** NFR-005 — Accesibilidad e interacción.
+
+**Criterios relacionados:**
+- Criterio 1: operabilidad mediante teclado.
+- Criterio 2: indicador de foco visible.
+- Criterio 9: respeto de prefers-reduced-motion.
+- Criterio 10: disponibilidad de funcionalidades sin movimiento.
+
+**Entorno:** Chrome, home.html.
+
+**Configuración:** DevTools → Rendering →
+prefers-reduced-motion: reduce.
+
+### Hallazgo inicial
+
+Se detectaron desplazamientos animados en las tarjetas
+QA y Áreas profesionales a pesar de estar activada
+la preferencia de movimiento reducido.
+
+### Correcciones
+
+Archivo: css/style.css.
+
+- Se ajustó la especificidad de las reglas de movimiento
+  reducido para las tarjetas QA.
+- Se desactivaron las transiciones y desplazamientos
+  interactivos de la tarjeta Áreas profesionales.
+- Se conservó su posición original mediante
+  translateY(-75px).
+- Se mantuvieron los efectos de iluminación y foco.
+
+### Resultados
+
+| Verificación | Resultado |
+|---|---|
+| Preferencia de movimiento reducido detectada | PASS |
+| Transiciones de Áreas profesionales desactivadas | PASS |
+| Posición original de Áreas profesionales conservada | PASS |
+| Tarjetas QA sin desplazamiento | PASS |
+| Tarjetas de navegación comprobadas sin desplazamiento | PASS |
+| Iluminación conservada | PASS |
+| Navegación mediante Tab sin desplazamiento | PASS |
+| Contorno de foco visible | PASS |
+
+**Resultado:** PASS dentro del alcance verificado.
+
+**Limitaciones:**
+- Comprobación realizada en Chrome.
+- No constituye una auditoría global de todas las
+  animaciones y transiciones del portfolio.
+- Pendiente verificar movimiento reducido en las
+  demás páginas y navegadores.
+- No se verificó el funcionamiento de todos los
+  componentes dinámicos con movimiento reducido.
+
+**Estado de NFR-005:** ABIERTO.
+```
+
+**Guardá el archivo y respondeme «listo».**
+
+Después continuaremos con la auditoría de movimiento reducido en las demás páginas, aprovechando las pruebas existentes y sin repetir las comprobaciones aprobadas.
+
+---
+
+## NFR-005-ACCESS-012 — Regresión manual de navegación por teclado
+
+**Requisito:** NFR-005 — Accesibilidad e interacción.
+
+**Fecha:** 16/11/2026.
+
+**Entorno:** Windows, Google Chrome.
+
+**Tipo:** Pruebas manuales funcionales y de accesibilidad por teclado.
+
+### Objetivo
+
+Verificar la navegación, activación de controles y visibilidad del foco mediante teclado en las páginas del portfolio revisadas recientemente.
+
+### Resultados
+
+| ID | Página | Verificación | Resultado |
+|---|---|---|---|
+| FRONTEND-KEYBOARD-001 | frontend.html | Tab, Shift+Tab, Enter, Espacio y Escape en controles interactivos | PASS |
+| QM-KEYBOARD-001 | quality-management.html | Navegación directa e inversa mediante teclado | PASS |
+| QM-KEYBOARD-002 | quality-management.html | Apertura y cierre de controles interactivos | PASS |
+| QM-NAV-001 | quality-management.html | Enlace directo a qa.html#reportes mediante Enter | PASS |
+| INDEX-KEYBOARD-001 | index.html | Navegación mediante Tab y Shift+Tab | PASS |
+| INDEX-KEYBOARD-002 | index.html | Activación de tarjetas de acceso y selector de idioma | PASS |
+| INDEX-KEYBOARD-003 | index.html | Selección y deselección del consentimiento mediante Espacio | PASS |
+| INDEX-KEYBOARD-004 | index.html | Navegación del formulario de contacto | PASS |
+| INDEX-KEYBOARD-005 | index.html | Activación del acceso, apertura del registro y gestión del foco | PASS |
+
+### Defecto corregido
+
+**QM-NAV-001 — Destino incorrecto del enlace de evidencias.**
+
+Comportamiento inicial:
+
+El enlace «Consultar evidencia verificable» abría qa.html desde el comienzo de la página.
+
+Corrección:
+
+Se actualizó el destino a qa.html#reportes.
+
+Regresión manual:
+
+La activación mediante Enter dirige correctamente a la sección 04.
+
+**Estado: CORREGIDO Y VERIFICADO.**
+
+### Observaciones
+
+- Se confirmó navegación directa e inversa mediante Tab y Shift+Tab.
+- Los controles revisados respondieron a las teclas correspondientes.
+- El foco permaneció visible durante los recorridos comprobados.
+- El selector de idioma nativo se conservó sin modificaciones.
+- Las verificaciones se realizaron manualmente en Chrome.
+- No se ejecutó una nueva regresión automatizada para estos nueve registros.
+- Los resultados no sustituyen las pruebas específicas con lectores de pantalla ni la auditoría de movimiento reducido.
+
+### Conclusión
+
+Las nueve verificaciones manuales registradas finalizaron con PASS.
+
+**Resultado: 9/9 PASS — 0 FAIL.**
+
+NFR-005-ACCESS-012: CERRADO dentro del alcance verificado.
+
+**Estado global de NFR-005: ABIERTO.**
+
+Continúa pendiente completar la auditoría de movimiento reducido y las comprobaciones de accesibilidad que todavía no cuentan con evidencia suficiente.
+
+---
+
+## Cierre consolidado NFR-005 — Accesibilidad e interacción
+
+**Fecha:** 16/11/2026  
+**Estado:** PASS dentro del alcance auditado  
+**Tipo de evidencia:** revisión estática, comprobaciones manuales en Chrome, Narrador de Windows, inspección de contraste y pruebas responsive históricas y actuales.
+
+### Trazabilidad de los criterios
+
+| Criterios NFR-005 | Evidencia consolidada | Resultado |
+|---|---|---|
+| 1–2. Teclado y foco visible | ACCESS-003 a ACCESS-005, ACCESS-008, ACCESS-010 y ACCESS-012; pruebas manuales documentadas | PASS en alcance |
+| 3–4. Etiquetas, errores y confirmaciones | ACCESS-001, ACCESS-002, ACCESS-012 y ACCESS-014; anuncios de errores en home.html y resultados dinámicos de backend.html comprobados con Narrador | PASS en alcance |
+| 5. Contraste | NFR-005-CONTRAST-001; inspecciones Chrome DevTools y correcciones en home.html | PASS en elementos corregidos |
+| 6–7. Semántica y controles desplegables | Auditorías ACCESS y pruebas de interacción registradas | PASS en alcance |
+| 8. Elementos decorativos | ACCESS-013; revisión estática de siete páginas, con comprobación manual adicional de la imagen de perfil | PASS preliminar estático; revisión manual focalizada |
+| 9–10. Movimiento reducido y conservación de funciones | Verificaciones manuales con prefers-reduced-motion; cv.html, qa.html y quality-management.html entre los componentes confirmados | PASS en alcance |
+| 11. Legibilidad y operabilidad responsive | 18 verificaciones históricas reportadas; index.html y home.html a 375 y 768 px en Chrome | PASS en alcance |
+
+### Correcciones de contraste — home.html
+
+| Componente | Antes | Después | Resultado |
+|---|---:|---:|---|
+| LinkedIn | 3,15:1 | 7,1:1 | PASS |
+| GitHub | 3,98:1 | 7,1:1 | PASS |
+| Títulos y numeración violeta comprobados | 4,16:1 | 7,71:1 | PASS |
+| EN EVOLUCIÓN y PLANIFICADO | 3,67:1 | 6,8:1 | PASS |
+
+Se corrigieron reglas CSS existentes cuando fue posible, evitando duplicaciones. Las capturas de Chrome DevTools documentan los valores finales.
+
+### Verificación responsive complementaria
+
+- **index.html:** Chrome, 375 px y 768 px — PASS manual.
+- **home.html:** Chrome, 375 px y 768 px — PASS manual.
+- **Criterios observados:** ausencia de desbordamiento visible de texto y distribución incorrecta de información.
+- Los PASS históricos de otras páginas y navegadores no se atribuyen automáticamente a diseños modificados con posterioridad.
+
+### Limitaciones y conclusión
+
+Las verificaciones estáticas no equivalen a una revisión manual completa con tecnologías de asistencia. Las pruebas documentadas no cubren necesariamente todos los estados dinámicos, navegadores, dispositivos ni combinaciones de idioma. No se declara certificación WCAG integral.
+
+**Conclusión:** NFR-005 aprobado dentro del alcance auditado. No se registran defectos confirmados abiertos en los escenarios corregidos y vueltos a comprobar.
+
+Mantener esta evidencia vinculada al requisito en la matriz de trazabilidad y conservar sin cambios los resultados históricos de otras suites.

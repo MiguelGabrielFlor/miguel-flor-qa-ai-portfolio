@@ -21,7 +21,7 @@ test('FRONTEND-I18N-005 — Revalidación dinámica ES/EN/PT', async (t) => {
 
     assert.equal(
         actualBrowser,
-        browser.toLowerCase(),
+        (browser.toLowerCase() === 'edge' ? 'microsoftedge' : browser.toLowerCase()),
         `Se solicitó ${browser}, pero Selenium abrió ${actualBrowser}`
     );
 

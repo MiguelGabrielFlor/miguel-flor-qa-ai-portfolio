@@ -362,7 +362,7 @@ async function checkResults(driver, dictionary, cycle) {
 test(
     'SPRINT-001 — Cuatro ciclos y 24 etapas ES/EN/PT',
     async t => {
-        const driver = await createSharedDriver(t);
+        const driver = await createDriver(t);
 
         for (const language of languages) {
             await changeLanguage(driver, language);
@@ -422,7 +422,7 @@ test(
 test(
     'SPRINT-002 — Resultados documentados y selectores ES/EN/PT',
     async t => {
-        const driver = await createSharedDriver(t);
+        const driver = await createDriver(t);
 
         for (const language of languages) {
             await changeLanguage(driver, language);

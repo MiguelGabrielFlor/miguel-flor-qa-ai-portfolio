@@ -29,6 +29,11 @@
 
 <body>
 
+    <a href="#accessPage"
+    class="skip-link"
+    data-i18n="skipToMainContent">
+        Saltar al contenido principal
+    </a>
 
     <!-- =====================================================
          ACCESS PAGE
@@ -40,13 +45,20 @@
     >
 
         <section class="access-card">
+            
             <div class="language-selector">
-                <select id="languageSelect" name="language">
+                <select
+                    id="languageSelect"
+                    name="language"
+                    aria-label="Seleccionar idioma"
+                    data-i18n-aria-label="languageSelectorLabel"
+                >
                     <option value="es" selected>Español</option>
                     <option value="en">English</option>
                     <option value="pt">Português</option>
                 </select>
             </div>
+
             <header class="access-header">
 
                 <p class="eyebrow" data-i18n="accessEyebrow">
@@ -139,6 +151,7 @@
                         type="text"
                         id="firstName"
                         name="firstName"
+                        aria-required="true"
                         placeholder="Ingresá tu nombre"
                         data-i18n-placeholder="firstNamePlaceholder"
                         maxlength="50"
@@ -164,6 +177,7 @@
                         type="text"
                         id="lastName"
                         name="lastName"
+                        aria-required="true"
                         placeholder="Ingresá tu apellido"
                         data-i18n-placeholder="lastNamePlaceholder"
                         maxlength="50"
@@ -189,6 +203,7 @@
                         type="email"
                         id="email"
                         name="email"
+                        aria-required="true"
                         placeholder="nombre@email.com"
                         data-i18n-placeholder="emailPlaceholder"
                         maxlength="254"
@@ -220,6 +235,7 @@
                         type="tel"
                         id="phone"
                         name="phone"
+                        aria-required="true"
                         placeholder="+54 9 11 1234 5678"
                         data-i18n-placeholder="phonePlaceholder"
                         inputmode="tel"
@@ -247,6 +263,7 @@
                         type="checkbox"
                         id="consent"
                         name="consent"
+                        aria-required="true"
                     >
 
 

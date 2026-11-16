@@ -366,13 +366,24 @@ test('BDD-002 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
         );
     }, 10000);
 
-    // Desplazar BDD-002 al centro de la ventana
-    // para evitar la superposición del footer fijo.
+    
+    // Desplazar BDD-002 inmediatamente al centro de la ventana.
     await driver.executeScript(
-        'arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+        'arguments[0].scrollIntoView({block: "center", inline: "nearest", behavior: "instant"});',
         bdd002Button
     );
 
+    // Esperar hasta que el botón esté dentro del área visible.
+    await driver.wait(async () => {
+        return await driver.executeScript(`
+            const rect = arguments[0].getBoundingClientRect();
+
+            return rect.top >= 0 &&
+                   rect.bottom <= window.innerHeight;
+        `, bdd002Button);
+    }, 10000);
+
+    
     // Seleccionar BDD-002 mediante una interacción real.
     await bdd002Button.click();
 
@@ -504,15 +515,26 @@ test('BDD-003 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
             'return localStorage.getItem("portfolioLanguage") === "en";'
         );
     }, 10000);
-
-    // Desplazar el botón al centro para evitar el footer fijo.
+    
+    // Desplazar inmediatamente el botón al centro.
     await driver.executeScript(
-        'arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+        'arguments[0].scrollIntoView({block: "center", inline: "nearest", behavior: "instant"});',
         bdd003Button
     );
 
-    // Seleccionar BDD-003 mediante Selenium.
+    // Esperar hasta que el botón esté visible.
+    await driver.wait(async () => {
+        return await driver.executeScript(`
+            const rect = arguments[0].getBoundingClientRect();
+
+            return rect.top >= 0 &&
+                   rect.bottom <= window.innerHeight;
+        `, bdd003Button);
+    }, 10000);
+
+    // Seleccionar el escenario mediante Selenium.
     await bdd003Button.click();
+
 
     assert.equal(
         await bdd003Button.getAttribute('aria-pressed'),
@@ -647,14 +669,26 @@ test('BDD-004 — Traducción dinámica ES/EN/PT sin cambiar de escenario', asyn
         );
     }, 10000);
 
-    // Centrar el botón para evitar la superposición del footer.
+    
+    // Desplazar inmediatamente el botón al centro.
     await driver.executeScript(
-        'arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+        'arguments[0].scrollIntoView({block: "center", inline: "nearest", behavior: "instant"});',
         bdd004Button
     );
 
-    // Seleccionar BDD-004 mediante Selenium.
+    // Esperar hasta que el botón esté visible.
+    await driver.wait(async () => {
+        return await driver.executeScript(`
+            const rect = arguments[0].getBoundingClientRect();
+
+            return rect.top >= 0 &&
+                   rect.bottom <= window.innerHeight;
+        `, bdd004Button);
+    }, 10000);
+
+    // Seleccionar el escenario mediante Selenium.
     await bdd004Button.click();
+
 
     assert.equal(
         await bdd004Button.getAttribute('aria-pressed'),
@@ -789,14 +823,26 @@ test('BDD-005 — Traducción dinámica ES/EN/PT y estado implementado', async (
         );
     }, 10000);
 
-    // Centrar el botón para evitar el footer fijo.
+    
+    // Desplazar inmediatamente el botón al centro.
     await driver.executeScript(
-        'arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+        'arguments[0].scrollIntoView({block: "center", inline: "nearest", behavior: "instant"});',
         bdd005Button
     );
 
-    // Seleccionar BDD-005 mediante Selenium.
+    // Esperar hasta que el botón esté visible.
+    await driver.wait(async () => {
+        return await driver.executeScript(`
+            const rect = arguments[0].getBoundingClientRect();
+
+            return rect.top >= 0 &&
+                   rect.bottom <= window.innerHeight;
+        `, bdd005Button);
+    }, 10000);
+
+    // Seleccionar el escenario mediante Selenium.
     await bdd005Button.click();
+
 
     assert.equal(
         await bdd005Button.getAttribute('aria-pressed'),
@@ -938,14 +984,26 @@ test('BDD-006 — Traducción dinámica ES/EN/PT y búsqueda global', async (t) 
         );
     }, 10000);
 
-    // Centrar el botón para evitar la superposición del footer.
+    
+    // Desplazar inmediatamente el botón al centro.
     await driver.executeScript(
-        'arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+        'arguments[0].scrollIntoView({block: "center", inline: "nearest", behavior: "instant"});',
         bdd006Button
     );
 
-    // Seleccionar BDD-006 mediante Selenium.
+    // Esperar hasta que el botón esté visible.
+    await driver.wait(async () => {
+        return await driver.executeScript(`
+            const rect = arguments[0].getBoundingClientRect();
+
+            return rect.top >= 0 &&
+                   rect.bottom <= window.innerHeight;
+        `, bdd006Button);
+    }, 10000);
+
+    // Seleccionar el escenario mediante Selenium.
     await bdd006Button.click();
+
 
     assert.equal(
         await bdd006Button.getAttribute('aria-pressed'),

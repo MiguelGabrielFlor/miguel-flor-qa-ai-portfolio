@@ -152,6 +152,19 @@ function initializeHome() {
                 );
             }
         });
+                // Traducir textos alternativos de imágenes.
+        document.querySelectorAll(
+            "[data-i18n-alt]"
+        ).forEach(element => {
+            const key = element.dataset.i18nAlt;
+
+            if (selectedTranslations[key] !== undefined) {
+                element.setAttribute(
+                    "alt",
+                    selectedTranslations[key]
+                );
+            }
+        });
 
         // Actualizar los mensajes dinámicos de contacto.
         if (contactStatus && contactStatusKey) {
@@ -209,6 +222,29 @@ function initializeHome() {
     }
 
     if (contactForm) {
+        // Eliminar el error del mensaje cuando vuelva a ser válido.
+        contactMessage.addEventListener("input", () => {
+            if (contactMessage.value.trim()) {
+                contactErrorKey = "";
+                contactMessageError.textContent = "";
+                contactMessage.removeAttribute("aria-invalid");
+            }
+        });
+
+        // Eliminar el error del correo cuando vuelva a ser válido.
+        if (guestEmail && guestEmailError) {
+            guestEmail.addEventListener("input", () => {
+                if (
+                    guestEmail.value.trim() &&
+                    guestEmail.checkValidity()
+                ) {
+                    guestEmailErrorKey = "";
+                    guestEmailError.textContent = "";
+                    guestEmail.removeAttribute("aria-invalid");
+                }
+            });
+        }
+
         contactForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -222,6 +258,11 @@ function initializeHome() {
             if (guestEmailError) {
                 guestEmailError.textContent = "";
             }
+            contactMessage.removeAttribute("aria-invalid");
+
+            if (guestEmail) {
+                guestEmail.removeAttribute("aria-invalid");
+            }
 
             const language = document.documentElement.lang || "es";
             const t = translations[language] || translations.es;
@@ -229,10 +270,37 @@ function initializeHome() {
             const mensaje = contactMessage.value.trim();
             const isGuest = session.accessType === "guest";
 
+            // Validar todos los campos antes de detener el envío.
+            let primerCampoInvalido = null;
+
+            if (isGuest) {
+                const guestAddress = guestEmail.value.trim();
+
+                if (!guestAddress) {
+                    guestEmailErrorKey = "guestEmailRequiredError";
+                } else if (!guestEmail.checkValidity()) {
+                    guestEmailErrorKey = "guestEmailInvalidError";
+                }
+
+                if (guestEmailErrorKey) {
+                    guestEmailError.textContent = t[guestEmailErrorKey];
+                    guestEmail.setAttribute("aria-invalid", "true");
+                    primerCampoInvalido = guestEmail;
+                }
+            }
+
             if (!mensaje) {
                 contactErrorKey = "contactRequiredError";
                 contactMessageError.textContent = t[contactErrorKey];
-                contactMessage.focus();
+                contactMessage.setAttribute("aria-invalid", "true");
+
+                if (!primerCampoInvalido) {
+                    primerCampoInvalido = contactMessage;
+                }
+            }
+
+            if (primerCampoInvalido) {
+                primerCampoInvalido.focus();
                 return;
             }
 
@@ -240,20 +308,6 @@ function initializeHome() {
 
             if (isGuest) {
                 const guestAddress = guestEmail.value.trim();
-
-                if (!guestAddress) {
-                    guestEmailErrorKey = "guestEmailRequiredError";
-                    guestEmailError.textContent = t[guestEmailErrorKey];
-                    guestEmail.focus();
-                    return;
-                }
-
-                if (!guestEmail.checkValidity()) {
-                    guestEmailErrorKey = "guestEmailInvalidError";
-                    guestEmailError.textContent = t[guestEmailErrorKey];
-                    guestEmail.focus();
-                    return;
-                }
 
                 contactData = {
                     nombre: "",

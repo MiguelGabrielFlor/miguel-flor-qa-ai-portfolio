@@ -24,7 +24,7 @@ html {
 
     --border: #252e3d;
 
-    --primary: #6c63ff;
+    --primary: #A69FFF;
 
     --primary-hover: #8179ff;
 
@@ -245,6 +245,14 @@ input[type="tel"] {
 
     transition: 0.2s;
 
+}
+
+/* ACCESO — Contraste accesible de placeholders */
+#accessForm input[type="text"]::placeholder,
+#accessForm input[type="email"]::placeholder,
+#accessForm input[type="tel"]::placeholder {
+    color: #9ca6b7;
+    opacity: 1;
 }
 
 input:focus {
@@ -2392,11 +2400,11 @@ body:has(#cv) .navbar .index-link small {
 }
 
 .linkedin-label {
-    color: #0A66C2;
+    color: #58A6FF;
 }
 
 .github-label {
-    color: #007ACC;
+    color: #58A6FF;
 }
 
 /* =====================================================
@@ -3252,6 +3260,8 @@ a.project-card:hover {
 
 /* Respeta la preferencia de reducir movimiento */
 
+
+/* Respeta la preferencia de reducir movimiento */
 @media (prefers-reduced-motion: reduce) {
 
     a.info-card,
@@ -3261,9 +3271,8 @@ a.project-card:hover {
     a.skill-card,
 
     a.ai-card,
-
-    a.project-card {
-
+    a.project-card,
+    #qa a.skill-card {
         transition: none;
 
     }
@@ -3275,14 +3284,14 @@ a.project-card:hover {
     a.skill-card:hover,
 
     a.ai-card:hover,
-
-    a.project-card:hover {
-
+    a.project-card:hover,
+    #qa a.skill-card:hover {
         transform: none;
 
     }
 
 }
+
 
 /* =====================================================
    INTERACCIÓN DE TARJETAS CON NAVEGACIÓN
@@ -3438,6 +3447,20 @@ a.info-card-link:focus-visible {
     outline: 2px solid #3794FF;
 
     outline-offset: 4px;
+
+}
+
+/* CV — Formación: accesibilidad y movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+
+    #cv .cv-experience-card.cv-training-card {
+        transition: none;
+    }
+
+    #cv .cv-experience-card.cv-training-card:hover,
+    #cv .cv-experience-card.cv-training-card:focus-visible {
+        transform: none;
+    }
 
 }
 
@@ -3610,6 +3633,7 @@ a.info-card-link:focus-visible {
     background: rgba(55, 148, 255, 0.05);
 
 }
+/* IMÁGENES JPG DE CERTIFICADOS */
 
 .certificate-image {
 
@@ -3627,17 +3651,48 @@ a.info-card-link:focus-visible {
 
     border-radius: 6px;
 
-    cursor: zoom-in;
-
-    transition: max-height 0.65s ease;
-
+    cursor: pointer;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.3s ease;
 }
 
-.certificate-image.is-enlarged {
+/* FOCO VISIBLE */
 
-    max-height: none;
+.certificate-image:focus-visible {
+    outline: 3px solid #3794FF;
+    outline-offset: 4px;
+}
 
-    cursor: zoom-out;
+
+/* MOVIMIENTO REDUCIDO — CERTIFICADOS */
+
+@media (prefers-reduced-motion: reduce) {
+
+    /* Tarjetas de certificados */
+    .certificate-item {
+        transition: none;
+    }
+
+    .certificate-item:hover {
+        transform: none;
+    }
+
+    /* Imágenes JPG */
+    .certificate-image {
+        transition: none;
+        transform: none;
+    }
+
+    .certificate-image:hover,
+    .certificate-image:focus-visible {
+        transform: none;
+    }
+
+    /* Botón de cierre */
+    .certificate-dialog-close {
+        transition: none;
+    }
 
 }
 
@@ -4243,6 +4298,21 @@ a.hero-panel.hero-panel-link:focus-visible {
     outline-offset: 4px;
 }
 
+/* HERO — Accesibilidad: movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+
+    a.hero-panel.hero-panel-link {
+        transform: translateY(-75px);
+        transition: none;
+    }
+
+    a.hero-panel.hero-panel-link:hover,
+    a.hero-panel.hero-panel-link:focus-visible {
+        transform: translateY(-75px);
+    }
+
+}
+
 /* CV — Selector desplegable de idiomas */
 
 .cv-language-selector {
@@ -4739,4 +4809,152 @@ a.hero-panel.hero-panel-link:focus-visible {
 [data-i18n="specialtiesQaParagraph1"],
 [data-i18n="specialtiesQaParagraph2"] {
     white-space: pre-line;
+}
+
+/* =========================================
+   ACCESIBILIDAD — SALTO AL CONTENIDO
+   ========================================= */
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 10000;
+
+    padding: 12px 18px;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+
+    background: #111827;
+    color: #ffffff;
+
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+
+    transform: translateY(-200%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+
+    outline: 3px solid #facc15;
+    outline-offset: 3px;
+}
+
+/* =====================================================
+   VISOR AMPLIADO DE CERTIFICADOS JPG
+   ===================================================== */
+
+.certificate-image-viewer {
+    box-sizing: border-box;
+    width: min(1100px, 96vw);
+    max-width: 96vw;
+    height: min(850px, 94vh);
+    max-height: 94vh;
+    padding: 20px;
+
+    color: #FFFFFF;
+    background: #101827;
+    border: 1px solid #3794FF;
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+.certificate-image-viewer::backdrop {
+    background: rgba(0, 0, 0, 0.88);
+}
+
+/* VISOR CERRADO */
+
+.certificate-image-viewer:not([open]) {
+    display: none;
+}
+
+/* VISOR ABIERTO */
+
+.certificate-image-viewer[open] {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.certificate-image-viewer[open] {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.certificate-image-viewer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.certificate-image-viewer-title {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: clamp(16px, 2.5vw, 22px);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.certificate-image-viewer-content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+.certificate-image-viewer-content img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.certificate-image-viewer .certificate-dialog-close:focus-visible {
+    outline: 3px solid #3794FF;
+    outline-offset: 4px;
+}
+
+/* PANTALLAS PEQUEÑAS */
+
+@media (max-width: 600px) {
+    .certificate-image-viewer {
+        width: 98vw;
+        max-width: 98vw;
+        height: 92vh;
+        max-height: 92vh;
+        padding: 12px;
+    }
+
+    .certificate-image-viewer-header {
+        gap: 10px;
+    }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+    .certificate-image-viewer,
+    .certificate-image-viewer * {
+        scroll-behavior: auto;
+        animation: none;
+        transition: none;
+    }
 }
