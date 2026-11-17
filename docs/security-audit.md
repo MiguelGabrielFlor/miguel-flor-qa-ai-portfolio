@@ -80,3 +80,96 @@ El cierre de SEC-001 corresponde a la exposición HTTP identificada en el entorn
 Este resultado no constituye una auditoría exhaustiva del código, de todos los archivos públicos ni de la infraestructura de producción.
 
 La auditoría general P0-01 continúa hasta completar los controles restantes de privacidad y exposición de información.
+
+---
+
+## SEC-002 — Permisos de acceso a SQLite en Windows
+
+**Prioridad:** P0 — Protección de datos personales
+**Estado:** CLOSED — Corrección verificada
+**Fecha de verificación:** 17/11/2026
+**Entorno:** Windows 10 / NTFS / Node.js / SQLite
+
+### 1. Descripción del hallazgo
+
+Durante la auditoría de permisos locales se identificó que
+`backend/database/portfolio.sqlite` heredaba permisos de
+lectura y ejecución (RX) para el grupo
+`ALL APPLICATION PACKAGES`.
+
+La base contenía 618 registros de visitantes.
+
+No se identificaron permisos explícitos para `Everyone`
+ni para el grupo general `Usuarios`.
+
+### 2. Evidencia inicial
+
+La consulta mediante `icacls` confirmó que tanto la
+carpeta `backend/database` como sus archivos heredaban
+permisos de sus directorios superiores.
+
+El grupo `ALL APPLICATION PACKAGES` tenía autorización
+de lectura y ejecución.
+
+### 3. Respaldo previo
+
+Antes de modificar las ACL se ejecutó:
+
+`icacls ".\backend\database" /save "$env:TEMP\portfolio-database-acl.txt" /T`
+
+Resultado: 3 elementos procesados, 0 errores.
+
+El respaldo fue verificado con un tamaño de 820 bytes.
+
+### 4. Corrección aplicada
+
+Con el backend detenido se ejecutaron:
+
+`icacls ".\backend\database" /inheritance:d`
+
+`icacls ".\backend\database" /remove:g "*S-1-15-2-1"`
+
+La corrección deshabilitó la herencia de permisos en
+`backend/database` y eliminó la autorización de
+`ALL APPLICATION PACKAGES`.
+
+No se modificaron las ACL generales del proyecto.
+
+### 5. Resultados de verificación
+
+| Control | Resultado |
+|---|---|
+| ACL de `backend/database` | PASS |
+| ACL de `portfolio.sqlite` | PASS |
+| ACL de `connection.js` | PASS |
+| Permisos de `ALL APPLICATION PACKAGES` eliminados | PASS |
+| Acceso de MIGUEL, SYSTEM y Administradores conservado | PASS |
+| Integridad SQLite | PASS — ok |
+| Registros conservados | PASS — 618 |
+| Reinicio del backend Express | PASS |
+| GET /api/health | PASS — HTTP 200 |
+| Respuesta JSON de salud | PASS |
+
+El backend inició correctamente en `127.0.0.1:3000`.
+
+La limpieza automática de privacidad informó cero
+registros vencidos eliminados.
+
+### 6. Alcance y limitaciones
+
+La corrección se aplicó al entorno local Windows.
+
+No modifica los permisos de SQLite en producción,
+que se administran de forma independiente en el VPS.
+
+La verificación del endpoint de salud confirma la
+disponibilidad de la API, pero no sustituye las pruebas
+funcionales de lectura y escritura de SQLite.
+
+El respaldo ACL permanece en la carpeta temporal de
+Windows y debe conservarse hasta finalizar la auditoría.
+
+### 7. Resultado
+
+SEC-002: CLOSED — Permisos locales restringidos,
+integridad de SQLite conservada y backend operativo.
