@@ -173,3 +173,81 @@ Windows y debe conservarse hasta finalizar la auditoría.
 
 SEC-002: CLOSED — Permisos locales restringidos,
 integridad de SQLite conservada y backend operativo.
+
+---
+
+## SEC-003 — Configuración CORS permisiva en desarrollo
+
+**Prioridad:** P0 — Auditoría de seguridad y privacidad
+**Estado:** CLOSED — Corrección verificada
+**Fecha de verificación:** 17/11/2026
+**Entorno:** Backend Express / Desarrollo local
+
+### 1. Descripción del hallazgo
+
+Durante la auditoría se identificó que el backend
+utilizaba `origin: allowedOrigins || true`.
+
+En desarrollo, `allowedOrigins` era `null`, por lo
+que CORS reflejaba cualquier origen recibido.
+
+### 2. Evidencia inicial
+
+Una solicitud con el origen
+`https://sitio-no-autorizado.example`
+recibió HTTP 200 y el encabezado:
+
+`Access-Control-Allow-Origin: https://sitio-no-autorizado.example`
+
+El backend escuchaba únicamente en `127.0.0.1:3000`.
+
+No se confirmó exposición equivalente en producción.
+
+### 3. Corrección implementada
+
+Archivo modificado: `backend/src/app.js`.
+
+Se reemplazó la configuración permisiva por listas
+explícitas de orígenes autorizados.
+
+Producción:
+- `https://mfportfolio.com.ar`
+- `https://www.mfportfolio.com.ar`
+
+Desarrollo:
+- `http://127.0.0.1:5500`
+- `http://localhost:5500`
+
+Se eliminó el comportamiento `origin: true`.
+
+### 4. Resultados de verificación
+
+| Control | Resultado |
+|---|---|
+| Validación de sintaxis JavaScript | PASS |
+| Validación de formato Git | PASS |
+| Reinicio del backend | PASS |
+| Origen 127.0.0.1:5500 | PASS — Autorizado |
+| Origen localhost:5500 | PASS — Autorizado |
+| Origen externo no autorizado | PASS — Sin encabezado CORS |
+
+Las tres comprobaciones HTTP devolvieron estado 200.
+
+El origen externo no recibió el encabezado
+`Access-Control-Allow-Origin`.
+
+### 5. Alcance y limitaciones
+
+La verificación funcional se realizó en desarrollo local.
+
+La configuración de producción contiene una lista
+explícita de dominios, pero no se ejecutó en este
+control una prueba HTTP específica contra producción.
+
+CORS no sustituye la autenticación, la autorización
+ni otras medidas de protección de la API.
+
+### 6. Resultado
+
+SEC-003: CLOSED — Configuración CORS de desarrollo
+restringida y verificada mediante tres solicitudes HTTP.

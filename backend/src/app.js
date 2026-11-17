@@ -28,17 +28,20 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
             message: 'Demasiadas solicitudes. Intentá nuevamente en 15 minutos.'
         }
     });
-
     const allowedOrigins = process.env.NODE_ENV === 'production'
         ? [
             'https://mfportfolio.com.ar',
             'https://www.mfportfolio.com.ar'
         ]
-        : null;
+        : [
+            'http://127.0.0.1:5500',
+            'http://localhost:5500'
+        ];
 
     app.use(cors({
-        origin: allowedOrigins || true
+        origin: allowedOrigins
     }));
+
     app.use(express.json({ limit: '10kb' }));
     
     app.get('/api/health', (req, res) => {
