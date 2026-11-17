@@ -1,0 +1,475 @@
+/* QA & AI Portfolio — CSS modularizado. Orden de reglas preservado.
+   Generado a partir del style.css original, sin alterar declaraciones. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.access-card {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    padding: 40px;
+
+    box-shadow:
+
+        0 25px 70px
+
+        rgba(0, 0, 0, 0.4);
+
+}
+
+.access-header {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+
+.access-header h1 {
+
+    font-size: 42px;
+
+    margin-bottom: 8px;
+
+}
+
+
+
+.intro {
+
+    margin-bottom: 30px;
+
+}
+
+.intro h2 {
+
+    font-size: 24px;
+
+    margin-bottom: 8px;
+
+}
+
+.intro p {
+
+    color: var(--text-secondary);
+
+    font-size: 15px;
+
+    font-weight: 400;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.access-footer {
+
+    text-align: center;
+
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+}
+
+.access-footer span {
+
+    display: block;
+
+    margin-top: 8px;
+
+    opacity: 0.6;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 900px) {
+nav {
+
+        gap: 12px;
+
+        justify-content: flex-end;
+
+        margin-left: auto;
+
+    }
+}
+
+@media (max-width: 600px) {
+.access-card {
+
+        padding: 28px 22px;
+
+    }
+
+.access-header h1 {
+
+        font-size: 34px;
+
+    }
+
+.section {
+
+        padding: 75px 20px;
+
+    }
+}
+
+.required-indicator {
+
+    color: var(--error);
+
+    font-weight: 700;
+
+}
+
+.form-help {
+
+    margin-bottom: 20px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 360px) {
+.navbar .logo {
+
+        width: auto;
+
+        min-width: 0;
+
+        flex-shrink: 0;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 600px) {
+.navbar .logo {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+}
+
+
+
+.access-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 28px 0;
+}
+
+.access-option-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+    padding: 24px;
+
+    border: 1px solid rgba(110, 150, 255, 0.25);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.access-option-card h3 {
+    margin: 0;
+}
+
+.access-option-card p {
+    margin: 0;
+    color: #9CA3AF;
+}
+
+
+
+
+
+@media (max-width: 640px) {
+.access-options {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+.access-option-card {
+        padding: 20px;
+    }
+}
+
+.access-card {
+    transition:
+        border-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
+}
+
+.access-card:hover,
+.access-card:focus-within {
+    border-color: var(--interactive-color);
+    box-shadow: var(--interactive-glow);
+}
+
+.access-option-card {
+    transition:
+        transform var(--interactive-duration) var(--interactive-easing),
+        border-color var(--interactive-duration) var(--interactive-easing),
+        background-color var(--interactive-duration) var(--interactive-easing),
+        box-shadow var(--interactive-duration) var(--interactive-easing);
+}
+
+.access-option-card:hover,
+.access-option-card:focus-within {
+    transform: translateY(var(--card-hover-lift));
+    border-color: var(--interactive-color);
+    background-color: rgba(55, 148, 255, 0.07);
+    box-shadow: var(--interactive-glow);
+}
+
+
+
+
+
+
+
+
+
+
+
+.access-option-card:hover .access-option-icon,
+.access-option-card:focus-within .access-option-icon {
+    color: #93baff;
+    transform: scale(1.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+.access-card,
+    .access-option-card,
+    .access-option-icon,
+    #accessPage .access-option-card .button {
+        transition: none;
+    }
+
+.access-option-card:hover,
+    .access-option-card:focus-within {
+        transform: none;
+    }
+
+.access-option-card:hover .access-option-icon,
+    .access-option-card:focus-within .access-option-icon {
+        transform: none;
+    }
+}

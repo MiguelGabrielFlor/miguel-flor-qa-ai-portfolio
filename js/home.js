@@ -48,7 +48,7 @@ function getPortfolioSession() {
 }
 
 
-function initializeHome() {
+async function initializeHome() {
     const session = getPortfolioSession();
 
     if (!session) {
@@ -212,12 +212,52 @@ function initializeHome() {
         );
     }
 
-    applyHomeLanguage(currentLanguage);
+    // Cargar el idioma guardado antes de aplicar sus traducciones.
+    try {
+        await window.loadPortfolioLanguage(currentLanguage);
+        applyHomeLanguage(currentLanguage);
+    } catch (error) {
+        console.error("Error al cargar el idioma inicial:", error);
 
+        currentLanguage = "es";
+        applyHomeLanguage(currentLanguage);
+    }
+
+    // Cambiar de idioma sin descargar diccionarios innecesarios.
     if (languageSelector) {
-        languageSelector.addEventListener("change", function () {
-            currentLanguage = languageSelector.value;
-            applyHomeLanguage(currentLanguage);
+        let languageRequestId = 0;
+
+        languageSelector.addEventListener("change", async function () {
+            const requestedLanguage = languageSelector.value;
+            const requestId = ++languageRequestId;
+
+            languageSelector.disabled = true;
+
+            try {
+                await window.loadPortfolioLanguage(requestedLanguage);
+
+                // Ignorar resultados de solicitudes anteriores.
+                if (requestId !== languageRequestId) return;
+
+                currentLanguage = requestedLanguage;
+                applyHomeLanguage(currentLanguage);
+
+                document.dispatchEvent(
+                    new CustomEvent("portfolio:languagechange", {
+                        detail: { language: currentLanguage }
+                    })
+                );
+            } catch (error) {
+                if (requestId !== languageRequestId) return;
+
+                console.error("Error al cambiar el idioma:", error);
+
+                languageSelector.value = currentLanguage;
+            } finally {
+                if (requestId === languageRequestId) {
+                    languageSelector.disabled = false;
+                }
+            }
         });
     }
 

@@ -45,7 +45,7 @@
                         autocomplete="off"
                         aria-label="Buscar en el portfolio"
                         data-i18n-aria-label="backendSearchAria"
-                        aria-controls="portfolio-search-results"                        
+                        aria-controls="portfolio-search-results"
                     >
                 </div>
                 <div
@@ -518,19 +518,26 @@
                     Volver a QUALITY ASSURANCE
         </a>
     </footer>
-    <script src="js/translations.js"></script>
-    <script src="js/page-i18n.js"></script>
-    <script src="js/backend/translations-helper.js"></script>
-    <script src="js/backend/api-client.js"></script>
-    <script src="js/backend/result-renderer.js"></script>    
-    <script src="js/backend/http-guide.js"></script>
-    <script src="js/backend/api-lab.js"></script>
-    <script src="js/backend/validation-lab.js"></script>
-    <script src="js/backend/persistence-lab.js"></script>
-    <script defer="" src="js/search.js"></script>
-    <script defer src="js/shared/navigation.js"></script>
 
+    <!-- Internacionalización: español como respaldo -->
+    <script src="js/i18n/es.js" defer></script>
+
+    <!-- Carga dinámica de idiomas -->
+    <script src="js/translations.js" defer></script>
+    <script src="js/page-i18n.js" defer></script>
+
+    <!-- Laboratorio Backend: conservar el orden de dependencias -->
+    <script src="js/backend/translations-helper.js" defer></script>
+    <script src="js/backend/api-client.js" defer></script>
+    <script src="js/backend/result-renderer.js" defer></script>
+    <script src="js/backend/http-guide.js" defer></script>
+    <script src="js/backend/api-lab.js" defer></script>
+    <script src="js/backend/validation-lab.js" defer></script>
+    <script src="js/backend/persistence-lab.js" defer></script>
+
+    <!-- Búsqueda y navegación -->
+    <script src="js/search.js" defer></script>
+    <script src="js/shared/navigation.js" defer></script>
 
 </body>
-
 </html>

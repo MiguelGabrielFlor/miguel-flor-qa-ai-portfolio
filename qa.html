@@ -48,7 +48,7 @@
                         autocomplete="off"
                         aria-label="Buscar en el portfolio"
                         data-i18n-aria-label="qaSearchAria"
-                        aria-controls="portfolio-search-results"                        
+                        aria-controls="portfolio-search-results"
                     >
                     </div>
                 <div
@@ -5133,7 +5133,7 @@
                 <!-- Casos de prueba -->
                 <article class="evidence-card">
                     <h3 class="evidence-title">
-                        <span aria-hidden="true" class="evidence-icon">                         
+                        <span aria-hidden="true" class="evidence-icon">
                             <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24">
                                 <rect height="18" rx="2" width="16" x="4" y="3">
                                 </rect>
@@ -5251,7 +5251,7 @@
                 <!-- BUG-001 -->
                 <article class="evidence-card">
                     <h3 class="evidence-title evidence-title-bug">
-                        <span aria-hidden="true" class="evidence-icon">                            
+                        <span aria-hidden="true" class="evidence-icon">
                             <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24">
                                 <path d="M12 3 14 5l3-.2.8 2.8L20 10l-1 2 1 2-2.2 2.4-.8 2.8-3-.2L12 21l-2-2-3 .2-.8-2.8L4 14l1-2-1-2 2.2-2.4L7 5l3 .2z">
                                 </path>
@@ -5346,42 +5346,50 @@
             </select>
         </div>
     </footer>
-        <script src="js/translations.js"></script>
-        <script src="js/shared/new-tab-accessibility.js"></script>
-        <script src="js/page-i18n.js"></script>
-        <script src="js/qa/qa-interface.js"></script>
-        <script src="js/qa/qa-test-library.js"></script>
-        <script src="js/qa/qa-evidence-viewer.js" defer></script>
-        <script src="js/shared/navigation.js"></script>
-        <!-- VISOR DE DOCUMENTACIÓN QA -->
-        <dialog id="qaMarkdownDialog" class="qa-markdown-dialog"
-                aria-labelledby="qaMarkdownTitle">
 
-            <div class="qa-markdown-header">
-                <h2 id="qaMarkdownTitle"
-                    data-i18n="qaMarkdownViewerTitle">
-                    Documentación QA
-                </h2>
+    <!-- Diccionarios de internacionalización -->
+    <script src="js/i18n/es.js"></script>
+    <script src="js/i18n/en.js"></script>
+    <script src="js/i18n/pt.js"></script>
 
-                <button type="button"
-                        id="qaMarkdownClose"
-                        data-i18n-aria-label="qaMarkdownClose"
-                        aria-label="Cerrar documento">
-                    &times;
-                </button>
-            </div>
+    <!-- Compatibilidad con los módulos existentes -->
+    <script src="js/translations.js"></script>
 
-            <div id="qaMarkdownContent"
-                class="qa-markdown-content"
-                aria-live="polite">
-            </div>
+    <script src="js/shared/new-tab-accessibility.js"></script>
+    <script src="js/page-i18n.js"></script>
+    <script src="js/qa/qa-interface.js"></script>
+    <script src="js/qa/qa-test-library.js"></script>
+    <script src="js/qa/qa-evidence-viewer.js" defer></script>
+    <script src="js/shared/navigation.js"></script>
+    <!-- VISOR DE DOCUMENTACIÓN QA -->
+    <dialog id="qaMarkdownDialog" class="qa-markdown-dialog"
+            aria-labelledby="qaMarkdownTitle">
 
-        </dialog>
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
-        <script src="js/qa/qa-markdown.js"></script>
+        <div class="qa-markdown-header">
+            <h2 id="qaMarkdownTitle"
+                data-i18n="qaMarkdownViewerTitle">
+                Documentación QA
+            </h2>
 
-        <script defer="" src="js/search.js"></script>
+            <button type="button"
+                    id="qaMarkdownClose"
+                    data-i18n-aria-label="qaMarkdownClose"
+                    aria-label="Cerrar documento">
+                &times;
+            </button>
+        </div>
+
+        <div id="qaMarkdownContent"
+            class="qa-markdown-content"
+            aria-live="polite">
+        </div>
+
+    </dialog>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <script src="js/qa/qa-markdown.js"></script>
+
+    <script defer="" src="js/search.js"></script>
 
 </body>
 </html>

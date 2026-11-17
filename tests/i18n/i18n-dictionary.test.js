@@ -19,11 +19,12 @@ const PAGES = [
 
 const LANGUAGES = ['es', 'en', 'pt'];
 
-const TRANSLATIONS_FILE = path.join(
-    ROOT,
-    'js',
-    'translations.js'
-);
+const TRANSLATIONS_FILES = [
+    path.join(ROOT, 'js', 'i18n', 'es.js'),
+    path.join(ROOT, 'js', 'i18n', 'en.js'),
+    path.join(ROOT, 'js', 'i18n', 'pt.js'),
+    path.join(ROOT, 'js', 'translations.js')
+];
 
 const I18N_ATTRIBUTES = [
     'data-i18n',
@@ -34,27 +35,32 @@ const I18N_ATTRIBUTES = [
 ];
 
 function loadTranslations() {
-    const source = fs.readFileSync(
-        TRANSLATIONS_FILE,
-        'utf8'
-    );
-
     const context = {
         window: {}
     };
 
-    vm.runInNewContext(source, context, {
-        filename: TRANSLATIONS_FILE,
-        timeout: 5000
-    });
+    for (const filePath of TRANSLATIONS_FILES) {
+        const source = fs.readFileSync(filePath, 'utf8');
 
-    const translations =
-        context.window.portfolioTranslations;
+        vm.runInNewContext(source, context, {
+            filename: filePath,
+            timeout: 5000
+        });
+    }
+
+    const translations = context.window.portfolioTranslations;
 
     assert.ok(
         translations,
-        'No se encontró window.portfolioTranslations'
+        'No se pudo cargar el diccionario de traducciones'
     );
+
+    for (const language of ['es', 'en', 'pt']) {
+        assert.ok(
+            translations[language],
+            `Falta el diccionario ${language}`
+        );
+    }
 
     return translations;
 }
@@ -272,29 +278,28 @@ test(
         const errors = [];
         const keys = new Set();
 
-        const htmlPath = path.join(
+        const modulePath = path.join(
             ROOT,
-            'quality-management.html'
+            'js',
+            'quality-management',
+            'cycles.js'
         );
 
-        const html = fs.readFileSync(
-            htmlPath,
-            'utf8'
-        );
+        const moduleSource = fs.readFileSync(modulePath, 'utf8');
 
         // Localizar el bloque de datos qmCycles.
         const startMarker = 'const qmCycles = {';
         const endMarker = 'const qmCycleButtons =';
 
-        const start = html.indexOf(startMarker);
-        const end = html.indexOf(endMarker, start);
+        const start = moduleSource.indexOf(startMarker);
+        const end = moduleSource.indexOf(endMarker, start);
 
         assert.ok(
-            start !== -1 && end !== -1,
+            start !== -1 && end > start,
             'No se encontró el bloque qmCycles'
         );
 
-        const source = html.slice(start, end);
+        const source = moduleSource.slice(start, end);
 
         // Claves individuales:
         // categoryKey, titleKey, descriptionKey, labelKey.
@@ -508,6 +513,7 @@ test(
 
         const fixedFrontendTexts = new Set([
             'index.html',
+            'home.html',
             'accessPage',
             'accessForm',
             'css/style.css',
@@ -603,8 +609,21 @@ test(
             if (excluded) return;
 
             const translated =
-                inheritedTranslation || hasTranslation(node, page);
+                inheritedTranslation ||
+                hasTranslation(node, page) ||
+                (
+                    tag === 'button' &&
+                    getAttribute(node, 'data-i18n-aria-label') !== undefined &&
+                    node.childNodes?.every(child => {
+                        if (child.nodeName !== '#text') {
+                            return false;
+                        }
 
+                        const text = (child.value || '').trim();
+
+                        return !text || /^[×✕✖]$/.test(text);
+                    })
+                );
             
             const dynamicContent =
                 inheritedDynamic ||
@@ -727,23 +746,27 @@ test(
     () => {
         const translations = loadTranslations();
 
-        const html = fs.readFileSync(
-            path.join(ROOT, 'quality-management.html'),
-            'utf8'
+        const modulePath = path.join(
+            ROOT,
+            'js',
+            'quality-management',
+            'traceability.js'
         );
+
+        const moduleSource = fs.readFileSync(modulePath, 'utf8');
 
         const startMarker = 'const qmTraceData = [';
         const endMarker = 'const qmTraceButtons =';
 
-        const start = html.indexOf(startMarker);
-        const end = html.indexOf(endMarker, start);
+        const start = moduleSource.indexOf(startMarker);
+        const end = moduleSource.indexOf(endMarker, start);
 
         assert.ok(
             start !== -1 && end > start,
             'No se encontró el bloque qmTraceData'
         );
 
-        const source = html.slice(start, end);
+        const source = moduleSource.slice(start, end);
 
         const context = {};
 
@@ -834,8 +857,8 @@ test(
 
         assert.equal(
             traces.length,
-            6,
-            'Se esperaban 6 recorridos de trazabilidad'
+            15,
+            'Se esperaban 15 recorridos de trazabilidad'
         );
 
         assert.equal(
@@ -851,24 +874,28 @@ test(
     () => {
         const translations = loadTranslations();
 
-        const html = fs.readFileSync(
-            path.join(ROOT, 'quality-management.html'),
-            'utf8'
+        const modulePath = path.join(
+            ROOT,
+            'js',
+            'quality-management',
+            'defects.js'
         );
+
+        const moduleSource = fs.readFileSync(modulePath, 'utf8');
 
         const errors = [];
         let checkedKeys = 0;
 
         function extractData(startMarker, endMarker, variable) {
-            const start = html.indexOf(startMarker);
-            const end = html.indexOf(endMarker, start);
+            const start = moduleSource.indexOf(startMarker);
+            const end = moduleSource.indexOf(endMarker, start);
 
             assert.ok(
                 start !== -1 && end > start,
                 `No se encontró ${variable}`
             );
 
-            const source = html.slice(start, end);
+            const source = moduleSource.slice(start, end);
             const context = {};
 
             vm.runInNewContext(

@@ -43,7 +43,7 @@
                         autocomplete="off"
                         aria-label="Buscar en el portfolio"
                         data-i18n-aria-label="frontSearchAria"
-                        aria-controls="portfolio-search-results"                        
+                        aria-controls="portfolio-search-results"
                     >
                 </div>
                 <div
@@ -728,18 +728,25 @@
     </a>
     <div class="cv-language-selector"><select aria-label="Seleccionar idioma" class="cv-language-select" data-i18n-aria-label="frontFooterLanguageAria" id="cv-language-select"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></select></div></footer>
 
-        <script src="js/translations.js"></script>
-        <script src="js/page-i18n.js"></script>
-        <script src="js/frontend/translations-helper.js"></script>
-        <script src="js/code-showcase.js"></script>        
-        <script src="js/frontend/html-lab.js"></script>
-        <script src="js/frontend/validation-lab.js"></script>
-        <script src="js/frontend/language-lab.js"></script>
-        <script src="js/frontend/selenium-lab.js"></script>
-            
 
-            <script src="js/search.js" defer></script>
-            <script src="js/shared/navigation.js" defer></script>
+    <!-- Internacionalización: español como respaldo -->
+    <script src="js/i18n/es.js" defer></script>
+
+    <!-- Carga dinámica y persistencia del idioma -->
+    <script src="js/translations.js" defer></script>
+    <script src="js/page-i18n.js" defer></script>
+
+    <!-- Laboratorio Frontend: conservar el orden de dependencias -->
+    <script src="js/frontend/translations-helper.js" defer></script>
+    <script src="js/code-showcase.js" defer></script>
+    <script src="js/frontend/html-lab.js" defer></script>
+    <script src="js/frontend/validation-lab.js" defer></script>
+    <script src="js/frontend/language-lab.js" defer></script>
+    <script src="js/frontend/selenium-lab.js" defer></script>
+
+    <!-- Búsqueda y navegación -->
+    <script src="js/search.js" defer></script>
+    <script src="js/shared/navigation.js" defer></script>
 
 </body>
 </html>
