@@ -1,0 +1,1297 @@
+/* QA & AI Portfolio — HOME | home.html
+   Fase 3: separación conservadora de reglas inequívocas.
+   No editar sin verificar dependencias. */
+
+#specialties {
+
+
+
+    padding-bottom: 45px;
+
+
+
+}
+
+.hero {
+
+
+
+    min-height: calc(100vh - 70px);
+
+
+
+    display: flex;
+
+
+
+    align-items: center;
+
+
+
+    justify-content: space-between;
+
+
+
+    gap: 60px;
+
+
+
+}
+
+.hero-content {
+
+
+
+    max-width: 720px;
+
+
+
+}
+
+.hero h1 {
+
+
+
+    font-size: clamp(48px, 6.5vw, 82px);
+
+
+
+    line-height: 1.05;
+
+
+
+    font-weight: 700;
+
+
+
+    letter-spacing: -2px;
+
+
+
+    margin-bottom: 30px;
+
+
+
+}
+
+#home .hero h1,
+
+#home h1 {
+
+    color: var(--text);
+
+}
+
+#home .hero h1 span,
+
+#home h1 span {
+
+    color: var(--text);
+
+}
+
+#home .hero h1 span:last-of-type,
+
+#home h1 span:last-of-type {
+
+    color: var(--primary);
+
+}
+
+.hero-description {
+
+
+
+    text-align: justify;
+
+
+
+    max-width: 650px;
+
+
+
+    color: var(--text-secondary);
+
+
+
+    font-size: 18px;
+
+
+
+    margin-bottom: 35px;
+
+
+
+}
+
+.hero-panel {
+
+
+
+    position: relative;
+
+
+
+    isolation: isolate;
+
+
+
+    overflow: hidden;
+
+
+
+    box-sizing: border-box;
+
+
+
+    min-width: 240px;
+
+
+
+    max-width: 360px;
+
+
+
+    padding: 30px;
+
+
+
+    border: 1px solid var(--border);
+
+
+
+    border-radius: 18px;
+
+
+
+
+
+    transform: translateY(-60px);
+
+
+
+
+
+    transition:
+
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+
+        border-color 0.3s ease,
+
+        box-shadow 0.3s ease;
+
+
+
+    background: linear-gradient(
+
+
+
+        145deg,
+
+
+
+        var(--card),
+
+
+
+        var(--background-secondary)
+
+
+
+    );
+
+
+
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+
+
+
+}
+
+.hero-panel:hover {
+
+
+
+    border-color: #0A66C2;
+
+
+
+    box-shadow: 0 14px 36px rgba(10, 102, 194, 0.12);
+
+
+
+}
+
+.hero-panel::before {
+
+
+
+    content: "";
+
+
+
+    position: absolute;
+
+
+
+    inset: -50%;
+
+
+
+    z-index: 0;
+
+
+
+    pointer-events: none;
+
+
+
+    background: radial-gradient(
+
+
+
+        ellipse at center,
+
+
+
+        rgba(56, 189, 248, 0.16),
+
+
+
+        transparent 60%
+
+
+
+    );
+
+
+
+    animation: hero-panel-glow 9s ease-in-out infinite alternate;
+
+
+
+}
+
+.hero-panel > * {
+
+
+
+    position: relative;
+
+
+
+    z-index: 1;
+
+
+
+}
+
+.hero-panel-title {
+
+
+
+    position: relative;
+
+
+
+    margin: 0 0 10px;
+
+
+
+    color: var(--text-secondary);
+
+
+
+    font-size: 11px;
+
+
+
+    font-weight: 600;
+
+
+
+    letter-spacing: 2px;
+
+
+
+}
+
+.hero-panel-item {
+
+
+
+    position: relative;
+
+
+
+    text-align: center;
+
+
+
+}
+
+.hero-panel-item + .hero-panel-item {
+
+
+
+    margin-top: 26px;
+
+
+
+}
+
+.hero-panel-item strong {
+
+
+
+    display: block;
+
+
+
+    margin: 0 0 8px;
+
+
+
+    color: var(--text);
+
+
+
+    font-size: 14px;
+
+
+
+    line-height: 1.4;
+
+
+
+    letter-spacing: 0.4px;
+
+
+
+}
+
+.hero-panel-item p {
+
+
+
+    margin: 0;
+
+
+
+    color: var(--text-secondary);
+
+
+
+    font-size: 12px;
+
+
+
+    line-height: 1.6;
+
+
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+.hero-panel::before {
+
+
+
+        animation: none;
+
+
+
+    }
+}
+
+@media (max-width: 900px) {
+.hero-panel {
+
+
+
+        width: 100%;
+
+
+
+        max-width: 420px;
+
+
+
+        align-self: center;
+
+
+
+        transform: none;
+
+
+
+    }
+
+.hero {
+
+
+
+        flex-direction: column;
+
+
+
+        align-items: center;
+
+
+
+        justify-content: center;
+
+
+
+    }
+}
+
+@media (max-width: 600px) {
+.hero h1 {
+
+        font-size: clamp(38px, 8vw, 45px);
+
+        line-height: 1.15;
+
+        letter-spacing: -1px;
+
+        overflow-wrap: break-word;
+
+    }
+}
+
+.welcome-message {
+
+
+
+    font-size: clamp(1.5rem, 3vw, 2rem);
+
+
+
+    font-weight: 600;
+
+
+
+    line-height: 1.3;
+
+
+
+    margin-bottom: 1.25rem;
+
+
+
+    color: var(--text);
+
+
+
+    letter-spacing: -0.5px;
+
+
+
+}
+
+.linkedin-card,
+
+.github-card {
+
+
+
+    display: flex;
+
+
+
+    align-items: center;
+
+
+
+    width: 100%;
+
+
+
+    max-width: 760px;
+
+
+
+    box-sizing: border-box;
+
+
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+    padding: 28px;
+
+
+
+    color: inherit;
+
+    text-decoration: none;
+
+    text-align: left;
+
+    cursor: pointer;
+
+
+
+    background: var(--card);
+
+
+
+    border: 1px solid var(--border);
+
+
+
+    border-radius: 20px;
+
+
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+
+
+    transition:
+
+        border-color var(--interactive-duration) var(--interactive-easing),
+
+        transform var(--interactive-duration) var(--interactive-easing),
+
+        box-shadow var(--interactive-duration) var(--interactive-easing);
+
+}
+
+.linkedin-card {
+
+    gap: 24px;
+
+    margin-top: 32px;
+
+}
+
+.github-card {
+
+    margin-top: 24px;
+
+}
+
+.linkedin-card:hover,
+
+.github-card:hover {
+
+    border-color: var(--interactive-color);
+
+    transform: translateY(var(--card-hover-lift));
+
+    box-shadow: var(--interactive-glow);
+
+}
+
+.linkedin-card:focus-visible,
+
+.github-card:focus-visible {
+
+    outline: 3px solid var(--interactive-color);
+
+    outline-offset: 4px;
+
+}
+
+.linkedin-info,
+
+.github-info {
+
+
+
+    display: flex;
+
+
+
+    flex-direction: column;
+
+
+
+    flex: 1;
+
+
+
+    min-width: 0;
+
+
+
+    align-items: flex-start;
+
+
+
+}
+
+.linkedin-identity,
+
+.github-identity {
+
+
+
+    display: flex;
+
+
+
+    align-items: center;
+
+
+
+    gap: 14px;
+
+
+
+    width: 100%;
+
+
+
+    margin-bottom: 16px;
+
+
+
+}
+
+.linkedin-identity-text,
+
+.github-identity-text {
+
+
+
+    flex: 1;
+
+
+
+    min-width: 0;
+
+
+
+    overflow-wrap: anywhere;
+
+}
+
+.linkedin-info h3,
+
+.github-info h3 {
+
+    margin: 0 0 4px;
+
+    color: var(--text);
+
+    font-size: 1.5rem;
+
+}
+
+.linkedin-label,
+
+.github-label {
+
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+
+
+    font-size: 0.75rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+}
+
+.linkedin-label {
+
+    color: #58A6FF;
+
+}
+
+.github-label {
+
+    color: #58A6FF;
+
+}
+
+.linkedin-avatar {
+
+    display: block;
+
+    flex-shrink: 0;
+
+
+
+    width: 140px;
+
+    height: 140px;
+
+
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 3px solid #0A66C2;
+
+}
+
+.linkedin-logo {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    align-self: center;
+
+    flex-shrink: 0;
+
+
+
+    width: 42px;
+
+
+
+    height: 42px;
+
+
+
+    border-radius: 6px;
+
+
+
+    background: #0A66C2;
+
+
+
+    color: #fff;
+
+
+
+    font-size: 28px;
+
+
+
+    font-weight: 700;
+
+
+
+    letter-spacing: -2px;
+
+
+
+    line-height: 1;
+
+}
+
+.github-logo {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+
+
+    width: 42px;
+
+    height: 42px;
+
+
+
+    border-radius: 50%;
+
+    background: #24292f;
+
+    color: #fff;
+
+
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}
+
+.github-logo svg {
+
+    display: block;
+
+    width: 28px;
+
+    height: 28px;
+
+}
+
+.github-complement {
+
+    margin: 0 0 12px;
+
+    color: var(--text-secondary);
+
+
+
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+
+}
+
+.github-headline {
+
+    margin: 0 0 20px;
+
+    color: var(--text-secondary);
+
+
+
+    font-size: 0.95rem;
+
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+
+}
+
+.linkedin-button,
+
+.github-button {
+
+    display: inline-flex;
+
+
+
+    align-items: center;
+
+
+
+    justify-content: center;
+
+
+
+    align-self: center;
+
+
+
+    box-sizing: border-box;
+
+
+
+    max-width: 100%;
+
+
+
+    padding: 11px 18px;
+
+
+
+    border-radius: 10px;
+
+
+
+    text-align: center;
+
+
+
+    white-space: normal;
+
+
+
+    line-height: 1.4;
+
+
+
+    cursor: pointer;
+
+}
+
+.linkedin-button {
+
+    gap: 8px;
+
+    background: #0A66C2;
+
+    color: #fff;
+
+    border: 1px solid #0A66C2;
+
+}
+
+.github-button {
+
+    background: #24292f;
+
+    color: #fff;
+
+    border: 1px solid #24292f;
+
+}
+
+@media (max-width: 600px) {
+.linkedin-card,
+
+    .github-card {
+
+        flex-direction: column;
+
+
+
+        width: 100%;
+
+
+
+        max-width: 100%;
+
+
+
+        padding: 24px 18px;
+
+    }
+
+.linkedin-card {
+
+        align-items: center;
+
+        gap: 20px;
+
+    }
+
+.linkedin-avatar {
+
+
+
+        width: 140px;
+
+
+
+        height: 140px;
+
+
+
+        flex-shrink: 0;
+
+
+
+        object-fit: cover;
+
+
+
+        border-radius: 50%;
+
+
+
+    }
+
+.linkedin-info {
+
+
+
+        width: 100%;
+
+
+
+        min-width: 0;
+
+
+
+        align-items: stretch;
+
+
+
+    }
+
+.linkedin-identity {
+
+
+
+        width: 100%;
+
+
+
+        min-width: 0;
+
+
+
+        align-items: center;
+
+
+
+        gap: 12px;
+
+
+
+    }
+
+.linkedin-identity-text {
+
+
+
+        min-width: 0;
+
+
+
+        overflow-wrap: break-word;
+
+
+
+    }
+
+.linkedin-info h3 {
+
+
+
+        font-size: 1.25rem;
+
+
+
+        line-height: 1.3;
+
+
+
+    }
+
+.linkedin-headline {
+
+
+
+        width: 100%;
+
+
+
+        max-width: 100%;
+
+
+
+        overflow-wrap: break-word;
+
+
+
+        line-height: 1.6;
+
+
+
+    }
+
+.linkedin-button {
+
+
+
+        align-self: center;
+
+
+
+        max-width: 100%;
+
+
+
+        text-align: center;
+
+
+
+    }
+
+.github-card {
+
+        align-items: stretch;
+
+        gap: 18px;
+
+        text-align: left;
+
+    }
+
+.github-info h3 {
+
+        font-size: 1.3rem;
+
+    }
+
+.github-button {
+
+        max-width: 100%;
+
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+.linkedin-card,
+
+    .github-card {
+
+        transition: none;
+
+    }
+
+.linkedin-card:hover,
+
+    .github-card:hover {
+
+        transform: none;
+
+    }
+}
+
+#about .info-card {
+
+
+
+    display: flex;
+
+
+
+    flex-direction: column;
+
+
+
+}
+
+#about .info-card .button {
+
+
+
+    align-self: center;
+
+
+
+}
+
+#about .two-column > div:first-child p {
+
+
+
+    text-align: justify;
+
+
+
+}
+
+#about .info-card-link {
+
+
+
+    display: flex;
+
+
+
+    flex-direction: column;
+
+
+
+    text-decoration: none;
+
+
+
+    color: inherit;
+
+
+
+    cursor: pointer;
+
+
+
+}
+
+#about .info-card-link:focus-visible {
+
+
+
+    outline: 2px solid #3794FF;
+
+
+
+    outline-offset: 4px;
+
+
+
+}
+
+#about a.info-card-link {
+
+
+
+    display: flex;
+
+
+
+    flex-direction: column;
+
+
+
+    justify-content: space-between;
+
+
+
+    gap: 24px;
+
+
+
+    text-decoration: none;
+
+
+
+    color: inherit;
+
+
+
+}
+
+#about a.info-card-link p {
+
+
+
+    text-align: justify;
+
+
+
+    line-height: 1.8;
+
+
+
+    margin: 0;
+
+
+
+}
+
+#about a.info-card-link h3 {
+
+
+
+    line-height: 1.4;
+
+
+
+    margin: 0;
+
+
+
+}
+
+#specialties + #qa {
+
+
+
+    padding-top: 100px;
+
+
+
+}
+
+.hero-description {
+
+    text-align: justify;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    overflow-wrap: break-word;
+
+    hyphens: auto;
+
+}

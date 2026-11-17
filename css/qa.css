@@ -1,3 +1,144 @@
+/* ============================================================
+   FASE 4 — ESTILOS CONSOLIDADOS DESDE css/qa-extraido.css
+   HTML: qa.html
+   Orden conservado: extraído antes de CSS específico.
+   ============================================================ */
+
+/* QA & AI Portfolio — QA | qa.html
+   Fase 3: separación conservadora de reglas inequívocas.
+   No editar sin verificar dependencias. */
+
+.selenium-phone-coverage table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    text-align: left;
+
+}
+
+.selenium-phone-coverage th {
+
+    padding: 14px 16px;
+
+    background: #161b22;
+
+    color: #9cdcfe;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    border-bottom: 1px solid #30363d;
+
+}
+
+.selenium-phone-coverage td {
+
+    padding: 12px 16px;
+
+    color: #d4d4d4;
+
+    font-size: 0.85rem;
+
+    border-bottom: 1px solid #21262d;
+
+}
+
+.selenium-phone-coverage tbody tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+.selenium-phone-coverage tbody tr:hover {
+
+    background: rgba(55, 148, 255, 0.08);
+
+}
+
+.selenium-phone-coverage td:first-child {
+
+    color: #569cd6;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+.selenium-phone-coverage td code {
+
+    color: #ce9178;
+
+    font-family: Consolas, "Courier New", monospace;
+
+    font-size: 0.85rem;
+
+    white-space: nowrap;
+
+    background: transparent;
+
+    padding: 0;
+
+}
+
+.selenium-phone-coverage td:last-child {
+
+    color: #b5cea8;
+
+    white-space: nowrap;
+
+}
+
+@media (max-width: 768px) {
+.selenium-phone-coverage th,
+
+    .selenium-phone-coverage td {
+
+        padding: 10px 12px;
+
+        font-size: 0.8rem;
+
+    }
+}
+
+.bug-observation-text {
+
+    white-space: pre-line;
+
+    line-height: 1.8;
+
+}
+
+#regresion-bugs [data-i18n="qaObservationTraceability004"] {
+
+    white-space: pre-line;
+
+    line-height: 1.8;
+
+}
+
+#regresion-bugs [data-i18n="qaRequirementAmbiguity004"],
+
+#regresion-bugs [data-i18n="qaObservationActualResult004"],
+
+#regresion-bugs [data-i18n="qaObservationVisualVerification004"],
+
+#regresion-bugs [data-i18n="qaObservationConclusion004"] {
+
+    white-space: pre-line;
+
+    line-height: 1.8;
+
+}
+
+/* ============================================================
+   CSS ESPECÍFICO ORIGINAL: css/qa.css
+   HTML: qa.html
+   ============================================================ */
+
 /* Estructura principal */
         .showcase {
             width: min(1100px, calc(100% - 32px));

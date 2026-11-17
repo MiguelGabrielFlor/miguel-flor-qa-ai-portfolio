@@ -1,3 +1,346 @@
+/* ============================================================
+   FASE 4 — ESTILOS CONSOLIDADOS DESDE css/cv-extraido.css
+   HTML: cv.html
+   Orden conservado: extraído antes de CSS específico.
+   ============================================================ */
+
+/* QA & AI Portfolio — CV | cv.html
+   Fase 3: separación conservadora de reglas inequívocas.
+   No editar sin verificar dependencias. */
+
+body:has(#cv) .navbar .index-grid {
+
+
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+
+
+    align-items: stretch;
+
+
+
+}
+
+body:has(#cv) .navbar .index-link {
+
+
+
+    width: 100%;
+
+
+
+    height: 100%;
+
+
+
+    min-width: 0;
+
+
+
+    box-sizing: border-box;
+
+
+
+    justify-self: stretch;
+
+
+
+    align-self: stretch;
+
+
+
+    justify-content: flex-start;
+
+
+
+}
+
+body:has(#cv) .navbar .index-link strong {
+
+
+
+    line-height: 1.5;
+
+
+
+}
+
+body:has(#cv) .navbar .index-link small {
+
+
+
+    line-height: 1.5;
+
+
+
+}
+
+@media (max-width: 760px) {
+body:has(#cv) .navbar .index-grid {
+
+
+
+        grid-template-columns: minmax(0, 1fr);
+
+
+
+    }
+}
+
+#cv #experience ,
+
+
+
+#cv #education {
+
+
+
+    scroll-margin-top: 110px;
+
+
+
+}
+
+.cv-experience-card .eyebrow {
+
+
+
+    margin: 0 0 12px;
+
+
+
+    color: #3794FF;
+
+
+
+    font-size: 12px;
+
+
+
+    font-weight: 700;
+
+
+
+    letter-spacing: 1px;
+
+
+
+}
+
+.cv-experience-card p:not(.eyebrow) {
+
+
+
+    color: var(--text-secondary);
+
+
+
+    font-size: 14px;
+
+
+
+    line-height: 1.85;
+
+
+
+    margin: 0 0 14px;
+
+
+
+    text-align: justify;
+
+
+
+}
+
+#cv .section-heading,
+
+
+
+#cv .cv-experience {
+
+
+
+    width: calc(100% - 50px);
+
+
+
+    max-width: var(--max-width);
+
+
+
+    margin-left: auto;
+
+
+
+    margin-right: auto;
+
+
+
+    box-sizing: border-box;
+
+
+
+}
+
+#cv .section-heading {
+
+
+
+    text-align: left;
+
+
+
+}
+
+#cv .section-heading h1,
+
+
+
+#cv .section-heading > p:not(.eyebrow) {
+
+
+
+    width: 100%;
+
+
+
+    max-width: none;
+
+
+
+    margin-left: 0;
+
+
+
+    margin-right: 0;
+
+
+
+    box-sizing: border-box;
+
+
+
+}
+
+#cv .section-heading > p:not(.eyebrow) {
+
+
+
+    text-align: justify;
+
+
+
+}
+
+@media (max-width: 600px) {
+#cv .section-heading,
+
+
+
+    #cv .cv-experience {
+
+
+
+        width: calc(100% - 30px);
+
+
+
+    }
+}
+
+#cv .cv-experience-card.cv-training-card {
+
+
+
+    cursor: pointer;
+
+
+
+    transition:
+
+
+
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+
+
+
+        border-color 0.65s ease,
+
+
+
+        background-color 0.65s ease;
+
+
+
+}
+
+#cv .cv-experience-card.cv-training-card:hover {
+
+
+
+    transform: translateY(-3.5px);
+
+
+
+    border-color: #3794FF;
+
+
+
+    background-color: rgba(55, 148, 255, 0.04);
+
+
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+#cv .cv-experience-card.cv-training-card {
+
+        transition: none;
+
+    }
+
+#cv .cv-experience-card.cv-training-card:hover,
+
+    #cv .cv-experience-card.cv-training-card:focus-visible {
+
+        transform: none;
+
+    }
+}
+
+.certificate-dialog-header .eyebrow {
+
+
+
+    margin: 0 0 10px;
+
+
+
+    color: #3794FF;
+
+
+
+    font-size: 12px;
+
+
+
+    font-weight: 700;
+
+
+
+    letter-spacing: 1px;
+
+
+
+}
+
+/* ============================================================
+   CSS ESPECÍFICO ORIGINAL: css/cv.css
+   HTML: cv.html
+   ============================================================ */
+
 
 /* ==========================================================
    QA & AI Portfolio — CV
