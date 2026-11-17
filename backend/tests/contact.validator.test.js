@@ -131,3 +131,22 @@ test('CONTACT-013: rechaza datos personales parciales', () => {
 
     assert.equal(result.valid, false);
 });
+
+test('CONTACT-014 / SEC-004: rechaza nombres y apellidos sin letras', () => {
+    const invalidValues = ['--', "''", '---', "'-'", ' - '];
+
+    for (const field of ['nombre', 'apellido']) {
+        for (const value of invalidValues) {
+            const result = validateContactMessage({
+                ...registered,
+                [field]: value
+            });
+
+            assert.equal(
+                result.valid,
+                false,
+                `${field}: ${JSON.stringify(value)}`
+            );
+        }
+    }
+});

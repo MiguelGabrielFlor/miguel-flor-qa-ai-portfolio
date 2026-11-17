@@ -251,3 +251,101 @@ ni otras medidas de protección de la API.
 
 SEC-003: CLOSED — Configuración CORS de desarrollo
 restringida y verificada mediante tres solicitudes HTTP.
+
+---
+
+## SEC-004 — Validación insuficiente de nombres y apellidos
+
+**Prioridad:** P0 — Auditoría de seguridad y privacidad
+**Estado:** CLOSED — Corrección y regresión verificadas
+**Fecha de verificación:** 17/11/2026
+**Entorno:** Backend Node.js / Validadores de visitantes y contacto
+
+### 1. Descripción del hallazgo
+
+Durante la auditoría se identificó que el validador
+compartido de nombres y apellidos permitía cadenas
+compuestas exclusivamente por guiones o apóstrofes.
+
+La expresión regular existente admitía letras Unicode,
+espacios, guiones y apóstrofes, pero no exigía la
+presencia de al menos una letra.
+
+### 2. Evidencia inicial
+
+Archivo afectado:
+`backend/src/validators/person-name.validator.js`.
+
+Resultados anteriores a la corrección:
+
+| Entrada | Resultado inicial | Evaluación |
+|---|---|---|
+| `--` | true | FAIL |
+| `''` | true | FAIL |
+
+El defecto afectaba a los validadores que reutilizan
+la función `isValidPersonName`.
+
+No se confirmó explotación ni impacto sobre registros
+existentes.
+
+### 3. Corrección implementada
+
+Se incorporó una comprobación adicional mediante
+la expresión regular `/\p{L}/u`.
+
+La validación exige ahora que el nombre:
+
+- Sea una cadena de texto.
+- Contenga entre 2 y 50 caracteres después de aplicar `trim()`.
+- Utilice únicamente los caracteres permitidos.
+- Contenga al menos una letra Unicode.
+
+Se conservaron las reglas existentes de longitud
+y compatibilidad con nombres internacionales.
+
+### 4. Pruebas de regresión
+
+Archivos de pruebas:
+
+- `backend/tests/visitor.validator.test.js`
+- `backend/tests/contact.validator.test.js`
+
+Casos incorporados:
+
+- `SEC-004`: rechazo de nombres y apellidos sin letras
+  en el registro de visitantes.
+- `CONTACT-014 / SEC-004`: rechazo de nombres y apellidos
+  sin letras en el formulario de contacto.
+
+Se verificaron cinco entradas inválidas en ambos
+campos y en los dos flujos.
+
+### 5. Resultados de verificación
+
+| Control | Resultado |
+|---|---|
+| Comprobaciones puntuales del validador | 6/6 PASS |
+| Pruebas automatizadas de visitantes y contacto | 24/24 PASS |
+| Pruebas automatizadas fallidas | 0 |
+| Rechazo de nombres sin letras | PASS |
+| Compatibilidad con nombres Unicode | PASS |
+| Conservación de pruebas existentes | PASS |
+
+La ejecución automatizada se realizó con `node --test`.
+
+### 6. Alcance y limitaciones
+
+La corrección se verificó en el backend local.
+
+No se realizó en este control una prueba HTTP
+específica contra el entorno de producción.
+
+Las pruebas confirman el comportamiento de los
+validadores, pero no constituyen una auditoría
+completa de todas las entradas de la aplicación.
+
+### 7. Resultado
+
+SEC-004: CLOSED — Validación de nombres y apellidos
+corregida y regresión automatizada 24/24 PASS.

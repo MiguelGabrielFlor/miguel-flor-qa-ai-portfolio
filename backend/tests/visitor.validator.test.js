@@ -105,3 +105,22 @@ test('Acepta nombres de exactamente 50 caracteres', () => {
 
     assert.equal(result.valid, true);
 });
+
+test('SEC-004: rechaza nombres y apellidos sin letras', () => {
+    const invalidValues = ['--', "''", '---', "'-'", ' - '];
+
+    for (const field of ['nombre', 'apellido']) {
+        for (const value of invalidValues) {
+            const result = validateVisitor({
+                ...validVisitor,
+                [field]: value
+            });
+
+            assert.equal(
+                result.valid,
+                false,
+                `${field}: ${JSON.stringify(value)}`
+            );
+        }
+    }
+});
