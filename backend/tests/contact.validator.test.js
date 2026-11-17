@@ -67,3 +67,67 @@ test('CONTACT-006: rechaza datos personales incompletos', () => {
 
     assert.equal(result.valid, false);
 });
+
+test('CONTACT-007: rechaza nombre registrado de un carácter', () => {
+    const result = validateContactMessage({
+        ...registered,
+        nombre: 'A'
+    });
+
+    assert.equal(result.valid, false);
+});
+
+test('CONTACT-008: rechaza apellido registrado de más de 50 caracteres', () => {
+    const result = validateContactMessage({
+        ...registered,
+        apellido: 'A'.repeat(51)
+    });
+
+    assert.equal(result.valid, false);
+});
+
+test('CONTACT-009: rechaza caracteres inválidos en nombres', () => {
+    const result = validateContactMessage({
+        ...registered,
+        nombre: 'Miguel123'
+    });
+
+    assert.equal(result.valid, false);
+});
+
+test('CONTACT-010: acepta nombres Unicode válidos', () => {
+    const result = validateContactMessage({
+        ...registered,
+        nombre: 'María José',
+        apellido: "O'Connor"
+    });
+
+    assert.equal(result.valid, true);
+});
+
+test('CONTACT-011: rechaza mensajes de más de 5000 caracteres', () => {
+    const result = validateContactMessage({
+        ...guest,
+        mensaje: 'A'.repeat(5001)
+    });
+
+    assert.equal(result.valid, false);
+});
+
+test('CONTACT-012: acepta mensajes de exactamente 5000 caracteres', () => {
+    const result = validateContactMessage({
+        ...guest,
+        mensaje: 'A'.repeat(5000)
+    });
+
+    assert.equal(result.valid, true);
+});
+
+test('CONTACT-013: rechaza datos personales parciales', () => {
+    const result = validateContactMessage({
+        ...guest,
+        nombre: 'Miguel'
+    });
+
+    assert.equal(result.valid, false);
+});

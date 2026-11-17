@@ -1,4 +1,6 @@
 
+const { isValidPersonName } = require('./person-name.validator');
+
 function validateContactMessage(contact) {
     const errors = [];
 
@@ -26,17 +28,17 @@ function validateContactMessage(contact) {
     const phoneRegex = /^\+?[0-9\s()-]+$/;
     const phoneDigits = telefono.replace(/\D/g, '');
 
-    // Acceso directo: sin datos personales adicionales.
+    // Acceso directo: no requiere datos personales adicionales.
     const isGuest = !nombre && !apellido && !telefono;
 
-    // Mantener las validaciones del acceso registrado.
+    // Los visitantes registrados deben proporcionar datos válidos.
     if (!isGuest) {
-        if (!nombre || nombre.length > 50) {
-            errors.push('Ingresá un nombre válido.');
+        if (!isValidPersonName(nombre)) {
+            errors.push('Ingresá un nombre válido de 2 a 50 caracteres.');
         }
 
-        if (!apellido || apellido.length > 50) {
-            errors.push('Ingresá un apellido válido.');
+        if (!isValidPersonName(apellido)) {
+            errors.push('Ingresá un apellido válido de 2 a 50 caracteres.');
         }
 
         if (
@@ -45,27 +47,19 @@ function validateContactMessage(contact) {
             phoneDigits.length < 7 ||
             phoneDigits.length > 15
         ) {
-            errors.push(
-                'Ingresá un teléfono válido de 7 a 15 dígitos.'
-            );
+            errors.push('Ingresá un teléfono válido de 7 a 15 dígitos.');
         }
     }
 
-    // Obligatorio para ambas modalidades.
-    if (
-        !email ||
-        email.length > 254 ||
-        !emailRegex.test(email)
-    ) {
+    // Obligatorios para ambas modalidades.
+    if (!email || email.length > 254 || !emailRegex.test(email)) {
         errors.push('Ingresá un correo electrónico válido.');
     }
 
     if (!mensaje) {
         errors.push('El mensaje es obligatorio.');
     } else if (mensaje.length > 5000) {
-        errors.push(
-            'El mensaje no puede superar los 5000 caracteres.'
-        );
+        errors.push('El mensaje no puede superar los 5000 caracteres.');
     }
 
     return {

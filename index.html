@@ -43,7 +43,7 @@
     >
 
         <section class="access-card">
-            
+
             <div class="language-selector">
                 <select
                     id="languageSelect"
@@ -78,13 +78,13 @@
 
                 <h2 data-i18n="accessWelcome">
                     Te doy la bienvenida
-                </h2>                
+                </h2>
 
             </section>
 
             <div class="access-options">
 
-                <article class="access-option-card" data-access-target="guestAccessButton"> 
+                <article class="access-option-card" data-access-target="guestAccessButton">
                     <h3 data-i18n="guestAccessTitle">
                         Acceso directo
                     </h3>
@@ -110,7 +110,7 @@
 
                     <p data-i18n="registeredAccessDescription">
                         Registrate para acceder al portfolio interactivo y recibir una bienvenida personalizada.
-                        
+
                     </p>
 
                     <button
@@ -254,7 +254,6 @@
 
                 </div>
 
-
                 <div class="consent">
 
                     <input
@@ -262,20 +261,28 @@
                         id="consent"
                         name="consent"
                         aria-required="true"
+                        aria-describedby="privacyNotice"
                     >
 
-
                     <label for="consent">
-
                         <span data-i18n="consentLabel">
-                            Acepto el registro de mis datos para acceder al portfolio
+                            Acepto el tratamiento de mis datos personales
+                            para registrarme y acceder al portfolio.
                         </span>
                         <span class="required-indicator" aria-hidden="true">*</span>
-
                     </label>
 
                 </div>
 
+                <p
+                    class="form-help"
+                    id="privacyNotice"
+                    data-i18n="privacyNotice"
+                >
+                    Los datos de registro se conservarán durante un
+                    máximo de 90 días. Podés solicitar su eliminación
+                    anticipada.
+                </p>
 
                 <small
                     class="error-message"
@@ -313,7 +320,7 @@
 
         </section>
 
-    </main>     
+    </main>
 
     <script>
         new PerformanceObserver((list) => {
@@ -334,7 +341,7 @@
             buffered: true
         });
     </script>
-        
+
     <!-- Internacionalización y acceso -->
     <script defer src="js/i18n/es.js"></script>
     <script defer src="js/translations.js"></script>

@@ -1,4 +1,7 @@
-﻿function validateVisitor(visitor) {
+
+const { isValidPersonName } = require('./person-name.validator');
+
+function validateVisitor(visitor) {
     const errors = [];
 
     const nombre = typeof visitor?.nombre === 'string'
@@ -17,22 +20,21 @@
         ? visitor.telefono.trim()
         : '';
 
-    if (!nombre) {
-        errors.push('El nombre es obligatorio.');
-    }
-
-    if (!apellido) {
-        errors.push('El apellido es obligatorio.');
-    }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\+?[0-9\s()-]+$/;
+    const phoneDigits = telefono.replace(/\D/g, '');
+
+    if (!isValidPersonName(nombre)) {
+        errors.push('Ingresá un nombre válido de 2 a 50 caracteres.');
+    }
+
+    if (!isValidPersonName(apellido)) {
+        errors.push('Ingresá un apellido válido de 2 a 50 caracteres.');
+    }
 
     if (!email || email.length > 254 || !emailRegex.test(email)) {
         errors.push('Ingresá un correo electrónico válido.');
     }
-
-    const phoneRegex = /^\+?[0-9\s()-]+$/;
-    const phoneDigits = telefono.replace(/\D/g, '');
 
     if (
         !telefono ||
@@ -43,7 +45,10 @@
         errors.push('Ingresá un teléfono válido de 7 a 15 dígitos.');
     }
 
-    if (visitor?.consentimiento !== true && visitor?.consentimiento !== 1) {
+    if (
+        visitor?.consentimiento !== true &&
+        visitor?.consentimiento !== 1
+    ) {
         errors.push('El consentimiento es obligatorio.');
     }
 

@@ -1,4 +1,4 @@
-﻿const { test } = require('node:test');
+const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { validateVisitor } = require('../src/validators/visitor.validator');
 
@@ -45,4 +45,63 @@ test('Validador rechaza un registro sin consentimiento', () => {
 
     assert.equal(result.valid, false);
     assert.ok(result.errors.some(error => error.includes('consentimiento')));
+});
+
+test('Rechaza nombres y apellidos de menos de 2 caracteres', () => {
+    for (const field of ['nombre', 'apellido']) {
+        const result = validateVisitor({
+            ...validVisitor,
+            [field]: 'A'
+        });
+
+        assert.equal(result.valid, false, field);
+    }
+});
+
+test('Rechaza nombres y apellidos de más de 50 caracteres', () => {
+    for (const field of ['nombre', 'apellido']) {
+        const result = validateVisitor({
+            ...validVisitor,
+            [field]: 'A'.repeat(51)
+        });
+
+        assert.equal(result.valid, false, field);
+    }
+});
+
+test('Rechaza números y caracteres inválidos en nombres', () => {
+    for (const value of ['Miguel123', 'Juan@', 'Ana_']) {
+        const result = validateVisitor({
+            ...validVisitor,
+            nombre: value
+        });
+
+        assert.equal(result.valid, false, value);
+    }
+});
+
+test('Acepta nombres Unicode y caracteres permitidos', () => {
+    for (const value of [
+        'María José',
+        "O'Connor",
+        'Ana-María',
+        'Jo'
+    ]) {
+        const result = validateVisitor({
+            ...validVisitor,
+            nombre: value
+        });
+
+        assert.equal(result.valid, true, value);
+    }
+});
+
+test('Acepta nombres de exactamente 50 caracteres', () => {
+    const result = validateVisitor({
+        ...validVisitor,
+        nombre: 'A'.repeat(50),
+        apellido: 'B'.repeat(50)
+    });
+
+    assert.equal(result.valid, true);
 });
