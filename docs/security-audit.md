@@ -349,3 +349,79 @@ completa de todas las entradas de la aplicación.
 
 SEC-004: CLOSED — Validación de nombres y apellidos
 corregida y regresión automatizada 24/24 PASS.
+
+---
+
+## SEC-005 — Ausencia de política explícita de caché en la API
+
+**Prioridad:** P0 — Auditoría de seguridad y privacidad
+**Estado:** CLOSED — Corrección verificada
+**Fecha de verificación:** 17/11/2026
+**Entorno:** Backend Express / Desarrollo local
+
+### 1. Descripción del hallazgo
+
+Durante la auditoría se identificó que las respuestas
+de la API no incluían una política explícita para
+impedir su almacenamiento en caché.
+
+El endpoint de visitantes puede devolver información
+relacionada con registros personales.
+
+### 2. Evidencia inicial
+
+La respuesta de GET /api/health no incluía:
+
+- Cache-Control
+- Pragma
+
+La ausencia de estas cabeceras motivó la revisión
+de la política de caché de la API.
+
+No se confirmó almacenamiento indebido de datos
+personales por parte de navegadores o intermediarios.
+
+### 3. Corrección implementada
+
+Archivo modificado: backend/src/app.js.
+
+Se incorporó un middleware para todas las rutas
+bajo /api que establece:
+
+- Cache-Control: no-store
+- Pragma: no-cache
+
+La modificación no altera las reglas de validación,
+CORS ni las operaciones de SQLite.
+
+### 4. Resultados de verificación
+
+| Control | Resultado |
+|---|---|
+| Sintaxis JavaScript | PASS |
+| Reinicio del backend | PASS |
+| GET /api/health | HTTP 200 |
+| POST /api/visitors con datos inválidos | HTTP 400 |
+| Content-Type de respuesta de validación | application/json |
+| Cache-Control | no-store — PASS |
+| Pragma | no-cache — PASS |
+| Cabeceras de Helmet | Conservadas |
+
+### 5. Alcance y limitaciones
+
+Las comprobaciones HTTP se realizaron en desarrollo local.
+
+No se verificó en este control el comportamiento
+de caché del entorno de producción.
+
+La directiva no-store solicita a los clientes y
+cachés compatibles que no almacenen la respuesta,
+pero no sustituye otros controles de privacidad.
+
+No se ejecutaron solicitudes válidas que generaran
+nuevos registros personales durante esta verificación.
+
+### 6. Resultado
+
+SEC-005: CLOSED — Política de caché incorporada
+y verificada mediante respuestas HTTP reales.

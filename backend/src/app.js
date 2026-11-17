@@ -13,11 +13,22 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
     if (process.env.NODE_ENV === 'production') {
         app.set('trust proxy', 'loopback');
     }
+
     app.disable('x-powered-by');
 
     app.use(helmet({
         contentSecurityPolicy: false
     }));
+
+    // Evitar el almacenamiento en caché de respuestas de la API.
+    app.use('/api', (req, res, next) => {
+        res.set({
+            'Cache-Control': 'no-store',
+            'Pragma': 'no-cache'
+        });
+
+        next();
+    });
 
     const publicApiLimiter = rateLimit({
         windowMs: 15 * 60 * 1000,
