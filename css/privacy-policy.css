@@ -1,0 +1,285 @@
+
+/* BOTÓN POLÍTICA DE PRIVACIDAD */
+
+#accessPage .privacy-policy-trigger,
+.main-footer .privacy-policy-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #60a5fa;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease;
+}
+
+/* ILUMINACIÓN GRADUAL AL PASAR EL MOUSE */
+
+#accessPage .privacy-policy-trigger:hover,
+.main-footer .privacy-policy-trigger:hover {
+    background-color: #348ef7;
+    border-color: #348ef7;
+    color: #ffffff;
+    box-shadow: none;
+}
+
+/* ACCESIBILIDAD CON TECLADO */
+
+#accessPage .privacy-policy-trigger:focus-visible,
+.main-footer .privacy-policy-trigger:focus-visible {
+    background-color: #348ef7;
+    border-color: #348ef7;
+    color: #ffffff;
+    outline: 2px solid #93c5fd;
+    outline-offset: 3px;
+}
+
+/* ESTADO AL PRESIONAR */
+
+#accessPage .privacy-policy-trigger:active,
+.main-footer .privacy-policy-trigger:active {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+    #accessPage .privacy-policy-trigger,
+    .main-footer .privacy-policy-trigger {
+        transition: none;
+    }
+}
+
+.access-footer .privacy-policy-trigger {
+    margin-top: 10px;
+}
+
+.main-footer-privacy {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-privacy {
+    justify-self: start;
+}
+
+.main-footer-privacy .footer-language {
+    justify-self: center;
+}
+
+.footer-identity {
+    justify-self: end;
+    text-align: right;
+}
+
+.footer-identity p {
+    margin: 0;
+}
+
+.footer-identity p + p {
+    margin-top: 6px;
+}
+
+/* VENTANA MODAL */
+
+.privacy-dialog {
+    width: min(860px, calc(100% - 32px));
+    max-height: min(88dvh, 900px);
+    padding: 0;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    background: #101925;
+    color: #e2e8f0;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65);
+    overflow: hidden;
+}
+
+.privacy-dialog::backdrop {
+    background: rgba(2, 6, 23, 0.82);
+}
+
+.privacy-dialog-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: min(88dvh, 900px);
+}
+
+.privacy-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 26px;
+    border-bottom: 1px solid #334155;
+}
+
+.privacy-dialog-header h2 {
+    margin: 0;
+    color: #f8fafc;
+    font-size: 1.35rem;
+    line-height: 1.4;
+}
+
+.privacy-dialog-subtitle {
+    margin: 6px 0 0;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.privacy-dialog-close {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #172435;
+    color: #e2e8f0;
+    font: inherit;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.privacy-dialog-content {
+    padding: 24px 28px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    line-height: 1.75;
+    font-size: 0.9rem;
+}
+
+.privacy-dialog-content section + section {
+    margin-top: 26px;
+}
+
+.privacy-dialog-content h3 {
+    margin: 0 0 10px;
+    color: #93c5fd;
+    font-size: 1.05rem;
+}
+
+.privacy-dialog-content p {
+    margin: 0 0 12px;
+}
+
+.privacy-dialog-content ul {
+    margin: 8px 0 14px;
+    padding-left: 22px;
+}
+
+.privacy-dialog-content li + li {
+    margin-top: 6px;
+}
+
+.privacy-dialog-content a {
+    color: #93c5fd;
+    overflow-wrap: anywhere;
+}
+
+.privacy-dialog-content strong {
+    color: #f8fafc;
+}
+
+.privacy-dialog-footer {
+    padding: 14px 26px;
+    border-top: 1px solid #334155;
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 640px) {
+    .main-footer-privacy {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .footer-privacy,
+    .main-footer-privacy .footer-language,
+    .footer-identity {
+        justify-self: center;
+        text-align: center;
+    }
+
+    .privacy-dialog {
+        width: calc(100% - 20px);
+        max-height: 92dvh;
+    }
+
+    .privacy-dialog-panel {
+        max-height: 92dvh;
+    }
+
+    .privacy-dialog-header {
+        padding: 18px;
+    }
+
+    .privacy-dialog-content {
+        padding: 18px;
+    }
+
+    .privacy-dialog-footer {
+        padding: 12px 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .privacy-policy-trigger {
+        transition: none;
+    }
+}
+
+/* POLÍTICA DE PRIVACIDAD — TIPOGRAFÍA DE LECTURA */
+
+.privacy-dialog {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+
+.privacy-dialog-content {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: normal;
+}
+
+.privacy-dialog-content p,
+.privacy-dialog-content li {
+    font-weight: 400;
+}
+
+.privacy-dialog-content h3 {
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.privacy-dialog-header h2 {
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.privacy-dialog-subtitle,
+.privacy-dialog-footer {
+    font-family: inherit;
+    font-weight: 400;
+}
+
+.privacy-dialog-content strong {
+    font-weight: 600;
+}

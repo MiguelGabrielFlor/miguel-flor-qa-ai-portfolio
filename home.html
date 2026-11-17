@@ -19,11 +19,11 @@
 
     <title>Miguel Flor | QA Tester & AI Consultant</title>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
+
+    <link rel="stylesheet" href="css/privacy-policy.css">
+
 
 </head>
 
@@ -826,18 +826,25 @@
         </section>
         
         </main>
-        <!-- FIN CONTENIDO PRINCIPAL -->
+        <!-- FIN CONTENIDO PRINCIPAL -->       
         
-        <!-- FOOTER -->
+        <!-- FOOTER HOME -->
+        <footer class="main-footer main-footer-privacy">
 
-        <footer class="main-footer">
-
-            <p>
-                © 2026 Miguel Flor
-            </p>
+            <div class="footer-privacy">
+                <button
+                    type="button"
+                    class="privacy-policy-trigger"
+                    data-privacy-open
+                    data-i18n="privacyPolicyLink"
+                    aria-haspopup="dialog"
+                >
+                    Política de privacidad
+                </button>
+            </div>
 
             <div class="footer-language">
-                
+
                 <select
                     id="footerLanguageSelect"
                     name="footerLanguage"
@@ -848,11 +855,13 @@
                     <option value="en">English</option>
                     <option value="pt">Português</option>
                 </select>
+
             </div>
 
-            <p>
-                QA · AI · Automation
-            </p>
+            <div class="footer-identity">
+                <p>© 2026 Miguel Flor</p>
+                <p>QA · AI · Automation</p>
+            </div>
 
         </footer>
 
@@ -871,6 +880,8 @@
     <!-- Accesibilidad y funciones de Home -->
     <script src="js/shared/new-tab-accessibility.js" defer></script>
     <script src="js/home.js" defer></script>
+    
+    <script src="js/privacy-policy.js" defer></script>
 
 
 
