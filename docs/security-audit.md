@@ -523,8 +523,8 @@ SEC-006: CLOSED — CSP restrictiva implementada y activada en producción, bloq
 ## SEC-007 — Exposición de detalles internos en respuestas API
 
 **Prioridad:** P0 — Auditoría de seguridad y privacidad  
-**Estado:** OPEN — Correcciones verificadas localmente; despliegue de la segunda corrección pendiente  
-**Fecha de última verificación:** 18/11/2026 (Argentina)  
+**Estado:** CLOSED — Correcciones implementadas y verificadas en desarrollo y producción 
+**Fecha de última verificación:** 18/11/2026 (Argentina)
 **Entorno:** Desarrollo local y producción — Node.js / Express / Nginx / HTTPS
 
 ### 1. Descripción del hallazgo
@@ -660,18 +660,22 @@ Se corrigió además la comparación del nombre de navegador de Microsoft Edge, 
 
 Las verificaciones posteriores finalizaron correctamente en Chrome, Firefox y Edge.
 
-### 6. Pendientes
+### 6. Cierre y verificaciones finales
 
-- Publicar en GitHub la segunda corrección de SEC-007 y sus pruebas.
-- Desplegar los cambios en el VPS.
-- Verificar en producción que las respuestas HTTP 400 no incluyan metadatos internos.
-- Confirmar que la primera corrección HTTP 404 continúa funcionando.
-- Registrar la evidencia final y actualizar el estado de SEC-007.
+- Commit `cacb6f7` publicado en GitHub y desplegado en el VPS.
+- Servicio `portfolio-backend` activo después del reinicio.
+- HTTP 400 en producción sin objeto `persistencia`: PASS.
+- HTTP 404 en producción con respuesta JSON: PASS.
+- Regresión backend: 43/43 PASS.
+- Selenium Chrome, Firefox y Edge: 3/3 PASS.
+- No se identificaron bloqueos pendientes dentro del alcance verificado de SEC-007.
 
 ### 7. Resultado
 
-La primera corrección, correspondiente a las respuestas HTTP 404 en JSON, está implementada y verificada en producción.
+Las respuestas públicas de la API ya no incluyen los metadatos internos de persistencia identificados en SEC-007.
 
-La segunda corrección, correspondiente a la eliminación de metadatos internos de persistencia, está implementada y verificada localmente.
+Las rutas API inexistentes devuelven HTTP 404 con contenido JSON.
 
-**SEC-007 permanece OPEN** hasta completar el despliegue y la verificación final en producción.
+Las correcciones fueron verificadas localmente y desplegadas en producción mediante el commit `cacb6f7`.
+
+**SEC-007 — CLOSED**
