@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "experiencia perfil trayectoria",
             url: "home.html#about"
-        },        
+        },
         {
             title: "Especialidades",
             description: "QA Testing e inteligencia artificial",
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "contacto mensaje email",
             url: "home.html#contact"
-        },        
+        },
         {
             title: "Currículum y trayectoria",
             description: "Experiencia laboral y formación",
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "qa testing selenium pruebas bugs evidencia",
             url: "qa.html"
-        },        
+        },
         {
             title: "Casos de prueba",
             description: "Biblioteca de casos funcionales",
@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "quality management requisitos scrum bdd",
             url: "quality-management.html"
-        },        
+        },
         {
             title: "Gestión de defectos",
             description: "Seguimiento y resolución de defectos",
@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "resultados cierre epica cierre de epica aceptación",
             url: "quality-management.html#cierre-epica"
-        },        
+        },
         {
             title: "Formación y desarrollo",
             description: "Estudios, cursos y certificaciones profesionales",
@@ -400,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "regresion bugs defectos correcciones",
             url: "qa.html#regresion-bugs"
-        },        
+        },
         {
             title: "Evidencia verificable",
             description: "Documentación y resultados de las pruebas",
@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "validaciones reglas errores http backend",
             url: "backend.html#validaciones"
-        },        
+        },
         {
             title: "Persistencia de datos",
             description: "Operaciones y restricciones en SQLite",
@@ -796,7 +796,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             keywords: "linkedin perfil profesional red profesional empleo contactos",
             url: "home.html#linkedin"
-        },        
+        },
         {
             title: "GitHub",
             description: "Tarjeta de GitHub en el portfolio",
@@ -821,13 +821,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     ];
-    
+
     /* =========================================
     PALABRAS CLAVE AMPLIADAS
     ========================================= */
 
     const searchKeywords = {
-        
+
         // HOME
         "home.html#home": [
             "inicio", "bienvenida", "presentación",
@@ -1450,7 +1450,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "rastreabilidade",
             "relatórios de qualidade"
         ],
-        
+
         // GESTIÓN DE CALIDAD
         "quality-management.html": [
             "quality management", "gestión de calidad",
@@ -1724,17 +1724,17 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
 
     };
-    
+
     const normalize = value =>
         value.toLocaleLowerCase("es")
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .replace(/\s+/g, " ")
             .trim();
-    
+
     function closeResults(clearInput = false) {
         results.hidden = true;
-                
+
         results.replaceChildren();
         activeResultHome = -1;
 
@@ -1750,20 +1750,109 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const term = normalize(query.trim());
 
+        // SEC-008 — Términos de búsqueda para finalizar la sesión.
+        const logoutTranslations = {
+            es: {
+                title: "Salir del portfolio",
+                description: "Finalizar sesión y volver al acceso",
+                keywords: ["salir", "cerrar sesión", "finalizar sesión", "logout"]
+            },
+            en: {
+                title: "Exit portfolio",
+                description: "End session and return to access",
+                keywords: ["exit", "logout", "sign out", "end session"]
+            },
+            pt: {
+                title: "Sair do portfólio",
+                description: "Encerrar sessão e voltar ao acesso",
+                keywords: ["sair", "encerrar sessão", "terminar sessão", "logout"]
+            }
+        };
+
+        // SEC-008 — Política de privacidad en el buscador.
+        const privacyTranslations = {
+            es: {
+                title: "Política de privacidad",
+                description: "Consultar el tratamiento y la conservación de datos personales",
+                keywords: [
+                    "privacidad", "politica de privacidad",
+                    "datos personales", "protección de datos",
+                    "consentimiento", "retención de datos"
+                ]
+            },
+            en: {
+                title: "Privacy Policy",
+                description: "Review personal data processing and retention",
+                keywords: [
+                    "privacy", "privacy policy",
+                    "personal data", "data protection",
+                    "consent", "data retention"
+                ]
+            },
+            pt: {
+                title: "Política de Privacidade",
+                description: "Consultar o tratamento e a conservação de dados pessoais",
+                keywords: [
+                    "privacidade", "politica de privacidade",
+                    "dados pessoais", "proteção de dados",
+                    "consentimento", "retenção de dados"
+                ]
+            }
+        };
+
+        const privacyLanguage = getSearchLanguage();
+        const privacyItem =
+            privacyTranslations[privacyLanguage] || privacyTranslations.es;
+
+        const privacyMatches = Object.values(privacyTranslations)
+            .flatMap(item => [
+                item.title,
+                item.description,
+                ...item.keywords
+            ])
+            .some(value => normalize(value).includes(term));
+
+        const logoutLanguage = getSearchLanguage();
+        const logoutItem = logoutTranslations[logoutLanguage] || logoutTranslations.es;
+
+        // SEC-008 — Reconocer términos de salida en ES, EN y PT.
+        const logoutMatches = Object.values(logoutTranslations)
+            .flatMap(item => [
+                item.title,
+                item.description,
+                ...item.keywords
+            ])
+            .some(value => normalize(value).includes(term));
+
         if (!term) {
             closeResults();
             return;
         }
-        
-        
+
+
         const matches = searchHome
             .map(item => {
 
-                // Buscar utilizando también los textos del idioma activo.
+                // Buscar en ES, EN y PT, independientemente del idioma activo.
                 const language = getSearchLanguage();
 
                 const translatedItem =
                     item.translations?.[language] || item;
+
+                const allTranslations = [
+                    item,
+                    ...(item.translations
+                        ? Object.values(item.translations)
+                        : [])
+                ];
+
+                const titles = allTranslations.map(
+                    translation => normalize(translation.title || "")
+                );
+
+                const descriptions = allTranslations.map(
+                    translation => normalize(translation.description || "")
+                );
 
                 const title = normalize(translatedItem.title);
                 const description = normalize(translatedItem.description);
@@ -1776,11 +1865,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 let score = 0;
 
                 // Coincidencias en el título
-                if (title === term) {
+                if (titles.some(value => value === term)) {
                     score = 100;
-                } else if (title.startsWith(term)) {
+                } else if (titles.some(value => value.startsWith(term))) {
                     score = 80;
-                } else if (title.includes(term)) {
+                } else if (titles.some(value => value.includes(term))) {
                     score = 60;
                 }
 
@@ -1798,7 +1887,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // Coincidencias en la descripción
-                if (description.includes(term)) {
+                if (descriptions.some(value => value.includes(term))) {
                     score = Math.max(score, 20);
                 }
 
@@ -1829,7 +1918,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 link.className = "portfolio-search-result";
                 link.href = item.url;
 
-                link.id = `portfolio-search-result-${Home}`;                
+                link.id = `portfolio-search-result-${Home}`;
 
                 // Obtener los textos correspondientes al idioma activo.
                 const language = getSearchLanguage();
@@ -1847,9 +1936,96 @@ document.addEventListener("DOMContentLoaded", () => {
                 results.append(link);
             });
         }
+        // SEC-008 — Resultado especial para finalizar la sesión.
+        if (logoutMatches) {
+            const emptyMessage = results.querySelector(".portfolio-search-empty");
+
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+
+            const logoutButton = document.createElement("button");
+            logoutButton.type = "button";
+            logoutButton.className = "portfolio-search-result portfolio-search-logout";
+            logoutButton.dataset.portfolioLogout = "";
+            logoutButton.id = `portfolio-search-result-${results.querySelectorAll(".portfolio-search-result").length}`;
+
+            const title = document.createElement("strong");
+            title.textContent = logoutItem.title;
+
+            const description = document.createElement("small");
+            description.textContent = logoutItem.description;
+
+            const icon = document.createElement("span");
+            icon.className = "portfolio-search-logout-icon";
+            icon.setAttribute("aria-hidden", "true");
+
+            icon.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            `;
+
+            const content = document.createElement("span");
+            content.className = "portfolio-search-logout-content";
+            content.append(title, description);
+
+            logoutButton.append(icon, content);
+            results.append(logoutButton);
+        }
+
+        // SEC-008 — Resultado para abrir la Política de privacidad.
+        if (privacyMatches) {
+            const emptyMessage =
+                results.querySelector(".portfolio-search-empty");
+
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+
+            const privacyButton = document.createElement("button");
+            privacyButton.type = "button";
+            privacyButton.className =
+                "portfolio-search-result portfolio-search-logout";
+            privacyButton.dataset.searchPrivacy = "";
+            privacyButton.id =
+                `portfolio-search-result-${results.querySelectorAll(".portfolio-search-result").length}`;
+
+            const title = document.createElement("strong");
+            title.textContent = privacyItem.title;
+
+            const description = document.createElement("small");
+            description.textContent = privacyItem.description;
+
+            const icon = document.createElement("span");
+            icon.className = "portfolio-search-logout-icon";
+            icon.setAttribute("aria-hidden", "true");
+
+            icon.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="8" y1="13" x2="16" y2="13"/>
+                    <line x1="8" y1="17" x2="16" y2="17"/>
+                </svg>
+            `;
+
+            const content = document.createElement("span");
+            content.className = "portfolio-search-logout-content";
+            content.append(title, description);
+
+            privacyButton.append(icon, content);
+            results.append(privacyButton);
+        }
 
         results.hidden = false;
-        
+
     }
 
     input.addEventListener("input", () => {
@@ -1862,7 +2038,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showResults(input.value);
         }
     });
-    
+
     /* =========================================
     NAVEGACIÓN POR TECLADO
     ========================================= */
@@ -1932,7 +2108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             updateActiveResult();
         }
-        
+
         if (event.key === "Enter") {
 
             event.preventDefault();
@@ -1945,10 +2121,28 @@ document.addEventListener("DOMContentLoaded", () => {
             const selectedLink = links[selectedHome];
 
             if (selectedLink) {
+                if (selectedLink.matches("[data-portfolio-logout]")) {
+                    sessionStorage.removeItem("portfolioSession");
+                    window.location.replace("index.html");
+                    return;
+                }
+
+                if (selectedLink.matches("[data-search-privacy]")) {
+                    const privacyTrigger =
+                        document.querySelector("[data-privacy-open]");
+
+                    closeResults(true);
+
+                    if (privacyTrigger) {
+                        privacyTrigger.click();
+                    }
+
+                    return;
+                }
+
                 const destination = selectedLink.href;
 
                 closeResults(true);
-
                 window.location.assign(destination);
             } else {
                 closeResults(true);
@@ -2060,22 +2254,37 @@ document.addEventListener("DOMContentLoaded", () => {
             closeResults();
         }
     });
-    
+
     /* Cerrar el buscador al cambiar de sección */
 
     window.addEventListener("hashchange", () => {
         closeResults(true);
     });
 
-    /* Limpiar al seleccionar un resultado */
-
+    // SEC-008 — Selección de resultados, privacidad y cierre de sesión.
     results.addEventListener("click", event => {
+        const result = event.target.closest(".portfolio-search-result");
 
-        const link = event.target.closest(
-            ".portfolio-search-result"
-        );
+        if (!result) return;
 
-        if (!link) return;
+        if (result.matches("[data-portfolio-logout]")) {
+            sessionStorage.removeItem("portfolioSession");
+            window.location.replace("index.html");
+            return;
+        }
+
+        if (result.matches("[data-search-privacy]")) {
+            const privacyTrigger =
+                document.querySelector("[data-privacy-open]");
+
+            closeResults(true);
+
+            if (privacyTrigger) {
+                privacyTrigger.click();
+            }
+
+            return;
+        }
 
         closeResults(true);
     });

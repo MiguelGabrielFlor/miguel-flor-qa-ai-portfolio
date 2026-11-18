@@ -57,6 +57,9 @@ window.portfolioTranslations.en = {
         navProjectsDescription: "Development and practical applications",
         navContact: "Contact",
         navContactDescription: "Contact form and communication channels",
+        portfolioLogout: "Exit portfolio",
+        portfolioLogoutDescription: "End session and return to access",
+        portfolioLogoutAria: "Exit portfolio and end the session",
 
         searchPlaceholder: "Search the portfolio...",
         searchAriaLabel: "Search the portfolio",

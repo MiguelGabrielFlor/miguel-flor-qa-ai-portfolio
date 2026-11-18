@@ -522,8 +522,8 @@ SEC-006: CLOSED — CSP restrictiva implementada y activada en producción, bloq
 
 ## SEC-007 — Exposición de detalles internos en respuestas API
 
-**Prioridad:** P0 — Auditoría de seguridad y privacidad  
-**Estado:** CLOSED — Correcciones implementadas y verificadas en desarrollo y producción 
+**Prioridad:** P0 — Auditoría de seguridad y privacidad
+**Estado:** CLOSED — Correcciones implementadas y verificadas en desarrollo y producción
 **Fecha de última verificación:** 18/11/2026 (Argentina)
 **Entorno:** Desarrollo local y producción — Node.js / Express / Nginx / HTTPS
 
@@ -679,3 +679,139 @@ Las rutas API inexistentes devuelven HTTP 404 con contenido JSON.
 Las correcciones fueron verificadas localmente y desplegadas en producción mediante el commit `cacb6f7`.
 
 **SEC-007 — CLOSED**
+
+---
+
+## SEC-008 — Gestión de sesión, cierre de acceso y privacidad
+
+**Fecha:** 18 de noviembre de 2026
+**Estado:** EN VALIDACIÓN
+**Tipo:** Seguridad, privacidad, funcionalidad y accesibilidad
+**Alcance:** Frontend, almacenamiento del navegador, buscador global y política de privacidad.
+
+### 1. Objetivo
+
+Verificar que el visitante pueda finalizar su sesión desde las opciones disponibles en el portfolio, que los datos temporales de sesión se eliminen correctamente y que la información de privacidad sea accesible en español, inglés y portugués.
+
+### 2. Implementaciones verificadas
+
+- Cierre de sesión desde el menú principal y el footer.
+- Eliminación de `portfolioSession` de `sessionStorage`.
+- Redirección a `index.html` mediante `window.location.replace()`.
+- Conservación de `portfolioLanguage` en `localStorage`.
+- Incorporación de «Salir del portfolio» al buscador global.
+- Incorporación de la Política de privacidad al buscador global.
+- Búsqueda cruzada entre español, inglés y portugués.
+- Navegación de resultados mediante teclado.
+- Indicador visual al pasar el mouse sobre el botón X de la política.
+- Adaptación responsive de los controles de salida.
+
+### 3. Resultados de pruebas manuales
+
+| Verificación | Resultado |
+|---|---|
+| Salida desde menú principal | PASS |
+| Salida desde footer | PASS |
+| Eliminación de `portfolioSession` | PASS |
+| Redirección a página de acceso | PASS |
+| Persistencia del idioma seleccionado | PASS |
+| Búsqueda multilingüe ES/EN/PT | PASS |
+| Búsqueda de salida: salir, exit y sair | PASS |
+| Búsqueda de Política de privacidad en ES/EN/PT | PASS |
+| Navegación con Tab y flechas | PASS |
+| Apertura de la política desde el buscador | PASS |
+| Efecto hover del botón X | PASS |
+| Responsive a 375 px y 768 px | PASS |
+
+**Tipo de evidencia:** pruebas manuales reportadas durante la auditoría.
+
+Los resultados anteriores no representan ejecuciones automatizadas de Selenium.
+
+### 4. Consideraciones de privacidad
+
+El cierre de sesión elimina la entrada `portfolioSession` del almacenamiento de sesión del navegador.
+
+La preferencia de idioma `portfolioLanguage` permanece almacenada en `localStorage`.
+
+El cierre de sesión no elimina los registros de visitantes conservados en SQLite ni los mensajes enviados mediante el formulario de contacto.
+
+La conservación y eliminación de los datos del servidor se rigen por los mecanismos y plazos documentados en la Política de privacidad.
+
+### 5. Regresión automatizada Selenium
+
+**Archivo:** `tests/selenium/sec-008-session-privacy.test.js`
+**Entorno:** Local
+**Idiomas:** Español (ES), inglés (EN) y portugués (PT).
+
+Se ejecutaron pruebas automatizadas para verificar:
+
+- Acceso a la Política de privacidad desde el buscador global.
+- Apertura de la política mediante clic y mediante Enter.
+- Cierre del diálogo mediante Escape.
+- Conservación de la sesión al consultar la política.
+- Cierre de sesión desde el buscador global.
+- Cierre de sesión desde el menú principal.
+- Cierre de sesión desde el footer.
+- Eliminación de `portfolioSession` al finalizar el acceso.
+- Redirección a `index.html`.
+- Persistencia de `portfolioLanguage` después del cierre de sesión.
+
+#### Resultados por navegador
+
+| Navegador | PASS | FAIL | Resultado |
+|---|---:|---:|---|
+| Google Chrome | 15 | 0 | PASS |
+| Mozilla Firefox | 15 | 0 | PASS |
+| Microsoft Edge | 15 | 0 | PASS |
+| **Total** | **45** | **0** | **PASS** |
+
+**Resultado:** 45/45 PASS.
+
+Las pruebas complementarias de menú, footer y acceso mediante Enter fueron incorporadas después de la primera ejecución de regresión.
+
+Durante su desarrollo se corrigieron interacciones del código de automatización relacionadas con la visibilidad del menú, el desplazamiento al footer y la selección de resultados del buscador.
+
+Las ejecuciones finales de los escenarios corregidos finalizaron satisfactoriamente en los tres navegadores.
+
+Los resultados corresponden a verificaciones locales. No constituyen evidencia de ejecución en producción.
+
+#### Verificación de conservación y respaldos
+
+Se revisó la implementación de conservación de visitantes y la configuración de respaldos del VPS.
+
+- Conservación de visitantes SQLite: 90 días.
+- Limpieza al iniciar el backend y periódicamente durante su funcionamiento.
+- Respaldo automático diario mediante `portfolio-backup.timer`, programado a las 03:00 UTC.
+- Script de respaldo: `/usr/local/lib/portfolio/backup-sqlite.cjs`.
+- Destino de los respaldos: `/var/lib/portfolio/backups`, fuera del directorio público.
+- Permisos de los archivos de respaldo: `0600`.
+- Comprobación de integridad mediante `PRAGMA integrity_check`.
+- Retención configurada de respaldos automáticos: 7 días.
+- Rotación diaria de registros Nginx, con 14 rotaciones configuradas.
+
+**Evidencia de ejecución del respaldo:**
+
+| Fecha UTC | Resultado |
+|---|---|
+| 17/11/2026 20:52:13 | PASS |
+| 18/11/2026 03:00:04 | PASS |
+
+Las dos ejecuciones registraron un respaldo verificado y finalizaron correctamente.
+
+La eliminación de copias vencidas está implementada, pero no se observó una eliminación efectiva en los registros consultados.
+
+### 6. Verificaciones pendientes
+
+- Confirmar la actualización completa de la Política de privacidad en ES/EN/PT.
+- Publicar los cambios de SEC-008 en GitHub.
+- Desplegar los cambios en el VPS.
+- Verificar cierre de sesión, persistencia del idioma y acceso a privacidad en producción.
+- Registrar el identificador del commit y los resultados del despliegue.
+
+### 7. Criterio de cierre
+
+SEC-008 podrá declararse CLOSED cuando se hayan completado las verificaciones pendientes y documentado sus resultados.
+
+La regresión automatizada local se encuentra completada con 45/45 PASS en Chrome, Firefox y Edge.
+
+**SEC-008 — EN VALIDACIÓN**

@@ -9,7 +9,7 @@
         es: {
             title: "Política de privacidad",
             subtitle: "Miguel Flor — QA & AI Portfolio",
-            updated: "Última actualización: 17 de noviembre de 2026",
+            updated: "Última actualización: 18 de noviembre de 2026",
             close: "Cerrar política de privacidad",
             sections: [
                 {
@@ -28,7 +28,16 @@
                     ]
                 },
                 {
-                    title: "3. Propósito del registro",
+                    title: "3. Sesión y almacenamiento local",
+                    paragraphs: [
+                        "El portfolio utiliza sessionStorage para mantener temporalmente la información necesaria para la sesión de navegación. En el acceso registrado, esta información puede incluir datos proporcionados por el visitante.",
+                        "Al seleccionar «Salir del portfolio», se elimina la entrada portfolioSession de sessionStorage y se regresa a la página de acceso.",
+                        "La preferencia de idioma se guarda en localStorage mediante la entrada portfolioLanguage y permanece disponible después de cerrar la sesión.",
+                        "Cerrar la sesión no elimina los registros de visitantes almacenados en el servidor ni los mensajes enviados mediante el formulario de contacto. Estos datos se gestionan según los plazos de conservación y los derechos descritos en esta política."
+                    ]
+                },
+                {
+                    title: "4. Propósito del registro",
                     paragraphs: [
                         "El formulario forma parte de una demostración práctica de pruebas de software. Permite aplicar validaciones de campos, formatos, límites mínimos y máximos, mensajes de error, pruebas positivas y negativas, automatización, APIs y persistencia.",
                         "El objetivo es demostrar habilidades profesionales de testing mediante un sistema funcional. Los datos no se recopilan para publicidad, comercialización ni elaboración de perfiles comerciales.",
@@ -36,7 +45,7 @@
                     ]
                 },
                 {
-                    title: "4. Información tratada",
+                    title: "5. Información tratada",
                     paragraphs: [
                         "El registro no genera una notificación al responsable del portfolio ni implica que este se comunique con el visitante. Únicamente los mensajes enviados mediante el formulario de contacto se reciben por correo electrónico y pueden dar lugar a una respuesta.",
                         "El registro voluntario almacena nombre, apellido, correo electrónico, teléfono, aceptación del consentimiento y fecha de creación.",
@@ -45,14 +54,14 @@
                     ]
                 },
                 {
-                    title: "5. Consentimiento",
+                    title: "6. Consentimiento",
                     paragraphs: [
                         "El registro requiere una aceptación expresa. El visitante puede optar por no registrarse y utilizar el acceso directo.",
                         "El consentimiento para registrarse no autoriza el envío de publicidad."
                     ]
                 },
                 {
-                    title: "6. Conservación de información",
+                    title: "7. Conservación de información",
                     paragraphs: [
                         "Los registros de visitantes en SQLite se conservan durante un máximo de 90 días desde su creación. El backend ejecuta una limpieza al iniciarse y periódicamente durante su funcionamiento.",
                         "Los mensajes de contacto recibidos por correo se revisan y eliminan manualmente, con un plazo de conservación previsto de hasta 90 días.",
@@ -60,14 +69,14 @@
                     ]
                 },
                 {
-                    title: "7. Medidas de seguridad",
+                    title: "8. Medidas de seguridad",
                     paragraphs: [
                         "El proyecto utiliza validaciones del backend, restricciones de acceso a archivos internos, protección de configuraciones, HTTPS y limitación de solicitudes a determinados endpoints.",
                         "Se aplican medidas destinadas a reducir riesgos de acceso no autorizado, sin afirmar que un sistema conectado a Internet pueda ofrecer seguridad absoluta."
                     ]
                 },
                 {
-                    title: "8. Derechos de las personas",
+                    title: "9. Derechos de las personas",
                     paragraphs: [
                         "Los titulares pueden solicitar acceso, rectificación, actualización o supresión de sus datos personales, según corresponda conforme a la normativa aplicable.",
                         "También pueden solicitar la eliminación anticipada de su registro. Las solicitudes podrán requerir verificaciones razonables de identidad para proteger los datos."
@@ -75,7 +84,7 @@
                     email: true
                 },
                 {
-                    title: "9. Proveedores técnicos",
+                    title: "10. Proveedores técnicos",
                     paragraphs: [
                         "Los datos de registro de visitantes se conservan en la base de datos activa durante un máximo de 90 días. Se realizan respaldos diarios para recuperación ante incidentes, con una política de eliminación automática de copias que superen los 7 días de antigüedad. Por este motivo, los datos eliminados de la base activa podrían permanecer temporalmente en respaldos hasta su vencimiento.",
                         "El funcionamiento del sitio utiliza servicios de alojamiento, infraestructura, dominio y correo electrónico. Estos proveedores pueden tratar información necesaria para prestar sus servicios.",
@@ -83,7 +92,7 @@
                     ]
                 },
                 {
-                    title: "10. Laboratorios de Quality Assurance",
+                    title: "11. Laboratorios de Quality Assurance",
                     paragraphs: [
                         "El portfolio incluye cuatro áreas principales de demostración:",
                         "Casos de prueba: escenarios, precondiciones, datos de entrada, resultados esperados y documentación de pruebas.",
@@ -93,14 +102,14 @@
                     ]
                 },
                 {
-                    title: "11. Segunda etapa: inteligencia artificial",
+                    title: "12. Segunda etapa: inteligencia artificial",
                     paragraphs: [
                         "El proyecto se encuentra en evolución. La segunda etapa contempla demostraciones de inteligencia artificial aplicada a negocios, automatización de procesos, agentes de IA y consultoría tecnológica.",
                         "Cualquier funcionalidad futura que implique nuevos tratamientos de datos deberá incorporar la información de privacidad correspondiente antes de su utilización."
                     ]
                 },
                 {
-                    title: "12. Actualizaciones",
+                    title: "13. Actualizaciones",
                     paragraphs: [
                         "Esta política podrá actualizarse cuando cambien las funcionalidades, los tratamientos de datos, los proveedores o los requisitos legales. La versión vigente estará disponible desde el portfolio."
                     ]
@@ -111,7 +120,7 @@
         en: {
             title: "Privacy Policy",
             subtitle: "Miguel Flor — QA & AI Portfolio",
-            updated: "Last updated: November 17, 2026",
+            updated: "Last updated: November 18, 2026",
             close: "Close privacy policy",
             sections: [
                 {
@@ -130,7 +139,16 @@
                     ]
                 },
                 {
-                    title: "3. Purpose of registration",
+                    title: "3. Session and local storage",
+                    paragraphs: [
+                        "The portfolio uses sessionStorage to temporarily maintain information needed for the browsing session. For registered access, this information may include details provided by the visitor.",
+                        "When selecting «Exit portfolio», the portfolioSession entry is removed from sessionStorage and the visitor is returned to the access page.",
+                        "The language preference is stored in localStorage under portfolioLanguage and remains available after signing out.",
+                        "Signing out does not delete visitor records stored on the server or messages submitted through the contact form. This information is managed according to the retention periods and individual rights described in this policy."
+                    ]
+                },
+                {
+                    title: "4. Purpose of registration",
                     paragraphs: [
                         "The registration form is part of a practical software testing demonstration. It supports field validation, format checks, minimum and maximum limits, error messages, positive and negative testing, automation, APIs and data persistence.",
                         "Its purpose is to demonstrate professional testing skills through a working application. Data is not collected for advertising, sale or commercial profiling.",
@@ -138,7 +156,7 @@
                     ]
                 },
                 {
-                    title: "4. Information processed",
+                    title: "5. Information processed",
                     paragraphs: [
                         "Registration does not trigger a notification to the portfolio owner, nor does it imply that the owner will contact the visitor. Only messages sent via the contact form are received by email and may lead to a response.",
                         "Voluntary registration stores the user's first name, last name, email address, phone number, consent acceptance, and the date of creation.",
@@ -147,14 +165,14 @@
                     ]
                 },
                 {
-                    title: "5. Consent",
+                    title: "6. Consent",
                     paragraphs: [
                         "Registration requires express consent. Visitors may choose not to register and instead use direct access.",
                         "Consent to register does not authorize the sending of advertising."
                     ]
                 },
                 {
-                    title: "6. Data retention",
+                    title: "7. Data retention",
                     paragraphs: [
                         "SQLite visitor records are retained for a maximum of 90 days from creation. The backend runs a cleanup on startup and periodically while operating.",
                         "Contact emails are reviewed and deleted manually, with an intended retention period of up to 90 days.",
@@ -162,14 +180,14 @@
                     ]
                 },
                 {
-                    title: "7. Security measures",
+                    title: "8. Security measures",
                     paragraphs: [
                         "The project uses backend validation, restrictions on internal file access, protected configuration files, HTTPS and request limits on selected endpoints.",
                         "These measures aim to reduce unauthorized access risks, without claiming that any Internet-connected system can guarantee absolute security."
                     ]
                 },
                 {
-                    title: "8. Individual rights",
+                    title: "9. Individual rights",
                     paragraphs: [
                         "Individuals may request access, correction, updating or deletion of their personal data, as applicable under relevant law.",
                         "Early deletion of registration data may also be requested. Reasonable identity verification may be required to protect personal information."
@@ -177,7 +195,7 @@
                     email: true
                 },
                 {
-                    title: "9. Technical providers",
+                    title: "10. Technical providers",
                     paragraphs: [
                         "Visitor registration data is retained in the active database for a maximum of 90 days. Daily backups are created for incident recovery, with an automatic deletion policy for copies older than 7 days. Therefore, data deleted from the active database may temporarily remain in backups until they expire.",
                         "The website uses hosting, infrastructure, domain and email services. These providers may process information necessary to deliver their services.",
@@ -185,7 +203,7 @@
                     ]
                 },
                 {
-                    title: "10. Quality Assurance laboratories",
+                    title: "11. Quality Assurance laboratories",
                     paragraphs: [
                         "The portfolio includes four main demonstration areas:",
                         "Test cases: scenarios, preconditions, input data, expected results and test documentation.",
@@ -195,14 +213,14 @@
                     ]
                 },
                 {
-                    title: "11. Second stage: artificial intelligence",
+                    title: "12. Second stage: artificial intelligence",
                     paragraphs: [
                         "The project is evolving. Its second stage is intended to include demonstrations of AI for business, process automation, AI agents and technology consulting.",
                         "Future features involving additional personal data processing will require appropriate privacy information before use."
                     ]
                 },
                 {
-                    title: "12. Policy updates",
+                    title: "13. Policy updates",
                     paragraphs: [
                         "This policy may be updated when features, data processing activities, providers or legal requirements change. The current version will remain available through the portfolio."
                     ]
@@ -213,7 +231,7 @@
         pt: {
             title: "Política de Privacidade",
             subtitle: "Miguel Flor — QA & AI Portfolio",
-            updated: "Última atualização: 17 de novembro de 2026",
+            updated: "Última atualização: 18 de novembro de 2026",
             close: "Fechar política de privacidade",
             sections: [
                 {
@@ -232,7 +250,16 @@
                     ]
                 },
                 {
-                    title: "3. Finalidade do cadastro",
+                    title: "3. Sessão e armazenamento local",
+                    paragraphs: [
+                        "O portfólio utiliza sessionStorage para manter temporariamente as informações necessárias à sessão de navegação. No acesso cadastrado, essas informações podem incluir dados fornecidos pelo visitante.",
+                        "Ao selecionar «Sair do portfólio», a entrada portfolioSession é removida de sessionStorage e o visitante retorna à página de acesso.",
+                        "A preferência de idioma é armazenada em localStorage por meio da entrada portfolioLanguage e permanece disponível após o encerramento da sessão.",
+                        "Encerrar a sessão não exclui os registros de visitantes armazenados no servidor nem as mensagens enviadas pelo formulário de contato. Essas informações são gerenciadas conforme os prazos de conservação e os direitos descritos nesta política."
+                    ]
+                },
+                {
+                    title: "4. Finalidade do cadastro",
                     paragraphs: [
                         "O formulário faz parte de uma demonstração prática de testes de software. Permite aplicar validações de campos, formatos, limites mínimos e máximos, mensagens de erro, testes positivos e negativos, automação, APIs e persistência de dados.",
                         "Seu objetivo é demonstrar competências profissionais de testing por meio de uma aplicação funcional. Os dados não são coletados para publicidade, venda ou criação de perfis comerciais.",
@@ -240,7 +267,7 @@
                     ]
                 },
                 {
-                    title: "4. Informações tratadas",
+                    title: "5. Informações tratadas",
                     paragraphs: [
                         "O registro não gera uma notificação ao responsável pelo portfólio, nem implica que este entre em contato com o visitante. Apenas as mensagens enviadas por meio do formulário de contato são recebidas por e-mail e podem resultar em uma resposta.",
                         "O registro voluntário armazena nome, sobrenome, e-mail, telefone, a aceitação do consentimento e a data de criação.",
@@ -249,14 +276,14 @@
                     ]
                 },
                 {
-                    title: "5. Consentimento",
+                    title: "6. Consentimento",
                     paragraphs: [
                         "O registro requer uma aceitação expressa. O visitante pode optar por não se registrar e utilizar o acesso direto.",
                         "O consentimento para o registro não autoriza o envio de publicidade."
                     ]
                 },
                 {
-                    title: "6. Conservação dos dados",
+                    title: "7. Conservação dos dados",
                     paragraphs: [
                         "Os registros de visitantes no SQLite são conservados por no máximo 90 dias desde sua criação. O backend executa uma limpeza na inicialização e periodicamente durante seu funcionamento.",
                         "Os e-mails de contato são revisados e excluídos manualmente, com prazo previsto de conservação de até 90 dias.",
@@ -264,14 +291,14 @@
                     ]
                 },
                 {
-                    title: "7. Medidas de segurança",
+                    title: "8. Medidas de segurança",
                     paragraphs: [
                         "O projeto utiliza validações no backend, restrições de acesso a arquivos internos, proteção de configurações, HTTPS e limitação de solicitações em determinados endpoints.",
                         "Essas medidas buscam reduzir riscos de acesso não autorizado, sem afirmar que sistemas conectados à Internet possam garantir segurança absoluta."
                     ]
                 },
                 {
-                    title: "8. Direitos dos titulares",
+                    title: "9. Direitos dos titulares",
                     paragraphs: [
                         "Os titulares podem solicitar acesso, correção, atualização ou exclusão de seus dados pessoais, conforme a legislação aplicável.",
                         "Também podem solicitar a exclusão antecipada dos dados de cadastro. Verificações razoáveis de identidade podem ser necessárias para proteger as informações."
@@ -279,7 +306,7 @@
                     email: true
                 },
                 {
-                    title: "9. Provedores técnicos",
+                    title: "10. Provedores técnicos",
                     paragraphs: [
                         "Os dados de cadastro dos visitantes são mantidos no banco de dados ativo por no máximo 90 dias. São realizados backups diários para recuperação de incidentes, com uma política de exclusão automática de cópias com mais de 7 dias. Por esse motivo, os dados excluídos do banco de dados ativo podem permanecer temporariamente nos backups até o vencimento.",
                         "O site utiliza serviços de hospedagem, infraestrutura, domínio e e-mail. Esses provedores podem tratar informações necessárias para prestar seus serviços.",
@@ -287,7 +314,7 @@
                     ]
                 },
                 {
-                    title: "10. Laboratórios de Quality Assurance",
+                    title: "11. Laboratórios de Quality Assurance",
                     paragraphs: [
                         "O portfólio inclui quatro áreas principais de demonstração:",
                         "Casos de teste: cenários, pré-condições, dados de entrada, resultados esperados e documentação.",
@@ -297,14 +324,14 @@
                     ]
                 },
                 {
-                    title: "11. Segunda etapa: inteligência artificial",
+                    title: "12. Segunda etapa: inteligência artificial",
                     paragraphs: [
                         "O projeto está em evolução. A segunda etapa prevê demonstrações de IA aplicada a negócios, automação de processos, agentes de IA e consultoria tecnológica.",
                         "Funcionalidades futuras que envolvam novos tratamentos de dados pessoais deverão apresentar as informações de privacidade correspondentes antes de sua utilização."
                     ]
                 },
                 {
-                    title: "12. Atualizações da política",
+                    title: "13. Atualizações da política",
                     paragraphs: [
                         "Esta política poderá ser atualizada quando houver mudanças nas funcionalidades, no tratamento de dados, nos provedores ou nos requisitos legais. A versão atual permanecerá disponível no portfólio."
                     ]

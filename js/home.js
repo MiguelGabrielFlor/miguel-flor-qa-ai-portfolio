@@ -55,6 +55,13 @@ async function initializeHome() {
         window.location.replace("index.html");
         return;
     }
+    // SEC-008 — Finalización explícita de la sesión del visitante.
+    document.querySelectorAll("[data-portfolio-logout]").forEach((button) => {
+        button.addEventListener("click", () => {
+            sessionStorage.removeItem("portfolioSession");
+            window.location.replace("index.html");
+        });
+    });
 
     const languageSelector =
         document.getElementById("footerLanguageSelect");

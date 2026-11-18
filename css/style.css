@@ -4812,3 +4812,190 @@ body:has(.cv-bottom-bar) {
 
     }
 }
+/* =====================================================
+   SEC-008 — SALIDA DEL PORTFOLIO
+   Menú responsive y separación de botones del footer
+   ===================================================== */
+
+/* Botón de salida: ancho completo del menú */
+.index-grid > .portfolio-logout {
+    grid-column: 1 / -1;
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+    padding: 20px 24px;
+
+    font: inherit;
+    color: inherit;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Icono */
+.portfolio-logout svg {
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Descripción */
+.portfolio-logout small {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+/* Footer: separación entre privacidad y salida */
+.footer-privacy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Ambos botones mantienen el mismo ancho */
+.footer-privacy > .privacy-policy-trigger {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botón de salida del footer */
+.portfolio-logout-footer {
+    cursor: pointer;
+}
+
+/* Accesibilidad */
+.portfolio-logout:focus-visible,
+.portfolio-logout-footer:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 600px) {
+    .index-grid > .portfolio-logout {
+        grid-column: 1 / -1;
+        padding: 18px 16px;
+        gap: 6px;
+    }
+
+    .footer-privacy {
+        gap: 16px;
+    }
+}
+/* =====================================================
+   SEC-008 — RESULTADO DE SALIDA EN EL BUSCADOR
+   ===================================================== */
+
+.portfolio-search-result.portfolio-search-logout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    gap: 12px;
+    margin: 0;
+    padding: 14px 16px;
+
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.portfolio-search-logout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 20px;
+    color: #8b7cff;
+}
+
+.portfolio-search-logout-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+    min-width: 0;
+    gap: 6px;
+}
+
+.portfolio-search-logout-content strong,
+.portfolio-search-logout-content small {
+    display: block;
+    width: 100%;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.portfolio-search-logout-content small {
+    opacity: 0.8;
+}
+
+.portfolio-search-result.portfolio-search-logout:hover,
+.portfolio-search-result.portfolio-search-logout:focus-visible,
+.portfolio-search-result.portfolio-search-logout.portfolio-search-result-active {
+    background: rgba(125, 100, 255, 0.12);
+}
+
+.portfolio-search-result.portfolio-search-logout:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+}
+
+@media (max-width: 600px) {
+    .portfolio-search-result.portfolio-search-logout {
+        gap: 10px;
+        padding: 12px 14px;
+    }
+}
+/* =====================================================
+   SEC-008 — INTERACCIÓN DEL BOTÓN CERRAR PRIVACIDAD
+   ===================================================== */
+
+.privacy-dialog-close {
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Mouse */
+.privacy-dialog-close:hover {
+    background-color: rgba(125, 100, 255, 0.22);
+    color: #ffffff;
+    border-color: rgba(165, 145, 255, 0.75);
+}
+
+/* Teclado */
+.privacy-dialog-close:focus-visible {
+    outline: 2px solid #a594ff;
+    outline-offset: 3px;
+    background-color: rgba(125, 100, 255, 0.22);
+    color: #ffffff;
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .privacy-dialog-close {
+        transition: none;
+    }
+}
