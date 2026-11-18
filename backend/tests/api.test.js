@@ -85,6 +85,22 @@ test('API registra un visitante válido', async () => {
         assert.equal(response.status, 201);
         assert.equal(body.visitor.nombre, 'Miguel');
         assert.equal(saved.total, 1);
+
+        assert.ok(Number.isInteger(body.visitor.id));
+        assert.equal(
+            Object.hasOwn(body, 'persistencia'),
+            false
+        );
+
+        const registro = db.prepare(`
+            SELECT id, consentimiento
+            FROM visitors
+            WHERE id = ?
+        `).get(body.visitor.id);
+
+        assert.ok(registro);
+        assert.equal(registro.consentimiento, 1);
+
     });
 });
 
@@ -139,14 +155,27 @@ test('API rechaza el registro sin consentimiento', async () => {
             })
         });
 
+        const body = await response.json();
+
         const saved = db.prepare(
             'SELECT COUNT(*) AS total FROM visitors'
         ).get();
 
         assert.equal(response.status, 400);
         assert.equal(saved.total, 0);
+
+        // SEC-007: no exponer metadatos internos.
+        assert.equal(
+            Object.hasOwn(body, 'persistencia'),
+            false
+        );
+
+        // Conservar los errores de validación.
+        assert.ok(Array.isArray(body.errors));
+        assert.ok(body.errors.length > 0);
     });
 });
+
 
 test('API informa cuando el servicio de correo no está configurado', async () => {
     await withApi(async (baseUrl) => {

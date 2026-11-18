@@ -72,13 +72,13 @@ test('BACKEND-I18N-003 — Persistencia ES/EN/PT', async (t) => {
         await driver.quit();
     });
 
-    const navegadorReal = (
-        await driver.getCapabilities()
-    ).get('browserName');
+    const navegadorEsperado = browser === 'edge'
+        ? 'microsoftedge'
+        : browser;
 
     assert.equal(
-        navegadorReal.toLowerCase(),
-        browser.toLowerCase(),
+        (await driver.getCapabilities()).get('browserName').toLowerCase(),
+        navegadorEsperado,
         'El navegador ejecutado debe coincidir con el solicitado'
     );
 
@@ -128,15 +128,21 @@ test('BACKEND-I18N-003 — Persistencia ES/EN/PT', async (t) => {
         await driver.wait(async () => {
             return driver.executeScript((id) => {
                 const contenedor = document.getElementById(id);
-                const parrafo = contenedor?.querySelector(':scope > p');
+
+                const veredicto = contenedor?.querySelector(
+                    '.backend-veredicto-pass, .backend-veredicto-fail'
+                );
+
                 const solicitud = contenedor?.querySelector(
                     '.api-solicitud-desplegable summary'
                 );
 
                 return Boolean(
-                    parrafo &&
+                    veredicto &&
                     solicitud &&
-                    /^(PASS|FAIL) —/.test(parrafo.textContent.trim())
+                    /^(PASS|FAIL)\s*[—–-]\s*HTTP\s+\d+/.test(
+                        veredicto.textContent.trim()
+                    )
                 );
             }, escenario.contenedor);
         }, 15000);
@@ -161,15 +167,26 @@ test('BACKEND-I18N-003 — Persistencia ES/EN/PT', async (t) => {
 
         const respuesta = JSON.parse(inicial.json);
 
+        
+        assert.equal(
+            Object.hasOwn(respuesta, 'persistencia'),
+            false,
+            `${escenario.nombre}: la API expone metadatos internos`
+        );
+
         if (escenario.http === 201) {
-            assert.equal(respuesta.persistencia?.verificada, true);
-            assert.ok(respuesta.persistencia?.registroId);
+            assert.ok(
+                Number.isInteger(respuesta.visitor?.id),
+                'Falta el identificador funcional del visitante'
+            );
         } else {
-            assert.equal(
-                respuesta.persistencia?.insercionEjecutada,
-                false
+            assert.ok(
+                Array.isArray(respuesta.errors) &&
+                respuesta.errors.length > 0,
+                'Faltan los errores de validación'
             );
         }
+
 
         const postsAntes = await driver.executeScript(
             () => window.__qaPostCount

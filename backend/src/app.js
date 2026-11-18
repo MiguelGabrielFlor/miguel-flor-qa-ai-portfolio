@@ -46,7 +46,9 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
         ]
         : [
             'http://127.0.0.1:5500',
-            'http://localhost:5500'
+            'http://localhost:5500',
+            'http://127.0.0.1:8000',
+            'http://localhost:8000'
         ];
 
     app.use(cors({
@@ -61,18 +63,14 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
             message: 'API disponible'
         });
     });
-
+    
     app.post('/api/visitors', publicApiLimiter, (req, res) => {
         const validation = validateVisitor(req.body);
 
         if (!validation.valid) {
             return res.status(400).json({
                 message: 'Los datos enviados no son válidos.',
-                errors: validation.errors,
-                persistencia: {
-                    insercionEjecutada: false,
-                    motivo: 'La validación rechazó la solicitud antes de ejecutar INSERT.'
-                }
+                errors: validation.errors
             });
         }
 
@@ -89,16 +87,22 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
                 email.trim(),
                 telefono.trim()
             );
+
             const visitorId = Number(result.lastInsertRowid);
 
             const registroVerificado = db.prepare(`
-                SELECT id, consentimiento, created_at
+                SELECT id, consentimiento
                 FROM visitors
                 WHERE id = ?
             `).get(visitorId);
 
-            if (!registroVerificado) {
-                throw new Error('No se pudo verificar el registro en SQLite.');
+            if (
+                !registroVerificado ||
+                registroVerificado.consentimiento !== 1
+            ) {
+                throw new Error(
+                    'No se pudo verificar el registro del visitante.'
+                );
             }
 
             return res.status(201).json({
@@ -106,17 +110,13 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
                 visitor: {
                     id: visitorId,
                     nombre: nombre.trim()
-                },
-                persistencia: {
-                    verificada: true,
-                    motor: 'SQLite',
-                    registroId: registroVerificado.id,
-                    consentimiento: registroVerificado.consentimiento === 1,
-                    fechaRegistro: registroVerificado.created_at
                 }
             });
         } catch (error) {
-            console.error('Error al guardar el visitante:', error.message);
+            console.error(
+                'Error al guardar el visitante:',
+                error.message
+            );
 
             return res.status(500).json({
                 message: 'No se pudo guardar el registro.'

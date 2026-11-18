@@ -1,7 +1,12 @@
 // PUNTO 03 — LABORATORIO DE PERSISTENCIA
+            
+            function mostrarEvidenciaSQLite(contenedor, respuesta, http) {
+                const visitante = respuesta?.visitor;
 
-            function mostrarEvidenciaSQLite(contenedor, persistencia) {
-                if (!persistencia || persistencia.verificada !== true) {
+                if (
+                    http !== 201 ||
+                    !Number.isInteger(visitante?.id)
+                ) {
                     return;
                 }
 
@@ -9,20 +14,88 @@
                 panel.className = "sqlite-evidence-panel";
 
                 const titulo = document.createElement("h4");
-                titulo.textContent = backendText("backendDynamic063", "Verificación real en SQLite");
+                titulo.textContent = backendText(
+                    "backendDynamic063",
+                    "Verificación real en SQLite"
+                );
 
                 const descripcion = document.createElement("p");
-                descripcion.textContent =
-                    backendText("backendDynamic064", "El registro fue recuperado mediante una consulta SELECT a la base de datos.");
+                descripcion.textContent = backendText(
+                    "backendDynamic064",
+                    "El registro fue recuperado mediante una consulta SELECT a la base de datos."
+                );
+
+                const detalles = document.createElement("div");
+                detalles.className = "sqlite-evidence-details";
+
+                const fila = document.createElement("div");
+
+                const etiqueta = document.createElement("span");
+                etiqueta.textContent = backendText(
+                    "backendDynamic066",
+                    "Identificador del registro"
+                );
+
+                const valor = document.createElement("strong");
+                valor.textContent = String(visitante.id);
+
+                fila.append(etiqueta, valor);
+                detalles.appendChild(fila);
+
+                const estado = document.createElement("p");
+                estado.className = "sqlite-evidence-status";
+                estado.textContent = backendText(
+                    "backendDynamic071",
+                    "✓ Registro encontrado en SQLite"
+                );
+
+                panel.append(titulo, descripcion, detalles, estado);
+                contenedor.appendChild(panel);
+            }
+
+            function mostrarRechazoSQLite(contenedor, respuesta, http) {
+                if (
+                    http !== 400 ||
+                    !Array.isArray(respuesta?.errors) ||
+                    respuesta.errors.length === 0
+                ) {
+                    return;
+                }
+
+                const panel = document.createElement("div");
+                panel.className = "sqlite-evidence-panel";
+
+                const titulo = document.createElement("h4");
+                titulo.textContent = backendText(
+                    "backendDynamic072",
+                    "Protección de datos en SQLite"
+                );
+
+                const descripcion = document.createElement("p");
+                descripcion.textContent = backendText(
+                    "backendDynamic073",
+                    "La API rechazó la solicitud durante la validación, antes de ejecutar una operación INSERT."
+                );
 
                 const detalles = document.createElement("div");
                 detalles.className = "sqlite-evidence-details";
 
                 const campos = [
-                    [backendText("backendDynamic065", "Motor de base de datos"), persistencia.motor],
-                    [backendText("backendDynamic066", "Identificador del registro"), persistencia.registroId],
-                    [backendText("backendDynamic067", "Consentimiento"), persistencia.consentimiento ? backendText("backendDynamic068", "Válido") : backendText("backendDynamic069", "Inválido")],
-                    [backendText("backendDynamic070", "Fecha de registro"), persistencia.fechaRegistro]
+                    [
+                        backendText("backendDynamic074", "Resultado HTTP"),
+                        "400 — Bad Request"
+                    ],
+                    [
+                        backendText("backendDynamic075", "Validación"),
+                        backendText(
+                            "backendDynamic076",
+                            "Consentimiento obligatorio"
+                        )
+                    ],
+                    [
+                        backendText("backendDynamic077", "Operación INSERT"),
+                        backendText("backendDynamic078", "No ejecutada")
+                    ]
                 ];
 
                 campos.forEach(([etiqueta, valor]) => {
@@ -32,7 +105,7 @@
                     nombre.textContent = etiqueta;
 
                     const dato = document.createElement("strong");
-                    dato.textContent = String(valor);
+                    dato.textContent = valor;
 
                     fila.append(nombre, dato);
                     detalles.appendChild(fila);
@@ -40,57 +113,15 @@
 
                 const estado = document.createElement("p");
                 estado.className = "sqlite-evidence-status";
-                estado.textContent = backendText("backendDynamic071", "✓ Registro encontrado en SQLite");
+                estado.textContent = backendText(
+                    "backendDynamic080",
+                    "✓ Solicitud rechazada antes de insertar datos"
+                );
 
                 panel.append(titulo, descripcion, detalles, estado);
                 contenedor.appendChild(panel);
             }
 
-            function mostrarRechazoSQLite(contenedor, persistencia) {
-                if (!persistencia || persistencia.insercionEjecutada !== false) {
-                    return;
-                }
-
-                const panel = document.createElement("div");
-                panel.className = "sqlite-evidence-panel";
-
-                const titulo = document.createElement("h4");
-                titulo.textContent = backendText("backendDynamic072", "Protección de datos en SQLite");
-
-                const descripcion = document.createElement("p");
-                descripcion.textContent =
-                    backendText("backendDynamic073", "La API rechazó la solicitud durante la validación, antes de ejecutar una operación INSERT.");
-
-                const detalles = document.createElement("div");
-                detalles.className = "sqlite-evidence-details";
-
-                const campos = [
-                    [backendText("backendDynamic074", "Resultado HTTP"), "400 — Bad Request"],
-                    [backendText("backendDynamic075", "Validación"), backendText("backendDynamic076", "Consentimiento obligatorio")],
-                    [backendText("backendDynamic077", "Operación INSERT"), backendText("backendDynamic078", "No ejecutada")],
-                    [backendText("backendDynamic079", "Motivo"), persistencia.motivo]
-                ];
-
-                campos.forEach(([etiqueta, valor]) => {
-                    const fila = document.createElement("div");
-
-                    const nombre = document.createElement("span");
-                    nombre.textContent = etiqueta;
-
-                    const dato = document.createElement("strong");
-                    dato.textContent = String(valor);
-
-                    fila.append(nombre, dato);
-                    detalles.appendChild(fila);
-                });
-
-                const estado = document.createElement("p");
-                estado.className = "sqlite-evidence-status";
-                estado.textContent = backendText("backendDynamic080", "✓ Solicitud rechazada antes de insertar datos");
-
-                panel.append(titulo, descripcion, detalles, estado);
-                contenedor.appendChild(panel);
-            }
 
             const botonPersistenciaValido = document.getElementById(
                 'persistencia-valido-ejecutar'
@@ -158,16 +189,19 @@
                         datos,
                         backendText("backendDynamic053", "Ver solicitud enviada")
                     );
+                    // Mostrar la evidencia del registro válido.
                     mostrarEvidenciaSQLite(
                         contenedor,
-                        resultado.cuerpo?.persistencia
+                        resultado.cuerpo,
+                        resultado.http
                     );
-                    if (resultado.cuerpo?.persistencia?.insercionEjecutada === false) {
-                        mostrarRechazoSQLite(
-                            contenedor,
-                            resultado.cuerpo.persistencia
-                        );
-                    }
+
+                    // Mostrar la evidencia del rechazo.
+                    mostrarRechazoSQLite(
+                        contenedor,
+                        resultado.cuerpo,
+                        resultado.http
+                    );
 
                 } catch (error) {
                     window.BackendResultRenderer.render(
@@ -213,20 +247,21 @@
                         datos,
                         backendText("backendDynamic053", "Ver solicitud enviada")
                     );
-
-                    // Reconstruir la evidencia de SQLite.
+                    
+                    // Mostrar la evidencia del registro válido.
                     mostrarEvidenciaSQLite(
                         contenedor,
-                        resultado.cuerpo?.persistencia
+                        resultado.cuerpo,
+                        resultado.http
                     );
 
-                    // Reconstruir la evidencia de rechazo, si corresponde.
-                    if (resultado.cuerpo?.persistencia?.insercionEjecutada === false) {
-                        mostrarRechazoSQLite(
-                            contenedor,
-                            resultado.cuerpo.persistencia
-                        );
-                    }
+                    // Mostrar la evidencia del rechazo.
+                    mostrarRechazoSQLite(
+                        contenedor,
+                        resultado.cuerpo,
+                        resultado.http
+                    );
+
                 });
             }
 

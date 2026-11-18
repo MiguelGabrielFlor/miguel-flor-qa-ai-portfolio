@@ -496,4 +496,182 @@ La configuración de Nginx se respaldó y validó antes de aplicar los cambios.
 | Regresión final multinavegador | 21/21 PASS |
 | X-Content-Type-Options: nosniff | PASS |
 
-Las pruebas
+Las pruebas funcionales multinavegador fueron realizadas manualmente.
+
+La prueba de bloqueo confirmó que el navegador rechazó la ejecución de un script inline no autorizado y que la variable de prueba permaneció sin definir.
+5. Alcance y limitaciones
+Las verificaciones se realizaron sobre siete páginas del portfolio:
+- index.html
+- home.html
+- cv.html
+- frontend.html
+- backend.html
+- qa.html
+- quality-management.html
+Se verificaron funcionalidades representativas y la ausencia de bloqueos CSP que impidieran su funcionamiento durante las pruebas.
+
+La política permite cargar scripts desde cdn.jsdelivr.net, una dependencia externa autorizada. No elimina todos los riesgos de inyección ni sustituye la sanitización de contenido, las validaciones del backend o los controles de acceso.
+
+La advertencia de compatibilidad de layout-shift observada durante las pruebas no corresponde a una infracción CSP.
+
+La configuración de Nginx se mantiene fuera del repositorio Git del portfolio.
+6. Resultado
+SEC-006: CLOSED — CSP restrictiva implementada y activada en producción, bloqueo de scripts inline verificado y regresión funcional multinavegador 21/21 PASS.
+
+---
+
+## SEC-007 — Exposición de detalles internos en respuestas API
+
+**Prioridad:** P0 — Auditoría de seguridad y privacidad  
+**Estado:** OPEN — Correcciones verificadas localmente; despliegue de la segunda corrección pendiente  
+**Fecha de última verificación:** 18/11/2026 (Argentina)  
+**Entorno:** Desarrollo local y producción — Node.js / Express / Nginx / HTTPS
+
+### 1. Descripción del hallazgo
+
+Durante la auditoría de las respuestas públicas de la API se identificaron dos situaciones:
+
+- Las rutas `/api/*` inexistentes devolvían una página HTML generada por Express.
+- El endpoint `POST /api/visitors` exponía metadatos internos de persistencia SQLite en sus respuestas.
+
+No se observaron trazas de errores, rutas internas del sistema operativo ni datos personales de terceros en las respuestas examinadas.
+
+### 2. Evidencia inicial
+
+La solicitud `GET /api/ruta-inexistente` devolvía HTTP 404 con contenido HTML y el mensaje `Cannot GET /api/ruta-inexistente`.
+
+La solicitud `POST /api/visitors` con un objeto JSON vacío devolvía HTTP 400 e incluía:
+
+- `persistencia.insercionEjecutada`
+- `persistencia.motivo`
+
+También se identificaron metadatos de persistencia en la respuesta de registro exitoso mediante revisión del código fuente.
+
+### 3. Correcciones implementadas
+
+#### 3.1. Respuestas controladas para rutas API inexistentes
+
+Se incorporó un manejador para rutas `/api/*` inexistentes al final de `backend/src/app.js`.
+
+El manejador devuelve HTTP 404 con una respuesta JSON controlada:
+
+```json
+{
+  "message": "El recurso solicitado no existe."
+}
+```
+
+Se agregó una prueba de integración en `backend/tests/api.test.js`.
+
+También se adaptó la ruta auxiliar de `backend/tests/security.test.js` para conservar la verificación del limitador de solicitudes.
+
+**Commit:** `b8db0f7` — `fix: return JSON 404 for unknown API routes`
+
+**Estado:** Implementado, publicado y verificado en producción.
+
+#### 3.2. Eliminación de metadatos internos de persistencia
+
+Se modificó `POST /api/visitors` en `backend/src/app.js` para eliminar el objeto `persistencia` de las respuestas públicas.
+
+**Registro válido — HTTP 201:**
+
+```json
+{
+  "message": "Registro creado correctamente.",
+  "visitor": {
+    "id": 1,
+    "nombre": "QA Demo"
+  }
+}
+```
+
+El identificador y el nombre son valores ilustrativos del formato de respuesta.
+
+La implementación conserva la inserción SQLite y comprueba internamente la existencia del registro y su consentimiento.
+
+**Registro inválido — HTTP 400:**
+
+```json
+{
+  "message": "Los datos enviados no son válidos.",
+  "errors": []
+}
+```
+
+El arreglo `errors` contiene los errores de validación correspondientes al caso ejecutado.
+
+En ninguno de los dos formatos se devuelve el objeto `persistencia`.
+
+#### 3.3. Adaptación del laboratorio QA
+
+Se actualizó `js/backend/persistence-lab.js` para conservar la evidencia visual del laboratorio de `backend.html` sin depender de los metadatos internos anteriormente expuestos.
+
+El laboratorio utiliza:
+
+- HTTP 201 e identificador del visitante para representar el registro exitoso.
+- HTTP 400 y errores de validación para representar el rechazo.
+- Paneles de evidencia para ambos escenarios.
+- Actualización de textos ES/EN/PT sin repetir solicitudes POST al cambiar el idioma.
+
+La evidencia visual se mantiene como demostración QA. La persistencia real se verifica adicionalmente mediante las pruebas de integración del backend.
+
+#### 3.4. Configuración CORS para pruebas locales
+
+Se incorporaron los orígenes `http://127.0.0.1:8000` y `http://localhost:8000` a la configuración CORS de desarrollo.
+
+Esta modificación permite ejecutar el laboratorio desde el servidor HTTP utilizado por Selenium.
+
+Se conservaron los orígenes del puerto 5500 y la lista de orígenes autorizados en producción.
+
+### 4. Resultados de verificación
+
+| Control | Resultado |
+|---|---|
+| Rutas API inexistentes — HTTP 404 JSON | PASS |
+| Primera corrección desplegada en producción | PASS |
+| Commit `b8db0f7` publicado en GitHub | PASS |
+| Respuestas locales sin objeto `persistencia` | PASS |
+| Registro válido y comprobación SQLite | PASS |
+| Rechazo sin consentimiento | PASS |
+| Laboratorio QA adaptado | PASS |
+| CORS local para puerto 8000 | PASS |
+| BACKEND-I18N-003 — Chrome | PASS |
+| BACKEND-I18N-003 — Firefox | PASS |
+| BACKEND-I18N-003 — Edge | PASS |
+| Regresión Selenium multinavegador | 3/3 PASS |
+| Regresión completa del backend | 43/43 PASS |
+| Fallos backend | 0 |
+| Despliegue de eliminación de metadatos | PENDIENTE |
+| Verificación de segunda corrección en producción | PENDIENTE |
+
+**Observaciones:**
+
+- Las advertencias de SQLite experimental no representan fallos de las pruebas.
+- El error SMTP simulado corresponde a un escenario negativo esperado.
+- La regresión multinavegador se ejecutó en desarrollo local.
+
+### 5. Dependencias resueltas
+
+El laboratorio de persistencia y la prueba `BACKEND-I18N-003` dependían originalmente del objeto `persistencia`.
+
+Se actualizaron ambos componentes para utilizar las respuestas públicas revisadas.
+
+Se corrigió además la comparación del nombre de navegador de Microsoft Edge, cuyo identificador devuelto por Selenium es `microsoftedge`.
+
+Las verificaciones posteriores finalizaron correctamente en Chrome, Firefox y Edge.
+
+### 6. Pendientes
+
+- Publicar en GitHub la segunda corrección de SEC-007 y sus pruebas.
+- Desplegar los cambios en el VPS.
+- Verificar en producción que las respuestas HTTP 400 no incluyan metadatos internos.
+- Confirmar que la primera corrección HTTP 404 continúa funcionando.
+- Registrar la evidencia final y actualizar el estado de SEC-007.
+
+### 7. Resultado
+
+La primera corrección, correspondiente a las respuestas HTTP 404 en JSON, está implementada y verificada en producción.
+
+La segunda corrección, correspondiente a la eliminación de metadatos internos de persistencia, está implementada y verificada localmente.
+
+**SEC-007 permanece OPEN** hasta completar el despliegue y la verificación final en producción.
