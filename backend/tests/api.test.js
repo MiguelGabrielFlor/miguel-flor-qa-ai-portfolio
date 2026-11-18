@@ -245,3 +245,33 @@ test('API informa un error si falla el envío del correo', async () => {
         );
     }, emailService);
 });
+test('SEC-007: rutas API inexistentes devuelven HTTP 404 en JSON', async () => {
+    await withApi(async baseUrl => {
+        const response = await fetch(
+            `${baseUrl}/api/ruta-inexistente`
+        );
+
+        const body = await response.json();
+
+        assert.equal(response.status, 404);
+
+        assert.match(
+            response.headers.get('content-type') || '',
+            /application\/json/
+        );
+
+        assert.deepEqual(body, {
+            message: 'El recurso solicitado no existe.'
+        });
+
+        assert.equal(
+            response.headers.get('cache-control'),
+            'no-store'
+        );
+
+        assert.equal(
+            response.headers.get('pragma'),
+            'no-cache'
+        );
+    });
+});

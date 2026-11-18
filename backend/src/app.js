@@ -163,7 +163,14 @@ function createApp(db = defaultDb, emailService = createEmailService()) {
         }
     });
 
-    return app;
-}
+        // SEC-007: respuesta controlada para rutas API inexistentes.
+        app.use('/api', (req, res) => {
+            return res.status(404).json({
+                message: 'El recurso solicitado no existe.'
+            });
+        });
 
-module.exports = { createApp };
+        return app;
+    }
+
+    module.exports = { createApp };

@@ -15,7 +15,7 @@ test('SEC-001: devuelve HTTP 429 al superar el límite', async () => {
     });
 
     // Ruta exclusiva para esta prueba.
-    app.get('/api/security-test', limiter, (req, res) => {
+    app.get('/security-test', limiter, (req, res) => {
         res.status(200).json({ status: 'ok' });
     });
 
@@ -28,7 +28,7 @@ test('SEC-001: devuelve HTTP 429 al superar el límite', async () => {
 
     try {
         const address = server.address();
-        const url = `http://127.0.0.1:${address.port}/api/security-test`;
+        const url = `http://127.0.0.1:${address.port}/security-test`;
 
         for (let i = 0; i < 3; i++) {
             const response = await fetch(url);
