@@ -425,3 +425,75 @@ nuevos registros personales durante esta verificación.
 
 SEC-005: CLOSED — Política de caché incorporada
 y verificada mediante respuestas HTTP reales.
+---
+
+## SEC-006 — Ausencia de Content Security Policy restrictiva
+
+**Prioridad:** P0 — Auditoría de seguridad y privacidad
+**Estado:** CLOSED — Corrección verificada
+**Fecha de verificación:** 17/11/2026 (Argentina)
+**Entorno:** Desarrollo local y producción — Nginx / HTTPS
+
+### 1. Descripción del hallazgo
+
+Durante la auditoría se identificó que el frontend no disponía de una política Content Security Policy (CSP) restrictiva que limitara la ejecución de scripts y la carga de recursos.
+
+Se identificaron scripts y estilos inline que requerían adaptación antes de aplicar una política restrictiva.
+
+### 2. Evidencia inicial
+
+Las respuestas HTTP del sitio público no incluían una cabecera Content-Security-Policy.
+
+Se verificó la ausencia de esta cabecera en las páginas index.html, qa.html y backend.html.
+
+La ausencia de CSP representaba una debilidad de defensa en profundidad, pero no constituye por sí sola evidencia de explotación.
+
+### 3. Corrección implementada
+
+Se realizaron las siguientes modificaciones:
+
+- Extracción del script inline de rendimiento de index.html hacia js/performance-cls.js.
+- Sustitución de estilos inline por clases CSS en backend.html y frontend.html.
+- Eliminación de asignaciones dinámicas de estilos inline en los módulos JavaScript del laboratorio backend.
+- Corrección de la resolución de imágenes Markdown en js/qa/qa-markdown.js, restringiendo sus URLs al mismo origen.
+- Incorporación de CSP restrictiva al servidor local de desarrollo.
+- Configuración de cabeceras de seguridad en Nginx para producción.
+
+La política de producción establece:
+
+- default-src 'self'
+- script-src 'self' https://cdn.jsdelivr.net
+- style-src 'self'
+- img-src 'self' data:
+- font-src 'self' data:
+- connect-src 'self' https://cdn.jsdelivr.net
+- object-src 'none'
+- base-uri 'self'
+- frame-ancestors 'none'
+- form-action 'self'
+
+También se incorporó:
+
+- X-Content-Type-Options: nosniff
+
+La configuración de Nginx se respaldó y validó antes de aplicar los cambios.
+
+### 4. Resultados de verificación
+
+| Control | Resultado |
+|---|---|
+| Sintaxis de Nginx | PASS |
+| Respaldo independiente de configuración | PASS |
+| Publicación de código compatible | PASS — Commit bd8b11e |
+| Archivos JavaScript publicados | HTTP 200 — PASS |
+| CSP Report-Only en producción | PASS |
+| Regresión previa con Report-Only | 21/21 PASS |
+| CSP restrictiva en producción | PASS |
+| Bloqueo efectivo de script inline | PASS |
+| Regresión final en Chrome | 7/7 PASS |
+| Regresión final en Firefox | 7/7 PASS |
+| Regresión final en Edge | 7/7 PASS |
+| Regresión final multinavegador | 21/21 PASS |
+| X-Content-Type-Options: nosniff | PASS |
+
+Las pruebas
