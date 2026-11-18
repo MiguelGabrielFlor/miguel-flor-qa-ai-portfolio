@@ -891,3 +891,52 @@ La implementación y la regresión funcional previstas para SEC-008 se completar
 - Publicación en GitHub y despliegue en VPS: PASS.
 
 **Conclusión:** SEC-008 se declara cerrado dentro del alcance funcional y técnico documentado, conservando las limitaciones indicadas en la sección 8.
+
+---
+
+## Cierre general — Auditoría de seguridad y privacidad
+
+**Fecha:** 18 de noviembre de 2026
+**Estado:** CLOSED
+**Alcance:** Proyecto QA & AI Portfolio — desarrollo local y VPS de producción.
+
+### Controles documentados
+
+SEC-001 a SEC-008: 8/8 CLOSED.
+
+### Verificaciones complementarias
+
+| Área | Resultado |
+|---|---|
+| Dependencias backend local | PASS — 0 vulnerabilidades conocidas |
+| Dependencias backend VPS | PASS — 0 vulnerabilidades conocidas |
+| Archivos sensibles rastreados en Git | PASS — sin hallazgos en los patrones revisados |
+| Reglas .gitignore | PASS |
+| Firewall UFW | PASS |
+| Backend limitado a 127.0.0.1:3000 | PASS |
+| Nginx y servicios principales | PASS |
+| Redirección HTTP a HTTPS | PASS — 301 |
+| Respuesta HTTPS | PASS — 200 |
+| Cabeceras CSP y X-Content-Type-Options | PASS — presentes |
+| Certificado TLS | PASS — vigente hasta 05/02/2027 |
+| Temporizador Certbot | PASS — habilitado y programado |
+| Respaldos SQLite | PASS — ejecuciones verificadas |
+| Regresión funcional SEC-008 | PASS — 45/45 Selenium local |
+
+### Limitaciones
+
+- La auditoría de dependencias identifica vulnerabilidades conocidas, no garantiza ausencia total de riesgos.
+- La comprobación de Git se limitó a los archivos rastreados y patrones consultados; no constituye un análisis histórico completo de secretos.
+- La renovación futura del certificado TLS no fue comprobada mediante una renovación efectiva.
+- La eliminación efectiva de respaldos vencidos no fue observada.
+- La auditoría lingüística completa de la política de privacidad queda fuera de este cierre.
+- El control de sesión del frontend no equivale a autenticación o autorización del lado del servidor.
+- Las verificaciones de seguridad realizadas no constituyen una prueba de penetración integral.
+
+### Resultado
+
+**Punto 2 — Seguridad y privacidad: CLOSED**
+
+Los ocho controles documentados están cerrados y la revisión complementaria de cobertura no identificó nuevos bloqueos dentro del alcance evaluado.
+
+Las limitaciones permanecen documentadas para futuras revisiones.
