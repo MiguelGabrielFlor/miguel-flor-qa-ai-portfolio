@@ -685,7 +685,7 @@ Las correcciones fueron verificadas localmente y desplegadas en producción medi
 ## SEC-008 — Gestión de sesión, cierre de acceso y privacidad
 
 **Fecha:** 18 de noviembre de 2026
-**Estado:** EN VALIDACIÓN
+**Estado:** CLOSED
 **Tipo:** Seguridad, privacidad, funcionalidad y accesibilidad
 **Alcance:** Frontend, almacenamiento del navegador, buscador global y política de privacidad.
 
@@ -800,18 +800,94 @@ Las dos ejecuciones registraron un respaldo verificado y finalizaron correctamen
 
 La eliminación de copias vencidas está implementada, pero no se observó una eliminación efectiva en los registros consultados.
 
-### 6. Verificaciones pendientes
+### 6. Validación en producción
 
-- Confirmar la actualización completa de la Política de privacidad en ES/EN/PT.
-- Publicar los cambios de SEC-008 en GitHub.
-- Desplegar los cambios en el VPS.
-- Verificar cierre de sesión, persistencia del idioma y acceso a privacidad en producción.
-- Registrar el identificador del commit y los resultados del despliegue.
+**Fecha:** 18 de noviembre de 2026
+**Entorno:** Producción — https://mfportfolio.com.ar
+**Navegador:** Google Chrome
+**Tipo:** Pruebas manuales funcionales
+**Resultado:** PASS
 
-### 7. Criterio de cierre
+#### 6.1. Cierre de sesión desde el menú
 
-SEC-008 podrá declararse CLOSED cuando se hayan completado las verificaciones pendientes y documentado sus resultados.
+| Comprobación | Resultado |
+|---|---|
+| Cierre de sesión desde el menú de navegación | PASS |
+| Acceso a home.html después del cierre | PASS |
+| Persistencia del idioma seleccionado | PASS |
 
-La regresión automatizada local se encuentra completada con 45/45 PASS en Chrome, Firefox y Edge.
+El cierre elimina la sesión del navegador y permite regresar a la página de acceso. La preferencia de idioma permanece disponible.
 
-**SEC-008 — EN VALIDACIÓN**
+#### 6.2. Cierre de sesión desde el footer
+
+| Comprobación | ES | EN | PT |
+|---|---|---|---|
+| Cierre de sesión | PASS | PASS | PASS |
+| Redirección a index.html | PASS | PASS | PASS |
+| Persistencia del idioma | PASS | PASS | PASS |
+
+#### 6.3. Cierre de sesión mediante el buscador
+
+| Comprobación | ES | EN | PT |
+|---|---|---|---|
+| Búsqueda de la opción de cierre | PASS | PASS | PASS |
+| Selección mediante Enter | PASS | PASS | PASS |
+| Cierre de sesión y redirección | PASS | PASS | PASS |
+| Persistencia del idioma | PASS | PASS | PASS |
+
+#### 6.4. Política de privacidad
+
+| Comprobación | ES | EN | PT |
+|---|---|---|---|
+| Búsqueda de la política | PASS | PASS | PASS |
+| Apertura mediante Enter | PASS | PASS | PASS |
+| Visualización de las 13 secciones | PASS | PASS | PASS |
+| Desplazamiento del contenido | PASS | PASS | PASS |
+| Cierre mediante Escape | PASS | PASS | PASS |
+| Cierre mediante botón X | PASS | PASS | PASS |
+| Conservación de la sesión | PASS | PASS | PASS |
+
+Las comprobaciones anteriores corresponden a pruebas manuales realizadas en producción y reportadas durante la validación de SEC-008.
+
+### 7. Publicación y despliegue
+
+**Repositorio:** MiguelGabrielFlor/miguel-flor-qa-ai-portfolio
+**Rama:** master
+**Commit:** f870fd1
+**Mensaje:** SEC-008: session logout, privacy policy and QA regression
+
+**Resultados:**
+
+- Publicación en GitHub: PASS.
+- Actualización del repositorio del VPS: PASS.
+- Coincidencia de HEAD, master y origin/master con f870fd1: PASS.
+- Validación funcional en producción: PASS.
+
+### 8. Alcance y limitaciones
+
+- La regresión Selenium local finalizó con 45/45 PASS en Chrome, Firefox y Edge.
+- La validación funcional de producción se realizó manualmente en Chrome.
+- No se ejecutó una nueva regresión Selenium contra producción.
+- La estructura de la política de privacidad fue comprobada en ES, EN y PT, con 13 secciones y 36 párrafos por idioma. Esto no constituye una auditoría lingüística completa.
+- El control de sesión del frontend no equivale a una restricción de acceso del lado del servidor.
+- La eliminación de respaldos vencidos está implementada, pero no se observó una eliminación efectiva en los registros consultados.
+- La eliminación de mensajes de contacto conservados en servicios externos requiere procedimientos y verificaciones independientes.
+
+Estas limitaciones quedan documentadas y no se presentan como verificaciones aprobadas.
+
+### 9. Resultado final
+
+**SEC-008 — CLOSED**
+
+La implementación y la regresión funcional previstas para SEC-008 se completaron.
+
+**Evidencia consolidada:**
+
+- Regresión automatizada local: 45/45 PASS.
+- Validación manual de cierre de sesión en producción: PASS.
+- Validación manual del buscador en ES/EN/PT: PASS.
+- Validación manual de la política de privacidad en ES/EN/PT: PASS.
+- Conservación y respaldos SQLite: configuración y ejecuciones verificadas.
+- Publicación en GitHub y despliegue en VPS: PASS.
+
+**Conclusión:** SEC-008 se declara cerrado dentro del alcance funcional y técnico documentado, conservando las limitaciones indicadas en la sección 8.
