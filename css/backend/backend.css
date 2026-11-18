@@ -1302,3 +1302,59 @@ BACKEND — BIBLIOTECA DE PRUEBAS
     outline-offset: 4px;
     box-shadow: 0 0 0 2px rgba(8, 11, 18, 0.9);
 }
+
+/* CSP — Indicadores y barras sin estilos integrados */
+
+.indicador-color-verde {
+    background: #6A9955;
+}
+
+.indicador-color-naranja {
+    background: #CE9178;
+}
+
+.indicador-color-amarillo {
+    background: #DCDCAA;
+}
+
+.barra-valor-principal {
+    width: 60%;
+    background: #569CD6;
+}
+
+.barra-valor-secundaria {
+    width: 13.3333%;
+    background: #9CDCFE;
+}
+
+.barra-valor-terciaria {
+    width: 26.6667%;
+    background: #C586C0;
+}
+/* SEC-006 — Resultados dinámicos compatibles con CSP */
+
+.backend-veredicto-pass,
+.backend-veredicto-fail {
+    margin: 0;
+    font-weight: bold;
+}
+
+.backend-veredicto-pass {
+    color: #6A9955;
+}
+
+.backend-veredicto-fail {
+    color: #CE9178;
+}
+
+.backend-resultado-detalle {
+    margin: 12px 0 0;
+    color: #9CDCFE;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-family: Consolas, monospace;
+}
+
+.backend-progreso {
+    color: #DCDCAA;
+}

@@ -95,7 +95,7 @@
                 contenedor.replaceChildren();
 
                 const progreso = document.createElement('p');
-                progreso.style.color = '#DCDCAA';
+                progreso.classList.add('backend-progreso');
                 progreso.textContent = backendText("backendDynamic061", "Ejecutando validación...");
                 contenedor.appendChild(progreso);
 

@@ -130,7 +130,7 @@
                 contenedor.replaceChildren();
 
                 const progreso = document.createElement('p');
-                progreso.style.color = '#DCDCAA';
+                progreso.classList.add('backend-progreso');
                 progreso.textContent = backendText("backendDynamic081", "Ejecutando prueba de persistencia...");
                 contenedor.appendChild(progreso);
 

@@ -49,6 +49,18 @@ const ALLOWED_EXTENSIONS = new Set(
     Object.keys(MIME_TYPES)
 );
 
+const CSP_REPORT_ONLY = [
+    "default-src 'self'",
+    "script-src 'self' https://cdn.jsdelivr.net",
+    "style-src 'self'",
+    "img-src 'self' data:",
+    "font-src 'self' data:",
+    "connect-src 'self' http://127.0.0.1:3000 http://localhost:3000 https://cdn.jsdelivr.net",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "frame-ancestors 'none'",
+    "form-action 'self'"
+].join('; ');
 function respond(res, status, message) {
     res.writeHead(status, {
         'Content-Type': 'text/plain; charset=utf-8',
@@ -135,11 +147,17 @@ const server = http.createServer((req, res) => {
                 return respond(res, 404, 'Not Found');
             }
 
-            res.writeHead(200, {
+            const headers = {
                 'Content-Type': MIME_TYPES[extension],
                 'X-Content-Type-Options': 'nosniff',
                 'Cache-Control': 'no-store'
-            });
+            };
+
+            if (extension === '.html') {
+                headers['Content-Security-Policy'] = CSP_REPORT_ONLY;
+            }
+
+            res.writeHead(200, headers);
 
             if (req.method === 'HEAD') {
                 return res.end();

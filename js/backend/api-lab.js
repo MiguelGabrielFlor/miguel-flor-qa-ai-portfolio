@@ -301,7 +301,7 @@ const apiResultado = document.getElementById('api-resultado');
                 apiResultado.replaceChildren();
 
                 const progreso = document.createElement('p');
-                progreso.style.color = '#DCDCAA';
+                progreso.classList.add('backend-progreso');
                 progreso.textContent = backendText("backendDynamic055", "Ejecutando prueba...");
                 apiResultado.appendChild(progreso);
 

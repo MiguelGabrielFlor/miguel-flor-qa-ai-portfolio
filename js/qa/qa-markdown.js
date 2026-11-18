@@ -67,6 +67,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         content.innerHTML = DOMPurify.sanitize(html);
 
+                        // SEC-006: resolver imágenes respecto del documento Markdown.
+                        const documentUrl = new URL(response.url, window.location.href);
+
+                        content.querySelectorAll("img[src]").forEach(function (image) {
+                            const source = image.getAttribute("src");
+
+                            if (!source) return;
+
+                            const resolvedUrl = new URL(source, documentUrl);
+
+                            // Solo permitir imágenes alojadas en el mismo origen.
+                            if (resolvedUrl.origin !== window.location.origin) {
+                                image.removeAttribute("src");
+                                return;
+                            }
+
+                            image.setAttribute("src", resolvedUrl.href);
+                        });
+
                         content.scrollTop = 0;
 
                     } catch (error) {
