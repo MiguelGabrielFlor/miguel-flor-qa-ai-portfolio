@@ -408,12 +408,21 @@ window.portfolioTranslations.en = {
         frontFooterLanguageAria: "Select language",
         frontCopyDone: "Copied",
         frontCopyFail: "Could not copy",
+        
         frontHtmlAccessTitle: "Access screen",
-        frontHtmlAccessDesc: "Main container of the access screen. It contains the form used to enter the portfolio.",
-        frontHtmlFormTitle: "Access form",
-        frontHtmlFormDesc: "Groups the registration fields and runs validation before processing the information.",
+        frontHtmlAccessDesc: "Access page with two options: guest entry or visitor registration. The registration form is initially hidden.",
+
+        frontHtmlFormTitle: "Registration form",
+        frontHtmlFormDesc: "Registration form for visitors, initially hidden. It contains personal information, consent, and the validations required before registration.",
+
         frontHtmlPortfolioTitle: "Portfolio content",
-        frontHtmlPortfolioDesc: "Professional portfolio container. It appears after the access process is successfully completed.",
+        frontHtmlPortfolioDesc: "Main home.html page, separate from index.html. It displays the professional sections after a valid session has been established.",
+
+        frontHtmlTreeFullName: "First and last name",
+        frontHtmlTreeEmail: "Email address",
+        frontHtmlTreePhone: "Phone number",
+        frontHtmlTreeConsent: "Consent",
+        
         frontHtmlTreeFields: "Registration fields",
         frontHtmlTreeSelected: "SELECTED",
         frontHtmlTreeAbout: "About me",

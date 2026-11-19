@@ -1,4 +1,3 @@
-
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 
@@ -87,13 +86,22 @@ test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
         const alternativeLanguage =
             language.code === 'es' ? 'en' : 'es';
 
+        await driver.wait(until.elementIsEnabled(languageSelect), 10000);
         await new Select(languageSelect).selectByValue(
             alternativeLanguage
         );
+        await driver.wait(async () => driver.executeScript(
+            'return document.documentElement.lang === arguments[0] && !document.getElementById("languageSelect").disabled',
+            alternativeLanguage
+        ), 10000);
 
         await new Select(languageSelect).selectByValue(
             language.code
         );
+        await driver.wait(async () => driver.executeScript(
+            'return document.documentElement.lang === arguments[0] && !document.getElementById("languageSelect").disabled',
+            language.code
+        ), 10000);
 
         const storedLanguage = await driver.executeScript(
             "return localStorage.getItem('portfolioLanguage')"
@@ -250,6 +258,10 @@ test('ACCESS-I18N-005 — Persistencia del idioma ES/EN/PT', async (t) => {
             `ACCESS-I18N-005 | ${actualBrowser} | ${language.code.toUpperCase()} | NAVEGACIÓN | PASS`
         );
 
+        // Finalizar el escenario antes de volver al acceso:
+        // una sesión registrada activa redirigiría index.html a home.html.
+        await driver.executeScript("sessionStorage.removeItem('portfolioSession')");
         await driver.get(indexUrl);
+        await driver.wait(until.elementLocated(By.id('languageSelect')), 10000);
     }
 });

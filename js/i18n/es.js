@@ -404,12 +404,21 @@ window.portfolioTranslations.es = {
         frontFooterLanguageAria: "Seleccionar idioma",
         frontCopyDone: "Copiado",
         frontCopyFail: "No se pudo copiar",
+        
         frontHtmlAccessTitle: "Pantalla de acceso",
-        frontHtmlAccessDesc: "Contenedor principal de la pantalla de acceso. Agrupa el formulario que permite ingresar al portfolio.",
-        frontHtmlFormTitle: "Formulario de acceso",
-        frontHtmlFormDesc: "Agrupa los campos de registro y permite ejecutar las validaciones antes de procesar la información.",
+        frontHtmlAccessDesc: "Página de acceso con dos opciones: ingreso como invitado o registro de visitante. El formulario de registro permanece inicialmente oculto.",
+
+        frontHtmlFormTitle: "Formulario de registro",
+        frontHtmlFormDesc: "Formulario de visitantes registrados, inicialmente oculto. Contiene los datos personales, el consentimiento y las validaciones necesarias antes del registro.",
+
         frontHtmlPortfolioTitle: "Contenido del portfolio",
-        frontHtmlPortfolioDesc: "Contenedor del portfolio profesional. Se presenta después de completar correctamente el proceso de acceso.",
+        frontHtmlPortfolioDesc: "Página principal home.html, separada de index.html. Presenta las secciones profesionales después de establecer una sesión válida.",
+
+        frontHtmlTreeFullName: "Nombre y apellido",
+        frontHtmlTreeEmail: "Correo electrónico",
+        frontHtmlTreePhone: "Teléfono",
+        frontHtmlTreeConsent: "Consentimiento",
+        
         frontHtmlTreeFields: "Campos de registro",
         frontHtmlTreeSelected: "SELECCIONADO",
         frontHtmlTreeAbout: "Sobre mí",

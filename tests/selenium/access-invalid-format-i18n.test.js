@@ -1,146 +1,83 @@
-const { createDriver } = require('./selenium-config');
-
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const path = require('node:path');
-const { pathToFileURL } = require('node:url');
-const { By } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 const { Select } = require('selenium-webdriver/lib/select');
+const { createDriver } = require('./selenium-config');
 
-test('ACCESS-I18N-004 — Errores de formato ES/EN/PT', async (t) => {
-    const browser = process.env.TEST_BROWSER || 'chrome';
+const baseUrl = process.env.TEST_BASE_URL || 'http://127.0.0.1:5500';
+const browser = process.env.TEST_BROWSER || 'chrome';
 
-    const driver = await createDriver(browser);
+async function prepare(driver) {
+    await driver.get(`${baseUrl}/index.html`);
+    await driver.executeScript("sessionStorage.removeItem('portfolioSession'); localStorage.removeItem('portfolioLanguage');");
+    await driver.navigate().refresh();
+    await driver.wait(until.elementIsEnabled(driver.findElement(By.id('languageSelect'))), 10000);
+    await driver.findElement(By.id('registeredAccessButton')).click();
+    const form = await driver.findElement(By.id('accessForm'));
+    await driver.wait(until.elementIsVisible(form), 10000);
+}
 
-    t.after(async () => {
-        await driver.quit();
-    });
+async function language(driver, code) {
+    const selector = await driver.findElement(By.id('languageSelect'));
+    await driver.wait(until.elementIsEnabled(selector), 10000);
+    await new Select(selector).selectByValue(code);
+    await driver.wait(async () => driver.executeScript(`
+        return document.documentElement.lang === arguments[0] &&
+               document.getElementById('languageSelect').disabled === false &&
+               !!window.portfolioTranslations?.[arguments[0]];
+    `, code), 10000, `Idioma ${code} no terminó de cargarse`);
+}
 
-    const actualBrowser = String(
-        (await driver.getCapabilities()).get('browserName') || ''
-    ).toLowerCase();
-
-    assert.equal(
-        actualBrowser,
-        browser.toLowerCase(),
-        `Se solicitó ${browser}, pero Selenium abrió ${actualBrowser}`
+async function checkErrors(driver, code, fields) {
+    const dictionary = await driver.executeScript(
+        'return window.portfolioTranslations?.[arguments[0]]', code
     );
-
-    const pageUrl = pathToFileURL(
-        path.resolve(__dirname, '../../index.html')
-    ).href;
-
-    await driver.get(pageUrl);
-
-    const languageSelect = await driver.findElement(
-        By.id('languageSelect')
-    );
-
-    const invalidFields = [
-        {
-            inputId: 'firstName',
-            errorId: 'firstNameError',
-            translationKey: 'firstNameInvalid',
-            value: '123'
-        },
-        {
-            inputId: 'lastName',
-            errorId: 'lastNameError',
-            translationKey: 'lastNameInvalid',
-            value: '456'
-        },
-        {
-            inputId: 'email',
-            errorId: 'emailError',
-            translationKey: 'emailInvalid',
-            value: 'correo-invalido'
-        },
-        {
-            inputId: 'phone',
-            errorId: 'phoneError',
-            translationKey: 'phoneInvalid',
-            value: 'abc123'
-        }
-    ];
-
-    async function changeLanguage(language) {
-        await new Select(languageSelect).selectByValue(language);
-
+    assert.ok(dictionary, `Diccionario ausente: ${code}`);
+    for (const [errorId, key] of Object.entries(fields)) {
+        assert.ok(dictionary[key], `${code}: falta la clave ${key}`);
         await driver.wait(async () => {
-            return driver.executeScript(
-                'return document.documentElement.lang === arguments[0]',
-                language
-            );
-        }, 5000);
+            const actual = await driver.findElement(By.id(errorId)).getText();
+            return actual === dictionary[key];
+        }, 5000, `${code}: error incorrecto en ${errorId}`);
     }
+    assert.ok((await driver.getCurrentUrl()).includes('index.html'),
+        `${code}: no debe acceder a home.html con datos inválidos`);
+}
 
-    async function verifyErrors(language) {
-        const dictionary = await driver.executeScript(
-            'return window.portfolioTranslations?.[arguments[0]]',
-            language
-        );
+async function runTest(t, fn) {
+    const driver = await createDriver(browser);
+    t.after(async () => driver.quit());
+    const actual = String((await driver.getCapabilities()).get('browserName')).toLowerCase();
+    assert.equal(actual, browser.toLowerCase(), 'Navegador incorrecto');
+    await fn(driver);
+}
 
-        assert.ok(dictionary, `Diccionario ausente: ${language}`);
+const invalidFields = [
+    { inputId: 'firstName', errorId: 'firstNameError', key: 'firstNameInvalid', value: '123' },
+    { inputId: 'lastName', errorId: 'lastNameError', key: 'lastNameInvalid', value: '456' },
+    { inputId: 'email', errorId: 'emailError', key: 'emailInvalid', value: 'correo-invalido' },
+    { inputId: 'phone', errorId: 'phoneError', key: 'phoneInvalid', value: 'abc123' }
+];
 
+test('ACCESS-I18N-004 — Errores de formato ES/EN/PT', async t => {
+    await runTest(t, async driver => {
+        await prepare(driver);
+        await language(driver, 'es');
         for (const field of invalidFields) {
-            const expected = dictionary[field.translationKey];
-
-            assert.ok(
-                expected,
-                `${language}: falta ${field.translationKey}`
-            );
-
-            await driver.wait(async () => {
-                const actual = await driver.findElement(
-                    By.id(field.errorId)
-                ).getText();
-
-                return actual === expected;
-            }, 3000,
-            `${language}: ${field.errorId} no se tradujo correctamente`);
+            await driver.findElement(By.id(field.inputId)).sendKeys(field.value);
         }
-
-        console.log(
-            `ACCESS-I18N-004 | ${actualBrowser} | ${language.toUpperCase()} | 4 ERRORES | PASS`
-        );
-    }
-
-    // Preparar el formulario en español.
-    await changeLanguage('es');
-
-    for (const field of invalidFields) {
-        await driver.findElement(
-            By.id(field.inputId)
-        ).sendKeys(field.value);
-    }
-
-    // Generar los errores una sola vez.
-    await driver.findElement(By.id('accessButton')).click();
-
-    await verifyErrors('es');
-
-    // Cambiar idioma sin volver a enviar el formulario.
-    for (const language of ['en', 'pt', 'es']) {
-        await changeLanguage(language);
-        await verifyErrors(language);
-    }
-
-    // Comprobar que los valores originales se conservan.
-    for (const field of invalidFields) {
-        const actualValue = await driver.findElement(
-            By.id(field.inputId)
-        ).getAttribute('value');
-
-        assert.equal(
-            actualValue,
-            field.value,
-            `${field.inputId}: el valor fue modificado`
-        );
-    }
-
-    assert.equal(
-        await driver.findElement(By.id('portfolio')).isDisplayed(),
-        false,
-        'No debe permitirse el acceso con datos inválidos'
-    );
+        await driver.findElement(By.id('accessButton')).click();
+        const errors = Object.fromEntries(invalidFields.map(f => [f.errorId, f.key]));
+        for (const code of ['es', 'en', 'pt', 'es']) {
+            await language(driver, code);
+            await checkErrors(driver, code, errors);
+            for (const field of invalidFields) {
+                assert.equal(await driver.findElement(By.id(field.inputId)).getAttribute('value'),
+                    field.value, `${code}: valor modificado en ${field.inputId}`);
+                assert.equal(await driver.findElement(By.id(field.inputId)).getAttribute('aria-invalid'),
+                    'true', `${code}: falta aria-invalid en ${field.inputId}`);
+            }
+            console.log(`ACCESS-I18N-004 | ${browser} | ${code.toUpperCase()} | 4 ERRORES | PASS`);
+        }
+    });
 });

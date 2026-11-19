@@ -2,15 +2,11 @@ const { createDriver: createSharedDriver } = require('./selenium-config');
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const path = require('node:path');
-const { pathToFileURL } = require('node:url');
 const { By } = require('selenium-webdriver');
 
-const BROWSER = process.env.SELENIUM_BROWSER || 'chrome';
+const BROWSER = process.env.TEST_BROWSER || process.env.SELENIUM_BROWSER || 'chrome';
 
-const PAGE_URL = pathToFileURL(
-    path.resolve(__dirname, '../../quality-management.html')
-).href;
+const PAGE_URL = `${(process.env.TEST_BASE_URL || 'http://127.0.0.1:5500').replace(/\/$/, '')}/quality-management.html`;
 
 const LANGUAGES = ['es', 'en', 'pt', 'es'];
 
@@ -111,7 +107,9 @@ async function changeLanguage(driver, language) {
                 .toLowerCase()
                 .startsWith(lang) &&
                 heading?.textContent.trim() ===
-                dictionary.qmClosureTitle;
+                dictionary.qmClosureTitle &&
+                localStorage.getItem('portfolioLanguage') === lang &&
+                !document.querySelector('#cv-language-select').disabled;
         }, language);
     }, 10000);
 }
@@ -319,7 +317,7 @@ test('CLOSURE-002 — Resultados y condiciones de cierre', async (t) => {
 
         assert.equal(
             structure.link,
-            'qa.html',
+            'qa.html#evidencia',
             `${language}: enlace de evidencia incorrecto`
         );
 

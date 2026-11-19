@@ -204,9 +204,16 @@ function applyLanguage(language) {
 
             selectedTranslations[translationKey] ||
 
-            errorElement.textContent;
+            errorElement.textContent;       
 
     });
+     // Actualizar el error del servidor si permanece visible.
+    if (serverError && serverError.dataset.errorKey) {
+        const errorKey = serverError.dataset.errorKey;
+
+        serverError.textContent =
+            selectedTranslations[errorKey] || serverError.textContent;
+    }
 
 }
 
@@ -554,61 +561,53 @@ form.addEventListener("submit", async function (event) {
     if (isValid) {
 
         serverError.textContent = "";
+        delete serverError.dataset.errorKey;
 
         accessButton.disabled = true;
 
         try {
 
-            const response = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3000' : ''}/api/visitors`, {
-
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type": "application/json"
-
-                },
-
-                body: JSON.stringify({
-
-                    nombre: firstName.value.trim(),
-
-                    apellido: lastName.value.trim(),
-
-                    email: email.value.trim(),
-
-                    telefono: phone.value.trim(),
-
-                    consentimiento: consent.checked
-
-                })
-
-            });
+            const response = await fetch(
+                `${window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:3000'
+                    : ''}/api/visitors`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nombre: firstName.value.trim(),
+                        apellido: lastName.value.trim(),
+                        email: email.value.trim(),
+                        telefono: phone.value.trim(),
+                        consentimiento: consent.checked
+                    })
+                }
+            );
 
             if (!response.ok) {
 
+                serverError.dataset.errorKey = "registrationFailed";
                 serverError.textContent =
-
                     currentTranslations.registrationFailed;
 
                 return;
-
             }
 
             showPortfolio();
 
-            } catch (error) {
+        } catch (error) {
 
-                serverError.textContent =
+            serverError.dataset.errorKey = "connectionError";
+            serverError.textContent =
+                currentTranslations.connectionError;
 
-                    currentTranslations.connectionError;
+        } finally {
 
-            } finally {
-
-                accessButton.disabled = false;
-
-            }
-
+            accessButton.disabled = false;
+        }
     }
 
 });

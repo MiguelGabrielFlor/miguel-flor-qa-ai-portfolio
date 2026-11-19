@@ -1,77 +1,27 @@
-const { createDriver } = require('./selenium-config');
-
+'use strict';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const path = require('node:path');
-const { pathToFileURL } = require('node:url');
-const { By, until } = require('selenium-webdriver');
+const { By } = require('selenium-webdriver');
+const { createDriver } = require('./selenium-config');
+const { openHome, installContactMock, expectedTranslation, submitContact } = require('./contact-test-helpers');
 
-test('UI-010: un mensaje válido muestra la confirmación de envío', async (t) => {
-    const browser = process.env.TEST_BROWSER || 'chrome';
-
-    const driver = await createDriver(browser);
-
-    t.after(async () => {
-        await driver.quit();
-    });
-
-    const filePath = path.resolve(__dirname, '../../index.html');
-    await driver.get(pathToFileURL(filePath).href);
-
-    // Completar el formulario de acceso.
-    await driver.findElement(By.id('firstName')).sendKeys('Miguel');
-    await driver.findElement(By.id('lastName')).sendKeys('Flor');
-    await driver.findElement(By.id('email')).sendKeys('selenium.test@example.com');
-    await driver.findElement(By.id('phone')).sendKeys('1123456789');
-    await driver.findElement(By.id('consent')).click();
-
-    await driver.findElement(By.id('accessButton')).click();
-
-    // Esperar a que el portfolio esté visible.
-    const portfolio = await driver.findElement(By.id('portfolio'));
-
-    await driver.wait(
-        until.elementIsVisible(portfolio),
-        10000,
-        'El portfolio debería mostrarse después del acceso.'
-    );
-
-    // Completar y enviar el formulario de contacto.
-    const message = await driver.findElement(By.id('contactMessage'));
-
-    await message.sendKeys(
-        'Prueba automatizada Selenium: consulta de contacto válida.'
-    );
-
-    const contactButton = await driver.findElement(By.id('contactButton'));
-
-    await contactButton.click();
-
-    // Esperar la confirmación de la API simulada.
-    const status = await driver.findElement(By.id('contactStatus'));
-
-    await driver.wait(
-        until.elementTextIs(status, 'Mensaje enviado correctamente.'),
-        10000,
-        'Debe mostrarse la confirmación de envío.'
-    );
-
-    assert.equal(
-        await status.getText(),
-        'Mensaje enviado correctamente.'
-    );
-
-    // El formulario debe quedar limpio después del envío.
-    assert.equal(
-        await message.getAttribute('value'),
-        '',
-        'El campo de mensaje debe quedar vacío.'
-    );
-
-    // El botón debe volver a estar habilitado.
-    assert.equal(
-        await contactButton.isEnabled(),
-        true,
-        'El botón debe habilitarse nuevamente.'
-    );
+test('UI-010: un mensaje válido muestra la confirmación de envío', async t => {
+  const browser = process.env.TEST_BROWSER || 'chrome';
+  const driver = await createDriver(browser);
+  t.after(async () => driver.quit());
+  await openHome(driver, 'registered');
+  await installContactMock(driver, 200);
+  const message = 'Prueba automatizada Selenium: consulta de contacto válida.';
+  await driver.findElement(By.id('contactMessage')).sendKeys(message);
+  await submitContact(driver);
+  const expected = await expectedTranslation(driver, 'contactSuccess');
+  await driver.wait(async () => (await driver.findElement(By.id('contactStatus')).getText()) === expected, 10000);
+  assert.equal(await driver.findElement(By.id('contactMessage')).getAttribute('value'), '');
+  assert.equal(await driver.findElement(By.id('contactButton')).isEnabled(), true);
+  const calls = await driver.executeScript('return window.__contactCalls');
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].method, 'POST');
+  assert.equal(calls[0].body.mensaje, message);
+  assert.equal(calls[0].body.email, 'selenium.test@example.com');
+  console.log(`UI-010 | ${browser} | PASS`);
 });

@@ -4,45 +4,56 @@
                 const lab = document.getElementById("html-lab");
 
                 if (!lab) return;
-
+                
                 const elements = {
                     accessPage: {
                         title: "Pantalla de acceso",
                         description:
-                            "Contenedor principal de la pantalla de acceso. " +
-                            "Agrupa el formulario que permite ingresar al portfolio.",
-                        code: '<main id="accessPage" class="access-page">',
+                            "Página de acceso con dos opciones: ingreso como invitado " +
+                            "o registro de visitante. El formulario de registro " +
+                            "permanece inicialmente oculto.",
+                        code: '<main id="accessPage">',
                         tree:
-                            '<main id="accessPage">\n' +
-                            '  └── <form id="accessForm">\n' +
-                            '        └── Campos de registro'
+                            '<main id="accessPage">  ← SELECCIONADO\n' +
+                            '  ├── <article data-access-target="guestAccessButton">\n' +
+                            '  │     └── <button id="guestAccessButton">\n' +
+                            '  ├── <article data-access-target="registeredAccessButton">\n' +
+                            '  │     └── <button id="registeredAccessButton">\n' +
+                            '  └── <form id="accessForm" hidden>'
                     },
 
                     accessForm: {
-                        title: "Formulario de acceso",
+                        title: "Formulario de registro",
                         description:
-                            "Agrupa los campos de registro y permite ejecutar " +
-                            "las validaciones antes de procesar la información.",
-                        code: '<form id="accessForm" novalidate>',
+                            "Formulario de visitantes registrados, inicialmente oculto. " +
+                            "Contiene los datos personales, el consentimiento " +
+                            "y las validaciones necesarias antes del registro.",
+                        code: '<form id="accessForm" novalidate hidden>',
                         tree:
                             '<main id="accessPage">\n' +
-                            '  └── <form id="accessForm">  ← SELECCIONADO\n' +
-                            '        └── Campos de registro'
+                            '  └── <form id="accessForm" hidden>  ← SELECCIONADO\n' +
+                            '        ├── Nombre y apellido\n' +
+                            '        ├── Correo electrónico\n' +
+                            '        ├── Teléfono\n' +
+                            '        └── Consentimiento'
                     },
 
                     portfolio: {
                         title: "Contenido del portfolio",
                         description:
-                            "Contenedor del portfolio profesional. " +
-                            "Se presenta después de completar correctamente " +
-                            "el proceso de acceso.",
-                        code: '<div id="portfolio" class="portfolio hidden">',
+                            "Página principal home.html, separada de index.html. " +
+                            "Presenta las secciones profesionales después de " +
+                            "establecer una sesión válida.",
+                        code: '<main id="main-content">',
                         tree:
-                            '<div id="portfolio">  ← SELECCIONADO\n' +
-                            '  ├── Sobre mí\n' +
-                            '  ├── Especialidades\n' +
-                            '  ├── Proyectos\n' +
-                            '  └── Contacto'
+                            '<main id="main-content">  ← SELECCIONADO\n' +
+                            '  ├── <section id="home">\n' +
+                            '  ├── <section id="about">\n' +
+                            '  ├── <section id="specialties">\n' +
+                            '  ├── <section id="qa">\n' +
+                            '  ├── <section id="ai">\n' +
+                            '  ├── <section id="projects">\n' +
+                            '  └── <section id="contact">'
                     }
                 };
 
@@ -68,14 +79,21 @@
                     tree.replaceChildren();
 
                     const fragment = document.createDocumentFragment();
+                    
                     const treeWords = {
-                        "Campos de registro": "frontHtmlTreeFields",
                         "SELECCIONADO": "frontHtmlTreeSelected",
+
+                        "Nombre y apellido": "frontHtmlTreeFullName",
+                        "Correo electrónico": "frontHtmlTreeEmail",
+                        "Teléfono": "frontHtmlTreePhone",
+                        "Consentimiento": "frontHtmlTreeConsent",
+
                         "Sobre mí": "frontHtmlTreeAbout",
                         "Especialidades": "frontHtmlTreeSpecialties",
                         "Proyectos": "frontHtmlTreeProjects",
                         "Contacto": "frontHtmlTreeContact"
                     };
+
                     let translatedTree = element.tree;
                     Object.entries(treeWords).forEach(([word, translationKey]) => {
                         translatedTree = translatedTree.replaceAll(word, frontTr(translationKey, word));
@@ -119,14 +137,25 @@
                         tab.setAttribute("aria-pressed", String(active));
                     });
                 }
+                
+                let activeElement = "accessPage";
 
+                // Selección de elementos HTML.
                 tabs.forEach(tab => {
                     tab.addEventListener("click", () => {
-                        showElement(tab.dataset.htmlElement);
+                        activeElement = tab.dataset.htmlElement;
+                        showElement(activeElement);
                     });
                 });
 
-                showElement("accessPage");
+                // Actualización al cambiar el idioma global.
+                document.addEventListener("portfolio:languagechange", () => {
+                    showElement(activeElement);
+                });
+
+                // Estado inicial.
+                showElement(activeElement);
+
             })();
 
         

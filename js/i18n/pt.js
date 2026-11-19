@@ -406,12 +406,21 @@ window.portfolioTranslations.pt = {
         frontFooterLanguageAria: "Selecionar idioma",
         frontCopyDone: "Copiado",
         frontCopyFail: "Não foi possível copiar",
+       
         frontHtmlAccessTitle: "Tela de acesso",
-        frontHtmlAccessDesc: "Contêiner principal da tela de acesso. Agrupa o formulário que permite entrar no portfólio.",
-        frontHtmlFormTitle: "Formulário de acesso",
-        frontHtmlFormDesc: "Agrupa os campos de cadastro e executa as validações antes de processar as informações.",
+        frontHtmlAccessDesc: "Página de acesso com duas opções: entrada como convidado ou cadastro de visitante. O formulário de cadastro fica inicialmente oculto.",
+
+        frontHtmlFormTitle: "Formulário de cadastro",
+        frontHtmlFormDesc: "Formulário para visitantes cadastrados, inicialmente oculto. Contém os dados pessoais, o consentimento e as validações necessárias antes do cadastro.",
+
         frontHtmlPortfolioTitle: "Conteúdo do portfólio",
-        frontHtmlPortfolioDesc: "Contêiner do portfólio profissional. É exibido após a conclusão correta do processo de acesso.",
+        frontHtmlPortfolioDesc: "Página principal home.html, separada de index.html. Apresenta as seções profissionais após o estabelecimento de uma sessão válida.",
+
+        frontHtmlTreeFullName: "Nome e sobrenome",
+        frontHtmlTreeEmail: "Endereço de e-mail",
+        frontHtmlTreePhone: "Telefone",
+        frontHtmlTreeConsent: "Consentimento",
+  
         frontHtmlTreeFields: "Campos de cadastro",
         frontHtmlTreeSelected: "SELECIONADO",
         frontHtmlTreeAbout: "Sobre mim",

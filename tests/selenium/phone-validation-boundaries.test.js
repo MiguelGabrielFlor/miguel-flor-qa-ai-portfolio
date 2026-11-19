@@ -1,78 +1,30 @@
-const { createDriver } = require('./selenium-config');
-
 const { test } = require('node:test');
-const assert = require('node:assert/strict');
-const path = require('node:path');
-const { pathToFileURL } = require('node:url');
-const { By, until } = require('selenium-webdriver');
+const { setup, fill, consent, submit, invalid, valid, defaults, expected, browser, By, assert } = require('./registration-test-helpers');
 
-const casosTelefono = [
-    { id: 'PHONE-001', descripcion: 'mínimo de 7 dígitos', valor: '1234567', valido: true },
-    { id: 'PHONE-002', descripcion: '8 dígitos', valor: '12345678', valido: true },
-    { id: 'PHONE-003', descripcion: 'máximo de 15 dígitos', valor: '123456789012345', valido: true },
-    { id: 'BUG-005', descripcion: '16 dígitos', valor: '1234567890123456', valido: false },
-    { id: 'BUG-001', descripcion: 'caracteres alfabéticos', valor: '12345abc', valido: false },
-    { id: 'PHONE-004', descripcion: 'espacios permitidos', valor: '11 2345 6789', valido: true },
-    { id: 'PHONE-005', descripcion: 'guiones permitidos', valor: '11-2345-6789', valido: true },
-    { id: 'PHONE-006', descripcion: 'paréntesis permitidos', valor: '(11) 2345-6789', valido: true },
-    { id: 'PHONE-007', descripcion: 'prefijo internacional', valor: '+54 11 2345-6789', valido: true },
-    { id: 'PHONE-008', descripcion: 'símbolo no permitido', valor: '12345@6789', valido: false },
-    { id: 'PHONE-009', descripcion: 'solo símbolos', valor: '+-()', valido: false }
+const cases = [
+    ['PHONE-001','mínimo de 7 dígitos','1234567',true],
+    ['PHONE-002','8 dígitos','12345678',true],
+    ['PHONE-003','máximo de 15 dígitos','123456789012345',true],
+    ['BUG-005','16 dígitos','1234567890123456',false],
+    ['BUG-001','caracteres alfabéticos','12345abc',false],
+    ['PHONE-004','espacios permitidos','11 2345 6789',true],
+    ['PHONE-005','guiones permitidos','11-2345-6789',true],
+    ['PHONE-006','paréntesis permitidos','(11) 2345-6789',true],
+    ['PHONE-007','prefijo internacional','+54 11 2345-6789',true],
+    ['PHONE-008','símbolo no permitido','12345@6789',false],
+    ['PHONE-009','solo símbolos','+-()',false]
 ];
-
-for (const caso of casosTelefono) {
-    test(`${caso.id}: teléfono con ${caso.descripcion}`, async (t) => {
-        const browser = process.env.TEST_BROWSER || 'chrome';
-        const driver = await createDriver(browser);
-
-        t.after(async () => {
-            await driver.quit();
-        });
-
-        const indexPath = path.resolve(__dirname, '../../index.html');
-        await driver.get(pathToFileURL(indexPath).href);
-
-        await driver.findElement(By.id('firstName')).sendKeys('Miguel');
-        await driver.findElement(By.id('lastName')).sendKeys('Flor');
-        await driver.findElement(By.id('email')).sendKeys('miguel@example.com');
-        await driver.findElement(By.id('phone')).sendKeys(caso.valor);
-        await driver.findElement(By.id('consent')).click();
-
-        await driver.findElement(By.id('accessButton')).click();
-
-        const phoneError = await driver.findElement(By.id('phoneError'));
-        const portfolio = await driver.findElement(By.id('portfolio'));
-
-        if (caso.valido) {
-            assert.equal(
-                await phoneError.getText(),
-                '',
-                `No debe mostrarse un error para ${caso.valor}`
-            );
-
-            await driver.wait(
-                until.elementIsVisible(portfolio),
-                10000,
-                `El portfolio no se mostró con el teléfono ${caso.valor}`
-            );
-
-            assert.equal(
-                await portfolio.isDisplayed(),
-                true,
-                `Debe permitirse el acceso con ${caso.valor}`
-            );
+for (const [id, description, phone, accepted] of cases) {
+    test(`${id}: teléfono con ${description}`, async t => {
+        const driver = await setup(t);
+        await fill(driver,{...defaults,phone});
+        await consent(driver);
+        await submit(driver);
+        if (accepted) {
+            await valid(driver);
         } else {
-            assert.equal(
-                await phoneError.getText(),
-                'Ingresá un teléfono válido.',
-                `Debe rechazarse ${caso.valor}`
-            );
-
-            assert.equal(
-                await portfolio.isDisplayed(),
-                false,
-                `El portfolio debe permanecer oculto para ${caso.valor}`
-            );
+            await invalid(driver,'phoneError','phoneInvalid','phone');
         }
+        console.log(`${id} | ${browser} | PASS`);
     });
 }

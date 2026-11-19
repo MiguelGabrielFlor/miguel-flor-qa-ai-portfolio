@@ -1,177 +1,84 @@
+'use strict';
 const { createDriver } = require('./selenium-config');
-
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { By, until } = require('selenium-webdriver');
+const { By } = require('selenium-webdriver');
+
+const BASE_URL = (process.env.TEST_BASE_URL || 'http://127.0.0.1:5500').replace(/\/$/, '');
+const TIMEOUT = 20000;
+
+async function changeLanguage(driver, language) {
+    await driver.executeScript((lang) => {
+        const select = document.getElementById('cv-language-select');
+        select.value = lang;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+    }, language);
+    await driver.wait(async () => driver.executeScript((lang) => {
+        const select = document.getElementById('cv-language-select');
+        return !select.disabled && select.value === lang &&
+            document.documentElement.lang === lang &&
+            localStorage.getItem('portfolioLanguage') === lang;
+    }, language), TIMEOUT, `No se completó el cambio de idioma a ${language}`);
+}
 
 test('BACKEND-I18N-001 — Arquitectura API ES/EN/PT', async (t) => {
     const browser = process.env.TEST_BROWSER || 'chrome';
-
     const driver = await createDriver(browser);
+    t.after(async () => driver.quit());
+    const actual = String((await driver.getCapabilities()).get('browserName') || '').toLowerCase();
+    assert.equal(actual, browser.toLowerCase() === 'edge' ? 'microsoftedge' : browser.toLowerCase());
+    await driver.get(`${BASE_URL}/backend.html`);
+    await driver.wait(() => driver.executeScript(() =>
+        !!document.getElementById('cv-language-select') &&
+        !!window.BackendAPI && !!window.BackendResultRenderer &&
+        typeof window.loadPortfolioLanguage === 'function'
+    ), TIMEOUT, 'No cargaron los módulos del backend');
 
-    t.after(async () => {
-        await driver.quit();
-    });
-
-    const actualBrowser = String(
-        (await driver.getCapabilities()).get('browserName') || ''
-    ).toLowerCase();
-
-    assert.equal(
-        actualBrowser,
-        browser.toLowerCase(),
-        `Se solicitó ${browser}, pero Selenium abrió ${actualBrowser}`
-    );
-
-    await driver.get('http://127.0.0.1:8000/backend.html');
-
-    const selectorIdioma = await driver.findElement(
-        By.id('cv-language-select')
-    );
-
-    const escenarios = [
-        { tipo: 'health', clave: 'backendDynamic035' },
-        { tipo: 'visitors', clave: 'backendDynamic039' },
-        { tipo: 'contact', clave: 'backendDynamic043' },
-        { tipo: 'integration', clave: 'backendDynamic046' }
+    const scenarios = [
+        { type: 'health', key: 'backendDynamic035' },
+        { type: 'visitors', key: 'backendDynamic039' },
+        { type: 'contact', key: 'backendDynamic043' },
+        { type: 'integration', key: 'backendDynamic046' }
     ];
+    for (const scenario of scenarios) {
+        await changeLanguage(driver, 'es');
+        await driver.executeScript((type) => {
+            document.querySelector(`[data-api-prueba="${type}"]`).click();
+        }, scenario.type);
+        await driver.wait(() => driver.executeScript(() => {
+            const result = document.getElementById('api-resultado');
+            const verdict = result?.querySelector(':scope > p');
+            const buttons = [...document.querySelectorAll('[data-api-prueba]')];
+            return verdict?.classList.contains('backend-veredicto-pass') &&
+                buttons.every(b => !b.disabled) && !!result.querySelector(':scope > pre');
+        }), TIMEOUT, `${scenario.type}: la API no devolvió PASS; verificá que el backend esté activo`);
 
-    for (const escenario of escenarios) {
-        // Comenzar cada escenario en español.
-        await driver.executeScript(
-            `
-            const selector = arguments[0];
-            selector.value = 'es';
-            selector.dispatchEvent(new Event('change', { bubbles: true }));
-            `,
-            selectorIdioma
-        );
-
-        const boton = await driver.findElement(
-            By.css(`[data-api-prueba="${escenario.tipo}"]`)
-        );
-
-        await driver.executeScript(
-            'arguments[0].click();',
-            boton
-        );
-
-        const resultado = await driver.findElement(
-            By.id('api-resultado')
-        );
-
-        // Esperar a que termine la solicitud HTTP.
-        
-        await driver.wait(async () => {
-            return await driver.executeScript(() => {
-                const contenedor = document.getElementById('api-resultado');
-                const parrafo = contenedor?.querySelector(':scope > p');
-
-                if (!parrafo) return false;
-
-                const texto = parrafo.textContent.trim();
-
-                return texto.startsWith('PASS —') ||
-                    texto.startsWith('FAIL —');
-            });
-        }, 15000);
-
-
-        const veredictoOriginal = await resultado.findElement(
-            By.css(':scope > p')
-        ).getText();
-
-        assert.ok(
-            veredictoOriginal.startsWith('PASS —'),
-            `${escenario.tipo}: resultado esperado PASS`
-        );
-
-        const jsonOriginal = await resultado.findElement(
-            By.css(':scope > pre')
-        ).getText();
-
-        // Verificar los tres idiomas y regresar a español.
-        for (const idioma of ['es', 'en', 'pt', 'es']) {
-            await driver.executeScript(
-                `
-                const selector = arguments[0];
-                selector.value = arguments[1];
-                selector.dispatchEvent(
-                    new Event('change', { bubbles: true })
-                );
-                `,
-                selectorIdioma,
-                idioma
-            );
-
-            const comprobacion = await driver.executeScript(
-                `
-                const idioma = arguments[0];
-                const clave = arguments[1];
-
-                const resultado = document.getElementById('api-resultado');
-
-                const traduccion =
-                    window.portfolioTranslations?.[idioma]?.[clave];
-
+        const original = await driver.executeScript(() => {
+            const result = document.getElementById('api-resultado');
+            return {
+                verdict: result.querySelector(':scope > p').textContent,
+                json: result.querySelector(':scope > pre').textContent
+            };
+        });
+        assert.match(original.verdict, /^PASS —/);
+        for (const lang of ['es', 'en', 'pt', 'es']) {
+            await changeLanguage(driver, lang);
+            await driver.wait(() => driver.executeScript((language, key) => {
+                const expected = window.portfolioTranslations?.[language]?.[key];
+                const result = document.getElementById('api-resultado');
+                return typeof expected === 'string' && expected.length > 0 &&
+                    result?.textContent.includes(expected);
+            }, lang, scenario.key), TIMEOUT,
+            `${scenario.type}: falta traducción o actualización dinámica ${lang} (${scenario.key})`);
+            const current = await driver.executeScript(() => {
+                const result = document.getElementById('api-resultado');
                 return {
-                    idiomaDocumento: document.documentElement.lang,
-                    idiomaGuardado:
-                        localStorage.getItem('portfolioLanguage'),
-                    traduccion,
-                    textoResultado: resultado.innerText
+                    verdict: result.querySelector(':scope > p').textContent,
+                    json: result.querySelector(':scope > pre').textContent
                 };
-                `,
-                idioma,
-                escenario.clave
-            );
-
-            assert.equal(
-                comprobacion.idiomaDocumento,
-                idioma
-            );
-
-            assert.equal(
-                comprobacion.idiomaGuardado,
-                idioma
-            );
-
-            assert.equal(
-                typeof comprobacion.traduccion,
-                'string',
-                `${escenario.tipo}: falta traducción ${idioma}`
-            );
-
-            assert.ok(
-                comprobacion.textoResultado.includes(
-                    comprobacion.traduccion
-                ),
-                `${escenario.tipo}: no se actualizó la explicación ${idioma}`
-            );
-
-            const veredictoActual = await resultado.findElement(
-                By.css(':scope > p')
-            ).getText();
-
-            const jsonActual = await resultado.findElement(
-                By.css(':scope > pre')
-            ).getText();
-
-            assert.equal(
-                veredictoActual,
-                veredictoOriginal,
-                `${escenario.tipo}: cambió el veredicto HTTP`
-            );
-
-            assert.equal(
-                jsonActual,
-                jsonOriginal,
-                `${escenario.tipo}: cambió la respuesta JSON`
-            );
-
-            console.log(
-                `BACKEND-I18N-001 | ${actualBrowser} | ${escenario.tipo} | ${idioma.toUpperCase()} | PASS`
-            );
+            });
+            assert.deepEqual(current, original, `${scenario.type}: el cambio de idioma alteró HTTP/JSON`);
+            console.log(`BACKEND-I18N-001 | ${actual} | ${scenario.type} | ${lang.toUpperCase()} | PASS`);
         }
     }
 });

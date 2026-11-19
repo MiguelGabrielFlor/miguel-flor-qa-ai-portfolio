@@ -4,7 +4,30 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 
 const browser = process.env.TEST_BROWSER || 'chrome';
-const URL = 'http://127.0.0.1:8000/qa.html';
+const URL = `${(process.env.TEST_BASE_URL || 'http://127.0.0.1:5500').replace(/\/$/, '')}/qa.html`;
+
+
+async function changeLanguage(driver, idioma) {
+    await driver.wait(async () => driver.executeScript(() => {
+        const selector = document.getElementById('cv-language-select');
+        return Boolean(selector && !selector.disabled && window.portfolioTranslations);
+    }), 15000);
+    await driver.executeScript(lang => {
+        const selector = document.getElementById('cv-language-select');
+        selector.value = lang;
+        selector.dispatchEvent(new Event('change', { bubbles: true }));
+    }, idioma);
+    await driver.wait(async () => driver.executeScript(lang => {
+        const dic = window.portfolioTranslations?.[lang];
+        const selector = document.getElementById('cv-language-select');
+        return Boolean(dic && selector && !selector.disabled &&
+            document.documentElement.lang === lang &&
+            localStorage.getItem('portfolioLanguage') === lang &&
+            [...document.querySelectorAll('[data-i18n]')].every(el =>
+                typeof dic[el.dataset.i18n] !== 'string' ||
+                el.textContent.trim() === dic[el.dataset.i18n].trim()));
+    }, idioma), 15000, `No finalizó la traducción a ${idioma}`);
+}
 
 test('QA-I18N-004 — Regresión y bugs ES/EN/PT', async (t) => {
     const driver = await createDriver(browser);
@@ -40,16 +63,9 @@ test('QA-I18N-004 — Regresión y bugs ES/EN/PT', async (t) => {
             }, indice), 10000);
 
         for (const idioma of ['es', 'en', 'pt', 'es']) {
+            await changeLanguage(driver, idioma);
             const resultado = await driver.executeScript(
                 (indice, idioma) => {
-                    const selector = document.getElementById(
-                        'cv-language-select'
-                    );
-                    selector.value = idioma;
-                    selector.dispatchEvent(
-                        new Event('change', { bubbles: true })
-                    );
-
                     const dic = window.portfolioTranslations?.[idioma];
                     const paneles = [...document.querySelectorAll(
                         '#regresion-bugs .qa-panel'

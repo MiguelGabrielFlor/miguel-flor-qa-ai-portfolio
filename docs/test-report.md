@@ -3314,3 +3314,516 @@ Las verificaciones estáticas no equivalen a una revisión manual completa con t
 **Conclusión:** NFR-005 aprobado dentro del alcance auditado. No se registran defectos confirmados abiertos en los escenarios corregidos y vueltos a comprobar.
 
 Mantener esta evidencia vinculada al requisito en la matriz de trazabilidad y conservar sin cambios los resultados históricos de otras suites.
+---
+
+## I18N-ACCESS-SERVER-001 — Traducción dinámica de errores de conexión
+
+**Fecha:** 18/11/2026  
+**Página:** index.html  
+**Archivo corregido:** js/app.js  
+**Tipo:** Regresión manual de internacionalización  
+**Navegador:** Google Chrome
+
+### Defecto identificado
+
+El mensaje de error de conexión permanecía en español
+al cambiar el idioma del formulario a inglés o portugués.
+
+### Causa
+
+La actualización de serverError estaba ubicada dentro
+del recorrido de errores de validación del formulario.
+
+### Corrección
+
+Se trasladó la actualización de serverError fuera de
+accessErrors.forEach(), utilizando dataset.errorKey
+para identificar la traducción correspondiente.
+
+### Resultados de regresión multinavegador
+
+| Navegador | ES | EN | PT |
+|---|---|---|---|
+| Google Chrome | PASS | PASS | PASS |
+| Mozilla Firefox | PASS | PASS | PASS |
+| Microsoft Edge | PASS | PASS | PASS |
+
+**Resultado consolidado: 9/9 PASS.**
+
+**Tipo de ejecución:** prueba manual multinavegador.
+
+**Evidencia:** capturas de pantalla en Chrome,
+Firefox y Edge, con mensajes traducidos
+al español, inglés y portugués.
+
+**Estado:** APROBADO.
+
+**Alcance:** traducción dinámica de connectionError.
+La respuesta HTTP no satisfactoria
+(registrationFailed) permanece pendiente
+de comprobación específica.
+---
+
+## I18N-ACCESS-SERVER-002 — Traducción dinámica de errores HTTP
+
+**Fecha:** 18/11/2026
+**Página:** index.html
+**Componente:** Registro de visitantes
+**Mensaje:** registrationFailed
+**Tipo:** Regresión manual multinavegador
+
+### Objetivo
+
+Verificar la traducción dinámica del error de registro
+cuando la API devuelve una respuesta HTTP no satisfactoria.
+
+### Entorno
+
+- Servidor frontend: Live Server (127.0.0.1:5500).
+- Respuesta HTTP 503 simulada mediante DevTools.
+- Navegadores: Chrome, Firefox y Edge.
+- Idiomas: ES, EN y PT.
+
+### Resultados
+
+| Navegador | ES | EN | PT |
+|---|---|---|---|
+| Chrome | PASS | PASS | PASS |
+| Firefox | PASS | PASS | PASS |
+| Edge | PASS | PASS | PASS |
+
+**Resultado: 9/9 PASS.**
+
+### Evidencia
+
+Capturas de pantalla de los mensajes traducidos
+en los tres navegadores.
+
+### Alcance
+
+Se verificó la traducción dinámica de registrationFailed
+sin reenviar el formulario al cambiar de idioma.
+
+La respuesta HTTP 503 fue simulada.
+No se realizó una prueba de fallo real del backend.
+
+**Estado: APROBADO.**
+
+### Consolidación — Internacionalización del acceso
+
+- ACCESS-I18N-001 a 005: 15/15 PASS históricos.
+- I18N-ACCESS-SERVER-001: 9/9 PASS manuales.
+- I18N-ACCESS-SERVER-002: 9/9 PASS manuales.
+
+**Total consolidado: 33/33 PASS.**
+
+La cobertura de los errores dinámicos identificados
+en el registro de visitantes queda aprobada.
+
+---
+
+## CONTACT-I18N-001/002 — Internacionalización dinámica del contacto
+
+**Fecha:** 18/11/2026  
+**Página:** `home.html`  
+**Archivo:** `tests/selenium/contact-dynamic-i18n.test.js`  
+**Tecnología:** Selenium WebDriver + Node.js Test Runner  
+**Navegadores:** Chrome, Firefox y Edge  
+**Idiomas:** ES, EN y PT
+
+### Objetivo
+
+Verificar la actualización dinámica de los mensajes del formulario de contacto al cambiar de idioma, tanto para visitantes directos como registrados.
+
+### Casos automatizados
+
+| Caso | Modalidad | Comportamiento |
+|---|---|---|
+| CONTACT-I18N-001 | Guest | Traducción dinámica de errores obligatorios |
+| CONTACT-I18N-002 | Guest | Traducción dinámica del error de conexión |
+| CONTACT-I18N-001 | Registered | Traducción dinámica del error obligatorio |
+| CONTACT-I18N-002 | Registered | Traducción dinámica del error de conexión |
+
+### Resultados multinavegador
+
+| Caso | Chrome | Firefox | Edge |
+|---|---|---|---|
+| CONTACT-I18N-001 — Guest | PASS | PASS | PASS |
+| CONTACT-I18N-002 — Guest | PASS | PASS | PASS |
+| CONTACT-I18N-001 — Registered | PASS | PASS | PASS |
+| CONTACT-I18N-002 — Registered | PASS | PASS | PASS |
+
+**Resultado consolidado: 12/12 PASS.**
+
+### Incidencia de infraestructura
+
+La primera ejecución de CONTACT-I18N-001 (guest) en Chrome finalizó con un timeout del renderer después de 300 segundos.
+
+La prueba se ejecutó nuevamente de forma individual y obtuvo PASS.
+
+No fue necesario modificar el código funcional.
+
+### Alcance aprobado
+
+- Validaciones obligatorias en ES/EN/PT.
+- Actualización de mensajes visibles sin reenviar el formulario.
+- Error de conexión simulado.
+- Modalidades guest y registered.
+- Ejecución automatizada en Chrome, Firefox y Edge.
+
+### Pendientes
+
+- Respuesta HTTP 503.
+- Respuesta HTTP de error general.
+- Confirmación de envío satisfactorio.
+- Validación dinámica del formato de correo del visitante guest.
+
+**Estado: APROBADO para CONTACT-I18N-001/002.**
+
+---
+
+## CONTACT-I18N-003 — Respuestas HTTP y confirmación de envío
+
+**Fecha:** 18/11/2026  
+**Página:** `home.html`  
+**Automatización:** `tests/selenium/contact-dynamic-i18n.test.js`  
+**Navegadores:** Chrome, Firefox y Edge  
+**Idiomas:** ES, EN y PT
+
+### Objetivo
+
+Verificar la internacionalización dinámica de las respuestas del formulario de contacto para visitantes directos y registrados.
+
+### Escenarios
+
+- HTTP 503: servicio de correo no disponible.
+- HTTP 500: error de envío.
+- HTTP 200: envío satisfactorio.
+
+### Validaciones
+
+- Traducción correcta de los mensajes en ES/EN/PT.
+- Actualización dinámica sin reenviar el formulario.
+- Conservación del mensaje cuando ocurre un error HTTP.
+- Limpieza del mensaje después de un envío satisfactorio.
+- Simulación de respuestas HTTP sin enviar correos reales.
+
+### Resultados
+
+| Escenario | Chrome | Firefox | Edge |
+|---|---|---|---|
+| HTTP 503 — Guest | PASS | PASS | PASS |
+| HTTP 500 — Guest | PASS | PASS | PASS |
+| HTTP 200 — Guest | PASS | PASS | PASS |
+| HTTP 503 — Registered | PASS | PASS | PASS |
+| HTTP 500 — Registered | PASS | PASS | PASS |
+| HTTP 200 — Registered | PASS | PASS | PASS |
+
+**CONTACT-I18N-003: 18/18 PASS.**
+
+### Incidencia de automatización
+
+La primera ejecución en Firefox falló porque Selenium intentaba acceder a una variable `translations` no disponible en el ámbito global.
+
+Se corrigió la prueba para comparar los mensajes visibles contra expectativas independientes obtenidas de los diccionarios ES/EN/PT.
+
+La versión corregida obtuvo 6/6 PASS en Firefox, Edge y Chrome.
+
+### Resultado consolidado del módulo
+
+- CONTACT-I18N-001/002: 12/12 PASS.
+- CONTACT-I18N-003: 18/18 PASS.
+
+**Total: 30/30 PASS.**
+
+**Estado: APROBADO para los escenarios automatizados CONTACT-I18N-001/002/003.**
+
+---
+
+## CONTACT-I18N-004 — Validación dinámica del correo electrónico
+
+**Fecha:** 18/11/2026  
+**Página:** `home.html`  
+**Archivo:** `tests/selenium/contact-dynamic-i18n.test.js`  
+**Modalidad:** Guest  
+**Idiomas:** ES, EN y PT  
+**Navegadores:** Chrome, Firefox y Edge
+
+### Objetivo
+
+Verificar que el mensaje de formato de correo electrónico
+inválido se actualice dinámicamente al cambiar de idioma.
+
+### Validaciones realizadas
+
+- Detección de correo electrónico con formato inválido.
+- Visualización del mensaje correspondiente en español.
+- Actualización del mensaje al seleccionar inglés.
+- Actualización del mensaje al seleccionar portugués.
+- Conservación de `aria-invalid="true"` mientras el correo es inválido.
+- Eliminación del error al introducir un correo válido.
+- Eliminación del atributo `aria-invalid` después de la corrección.
+- Funcionamiento sin recargar la página.
+
+### Resultados
+
+| Navegador | Resultado |
+|---|---|
+| Chrome | PASS |
+| Firefox | PASS |
+| Edge | PASS |
+
+**CONTACT-I18N-004: 3/3 PASS.**
+
+### Consolidado de internacionalización dinámica del contacto
+
+| Caso | Resultado |
+|---|---|
+| CONTACT-I18N-001 | 6/6 PASS |
+| CONTACT-I18N-002 | 6/6 PASS |
+| CONTACT-I18N-003 | 18/18 PASS |
+| CONTACT-I18N-004 | 3/3 PASS |
+| **Total** | **33/33 PASS** |
+
+**Estado: APROBADO para CONTACT-I18N-001/004.**
+
+No se detectaron defectos funcionales durante las ejecuciones
+satisfactorias de estos cuatro casos.
+
+---
+
+## FRONTEND-VALIDATION-I18N-001 — Internacionalización dinámica del laboratorio de validaciones
+
+**Fecha:** 18/11/2026
+**Página:** `frontend.html`
+**Módulo:** Laboratorio interactivo de validación de correo electrónico
+**Archivo Selenium:** `tests/selenium/frontend-validation-dynamic-i18n.test.js`
+**Idiomas:** ES, EN y PT
+**Navegadores:** Chrome, Firefox y Edge
+
+### Objetivo
+
+Verificar que los mensajes y resultados del laboratorio
+de validación se actualicen dinámicamente al cambiar
+el idioma global del portfolio, conservando el estado
+de validación sin recargar la página.
+
+### Cobertura
+
+- Validación de correo electrónico vacío.
+- Validación de formato de correo inválido.
+- Validación de correo válido.
+- Traducción dinámica de mensajes y resultados en ES/EN/PT.
+- Conservación del estado de validación.
+- Actualización de `aria-invalid`.
+- Restablecimiento del formulario.
+- Actualización sin recargar la página.
+
+### Resultados
+
+| Navegador | Resultado |
+|---|---|
+| Chrome | PASS |
+| Firefox | PASS |
+| Edge | PASS |
+| **Total** | **3/3 PASS** |
+
+### Incidencia de automatización
+
+La primera ejecución en Chrome presentó
+`ElementClickInterceptedError` al presionar Restablecer.
+
+Se corrigió exclusivamente la interacción del test Selenium,
+utilizando `executeScript` para ejecutar el clic.
+
+La nueva ejecución finalizó correctamente.
+
+No se confirmó un defecto funcional de internacionalización.
+
+### Consolidado de laboratorios frontend
+
+| Módulo | Resultado |
+|---|---|
+| Laboratorio de idiomas — FRONTEND-I18N-001 a 005 | 15/15 PASS |
+| Laboratorio de validaciones — FRONTEND-VALIDATION-I18N-001 | 3/3 PASS |
+| **Total** | **18/18 PASS** |
+
+**Estado: APROBADO para los escenarios documentados.**
+
+## LANG-NAV-006 — Regresión de navegación e internacionalización
+
+**Fecha:** 18/11/2026  
+**Estado:** PASS  
+**Navegadores:** Chrome, Firefox y Microsoft Edge  
+**Entorno:** Live Server — http://127.0.0.1:5500
+
+### Objetivo
+Verificar la persistencia de ES/EN/PT después de la separación
+de index.html y home.html y la modularización del portfolio.
+
+### Cobertura
+- Sesión de invitado mediante sessionStorage.
+- Navegación desde home.html hacia cinco páginas internas.
+- Recarga de cada página.
+- Conservación del idioma global.
+- Regreso a home.html mediante el logo.
+- Persistencia de la sesión.
+- Comparación de textos visibles en ES/EN/PT.
+
+### Resultados
+| Navegador | Prueba | Recorridos | Estado |
+|---|---|---:|---|
+| Chrome | LANG-NAV-006 | 15/15 | PASS |
+| Firefox | LANG-NAV-006 | 15/15 | PASS |
+| Edge | LANG-NAV-006 | 15/15 | PASS |
+| **Total** | **3/3** | **45/45** | **PASS** |
+
+Traducciones verificadas: 6 páginas × 3 navegadores.
+
+### Incidencias durante la actualización
+1. Declaración duplicada de createDriver: corregida.
+2. Intercepción de clic Selenium: navegación mediante
+   clic programático para esta prueba.
+3. Sesión anterior conservada entre idiomas: corregido
+   el aislamiento de las iteraciones.
+4. Identificador de Edge: se aceptan msedge y microsoftedge.
+
+### Limitaciones
+- No sustituye las pruebas de interacción física con enlaces.
+- No verifica el registro real de visitantes.
+- No verifica el acceso directo sin sesión a páginas internas.
+
+### Conclusión
+PASS en Chrome, Firefox y Edge.
+Prueba adaptada a la arquitectura actual del portfolio.
+
+## FRONTEND-HTML-I18N-001 — Explorador HTML dinámico
+
+**Fecha:** 18/11/2026
+**Estado:** PASS
+**Navegadores:** Chrome, Firefox y Microsoft Edge
+**Entorno:** Live Server — http://127.0.0.1:5500
+
+### Objetivo
+Verificar la internacionalización dinámica del explorador HTML
+de frontend.html en español, inglés y portugués.
+
+### Cobertura
+- Pestañas accessPage, accessForm y portfolio.
+- Títulos y descripciones traducidos.
+- Etiquetas traducidas del árbol HTML.
+- Representación de código HTML.
+- Estados de selección de pestañas y árbol.
+- Actualización de contenido sin recargar.
+- Conservación de la pestaña activa al cambiar de idioma.
+
+### Resultados
+| Navegador | Comprobaciones | Estado |
+|---|---:|---|
+| Chrome | 12/12 | PASS |
+| Firefox | 12/12 | PASS |
+| Edge | 12/12 | PASS |
+| **Total** | **36/36** | **PASS** |
+
+### Incidencias
+Se corrigió una errata en el texto esperado de la prueba
+Selenium: "executar" por "ejecutar".
+
+No se identificaron fallos funcionales en las ejecuciones
+finales de los tres navegadores.
+
+### Limitación
+Pendiente verificar que los ejemplos y las explicaciones
+del explorador representen la estructura HTML actual.
+
+### Conclusión
+Internacionalización dinámica del explorador HTML: PASS.
+
+### FRONTEND-HTML-I18N-001 — Explorador HTML dinámico
+
+**Estado:** PASS — CLOSED  
+**Navegadores:** Chrome, Firefox y Edge  
+**Idiomas:** ES / EN / PT  
+**Archivo:** tests/selenium/frontend-html-dynamic-i18n.test.js
+
+**Resultados:**
+- Chrome: 12/12 PASS
+- Firefox: 12/12 PASS
+- Edge: 12/12 PASS
+- Total: 36/36 PASS
+
+**Cobertura:**
+- Pantalla de acceso (accessPage).
+- Formulario de registro (accessForm).
+- Contenido del portfolio (portfolio).
+- Traducción dinámica de títulos y descripciones.
+- Traducción de los árboles HTML.
+- Correspondencia de los ejemplos HTML.
+- Estados active y aria-pressed.
+- Conservación de la selección al cambiar ES → EN → PT → ES.
+
+**Incidencia resuelta:**
+La prueba contenía una propiedad portfolio duplicada
+y carecía de accessPage dentro de EXPECTED.es.
+Se corrigió la estructura de los datos esperados.
+
+**Resultado final:** PASS en los tres navegadores.
+
+### FRONTEND-I18N-003 — Datos inválidos ES/EN/PT
+
+**Estado:** PASS — CLOSED
+**Archivo:** tests/selenium/frontend-invalid-validation-i18n.test.js
+**Navegadores:** Chrome, Firefox y Edge
+
+**Resultados:**
+- Chrome: 4/4 PASS
+- Firefox: 4/4 PASS
+- Edge: 4/4 PASS
+- Total: 12/12 PASS
+
+**Cobertura:**
+- Datos inválidos de nombre, correo y mensaje.
+- Traducción dinámica de errores ES/EN/PT.
+- Atributos aria-invalid.
+- Resultado general de validación.
+- Conservación del escenario inválido.
+- Retorno al español.
+
+**Resultado final:** PASS — CLOSED.
+
+---
+
+### FRONTEND-I18N-004 — Datos válidos ES/EN/PT
+
+**Estado:** PASS — CLOSED
+**Archivo:** tests/selenium/frontend-valid-validation-i18n.test.js
+**Navegadores:** Chrome, Firefox y Edge
+
+**Resultados:**
+- Chrome: 4/4 PASS
+- Firefox: 4/4 PASS
+- Edge: 4/4 PASS
+- Total: 12/12 PASS
+
+**Cobertura:**
+- Datos válidos de nombre, correo y mensaje.
+- Traducción dinámica del mensaje de éxito.
+- Ausencia de mensajes de error.
+- Atributos aria-invalid="false".
+- Conservación del escenario válido.
+- Retorno al español.
+
+**Resultado final:** PASS — CLOSED.
+
+---
+
+### Consolidado — Validaciones dinámicas I18N
+
+- Pruebas automatizadas: 2
+- Navegadores: 3
+- Idiomas: ES / EN / PT
+- Escenarios comprobados: 24
+- Escenarios aprobados: 24
+- Escenarios fallidos: 0
+
+**Estado:** PASS — CLOSED.
